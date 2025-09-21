@@ -1,14 +1,12 @@
 ---
 title: "设置开机自启动的 Jekyll 服务"
 description: "通过 systemd 实现一个开机自启的 Jekyll 服务，通常来说，这对使用 Jekyll 作为服务后端的网站很有用。"
-author: "sendevia"
 color: ""
 impression: ""
 categories: 
   - 随笔
 tags:
   - jekyll
-featured: true
 ---
 
 本文的目标是使用普通用户启动 Jekyll，因此需要添加一行`Environment`来设置下环境变量，并且所有的操作都在这个普通用户的用户目录下进行。
