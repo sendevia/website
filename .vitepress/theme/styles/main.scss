@@ -5,7 +5,6 @@
   box-sizing: border-box;
 }
 
-@include meta.load-css("fonts");
 @include meta.load-css("tokens");
 @include meta.load-css("animation");
 @include meta.load-css("overlay");
