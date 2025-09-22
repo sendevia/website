@@ -21,12 +21,14 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useData } from "vitepress";
 
-const { theme, page } = useData();
+import { useGlobalData } from "../composables/useGlobalData";
+const { page } = useGlobalData();
 
 const navItems = computed(() => [
   { text: "首页", icon: "home", link: "/" },
+  { text: "所有文章", icon: "list", link: "/posts" },
+  { text: "搜索文章", icon: "search", link: "/search.html" },
   { text: "Markdown 示例", icon: "counter_1", link: "/posts/markdown-examples" },
   { text: "API 示例", icon: "counter_2", link: "/posts/api-examples" },
 ]);
