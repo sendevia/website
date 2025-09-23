@@ -1,0 +1,53 @@
+@use "../mixin";
+
+// code
+
+pre.shiki {
+  position: relative;
+
+  margin-block: 0px;
+
+  code {
+    @include mixin.typescale-style("body-large", $font-family: Source Code Pro);
+    display: inline-block;
+
+    margin: 0px;
+
+    min-height: 46px;
+    width: 100%;
+
+    color: var(--shiki-light);
+    vertical-align: middle;
+    word-break: break-word;
+
+    border-radius: var(--md-sys-shape-corner-medium);
+
+    background-color: var(--shiki-light-bg);
+
+    @media (prefers-color-scheme: dark) {
+      color: var(--shiki-dark);
+
+      background-color: var(--shiki-dark-bg);
+    }
+  }
+}
+
+code.language-plaintext {
+  padding-inline: 4px;
+
+  color: var(--md-sys-color-inverse-surface);
+  text-indent: initial;
+  word-break: break-word;
+
+  border-radius: var(--md-sys-shape-corner-small);
+
+  background-color: var(--md-sys-color-inverse-on-surface);
+
+  overflow: hidden;
+
+  &::selection {
+    color: var(--md-sys-color-on-tertiary);
+
+    background-color: var(--md-sys-color-tertiary);
+  }
+}
