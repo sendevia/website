@@ -10,7 +10,7 @@ const { site, page, frontmatter } = useGlobalData();
 </script>
 
 <template>
-  <div id="main-layout" spec="feed">
+  <div id="main-layout">
     <Sidebar />
     <div id="main-layout-content-flow">
       <div id="main-layout-content-filler">
@@ -18,9 +18,9 @@ const { site, page, frontmatter } = useGlobalData();
           <h1>{{ site.title }}</h1>
           <p>{{ site.description }}</p>
         </div>
-        <NotFoundLayout v-else-if="page.isNotFound" />
         <AllPostsLayout v-else-if="frontmatter.layout === 'posts'" />
         <SearchPostsLayout v-else-if="frontmatter.layout === 'search'" />
+        <NotFoundLayout v-else-if="page.isNotFound" />
         <ArticleLayout v-else />
       </div>
       <Footer />

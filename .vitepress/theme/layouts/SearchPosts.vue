@@ -2,12 +2,12 @@
   <div class="search-posts-page">
     <h1>搜索文章</h1>
     <input v-model="query" placeholder="输入关键词..." class="search-input" />
-    <ul v-if="filteredPosts.length">
-      <li v-for="post in filteredPosts" :key="post.url">
+    <div v-if="filteredPosts.length">
+      <div v-for="post in filteredPosts" :key="post.url">
         <a :href="post.url">{{ post.title }}</a>
         <span v-if="post.date"> - {{ post.date }}</span>
-      </li>
-    </ul>
+      </div>
+    </div>
     <p v-else>没有找到相关文章。</p>
   </div>
 </template>

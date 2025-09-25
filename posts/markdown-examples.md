@@ -1,3 +1,9 @@
+---
+date: 2025-09-22
+title: Markdown Extension Examples
+description: This page demonstrates some of the built-in markdown extensions provided by VitePress.
+impression: /assets/images/100628112_p0.webp
+---
 # Markdown Extension Examples
 
 This page demonstrates some of the built-in markdown extensions provided by VitePress.
