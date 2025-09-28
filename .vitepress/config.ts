@@ -29,6 +29,7 @@ export default defineConfig({
   vite: {
     define: {
       __SITE_VERSION__: JSON.stringify(packageJson.version || "0.0.0"),
+      __DEFAULT_COLOR__: JSON.stringify("#39c5bb"),
     },
   },
 });
