@@ -3,6 +3,7 @@ import markdownItAnchor from "markdown-it-anchor";
 import packageJson from "../package.json";
 
 export default defineConfig({
+  base: "/",
   title: "sendevia 的小站",
   titleTemplate: ":title",
   description: "一个随便写写的博客",

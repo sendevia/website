@@ -1,6 +1,12 @@
 <script setup lang="ts">
+import { ref, onMounted } from "vue";
 import { useGlobalData } from "../composables/useGlobalData";
 const { frontmatter } = useGlobalData();
+
+const seed = ref(1);
+onMounted(() => {
+  seed.value = Date.now();
+});
 </script>
 
 <template>
@@ -8,7 +14,7 @@ const { frontmatter } = useGlobalData();
     <div class="header">
       <svg width="0" height="0">
         <filter id="noise-filter">
-          <feTurbulence type="fractalNoise" baseFrequency="1" numOctaves="5" :seed="Date.now()" result="noise" />
+          <feTurbulence type="fractalNoise" baseFrequency="1" numOctaves="5" :seed="seed" result="noise" />
           <feColorMatrix type="saturate" values="0" result="desaturatedNoise" />
           <feComponentTransfer>
             <feFuncR type="discrete" tableValues="0 1" />
