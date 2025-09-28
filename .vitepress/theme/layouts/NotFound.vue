@@ -17,3 +17,75 @@
     </div>
   </div>
 </template>
+
+<style lang="scss">
+@use "sass:meta";
+
+.notfound {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 24px;
+
+  height: 100%;
+
+  padding: 5vw;
+
+  color: var(--md-sys-color-on-error-container);
+
+  #notfound-information {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    margin-inline-start: 5px;
+
+    h1 {
+      margin: 6vh 0px;
+
+      font-size: 100rem;
+      line-height: 100rem;
+    }
+
+    h3 {
+      font-size: 25rem;
+
+      a {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  #notfound-qrcode {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: flex-start;
+
+    margin-inline-start: 5px;
+
+    span {
+      height: 120px;
+      width: 120px;
+
+      border-radius: var(--md-sys-shape-corner-medium);
+      outline: 2px solid var(--md-sys-color-outline);
+
+      background-image: var(--via-svg-qrcode-rickroll);
+      background-repeat: no-repeat;
+    }
+  }
+
+  @media screen and (max-width: 840px) {
+    #notfound-information {
+      h1 {
+        font-size: 75rem;
+      }
+      h3 {
+        font-size: 20rem;
+      }
+    }
+  }
+}
+</style>
