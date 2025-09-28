@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { ref } from "vue";
+
 import { useGlobalData } from "../composables/useGlobalData";
 const { site, page } = useGlobalData();
 
-import { ref } from "vue";
 // @ts-ignore
 const siteVersion = __SITE_VERSION__;
 

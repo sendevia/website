@@ -13,10 +13,7 @@
 @include meta.load-css("_components/card");
 @include meta.load-css("_components/code");
 @include meta.load-css("_components/dialog");
-@include meta.load-css("_components/header");
-@include meta.load-css("_components/layout");
 @include meta.load-css("_components/loading-splash");
-@include meta.load-css("_components/notfound");
 @include meta.load-css("_components/snackbar");
 @include meta.load-css("_components/table");
 
@@ -135,11 +132,6 @@ abbr {
   cursor: help;
 }
 
-del,
-s {
-  opacity: 0.5;
-}
-
 hr {
   width: 100%;
 
@@ -159,51 +151,5 @@ hr {
 
     -webkit-mask: var(--via-svg-wave) repeat;
     mask: var(--via-svg-wave) repeat;
-  }
-}
-
-.task-list {
-  padding-inline-start: 1em;
-
-  list-style-type: none;
-
-  .task-list-item {
-    margin: 5px 0px;
-
-    vertical-align: middle;
-
-    input {
-      line-height: 0px;
-
-      &.task-list-item-checkbox {
-        @include mixin.material-symbols($size: 24);
-
-        display: inline-block;
-
-        margin-inline-end: 2px;
-
-        letter-spacing: 0px;
-        vertical-align: inherit;
-
-        appearance: none;
-
-        &::after {
-          content: "check_box_outline_blank";
-
-          display: inline-block;
-
-          height: 26.4px;
-
-          color: var(--md-sys-color-on-surface-variant);
-        }
-
-        &:checked::after {
-          content: "check_box";
-
-          color: var(--md-sys-color-primary);
-          font-variation-settings: "FILL" 1;
-        }
-      }
-    }
   }
 }

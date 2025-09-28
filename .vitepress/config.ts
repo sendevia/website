@@ -1,19 +1,30 @@
 import { defineConfig } from "vitepress";
-import packageJson from "../package.json";
 import markdownItAnchor from "markdown-it-anchor";
+import packageJson from "../package.json";
 
-// https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "sendevia 的小站",
   titleTemplate: ":title",
-  description: "一个博客",
+  description: "一个随便写写的博客",
   lang: "zh_CN",
   cleanUrls: true,
   markdown: {
+    anchor: {
+      permalink: markdownItAnchor.permalink.linkAfterHeader({
+        style: "visually-hidden",
+        symbol: "link",
+        class: "title-anchor",
+        assistiveText: () => "复制链接",
+        visuallyHiddenClass: "visually-hidden",
+        wrapper: ['<div class="title-with-achor">', "</div>"],
+        placement: "before",
+      }),
+    },
     image: {
       lazyLoading: true,
     },
   },
+
   head: [
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
     ["link", { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" }],
