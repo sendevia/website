@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Header from "../components/Header.vue";
-
 import { onMounted } from "vue";
 
 function copyAnchorLink(this: HTMLElement) {
@@ -12,7 +11,7 @@ function copyAnchorLink(this: HTMLElement) {
   const hiddenSpan = anchor.querySelector<HTMLSpanElement>("span.visually-hidden");
   if (hiddenSpan) {
     const originalText = hiddenSpan.textContent;
-    hiddenSpan.textContent = "已复制！";
+    hiddenSpan.textContent = "已复制";
     setTimeout(() => {
       hiddenSpan.textContent = originalText;
     }, 1000);

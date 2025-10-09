@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useAllPosts } from "../composables/useAllPosts";
+
 const posts = useAllPosts();
 </script>
 
