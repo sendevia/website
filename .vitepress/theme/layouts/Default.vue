@@ -7,7 +7,7 @@ import Footer from "../components/Footer.vue";
 import Sidebar from "../components/Sidebar.vue";
 import { argbFromHex } from "@material/material-color-utilities";
 import { generateColorPalette } from "../utils/colorPalette";
-import { onMounted, nextTick } from "vue";
+import { onMounted, nextTick, computed } from "vue";
 import { useRoute } from "vitepress";
 import { useGlobalData } from "../composables/useGlobalData";
 
@@ -70,6 +70,21 @@ async function updatePalette() {
   await generateColorPalette(argb ?? argbFromHex(defaultColor));
 }
 
+const layoutMap = {
+  article: ArticleLayout,
+  posts: AllPostsLayout,
+  search: SearchPostsLayout,
+} as const;
+
+type LayoutKey = keyof typeof layoutMap;
+
+const currentLayout = computed(() => {
+  if (frontmatter.value.home) return null;
+  if (page.value.isNotFound) return NotFoundLayout;
+  const key = (frontmatter.value.layout ?? "article") as LayoutKey;
+  return layoutMap[key] ?? ArticleLayout;
+});
+
 const route = useRoute();
 
 onMounted(updatePalette);
@@ -92,10 +107,7 @@ function onAfterEnter() {
               <p>{{ site.description }}</p>
             </div>
           </div>
-          <AllPostsLayout v-else-if="frontmatter.layout === 'posts'" />
-          <SearchPostsLayout v-else-if="frontmatter.layout === 'search'" />
-          <NotFoundLayout v-else-if="page.isNotFound" />
-          <ArticleLayout v-else />
+          <component v-else :is="currentLayout" />
         </div>
       </Transition>
       <Footer />
