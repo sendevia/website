@@ -1,16 +1,12 @@
 <script setup lang="ts">
 import { computed } from "vue";
-
 import { useGlobalData } from "../composables/useGlobalData";
-const { page } = useGlobalData();
 
-const navItems = computed(() => [
-  { text: "首页", icon: "home", link: "/" },
-  { text: "所有文章", icon: "list", link: "/posts" },
-  { text: "Markdown 示例", icon: "counter_1", link: "/posts/markdown-examples" },
-  { text: "API 示例", icon: "counter_2", link: "/posts/api-examples" },
-  { text: "Markdown it", icon: "counter_3", link: "/posts/markdown-it" },
-]);
+const { page, theme } = useGlobalData();
+const navSegment = computed(() => {
+  const items = theme.value.navSegment;
+  if (Array.isArray(items) && items.length > 0) return items;
+});
 
 function isActive(link: string) {
   const current = page.value.relativePath.replace(/(\/index)?\.md$/, "");
@@ -25,7 +21,7 @@ function isActive(link: string) {
       <span>search</span>
     </a>
     <ul id="navigation-destinations">
-      <li v-for="item in navItems" :key="item.link" :class="isActive(item.link) ? 'navigation-segment-active' : 'navigation-segment-inactive'">
+      <li v-for="item in navSegment" :key="item.link" :class="isActive(item.link) ? 'navigation-segment-active' : 'navigation-segment-inactive'">
         <a :href="item.link">
           <div class="navigation-destination-accent">
             <div class="navigation-segment-icon">

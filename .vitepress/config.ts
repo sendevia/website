@@ -25,7 +25,6 @@ export default defineConfig({
       lazyLoading: true,
     },
   },
-
   head: [
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
     ["link", { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" }],
@@ -38,10 +37,16 @@ export default defineConfig({
     ],
     ["link", { href: "https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap", rel: "stylesheet" }],
   ],
-  vite: {
-    define: {
-      __SITE_VERSION__: JSON.stringify(packageJson.version || "0.0.0"),
-      __DEFAULT_COLOR__: JSON.stringify("#39c5bb"),
-    },
-  },
+  themeConfig: {
+    defaultColor: "#39c5bb",
+    defaultImpression: "/assets/images/116014672_p0.webp",
+    siteVersion: packageJson.version || "0.0.0",
+    navSegment: [
+      { text: "首页", icon: "home", link: "/" },
+      { text: "所有文章", icon: "list", link: "/posts" },
+      { text: "Markdown 示例", icon: "counter_1", link: "/posts/markdown-examples" },
+      { text: "API 示例", icon: "counter_2", link: "/posts/api-examples" },
+      { text: "Markdown it", icon: "counter_3", link: "/posts/markdown-it" },
+    ],
+  } as any,
 });

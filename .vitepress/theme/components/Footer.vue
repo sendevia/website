@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
-
 import { useGlobalData } from "../composables/useGlobalData";
-const { site, page } = useGlobalData();
 
-// @ts-ignore
-const siteVersion = __SITE_VERSION__;
-
+const { site, page, theme } = useGlobalData();
+const siteVersion = theme.value.siteVersion;
 const buildDate = ref("");
+
 if (typeof window !== "undefined") {
   fetch("/index.html", { method: "HEAD" })
     .then((res) => {

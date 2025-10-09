@@ -10,14 +10,15 @@ import { generateColorPalette } from "../utils/colorPalette";
 import { onMounted, nextTick } from "vue";
 import { useRoute } from "vitepress";
 import { useGlobalData } from "../composables/useGlobalData";
-const { site, page, frontmatter } = useGlobalData();
+
+const { site, page, frontmatter, theme } = useGlobalData();
 
 /**
  * 获取图片主色调（取图片左上角像素点的颜色）
  * @param url 图片地址
  * @returns Promise<number | null> 返回 ARGB 颜色值，获取失败返回 null
  */
-function getImageMainColor(url: string): Promise<number | null> {
+async function getImageMainColor(url: string): Promise<number | null> {
   return new Promise((resolve) => {
     if (!url) return resolve(null);
     const img = new window.Image();
@@ -40,17 +41,12 @@ function getImageMainColor(url: string): Promise<number | null> {
 
 /**
  * 根据头图动态更新调色板
- * 1. 等待 DOM 更新后查找 id="header-impression-image" 的元素
- * 2. 如果找不到该元素，则使用默认颜色生成调色板
- * 3. 如果元素有 impression-color 属性且为合法的 hex 颜色，则用该颜色生成调色板
- * 4. 否则尝试从元素的 backgroundImage 提取图片 URL，并获取图片主色调
- * 5. 最终调用 generateColorPalette 生成调色板
  */
 async function updatePalette() {
   await nextTick();
   const el = document.getElementById("header-impression-image");
-  // @ts-ignore
-  const defaultColor = __DEFAULT_COLOR__;
+  const defaultColor = theme.value.defaultColor;
+
   if (!el) {
     await generateColorPalette(argbFromHex(defaultColor));
     return;

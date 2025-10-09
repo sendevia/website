@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useGlobalData } from "../composables/useGlobalData";
-const { frontmatter } = useGlobalData();
 
+const { page, frontmatter, theme } = useGlobalData();
 const seed = ref(1);
+const defaultImpression = theme.value.defaultImpression;
+
 onMounted(() => {
   seed.value = Date.now();
 });
@@ -25,14 +27,15 @@ onMounted(() => {
         </filter>
       </svg>
       <div id="header-hero-container">
-        <span id="header-hero-headline">{{ frontmatter.title }}</span>
+        <span id="header-hero-headline">{{ frontmatter.title ? frontmatter.title : page.title }}</span>
         <span id="header-hero-subtitle">{{ frontmatter.description }}</span>
         <div id="header-impression">
           <div id="header-impression-noise"></div>
           <div
             id="header-impression-image"
-            :style="{ backgroundImage: frontmatter.impression ? `url('${frontmatter.impression}')` : '' }"
+            :style="{ backgroundImage: frontmatter.impression ? `url('${frontmatter.impression}')` : `url('${defaultImpression}')` }"
             :impression-color="frontmatter.color"
+            loading="lazy"
           ></div>
         </div>
       </div>
