@@ -1,23 +1,25 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useGlobalData } from "../composables/useGlobalData";
 
 const { site, page, theme } = useGlobalData();
 const siteVersion = theme.value.siteVersion;
 const buildDate = ref("");
 
-if (typeof window !== "undefined") {
-  fetch("/index.html", { method: "HEAD" })
-    .then((res) => {
-      const date = res.headers.get("last-modified");
-      buildDate.value = date ? new Date(date).toLocaleString() : new Date().toLocaleString();
-    })
-    .catch(() => {
-      buildDate.value = new Date().toLocaleString();
-    });
-} else {
-  buildDate.value = new Date().toLocaleString();
-}
+onMounted(() => {
+  if (typeof window !== "undefined") {
+    fetch("/index.html", { method: "HEAD" })
+      .then((res) => {
+        const date = res.headers.get("last-modified");
+        buildDate.value = date ? new Date(date).toLocaleString() : new Date().toLocaleString();
+      })
+      .catch(() => {
+        buildDate.value = new Date().toLocaleString();
+      });
+  } else {
+    buildDate.value = new Date().toLocaleString();
+  }
+});
 </script>
 
 <template>
