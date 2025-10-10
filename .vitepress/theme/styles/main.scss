@@ -152,3 +152,8 @@ hr {
     mask: var(--via-svg-wave) repeat;
   }
 }
+
+a,
+span {
+  @include mixin.typescale-style("body-large");
+}
