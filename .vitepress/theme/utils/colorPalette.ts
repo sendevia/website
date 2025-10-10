@@ -70,7 +70,7 @@ export async function generateColorPalette(baseColor: number) {
   ];
 
   const harmonizedPalettes: HarmonizedPalette[] = [
-    { color: "#c08eaf", name: "purple", append: "a1", tones: [10, 20, 30, 40, 80, 90, 95] },
+    { color: "#a48ec0", name: "purple", append: "a1", tones: [10, 20, 30, 40, 80, 90, 95] },
     { color: "#f9d770", name: "yellow", append: "a1", tones: [10, 20, 30, 40, 80, 90, 95] },
     { color: "#68b88e", name: "green", append: "a1", tones: [10, 20, 30, 40, 80, 90, 95] },
     { color: "#5cb3cc", name: "blue", append: "a1", tones: [10, 20, 30, 40, 80, 90, 95] },
