@@ -36,7 +36,7 @@ onMounted(() => {
       <div id="main-layout-footer-description-theme">
         <p>
           使用
-          <a href="" target="_blank">sendevia's material theme</a>
+          <a href="https://github.com/sendevia/vitepress-theme" target="_blank">sendevia's material theme</a>
           主题
         </p>
         <a :href="'https://github.com/sendevia/website/tags/v' + siteVersion" target="_blank"> 版本：{{ siteVersion }}</a>
