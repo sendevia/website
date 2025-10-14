@@ -1,25 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
 import { useGlobalData } from "../composables/useGlobalData";
 
 const { site, page, theme } = useGlobalData();
 const siteVersion = theme.value.siteVersion;
-const buildDate = ref("");
-
-onMounted(() => {
-  if (typeof window !== "undefined") {
-    fetch("/index.html", { method: "HEAD" })
-      .then((res) => {
-        const date = res.headers.get("last-modified");
-        buildDate.value = date ? new Date(date).toLocaleString() : new Date().toLocaleString();
-      })
-      .catch(() => {
-        buildDate.value = new Date().toLocaleString();
-      });
-  } else {
-    buildDate.value = new Date().toLocaleString();
-  }
-});
 </script>
 
 <template>
@@ -40,7 +23,6 @@ onMounted(() => {
           主题
         </p>
         <a :href="'https://github.com/sendevia/website/tags/v' + siteVersion" target="_blank"> 版本：{{ siteVersion }}</a>
-        <p>构建日期：{{ buildDate }}</p>
       </div>
       <div id="main-layout-footer-description-beian">
         <div id="main-layout-footer-beian-gongan">
