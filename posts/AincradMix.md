@@ -40,46 +40,39 @@ tags:
 ![选歌界面2](/assets/images/22/screenshot06.webp)
 ![选歌界面3](/assets/images/22/screenshot07.webp)
 
-## std 模式
+---
+std 模式
 
 ![std 模式1](/assets/images/22/screenshot03.webp)
 ![std 模式2](/assets/images/22/screenshot04.webp)
 
-## mania 模式
+---
+mania 模式
 
 ![mania 模式1](/assets/images/22/screenshot09.webp)
 ![mania 模式2](/assets/images/22/screenshot08.webp)
 
-## taiko 模式
+---
+taiko 模式
 
 ![taiko 模式1](/assets/images/22/screenshot10.webp)
 ![taiko 模式2](/assets/images/22/screenshot11.webp)
 
-## catch 模式
+---
+catch 模式
 
 ![catch 模式1](/assets/images/22/screenshot12.webp)
 ![catch 模式2](/assets/images/22/screenshot13.webp)
 
+---
+
 ![成绩结算](/assets/images/22/screenshot05.webp)
 
-# 下载
-
-<div>
-  <md-filled-tonal-button href="https://github.com/sendevia/AincradMix/releases/latest/download/AincradMix.osk">
-    最新版下载（1.1）
-    <md-icon slot="icon">download</md-icon>
-  </md-filled-tonal-button>
-</div>
-<div>
-  <md-text-button href="https://github.com/sendevia/AincradMix">
-    Github
-    <md-icon slot="icon">code</md-icon>
-  </md-text-button>
-</div>
+# [最新版下载（1.1）](https://github.com/sendevia/AincradMix/releases/latest/download/AincradMix.osk)
 
 # 推荐设置
 
-## 详细设置
+### 详细设置
 
 > - [x] 渐出滑条
 > - [x] 连击提示图
@@ -87,23 +80,23 @@ tags:
 > - [x] 着色器效果
 > - [ ] 柔化滤镜
 
-## 主菜单
+### 主菜单
 
 > - [x] 飘雪效果
 
-## 选歌页面
+### 选歌页面
 
 > - [x] 显示略缩图
 
-## 常规
+### 常规
 
 > - [x] 进度条位置： 右上角（条状）
 
-## 音量
+### 音量
 
 > - [ ] 禁用谱面自带音效
 
-## 皮肤
+### 皮肤
 
 > - [x] 忽略所有谱面自带的皮肤
 > - [ ] 使用皮肤的音效
@@ -112,13 +105,13 @@ tags:
 > - [ ] 自动缩放光标
 > - [ ] 拖球的颜色随滑条改变
 
-## 鼠标
+### 鼠标
 
 > - [ ] 点击波纹
 
 # 引用素材来源
 
-## 音效
+### 音效
 
 - 来自 [`ppy/osu-resources`](https://github.com/ppy/osu-resources/)
 
