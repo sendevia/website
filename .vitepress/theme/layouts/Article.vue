@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Header from "../components/Header.vue";
 import PageIndicator from "../components/PageIndicator.vue";
-import { onMounted, onBeforeUnmount, ref } from "vue";
+import { onMounted } from "vue";
 
 function copyAnchorLink(this: HTMLElement) {
   const anchor = this as HTMLAnchorElement;
@@ -19,123 +19,12 @@ function copyAnchorLink(this: HTMLElement) {
   }
 }
 
-const headings = ref<Array<{ id: string; text: string; level: number }>>([]);
-const activeId = ref<string>("");
-
-let observer: IntersectionObserver | null = null;
-let lockedId: string | null = null;
-let unlockTimer: number | null = null;
-
-function onNavigate(id: string) {
-  lockedId = id;
-  activeId.value = id;
-  if (unlockTimer) {
-    window.clearTimeout(unlockTimer);
-  }
-  unlockTimer = window.setTimeout(() => {
-    lockedId = null;
-    unlockTimer = null;
-  }, 1200);
-}
-
-function collectHeadings() {
-  if (typeof window === "undefined") return;
-  const nodes = Array.from(document.querySelectorAll("h1[id], h2[id]")) as HTMLElement[];
-  headings.value = nodes.map((n) => ({ id: n.id, text: n.textContent?.trim() || n.id, level: +n.tagName.replace("H", "") }));
-}
-
-function createObserver() {
-  if (observer) observer.disconnect();
-
-  const visible = new Map<string, IntersectionObserverEntry>();
-
-  observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const id = (entry.target as HTMLElement).id;
-        if (entry.isIntersecting) {
-          visible.set(id, entry);
-        } else {
-          visible.delete(id);
-        }
-      });
-
-      if (visible.size === 0) return;
-
-      if (lockedId) {
-        activeId.value = lockedId;
-        return;
-      }
-
-      let bestId: string | null = null;
-      let bestScore = -Infinity;
-      visible.forEach((entry, id) => {
-        const ratio = entry.intersectionRatio || 0;
-        const top = entry.boundingClientRect.top;
-        const score = ratio * 10000 - top;
-        if (score > bestScore) {
-          bestScore = score;
-          bestId = id;
-        }
-      });
-
-      if (bestId) activeId.value = bestId;
-    },
-    { root: null, rootMargin: "-20% 0px -60% 0px", threshold: [0, 0.1, 0.5, 1] }
-  );
-
-  headings.value.forEach((h) => {
-    const el = document.getElementById(h.id);
-    if (el) observer?.observe(el);
-  });
-}
-
-const resizeHandler = () => {
-  collectHeadings();
-  createObserver();
-};
-
 if (typeof window !== "undefined") {
   onMounted(() => {
-    collectHeadings();
-    createObserver();
-
     const anchors = document.querySelectorAll<HTMLAnchorElement>("a.title-anchor");
     anchors.forEach((anchor) => {
       anchor.addEventListener("click", copyAnchorLink);
     });
-
-    window.addEventListener("resize", resizeHandler);
-
-    window.addEventListener("hashchange", () => {
-      collectHeadings();
-      createObserver();
-    });
-    window.addEventListener("popstate", () => {
-      collectHeadings();
-      createObserver();
-    });
-  });
-
-  onBeforeUnmount(() => {
-    observer?.disconnect();
-    observer = null;
-
-    window.removeEventListener("resize", resizeHandler);
-    window.removeEventListener("hashchange", () => {
-      collectHeadings();
-      createObserver();
-    });
-
-    window.removeEventListener("popstate", () => {
-      collectHeadings();
-      createObserver();
-    });
-
-    if (unlockTimer) {
-      window.clearTimeout(unlockTimer);
-      unlockTimer = null;
-    }
   });
 }
 </script>
@@ -146,7 +35,7 @@ if (typeof window !== "undefined") {
     <Content />
   </section>
   <section>
-    <PageIndicator :headings="headings" :activeId="activeId" @navigate="onNavigate" />
+    <PageIndicator />
   </section>
 </template>
 

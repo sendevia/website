@@ -1,19 +1,20 @@
 <script setup lang="ts">
-import { ref, computed, toRefs, onMounted, onBeforeUnmount, nextTick, watch } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount, nextTick, watch } from "vue";
 import { useGlobalData } from "../composables/useGlobalData";
 
 const { page, frontmatter } = useGlobalData();
-const props = defineProps<{ headings: Array<{ id: string; text: string; level: number }>; activeId: string }>();
-const emit = defineEmits<{
-  (e: "navigate", id: string): void;
-}>();
-const { headings, activeId } = toRefs(props);
-const grouped = computed(() => headings.value || []);
 const navRef = ref<HTMLElement | null>(null);
 const indicator = ref({ top: "0px", left: "0px", width: "100%", height: "0px", opacity: 0 });
+const headings = ref<Array<{ id: string; text: string; level: number }>>([]);
+const headingsActiveId = ref<string>("");
 
 let ro: ResizeObserver | null = null;
 let mo: MutationObserver | null = null;
+let pageIndicatorObserver: IntersectionObserver | null = null;
+let pageIndicatorLockedId: string | null = null;
+let pageIndicatorUnlockTimer: number | null = null;
+
+const grouped = computed(() => headings.value || []);
 
 function scrollToId(id: string) {
   if (typeof window === "undefined") return;
@@ -26,8 +27,72 @@ function scrollToId(id: string) {
 }
 
 function navigateTo(id: string) {
-  emit("navigate", id);
+  onNavigate(id);
   scrollToId(id);
+}
+
+function onNavigate(id: string) {
+  pageIndicatorLockedId = id;
+  headingsActiveId.value = id;
+  if (pageIndicatorUnlockTimer) {
+    window.clearTimeout(pageIndicatorUnlockTimer);
+  }
+  pageIndicatorUnlockTimer = window.setTimeout(() => {
+    pageIndicatorLockedId = null;
+    pageIndicatorUnlockTimer = null;
+  }, 1200);
+}
+
+function collectHeadings() {
+  if (typeof window === "undefined") return;
+  const nodes = Array.from(document.querySelectorAll("h1[id], h2[id]")) as HTMLElement[];
+  headings.value = nodes.map((n) => ({ id: n.id, text: n.textContent?.trim() || n.id, level: +n.tagName.replace("H", "") }));
+}
+
+function createObserver() {
+  if (pageIndicatorObserver) pageIndicatorObserver.disconnect();
+
+  const visible = new Map<string, IntersectionObserverEntry>();
+
+  pageIndicatorObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const id = (entry.target as HTMLElement).id;
+        if (entry.isIntersecting) {
+          visible.set(id, entry);
+        } else {
+          visible.delete(id);
+        }
+      });
+
+      if (visible.size === 0) return;
+
+      if (pageIndicatorLockedId) {
+        headingsActiveId.value = pageIndicatorLockedId;
+        return;
+      }
+
+      let bestId: string | null = null;
+      let bestScore = -Infinity;
+      visible.forEach((entry, id) => {
+        const ratio = entry.intersectionRatio || 0;
+        const top = entry.boundingClientRect.top;
+        const score = ratio * 10000 - top;
+        if (score > bestScore) {
+          bestScore = score;
+          bestId = id;
+        }
+      });
+
+      if (bestId) headingsActiveId.value = bestId;
+    },
+    { root: null, rootMargin: "-20% 0px -60% 0px", threshold: [0, 0.1, 0.5, 1] }
+  );
+
+  headings.value.forEach((h) => {
+    const el = document.getElementById(h.id);
+    if (el) pageIndicatorObserver?.observe(el);
+  });
 }
 
 function updateIndicator() {
@@ -36,7 +101,7 @@ function updateIndicator() {
   const nav = navRef.value;
   if (!nav) return;
 
-  const id = activeId.value as unknown as string;
+  const id = headingsActiveId.value;
 
   if (!id) {
     indicator.value.opacity = 0;
@@ -61,9 +126,26 @@ function updateIndicator() {
   indicator.value = { top, left, width, height, opacity: 0.5 };
 }
 
+const resizeHandler = () => {
+  collectHeadings();
+  createObserver();
+};
+
 if (typeof window !== "undefined") {
   onMounted(() => {
+    collectHeadings();
+    createObserver();
+
+    window.addEventListener("resize", resizeHandler);
     window.addEventListener("resize", updateIndicator, { passive: true });
+    window.addEventListener("hashchange", () => {
+      collectHeadings();
+      createObserver();
+    });
+    window.addEventListener("popstate", () => {
+      collectHeadings();
+      createObserver();
+    });
 
     nextTick(() => updateIndicator());
 
@@ -89,7 +171,24 @@ if (typeof window !== "undefined") {
   });
 
   onBeforeUnmount(() => {
+    pageIndicatorObserver?.disconnect();
+    pageIndicatorObserver = null;
+
+    window.removeEventListener("resize", resizeHandler);
     window.removeEventListener("resize", updateIndicator);
+    window.removeEventListener("hashchange", () => {
+      collectHeadings();
+      createObserver();
+    });
+    window.removeEventListener("popstate", () => {
+      collectHeadings();
+      createObserver();
+    });
+
+    if (pageIndicatorUnlockTimer) {
+      window.clearTimeout(pageIndicatorUnlockTimer);
+      pageIndicatorUnlockTimer = null;
+    }
 
     if (ro) {
       ro.disconnect();
@@ -103,7 +202,7 @@ if (typeof window !== "undefined") {
   });
 
   watch(
-    () => activeId.value,
+    () => headingsActiveId.value,
     () => {
       nextTick(() => updateIndicator());
     }
@@ -130,8 +229,8 @@ if (typeof window !== "undefined") {
     ></div>
 
     <div class="indicator-container">
-      <span v-for="h in grouped" :key="h.id" :data-id="h.id" :class="[{ active: h.id === activeId }]">
-        <a :href="`#${h.id}`" @click.prevent="navigateTo(h.id)" role="link" :aria-current="h.id === activeId ? 'true' : undefined">{{ h.text }}</a>
+      <span v-for="h in grouped" :key="h.id" :data-id="h.id" :class="[{ active: h.id === headingsActiveId }]">
+        <a :href="`#${h.id}`" @click.prevent="navigateTo(h.id)" role="link" :aria-current="h.id === headingsActiveId ? 'true' : undefined">{{ h.text }}</a>
       </span>
     </div>
   </div>
@@ -179,8 +278,8 @@ if (typeof window !== "undefined") {
 
         width: 100%;
 
-        padding-inline: 18px;
         padding-block: 9px;
+        padding-inline: 18px;
 
         color: var(--md-sys-color-on-surface);
         font-variation-settings: "wght" 200;
