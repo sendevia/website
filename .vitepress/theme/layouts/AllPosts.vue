@@ -24,4 +24,16 @@ const posts = useAllPosts();
     @include mixin.typescale-style("headline-small");
   }
 }
+
+@media screen and (max-width: 1600px) {
+}
+
+@media screen and (max-width: 1200px) {
+}
+
+@media screen and (max-width: 840px) {
+}
+
+@media screen and (max-width: 600px) {
+}
 </style>
