@@ -76,8 +76,16 @@
       background-repeat: no-repeat;
     }
   }
+}
 
-  @media screen and (max-width: 840px) {
+@media screen and (max-width: 1600px) {
+}
+
+@media screen and (max-width: 1200px) {
+}
+
+@media screen and (max-width: 840px) {
+  .notfound {
     #notfound-information {
       h1 {
         font-size: 75rem;
@@ -87,5 +95,8 @@
       }
     }
   }
+}
+
+@media screen and (max-width: 600px) {
 }
 </style>

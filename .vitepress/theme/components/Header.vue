@@ -13,31 +13,29 @@ onMounted(() => {
 
 <template>
   <header>
-    <div class="header">
-      <svg width="0" height="0">
-        <filter id="noise-filter">
-          <feTurbulence type="fractalNoise" baseFrequency="1" numOctaves="5" :seed="seed" result="noise" />
-          <feColorMatrix type="saturate" values="0" result="desaturatedNoise" />
-          <feComponentTransfer>
-            <feFuncR type="discrete" tableValues="0 1" />
-            <feFuncG type="discrete" tableValues="0 1" />
-            <feFuncB type="discrete" tableValues="0 1" />
-            <feFuncA type="discrete" tableValues="1 1" />
-          </feComponentTransfer>
-        </filter>
-      </svg>
-      <div id="header-hero-container">
-        <span id="header-hero-headline">{{ frontmatter.title ? frontmatter.title : page.title }}</span>
-        <span id="header-hero-subtitle">{{ frontmatter.description }}</span>
-        <div id="header-impression">
-          <div id="header-impression-noise"></div>
-          <div
-            id="header-impression-image"
-            :style="{ backgroundImage: frontmatter.impression ? `url('${frontmatter.impression}')` : `url('${defaultImpression}')` }"
-            :impression-color="frontmatter.color"
-            loading="lazy"
-          ></div>
-        </div>
+    <div id="header-hero-container">
+      <span id="header-hero-headline">{{ frontmatter.title ? frontmatter.title : page.title }}</span>
+      <span id="header-hero-subtitle">{{ frontmatter.description }}</span>
+      <div id="header-impression">
+        <svg width="0" height="0">
+          <filter id="noise-filter">
+            <feTurbulence type="fractalNoise" baseFrequency="1" numOctaves="5" :seed="seed" result="noise" />
+            <feColorMatrix type="saturate" values="0" result="desaturatedNoise" />
+            <feComponentTransfer>
+              <feFuncR type="discrete" tableValues="0 1" />
+              <feFuncG type="discrete" tableValues="0 1" />
+              <feFuncB type="discrete" tableValues="0 1" />
+              <feFuncA type="discrete" tableValues="1 1" />
+            </feComponentTransfer>
+          </filter>
+        </svg>
+        <div id="header-impression-noise"></div>
+        <div
+          id="header-impression-image"
+          :style="{ backgroundImage: frontmatter.impression ? `url('${frontmatter.impression}')` : `url('${defaultImpression}')` }"
+          :impression-color="frontmatter.color"
+          loading="lazy"
+        ></div>
       </div>
     </div>
   </header>
@@ -47,7 +45,9 @@ onMounted(() => {
 @use "sass:meta";
 @use "../styles/mixin";
 
-.header {
+header {
+  grid-column: 1 / 13;
+
   position: relative;
 
   height: 540px;

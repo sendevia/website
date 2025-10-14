@@ -18,6 +18,8 @@ const posts = useAllPosts();
 @use "../styles/mixin";
 
 .page-all-posts {
+  grid-column: 1 / 13;
+
   .posts-card a {
     @include mixin.typescale-style("headline-small");
   }

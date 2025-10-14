@@ -97,21 +97,19 @@ function onAfterEnter() {
 <template>
   <div id="layout">
     <Sidebar />
-    <div id="layout-content-flow">
-      <Transition name="layout-content" mode="out-in" @after-enter="onAfterEnter">
-        <div id="layout-content-filler" :key="route.path">
-          <div id="layout-home-title" v-if="frontmatter.home">
-            <img src="/assets/images/avatar.webp" alt="avatar" />
-            <div>
-              <h1>{{ site.title }}</h1>
-              <p>{{ site.description }}</p>
-            </div>
+    <Transition name="layout-content" mode="out-in" @after-enter="onAfterEnter">
+      <div id="layout-content-flow" :key="route.path">
+        <div id="layout-home-title" v-if="frontmatter.home">
+          <img src="/assets/images/avatar.webp" alt="avatar" />
+          <div>
+            <h1>{{ site.title }}</h1>
+            <p>{{ site.description }}</p>
           </div>
-          <component v-else :is="currentLayout" />
         </div>
-      </Transition>
-      <Footer />
-    </div>
+        <component v-else :is="currentLayout" />
+        <Footer />
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -143,7 +141,7 @@ function onAfterEnter() {
     position: relative;
 
     padding-block-end: 68px;
-    padding-inline: 4vw;
+    padding-inline: 20vw;
 
     width: 100%;
 
@@ -161,72 +159,38 @@ function onAfterEnter() {
       height: 100%;
 
       padding: 24px;
+    }
 
-      &::before,
-      &::after {
-        content: "";
-        flex-basis: 100%;
-        width: 0;
-        order: 2;
+    #layout-home-title {
+      display: flex;
+      align-items: center;
+      gap: 42px;
+      grid-column: 1 / 13;
+      justify-content: center;
+
+      width: 100%;
+
+      h1 {
+        @include mixin.typescale-style("display-large");
+
+        grid-column: span 9;
       }
 
-      #layout-home-title {
-        display: flex;
-        align-items: center;
-        gap: 42px;
-        justify-content: center;
+      h6 {
+        grid-column: span 9;
 
-        width: 100%;
-
-        h1 {
-          @include mixin.typescale-style("display-large");
-
-          grid-column: span 9;
-        }
-
-        h6 {
-          grid-column: span 9;
-
-          text-align: end;
-        }
-
-        img {
-          grid-column: 11 / span 2;
-          grid-row: 2 / span 2;
-
-          height: 120px;
-          width: 120px;
-
-          -webkit-mask: var(--via-svg-mask) no-repeat 0 / 100%;
-          mask: var(--via-svg-mask) no-repeat 0 / 100%;
-        }
+        text-align: end;
       }
 
-      div.card[spec="feed"] {
-        width: calc(50% - 12px);
+      img {
+        grid-column: 11 / span 2;
+        grid-row: 2 / span 2;
 
-        border-radius: var(--md-sys-shape-corner-extra-large-increased);
+        height: 120px;
+        width: 120px;
 
-        &:nth-child(2n + 4),
-        &[size="large"] {
-          margin-inline-end: 12px;
-
-          order: 1;
-        }
-
-        &:nth-child(2n + 3),
-        &[size="small"] {
-          margin-inline-start: 12px;
-
-          order: 2;
-        }
-
-        & > a {
-          width: 100%;
-
-          color: var(--md-sys-color-on-surface);
-          text-decoration: none;
-        }
+        -webkit-mask: var(--via-svg-mask) no-repeat 0 / 100%;
+        mask: var(--via-svg-mask) no-repeat 0 / 100%;
       }
     }
 
@@ -299,10 +263,6 @@ function onAfterEnter() {
           grid-column: calc(($columns + 1) / 2) string.unquote("/") $columns;
         }
       }
-
-      .layout-footer {
-        grid-column: span $columns;
-      }
     }
 
     &[spec="feed"] {
@@ -316,10 +276,6 @@ function onAfterEnter() {
           img {
             grid-column: calc($columns - 1) / calc($columns + 1);
           }
-        }
-
-        #layout-search {
-          grid-column: span $columns;
         }
       }
     }
@@ -350,25 +306,6 @@ function onAfterEnter() {
         &[spec="previous"],
         &[spec="next"] {
           grid-column: span calc($columns / 2);
-        }
-      }
-
-      .layout-footer {
-        grid-column: span $columns;
-      }
-    }
-
-    &[spec="feed"] {
-      #layout-content-flow {
-        & > {
-          h1,
-          h6 {
-            grid-column: span calc($columns - 1);
-          }
-
-          img {
-            grid-column: $columns;
-          }
         }
       }
     }
@@ -406,10 +343,6 @@ function onAfterEnter() {
           grid-column: span calc($columns / 2);
         }
       }
-
-      .layout-footer {
-        grid-column: span $columns;
-      }
     }
 
     &[spec="feed"] {
@@ -434,31 +367,6 @@ function onAfterEnter() {
             grid-row: 1;
           }
         }
-
-        #layout-content-filler {
-          &::before,
-          &::after {
-            order: 1;
-          }
-
-          div.card[spec="feed"] {
-            width: 100%;
-
-            &:nth-child(2n + 4),
-            &[size="large"] {
-              margin-inline-end: 0px;
-
-              order: 1;
-            }
-
-            &:nth-child(2n + 3),
-            &[size="small"] {
-              margin-inline-start: 0px;
-
-              order: 1;
-            }
-          }
-        }
       }
     }
   }
@@ -481,5 +389,17 @@ function onAfterEnter() {
       }
     }
   }
+}
+
+@media screen and (max-width: 1600px) {
+}
+
+@media screen and (max-width: 1200px) {
+}
+
+@media screen and (max-width: 840px) {
+}
+
+@media screen and (max-width: 600px) {
 }
 </style>

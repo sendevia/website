@@ -34,6 +34,7 @@ const filteredPosts = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  grid-column: 1 / 13;
 
   padding: 24px;
 
