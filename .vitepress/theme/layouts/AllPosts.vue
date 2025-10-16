@@ -1,23 +1,32 @@
 <script setup lang="ts">
 import { useAllPosts } from "../composables/useAllPosts";
+import { computed } from "vue";
 
-const posts = useAllPosts();
+const postsRef = useAllPosts(true);
+const postsList = computed(() => postsRef.value ?? []);
 </script>
 
 <template>
-  <div class="page-all-posts">
-    <h1>所有文章</h1>
-    <div class="posts-card" v-for="post in posts" :key="post.url">
-      <a :href="post.url">{{ post.title }}</a>
-      <span v-if="post.date"> - {{ post.date }}</span>
-    </div>
+  <div class="page-allposts" aria-labelledby="all-posts-heading">
+    <h1 id="allposts-heading">所有文章</h1>
+    <section class="posts-list">
+      <div class="posts-card" v-for="post in postsList" :key="post.url">
+        <h2 class="post-title">
+          <a :href="post.url">{{ post.title }}</a>
+        </h2>
+        <div class="post-meta">
+          <span v-if="post.date" :datetime="post.date">{{ post.date }}</span>
+        </div>
+        <p v-if="post.description" class="post-desc">{{ post.description }}</p>
+      </div>
+    </section>
   </div>
 </template>
 
 <style lang="scss">
 @use "../styles/mixin";
 
-.page-all-posts {
+.page-allposts {
   grid-column: 1 / 13;
 
   .posts-card a {
