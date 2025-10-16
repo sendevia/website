@@ -132,16 +132,10 @@ abbr {
 }
 
 hr {
+  height: 15px;
   width: 100%;
 
-  border: 1px solid var(--md-sys-color-outline-variant);
-
-  opacity: 0.3;
-
-  &[spec="wave"] {
-    height: 15px;
-
-    margin: 0px;
+  margin: 0px;
 
     border-radius: var(--md-sys-shape-corner-small);
     border: none;
@@ -150,7 +144,7 @@ hr {
 
     -webkit-mask: var(--via-svg-wave) repeat;
     mask: var(--via-svg-wave) repeat;
-  }
+  opacity: 0.3;
 }
 
 a,

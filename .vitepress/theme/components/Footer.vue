@@ -7,7 +7,7 @@ const siteVersion = theme.value.siteVersion;
 
 <template>
   <footer class="main-layout-footer">
-    <hr spec="wave" />
+    <hr />
     <div id="main-layout-footer-description">
       <div id="main-layout-footer-description-topic">
         <img src="/assets/images/avatar.webp" alt="logo" />
