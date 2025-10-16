@@ -5,6 +5,7 @@ import NotFoundLayout from "./NotFound.vue";
 import SearchPostsLayout from "./SearchPosts.vue";
 import Footer from "../components/Footer.vue";
 import Sidebar from "../components/Sidebar.vue";
+import ScrollToTop from "../components/ScrollToTop.vue";
 import { argbFromHex } from "@material/material-color-utilities";
 import { generateColorPalette } from "../utils/colorPalette";
 import { onMounted, nextTick, computed } from "vue";
@@ -107,6 +108,7 @@ function onAfterEnter() {
           </div>
         </div>
         <component v-else :is="currentLayout" />
+        <ScrollToTop />
         <Footer />
       </div>
     </Transition>
@@ -193,45 +195,6 @@ function onAfterEnter() {
         mask: var(--via-svg-mask) no-repeat 0 / 100%;
       }
     }
-
-    #layout-scrolltop {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      grid-column: 11/13;
-
-      position: sticky;
-      bottom: 72px;
-      right: 0px;
-
-      height: 100%;
-      width: 100%;
-
-      opacity: 0;
-      transition: var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-standard);
-      visibility: hidden;
-      z-index: 21;
-
-      #layout-scrolltop-desktop {
-        @include mixin.material-symbols($size: 24);
-
-        position: relative;
-
-        height: 84px;
-        min-width: 84px;
-        width: 84px;
-
-        color: var(--md-sys-color-outline);
-
-        border-radius: var(--md-sys-shape-corner-full);
-        border: 1px solid var(--md-sys-color-outline-variant);
-
-        background-color: var(--md-sys-color-surface-container-low);
-
-        cursor: pointer;
-        overflow: hidden;
-      }
-    }
   }
 
   @media screen and (max-width: 1600px) {
@@ -244,10 +207,6 @@ function onAfterEnter() {
       #layout-content-filler {
         grid-column: span $columns;
         grid-template-columns: minmax(50vw, 70%) minmax(300px, 30%);
-      }
-
-      #layout-scrolltop {
-        grid-column: $columns;
       }
 
       hr {
