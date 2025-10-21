@@ -22,12 +22,42 @@ function copyAnchorLink(this: HTMLElement) {
   }
 }
 
+function ulCustomBullets() {
+  const listItems = document.querySelectorAll("ul li");
+  listItems.forEach((li) => {
+    const randomRotation = Math.floor(Math.random() * 360) - 180;
+    const computedStyle = window.getComputedStyle(li);
+    const lineHeight = parseFloat(computedStyle.lineHeight);
+    const bulletTop = lineHeight / 2 - 8;
+
+    (li as HTMLElement).style.setProperty("--random-rotation", `${randomRotation}deg`);
+    (li as HTMLElement).style.setProperty("--bullet-top", `${bulletTop}px`);
+  });
+}
+
 if (typeof window !== "undefined") {
   onMounted(() => {
     const anchors = document.querySelectorAll<HTMLAnchorElement>("a.title-anchor");
     anchors.forEach((anchor) => {
       anchor.addEventListener("click", copyAnchorLink);
     });
+
+    ulCustomBullets();
+
+    window.addEventListener("resize", ulCustomBullets);
+
+    const observer = new MutationObserver(() => {
+      ulCustomBullets();
+    });
+
+    const contentElement = document.querySelector("#article-content");
+    if (contentElement) {
+      observer.observe(contentElement, {
+        childList: true,
+        subtree: true,
+        characterData: true,
+      });
+    }
   });
 }
 </script>
