@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount, nextTick, watch } from "vue";
 import { useGlobalData } from "../composables/useGlobalData";
+import { useScreenWidth } from "../composables/useScreenWidth";
 
 const { page, frontmatter } = useGlobalData();
+const { isAboveBreakpoint: isMonitoring } = useScreenWidth(840);
 const navRef = ref<HTMLElement | null>(null);
 const indicator = ref({ top: "0px", left: "0px", width: "100%", height: "0px", opacity: 0 });
 const headings = ref<Array<{ id: string; text: string; level: number }>>([]);
@@ -17,8 +19,6 @@ let pageIndicatorUnlockTimer: number | null = null;
 const grouped = computed(() => headings.value || []);
 
 function scrollToId(id: string) {
-  if (typeof window === "undefined") return;
-
   const el = document.getElementById(id);
   if (el) {
     el.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -44,7 +44,6 @@ function onNavigate(id: string) {
 }
 
 function collectHeadings() {
-  if (typeof window === "undefined") return;
   const nodes = Array.from(document.querySelectorAll("h1[id], h2[id]")) as HTMLElement[];
   headings.value = nodes.map((n) => ({ id: n.id, text: n.textContent?.trim() || n.id, level: +n.tagName.replace("H", "") }));
 }
@@ -96,8 +95,6 @@ function createObserver() {
 }
 
 function updateIndicator() {
-  if (typeof window === "undefined") return;
-
   const nav = navRef.value;
   if (!nav) return;
 
@@ -126,35 +123,16 @@ function updateIndicator() {
   indicator.value = { top, left, width, height, opacity: 0.5 };
 }
 
-const resizeHandler = () => {
-  collectHeadings();
-  createObserver();
-};
-
-if (typeof window !== "undefined") {
-  onMounted(() => {
+function toggleMonitoring(shouldMonitor: boolean) {
+  if (shouldMonitor) {
     collectHeadings();
     createObserver();
-
-    window.addEventListener("resize", resizeHandler);
-    window.addEventListener("resize", updateIndicator, { passive: true });
-    window.addEventListener("hashchange", () => {
-      collectHeadings();
-      createObserver();
-    });
-    window.addEventListener("popstate", () => {
-      collectHeadings();
-      createObserver();
-    });
-
     nextTick(() => updateIndicator());
 
-    if ((window as any).ResizeObserver) {
+    if ((window as any).ResizeObserver && navRef.value) {
       ro = new ResizeObserver(() => updateIndicator());
-      if (navRef.value) {
-        ro.observe(navRef.value);
-        navRef.value.querySelectorAll("[data-id]").forEach((el) => ro!.observe(el as Element));
-      }
+      ro.observe(navRef.value);
+      navRef.value.querySelectorAll("[data-id]").forEach((el) => ro!.observe(el as Element));
     }
 
     if ((window as any).MutationObserver && navRef.value) {
@@ -168,6 +146,51 @@ if (typeof window !== "undefined") {
       });
       mo.observe(navRef.value, { childList: true, subtree: true });
     }
+  } else {
+    pageIndicatorObserver?.disconnect();
+    pageIndicatorObserver = null;
+
+    if (ro) {
+      ro.disconnect();
+      ro = null;
+    }
+
+    if (mo) {
+      mo.disconnect();
+      mo = null;
+    }
+
+    indicator.value.opacity = 0;
+  }
+}
+
+const resizeHandler = () => {
+  if (isMonitoring.value) {
+    collectHeadings();
+    createObserver();
+  }
+};
+
+if (typeof window !== "undefined") {
+  onMounted(() => {
+    toggleMonitoring(isMonitoring.value);
+
+    window.addEventListener("resize", resizeHandler);
+    window.addEventListener("resize", updateIndicator, { passive: true });
+    window.addEventListener("hashchange", () => {
+      if (isMonitoring.value) {
+        collectHeadings();
+        createObserver();
+      }
+    });
+    window.addEventListener("popstate", () => {
+      if (isMonitoring.value) {
+        collectHeadings();
+        createObserver();
+      }
+    });
+
+    nextTick(() => updateIndicator());
   });
 
   onBeforeUnmount(() => {
@@ -201,17 +224,25 @@ if (typeof window !== "undefined") {
     }
   });
 
+  watch(isMonitoring, (newValue) => {
+    toggleMonitoring(newValue);
+  });
+
   watch(
     () => headingsActiveId.value,
     () => {
-      nextTick(() => updateIndicator());
+      if (isMonitoring.value) {
+        nextTick(() => updateIndicator());
+      }
     }
   );
 
   watch(
     () => grouped.value,
     () => {
-      nextTick(() => updateIndicator());
+      if (isMonitoring.value) {
+        nextTick(() => updateIndicator());
+      }
     }
   );
 }
@@ -240,20 +271,17 @@ if (typeof window !== "undefined") {
 @use "../styles/mixin";
 
 .page-indicator {
-  .indicator {
-    position: absolute;
+  position: relative;
 
-    border: 1px solid var(--md-sys-color-primary);
-    border-radius: var(--md-sys-shape-corner-extra-extra-large);
-
-    pointer-events: none;
-    transition: var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
-  }
+  user-select: none;
+  -moz-user-select: none;
 
   p {
     @include mixin.typescale-style("label-small");
 
     margin-inline-start: 18px;
+
+    z-index: 1;
   }
 
   h3 {
@@ -261,6 +289,18 @@ if (typeof window !== "undefined") {
     padding-block-end: 18px;
 
     font-variation-settings: "wght" 600;
+    z-index: 1;
+  }
+
+  .indicator {
+    position: absolute;
+
+    outline: 1px solid var(--md-sys-color-primary);
+    border-radius: var(--md-sys-shape-corner-extra-large);
+
+    pointer-events: none;
+    transition: var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+    z-index: 1;
   }
 
   .indicator-container {
@@ -268,10 +308,37 @@ if (typeof window !== "undefined") {
     flex-direction: column;
     flex-wrap: nowrap;
 
+    z-index: 0;
+
     span {
+      position: relative;
+
       width: 100%;
 
-      border-radius: var(--md-sys-shape-corner-extra-extra-large);
+      border-radius: var(--md-sys-shape-corner-extra-large);
+
+      transition: background-color var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
+
+      &::after {
+        content: "";
+
+        display: block;
+
+        position: absolute;
+        left: 0px;
+        top: 0px;
+
+        height: 100%;
+
+        border-radius: var(--md-sys-shape-corner-extra-large);
+
+        background-color: transparent;
+
+        transition: width var(--md-sys-motion-spring-default-spatial-duration) var(--md-sys-motion-spring-default-spatial),
+          heigh var(--md-sys-motion-spring-default-spatial-duration) var(--md-sys-motion-spring-default-spatial),
+          background-color var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
+        z-index: -1;
+      }
 
       a {
         @include mixin.typescale-style("label-large");
@@ -285,18 +352,63 @@ if (typeof window !== "undefined") {
         font-variation-settings: "wght" 200;
         text-decoration: none;
 
-        transition: var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
+        border-radius: var(--md-sys-shape-corner-extra-large);
+
+        &:focus-visible {
+          outline: 2px solid var(--md-sys-color-primary);
+          outline-offset: 2px;
+
+          background-color: var(--md-sys-color-surface-container);
+
+          transition: background-color var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
+          z-index: 1;
+        }
       }
 
-      &.active > a {
-        color: var(--md-sys-color-primary);
-        font-variation-settings: "wght" 700;
+      &.active {
+        & > a {
+          color: var(--md-sys-color-primary);
+          font-variation-settings: "wght" 700;
+
+          &:focus-visible {
+            color: var(--md-sys-color-on-primary);
+
+            background-color: var(--md-sys-color-primary);
+          }
+        }
+
+        &:hover {
+          background-color: var(--md-sys-color-surface-container);
+        }
       }
 
-      &:hover {
-        background-color: var(--md-sys-color-surface-dim);
+      &:not(.active) {
+        &::after {
+          width: 50%;
+        }
+
+        &:hover::after {
+          width: 100%;
+
+          background-color: var(--md-sys-color-surface-container);
+        }
       }
     }
   }
+}
+
+@media screen and (max-width: 1600px) {
+}
+
+@media screen and (max-width: 1200px) {
+}
+
+@media screen and (max-width: 840px) {
+  .page-indicator {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
 }
 </style>
