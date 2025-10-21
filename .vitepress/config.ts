@@ -1,17 +1,22 @@
 import { defineConfig } from "vitepress";
-import markdownItAnchor from "markdown-it-anchor";
+// https://github.com/valeriangalliat/markdown-it-anchor
+import anchor from "markdown-it-anchor";
+// https://mdit-plugins.github.io/footnote.html
+import { footnote } from "@mdit/plugin-footnote";
+// https://mdit-plugins.github.io/tasklist.html
+import { tasklist } from "@mdit/plugin-tasklist";
 import packageJson from "../package.json";
 
 export default defineConfig({
   base: "/",
+  cleanUrls: true,
+  lang: "zh_CN",
   title: "sendevia 的小站",
   titleTemplate: ":title",
   description: "一个随便写写的博客",
-  lang: "zh_CN",
-  cleanUrls: true,
   markdown: {
     anchor: {
-      permalink: markdownItAnchor.permalink.linkAfterHeader({
+      permalink: anchor.permalink.linkAfterHeader({
         style: "visually-hidden",
         symbol: "link",
         class: "title-anchor",
@@ -19,7 +24,13 @@ export default defineConfig({
         visuallyHiddenClass: "visually-hidden",
         wrapper: ['<div class="title-with-achor">', "</div>"],
         placement: "before",
+        space: false,
       }),
+    },
+    codeCopyButtonTitle: "复制代码",
+    config(md) {
+      md.use(tasklist, { label: true });
+      md.use(footnote);
     },
     image: {
       lazyLoading: true,
