@@ -10,7 +10,6 @@
 
 @include meta.load-css("_components/appbar");
 @include meta.load-css("_components/card");
-@include meta.load-css("_components/code");
 @include meta.load-css("_components/dialog");
 @include meta.load-css("_components/loading-splash");
 @include meta.load-css("_components/snackbar");
@@ -104,7 +103,8 @@ h6 {
   margin: 0px;
 }
 
-p {
+p,
+pre {
   @include mixin.typescale-style("body-large");
 
   margin: 0px;
@@ -133,17 +133,16 @@ abbr {
 
 hr {
   height: 15px;
-  width: 100%;
 
   margin: 0px;
 
-    border-radius: var(--md-sys-shape-corner-small);
-    border: none;
+  border-radius: var(--md-sys-shape-corner-small);
+  border: none;
 
-    background: var(--md-sys-color-outline-variant);
+  background: var(--md-sys-color-outline-variant);
 
-    -webkit-mask: var(--via-svg-wave) repeat;
-    mask: var(--via-svg-wave) repeat;
+  -webkit-mask: var(--via-svg-wave) repeat;
+  mask: var(--via-svg-wave) repeat;
   opacity: 0.3;
 }
 

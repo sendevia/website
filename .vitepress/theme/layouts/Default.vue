@@ -119,7 +119,6 @@ if (typeof window !== "undefined") {
 
 <style lang="scss">
 @use "sass:meta";
-@use "sass:string";
 @use "../styles/mixin";
 
 #layout {
@@ -198,83 +197,49 @@ if (typeof window !== "undefined") {
       }
     }
   }
+}
 
-  @media screen and (max-width: 1600px) {
-    $columns: 9;
+@media screen and (max-width: 1600px) {
+  $columns: 9;
 
-    #layout-content-flow {
-      grid-template-columns: repeat($columns, 1fr);
-      padding-inline: 6vw;
+  #layout #layout-content-flow {
+    grid-template-columns: repeat($columns, 1fr);
+    padding-inline: 6vw;
 
-      #layout-content-filler {
-        grid-column: span $columns;
-        grid-template-columns: minmax(50vw, 70%) minmax(300px, 30%);
-      }
-
-      hr {
-        grid-column: span $columns;
-      }
-
-      .layout-quicklinks {
-        &[spec="previous"] {
-          grid-column: 1 string.unquote("/") calc(($columns + 1) / 2);
-        }
-
-        &[spec="next"] {
-          grid-column: calc(($columns + 1) / 2) string.unquote("/") $columns;
-        }
-      }
+    #layout-content-filler {
+      grid-column: span $columns;
+      grid-template-columns: minmax(50vw, 70%) minmax(300px, 30%);
     }
 
-    &[spec="feed"] {
-      #layout-content-flow {
-        & > {
-          h1,
-          h6 {
-            grid-column: span calc($columns - 2);
-          }
-
-          img {
-            grid-column: calc($columns - 1) / calc($columns + 1);
-          }
-        }
-      }
+    hr {
+      grid-column: span $columns;
     }
   }
+}
 
-  @media screen and (max-width: 1200px) {
-    $columns: 6;
+@media screen and (max-width: 1200px) {
+  $columns: 6;
 
-    #layout-content-flow {
-      grid-template-columns: repeat($columns, 1fr);
+  #layout #layout-content-flow {
+    grid-template-columns: repeat($columns, 1fr);
 
-      padding-inline: 24px;
+    padding-inline: 24px;
 
-      #layout-content-filler {
-        grid-column: span $columns;
-        grid-template-columns: auto;
-      }
+    #layout-content-filler {
+      grid-column: span $columns;
+      grid-template-columns: auto;
+    }
 
-      #layout-scrolltop {
-        grid-column: $columns;
-      }
-
-      hr {
-        grid-column: span $columns;
-      }
-
-      .layout-quicklinks {
-        &[spec="previous"],
-        &[spec="next"] {
-          grid-column: span calc($columns / 2);
-        }
-      }
+    hr {
+      grid-column: span $columns;
     }
   }
+}
 
-  @media screen and (max-width: 840px) {
-    $columns: 4;
+@media screen and (max-width: 840px) {
+  $columns: 4;
 
+  #layout {
     grid-template-columns: 0px auto;
     grid-template-rows: auto 80px;
 
@@ -297,70 +262,20 @@ if (typeof window !== "undefined") {
       hr {
         grid-column: span $columns;
       }
-
-      .layout-quicklinks {
-        &[spec="previous"],
-        &[spec="next"] {
-          grid-column: span calc($columns / 2);
-        }
-      }
-    }
-
-    &[spec="feed"] {
-      #layout-content-flow {
-        & > {
-          h1 {
-            @include mixin.typescale-style("display-medium");
-
-            grid-column: span calc($columns - 1);
-
-            margin-inline-start: 12px;
-          }
-
-          h6 {
-            grid-column: span $columns;
-
-            margin-inline-start: 12px;
-          }
-
-          img {
-            grid-column: $columns;
-            grid-row: 1;
-          }
-        }
-      }
     }
   }
-
-  @media screen and (max-width: 600px) {
-    $columns: 4;
-
-    #layout-content-flow {
-      padding-inline: 12px;
-      #layout-content-filler [role="doc-endnotes"]ol {
-        margin-inline: 0px;
-        padding-inline: 0px;
-      }
-
-      .layout-quicklinks {
-        &[spec="previous"],
-        &[spec="next"] {
-          grid-column: span $columns;
-        }
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 1600px) {
-}
-
-@media screen and (max-width: 1200px) {
-}
-
-@media screen and (max-width: 840px) {
 }
 
 @media screen and (max-width: 600px) {
+  $columns: 4;
+
+  #layout #layout-content-flow {
+    padding-inline: 12px;
+
+    #layout-content-filler [role="doc-endnotes"]ol {
+      margin-inline: 0px;
+      padding-inline: 0px;
+    }
+  }
 }
 </style>
