@@ -88,10 +88,12 @@ const currentLayout = computed(() => {
 
 const route = useRoute();
 
-onMounted(updatePalette);
-
 function onAfterEnter() {
   updatePalette();
+}
+
+if (typeof window !== "undefined") {
+  onMounted(updatePalette);
 }
 </script>
 

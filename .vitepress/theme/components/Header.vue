@@ -6,9 +6,11 @@ const { page, frontmatter, theme } = useGlobalData();
 const seed = ref(1);
 const defaultImpression = theme.value.defaultImpression;
 
-onMounted(() => {
-  seed.value = Date.now();
-});
+if (typeof window !== "undefined") {
+  onMounted(() => {
+    seed.value = Date.now();
+  });
+}
 </script>
 
 <template>

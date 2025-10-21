@@ -2,7 +2,7 @@
 import { ref, onMounted, onBeforeUnmount } from "vue";
 
 const visible = ref(false);
-let container: HTMLElement | Window = window;
+let container: HTMLElement | Window | null = null;
 
 function isScrollable(el: HTMLElement) {
   const style = window.getComputedStyle(el);
@@ -33,19 +33,21 @@ function scrollToTop() {
   }
 }
 
-onMounted(() => {
-  container = detectContainer();
-  const target: any = container;
-  target.addEventListener("scroll", onScroll, { passive: true });
-  if (container !== window) window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
-});
+if (typeof window !== "undefined") {
+  onMounted(() => {
+    container = detectContainer();
+    const target: any = container;
+    target.addEventListener("scroll", onScroll, { passive: true });
+    if (container !== window) window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  });
 
-onBeforeUnmount(() => {
-  const target: any = container;
-  target.removeEventListener("scroll", onScroll);
-  if (container !== window) window.removeEventListener("scroll", onScroll);
-});
+  onBeforeUnmount(() => {
+    const target: any = container;
+    target.removeEventListener("scroll", onScroll);
+    if (container !== window) window.removeEventListener("scroll", onScroll);
+  });
+}
 </script>
 
 <template>

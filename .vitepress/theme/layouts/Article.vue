@@ -7,7 +7,10 @@ function copyAnchorLink(this: HTMLElement) {
   const anchor = this as HTMLAnchorElement;
   const href = anchor.getAttribute("href");
   const fullUrl = `${window.location.origin}${window.location.pathname}${href}`;
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
   navigator.clipboard.writeText(fullUrl);
+}
 
   const hiddenSpan = anchor.querySelector<HTMLSpanElement>("span.visually-hidden");
   if (hiddenSpan) {
