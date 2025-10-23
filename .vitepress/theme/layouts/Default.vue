@@ -8,11 +8,16 @@ import Sidebar from "../components/Sidebar.vue";
 import ScrollToTop from "../components/ScrollToTop.vue";
 import { argbFromHex } from "@material/material-color-utilities";
 import { generateColorPalette } from "../utils/colorPalette";
-import { onMounted, nextTick, computed } from "vue";
+import { onMounted, nextTick, computed, ref, watch } from "vue";
 import { useRoute } from "vitepress";
 import { useGlobalData } from "../composables/useGlobalData";
 
 const { site, page, frontmatter, theme } = useGlobalData();
+const route = useRoute();
+
+const isTransitioning = ref(false);
+const currentRoutePath = ref(route.path);
+const pendingRoutePath = ref<string | null>(null);
 
 /**
  * 获取图片主色调（取图片左上角像素点的颜色）
@@ -86,10 +91,26 @@ const currentLayout = computed(() => {
   return layoutMap[key] ?? ArticleLayout;
 });
 
-const route = useRoute();
+watch(
+  () => route.path,
+  (newPath, oldPath) => {
+    if (newPath !== oldPath && !isTransitioning.value) {
+      isTransitioning.value = true;
+      pendingRoutePath.value = newPath;
+    }
+  },
+  { immediate: true }
+);
 
 function onAfterEnter() {
+  isTransitioning.value = false;
+  currentRoutePath.value = route.path;
+  pendingRoutePath.value = null;
   updatePalette();
+}
+
+function onBeforeLeave() {
+  isTransitioning.value = true;
 }
 
 if (typeof window !== "undefined") {
@@ -100,7 +121,7 @@ if (typeof window !== "undefined") {
 <template>
   <div id="layout">
     <Sidebar />
-    <Transition name="layout-content" mode="out-in" @after-enter="onAfterEnter">
+    <Transition name="layout-content" mode="out-in" @before-leave="onBeforeLeave" @after-enter="onAfterEnter">
       <div id="layout-content-flow" :key="route.path">
         <div id="layout-home-title" v-if="frontmatter.home">
           <img src="/assets/images/avatar.webp" alt="avatar" />
