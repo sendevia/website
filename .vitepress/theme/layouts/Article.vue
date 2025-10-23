@@ -24,13 +24,13 @@ function copyAnchorLink(this: HTMLElement) {
 
 function ulCustomBullets() {
   const listItems = document.querySelectorAll("ul li");
-  listItems.forEach((li) => {
-    const randomRotation = Math.floor(Math.random() * 360) - 180;
+  listItems.forEach((li, index) => {
+    const stableRotation = ((index * 137) % 360) - 180;
     const computedStyle = window.getComputedStyle(li);
     const lineHeight = parseFloat(computedStyle.lineHeight);
     const bulletTop = lineHeight / 2 - 8;
 
-    (li as HTMLElement).style.setProperty("--random-rotation", `${randomRotation}deg`);
+    (li as HTMLElement).style.setProperty("--random-rotation", `${stableRotation}deg`);
     (li as HTMLElement).style.setProperty("--bullet-top", `${bulletTop}px`);
   });
 }
