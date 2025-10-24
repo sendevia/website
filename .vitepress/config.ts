@@ -27,6 +27,7 @@ export default defineConfig({
         space: false,
       }),
     },
+    cjkFriendly: true,
     codeCopyButtonTitle: "复制代码",
     config(md) {
       md.use(tasklist, { label: true });
@@ -35,6 +36,8 @@ export default defineConfig({
     image: {
       lazyLoading: true,
     },
+    lineNumbers: true,
+    theme: "material-theme",
   },
   head: [
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
