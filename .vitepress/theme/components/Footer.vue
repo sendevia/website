@@ -122,4 +122,19 @@ const siteVersion = theme.value.siteVersion;
     justify-content: flex-end;
   }
 }
+
+@media screen and (max-width: 1600px) {
+}
+
+@media screen and (max-width: 1200px) {
+  .main-layout-footer {
+    grid-column: span 8;
+  }
+}
+
+@media screen and (max-width: 840px) {
+}
+
+@media screen and (max-width: 600px) {
+}
 </style>

@@ -596,6 +596,15 @@ span.lang {
 }
 
 @media screen and (max-width: 1200px) {
+  section {
+    &#article-content {
+      grid-column: 1 / 7;
+    }
+
+    &#article-indicator {
+      grid-column: 7 / 9;
+    }
+  }
 }
 
 @media screen and (max-width: 840px) {

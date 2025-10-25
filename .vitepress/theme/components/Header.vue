@@ -156,8 +156,15 @@ header {
       }
     }
   }
+}
 
-  @media screen and (max-width: 1200px) {
+@media screen and (max-width: 1600px) {
+}
+
+@media screen and (max-width: 1200px) {
+  header {
+    grid-column: span 8;
+
     height: 45vh;
     min-height: 360px;
 
@@ -175,8 +182,10 @@ header {
       }
     }
   }
+}
 
-  @media screen and (max-width: 840px) {
+@media screen and (max-width: 840px) {
+  header {
     #header-hero-container {
       width: 100%;
 
@@ -189,8 +198,10 @@ header {
       }
     }
   }
+}
 
-  @media screen and (max-width: 600px) {
+@media screen and (max-width: 600px) {
+  header {
     #header-hero-container {
       padding: 30px;
 

@@ -157,14 +157,14 @@ if (typeof window !== "undefined") {
     align-content: space-between;
     align-items: start;
     gap: 24px;
-    grid-column: 3;
-    grid-template-columns: repeat(12, minmax(72px, 100vw));
+    grid-column: 2;
+    grid-template-columns: repeat(12, minmax(60px, 72px));
     justify-content: center;
 
     position: relative;
 
     padding-block-end: 68px;
-    padding-inline: 20vw;
+    padding-block-start: 12px;
 
     width: 100%;
 
@@ -219,82 +219,38 @@ if (typeof window !== "undefined") {
 }
 
 @media screen and (max-width: 1600px) {
-  $columns: 9;
-
   #layout #layout-content-flow {
-    grid-template-columns: repeat($columns, 1fr);
-    padding-inline: 6vw;
-
-    #layout-content-filler {
-      grid-column: span $columns;
-      grid-template-columns: minmax(50vw, 70%) minmax(300px, 30%);
-    }
-
-    hr {
-      grid-column: span $columns;
-    }
+    padding-inline: 12px;
   }
 }
 
 @media screen and (max-width: 1200px) {
-  $columns: 6;
-
   #layout #layout-content-flow {
-    grid-template-columns: repeat($columns, 1fr);
+    grid-template-columns: repeat(8, 1fr);
 
-    padding-inline: 24px;
-
-    #layout-content-filler {
-      grid-column: span $columns;
-      grid-template-columns: auto;
-    }
-
-    hr {
-      grid-column: span $columns;
-    }
+    width: 100%;
   }
 }
 
 @media screen and (max-width: 840px) {
-  $columns: 4;
-
   #layout {
     grid-template-columns: 0px auto;
     grid-template-rows: auto 80px;
 
     #layout-content-flow {
-      grid-template-columns: repeat($columns, 1fr);
+      grid-template-columns: repeat(6, 1fr);
 
       padding-block: 64px;
       padding-inline: 42px;
-
-      #layout-content-filler {
-        grid-column: span $columns;
-      }
-
-      #layout-scrolltop {
-        grid-column: $columns;
-
-        bottom: 0px;
-      }
-
-      hr {
-        grid-column: span $columns;
-      }
     }
   }
 }
 
 @media screen and (max-width: 600px) {
-  $columns: 4;
-
   #layout #layout-content-flow {
-    padding-inline: 12px;
+    grid-template-columns: repeat(4, 1fr);
 
-    #layout-content-filler [role="doc-endnotes"]ol {
-      margin-inline: 0px;
-      padding-inline: 0px;
-    }
+    padding-inline: 12px;
   }
 }
 </style>
