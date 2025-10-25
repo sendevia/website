@@ -151,7 +151,6 @@ if (typeof window !== "undefined") {
   height: 100%;
 
   z-index: 1;
-  transition: var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-emphasized);
 
   #layout-content-flow {
     display: grid;
@@ -173,7 +172,6 @@ if (typeof window !== "undefined") {
     scroll-behavior: smooth;
     scroll-padding-top: 120px;
     scrollbar-width: thin;
-    transition: var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-emphasized);
 
     #layout-content-filler {
       display: flex;

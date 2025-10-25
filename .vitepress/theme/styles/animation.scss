@@ -1,33 +1,15 @@
-.layout-content-enter-active,
+.layout-content-enter-active {
+  transition: opacity var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect),
+    transform var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial) var(--md-sys-motion-duration-short1);
+}
+
 .layout-content-leave-active {
-  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.layout-content-enter-active,
-.layout-content-leave-active {
-  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-#layout-content-filler.layout-content-enter-from,
-#layout-content-filler.layout-content-leave-to {
-  opacity: 0;
-  transform: translateY(6px);
-  pointer-events: none;
-  will-change: opacity, transform;
-}
-
-#layout-content-filler.layout-content-enter-to,
-#layout-content-filler.layout-content-leave-from {
-  opacity: 1;
-  transform: none;
-  pointer-events: auto;
+  transition: opacity var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect),
+    transform var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
 }
 
 .layout-content-enter-from,
 .layout-content-leave-to {
   opacity: 0;
-}
-.layout-content-enter-to,
-.layout-content-leave-from {
-  opacity: 1;
+  transform: translateY(10px);
 }
