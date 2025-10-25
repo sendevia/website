@@ -35,6 +35,23 @@ function ulCustomBullets() {
   });
 }
 
+function olCountAttributes() {
+  const orderedLists = document.querySelectorAll("ol");
+  orderedLists.forEach((ol) => {
+    const liCount = ol.querySelectorAll("li").length;
+    const startAttr = ol.getAttribute("start");
+    const startValue = startAttr ? parseInt(startAttr, 10) : 1;
+    const effectiveCount = liCount + (startValue - 1);
+
+    ol.removeAttribute("data-count-range");
+
+    const digitCount = Math.max(1, Math.floor(Math.log10(effectiveCount)) + 1);
+    const paddingValue = 20 + (digitCount - 1) * 10;
+
+    (ol as HTMLElement).style.setProperty("padding-inline-start", `${paddingValue}px`);
+  });
+}
+
 if (typeof window !== "undefined") {
   onMounted(() => {
     const anchors = document.querySelectorAll<HTMLAnchorElement>("a.title-anchor");
@@ -43,11 +60,13 @@ if (typeof window !== "undefined") {
     });
 
     ulCustomBullets();
+olCountAttributes();
 
     window.addEventListener("resize", ulCustomBullets);
 
     const observer = new MutationObserver(() => {
       ulCustomBullets();
+olCountAttributes();
     });
 
     const contentElement = document.querySelector("#article-content");
@@ -316,6 +335,7 @@ span.lang {
     blockquote {
       margin-inline: 24px;
       padding-block-start: 12px;
+padding-inline-start: 24px;
 
       color: var(--md-sys-color-on-tertiary-container);
 
@@ -326,7 +346,7 @@ span.lang {
       }
 
       p {
-        margin-inline: 24px;
+        margin-inline: 0px;
         margin-block: 0px;
         padding-block-end: 12px;
       }
@@ -529,12 +549,13 @@ span.lang {
 
         position: relative;
 
-        margin-block-end: 5px;
+        margin-block: 12px;
 
         vertical-align: middle;
 
         code {
           display: inline;
+
           padding: 0px;
         }
 
@@ -545,11 +566,14 @@ span.lang {
     }
 
     ol {
-      padding-inline-start: 70ch;
+            li {
+&::marker {
+          font-variation-settings: "wght" 700;
+        }
 
-      li {
         p {
           margin-inline: 0px;
+padding-block: 0px;
         }
       }
     }
