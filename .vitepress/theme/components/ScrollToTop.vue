@@ -51,8 +51,8 @@ if (typeof window !== "undefined") {
 </script>
 
 <template>
-  <div id="layout-scrolltop" :class="{ visible: visible }" @click="scrollToTop">
-    <span id="scrolltop-button" role="button" aria-label="Scroll to top"> arrow_upward </span>
+  <div id="layout-scrolltop" :class="{ visible: visible }">
+    <span id="scrolltop-button" role="button" aria-label="Scroll to top" @click="scrollToTop"> arrow_upward </span>
   </div>
 </template>
 
@@ -114,6 +114,9 @@ if (typeof window !== "undefined") {
 }
 
 @media screen and (max-width: 1200px) {
+  #layout-scrolltop {
+    grid-column: 7 / 9;
+  }
 }
 
 @media screen and (max-width: 840px) {
