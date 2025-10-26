@@ -404,15 +404,26 @@ span.lang {
         left: -54px;
         top: 0px;
 
+height: 54px;
         width: 54px;
-
-        padding-inline-end: 10px;
 
         color: var(--md-sys-color-on-surface);
         text-decoration: none;
 
+        border-radius: var(--md-sys-shape-corner-full);
+
         opacity: 0;
         transition: var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
+
+        &:focus-visible {
+          @include mixin.focus-ring($size: 2, $z-index: 2);
+
+          opacity: 1;
+
+          span:nth-of-type(1) {
+            opacity: 1;
+          }
+        }
 
         span:nth-of-type(1) {
           @include mixin.material-symbols($size: 24);

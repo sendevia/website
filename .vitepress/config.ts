@@ -38,6 +38,13 @@ export default defineConfig({
     },
     lineNumbers: true,
     theme: "material-theme",
+    codeTransformers: [
+      {
+        pre(node) {
+          node.properties.tabindex = "-1";
+        },
+      },
+    ],
   },
   head: [
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
