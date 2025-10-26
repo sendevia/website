@@ -59,3 +59,21 @@
   white-space: nowrap;
   word-wrap: normal;
 }
+
+@mixin focus-ring($size: 2, $z-index: 1) {
+  @keyframes focus-ring {
+    0% {
+      outline: #{$size * 4}px solid var(--md-sys-color-primary);
+    }
+
+    100% {
+      outline: #{$size}px solid var(--md-sys-color-primary);
+    }
+  }
+
+  animation: focus-ring var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect) forwards;
+  outline-offset: #{$size}px;
+  position: relative;
+  transition: var(--md-sys-motion-spring-fast-spatial-standard-duration) var(--md-sys-motion-spring-fast-spatial-standard);
+  z-index: $z-index;
+}
