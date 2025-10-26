@@ -355,13 +355,9 @@ if (typeof window !== "undefined") {
         border-radius: var(--md-sys-shape-corner-extra-large);
 
         &:focus-visible {
-          outline: 2px solid var(--md-sys-color-primary);
-          outline-offset: 2px;
+          @include mixin.focus-ring($size: 2);
 
           background-color: var(--md-sys-color-surface-container);
-
-          transition: background-color var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
-          z-index: 1;
         }
       }
 
