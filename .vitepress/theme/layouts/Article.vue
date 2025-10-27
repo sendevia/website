@@ -126,13 +126,13 @@ margin-block-end: 12px;
         padding: 0px;
 
         border: none;
-        border-radius: var(--md-sys-shape-corner-large);
+        border-radius: var(--md-sys-shape-corner-extra-large);
 
         background-color: transparent;
 
         cursor: pointer;
         opacity: 0;
-        transition: border-radius var(--md-sys-motion-spring-default-spatial-duration) var(--md-sys-motion-spring-default-spatial),
+        transition: border-radius var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial),
           opacity var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
         visibility: hidden;
         z-index: 2;
@@ -144,7 +144,13 @@ margin-block-end: 12px;
         }
 
           &:active {
-          border-radius: var(--md-sys-shape-corner-extra-large);
+          border-radius: var(--md-sys-shape-corner-large);
+}
+
+        &:focus-visible {
+          @include mixin.focus-ring($size: 2, $z-index: 3);
+
+          outline-color: var(--md-ref-palette-neutral90) !important;
         }
       }
 
