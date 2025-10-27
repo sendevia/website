@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Header from "../components/Header.vue";
 import PageIndicator from "../components/PageIndicator.vue";
+import PrevNext from "../components/PrevNext.vue";
 import { onMounted } from "vue";
 
 function copyAnchorLink(this: HTMLElement) {
@@ -9,8 +10,8 @@ function copyAnchorLink(this: HTMLElement) {
   const fullUrl = `${window.location.origin}${window.location.pathname}${href}`;
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
-  navigator.clipboard.writeText(fullUrl);
-}
+    navigator.clipboard.writeText(fullUrl);
+  }
 
   const hiddenSpan = anchor.querySelector<HTMLSpanElement>("span.visually-hidden");
   if (hiddenSpan) {
@@ -60,13 +61,13 @@ if (typeof window !== "undefined") {
     });
 
     ulCustomBullets();
-olCountAttributes();
+    olCountAttributes();
 
     window.addEventListener("resize", ulCustomBullets);
 
     const observer = new MutationObserver(() => {
       ulCustomBullets();
-olCountAttributes();
+      olCountAttributes();
     });
 
     const contentElement = document.querySelector("#article-content");
@@ -85,6 +86,7 @@ olCountAttributes();
   <Header />
   <section id="article-content">
     <Content />
+    <PrevNext />
   </section>
   <section id="article-indicator">
     <PageIndicator />
@@ -97,6 +99,7 @@ olCountAttributes();
 section {
   &#article-content {
     display: flex;
+    flex-direction: column;
     grid-column: 1 / 10;
 
     & > div {
@@ -106,9 +109,9 @@ section {
     *[class^="language-"] {
       position: relative;
 
-margin-block-end: 12px;
-      margin-inline: 24px;
-      
+      margin-block-end: 12px;
+      margin-inline-start: 24px;
+
       border-radius: var(--md-sys-shape-corner-large-increased);
 
       overflow: hidden;
@@ -143,9 +146,9 @@ margin-block-end: 12px;
           color: var(--md-ref-palette-neutral90);
         }
 
-          &:active {
+        &:active {
           border-radius: var(--md-sys-shape-corner-large);
-}
+        }
 
         &:focus-visible {
           @include mixin.focus-ring($size: 2, $z-index: 3);
@@ -162,26 +165,26 @@ margin-block-end: 12px;
         margin-block-start: 6px;
         margin-inline-end: 9px;
 
-color: var(--md-ref-palette-neutral90);
+        color: var(--md-ref-palette-neutral90);
         text-transform: uppercase;
 
-transition: color var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
+        transition: color var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
         z-index: 1;
       }
 
       pre.shiki {
-grid-column: 2/3;
+        grid-column: 2/3;
         grid-row: 1;
 
         margin: 0px;
-padding-block: 15px;
+        padding-block: 15px;
 
         overflow: overlay;
         z-index: 0;
 
         code {
-        padding: 0px;
-}
+          padding: 0px;
+        }
       }
 
       div.line-numbers-wrapper {
@@ -216,7 +219,7 @@ padding-block: 15px;
       }
 
       &:hover {
-span.lang {
+        span.lang {
           opacity: 0;
           visibility: hidden;
         }
@@ -244,7 +247,7 @@ span.lang {
       position: relative;
 
       margin-block-end: 12px;
-      margin-inline: 24px;
+      margin-inline-start: 24px;
       padding-block: 12px;
       padding-inline: 12px;
 
@@ -410,7 +413,7 @@ span.lang {
         left: -54px;
         top: 0px;
 
-height: 54px;
+        height: 54px;
         width: 54px;
 
         color: var(--md-sys-color-on-surface);
@@ -506,13 +509,13 @@ height: 54px;
     }
 
     a {
-        text-decoration: underline solid;
+      text-decoration: underline solid;
     }
 
     blockquote {
-      margin-inline: 24px;
+      margin-inline-start: 24px;
       padding-block-start: 12px;
-padding-inline-start: 24px;
+      padding-inline-start: 24px;
 
       color: var(--md-sys-color-on-tertiary-container);
 
@@ -546,11 +549,11 @@ padding-inline-start: 24px;
 
       display: inline-block;
 
-            width: 100%;
+      width: 100%;
 
       padding-block: 24px;
 
-            text-indent: initial;
+      text-indent: initial;
       vertical-align: baseline;
       word-break: break-word;
 
@@ -587,13 +590,13 @@ padding-inline-start: 24px;
 
     hr {
       margin-block: 24px;
-      margin-inline-end: 24px;
+      margin-inline-start: 24px;
     }
 
     p {
       position: relative;
 
-      margin-inline: 24px;
+      margin-inline-start: 24px;
       padding-block-end: 12px;
 
       code {
@@ -631,7 +634,7 @@ padding-inline-start: 24px;
     }
 
     pre {
-      margin-inline: 24px;
+      margin-inline-start: 24px;
       padding-block-end: 12px;
 
       &.shiki {
@@ -656,7 +659,7 @@ padding-inline-start: 24px;
 
     table {
       margin-block-end: 12px;
-      margin-inline: 24px;
+      margin-inline-start: 24px;
       padding: 0px;
 
       width: calc(100% - 48px);
@@ -664,7 +667,7 @@ padding-inline-start: 24px;
 
     ul,
     ol {
-      margin-inline: 24px;
+      margin-inline-start: 24px;
       padding-block-end: 12px;
 
       li {
@@ -689,14 +692,14 @@ padding-inline-start: 24px;
     }
 
     ol {
-            li {
-&::marker {
+      li {
+        &::marker {
           font-variation-settings: "wght" 700;
         }
 
         p {
           margin-inline: 0px;
-padding-block: 0px;
+          padding-block: 0px;
         }
       }
     }
@@ -740,7 +743,7 @@ padding-block: 0px;
 }
 
 @media screen and (max-width: 1600px) {
-section {
+  section {
     &#article-content {
       grid-column: 1 / 10;
     }
@@ -764,7 +767,7 @@ section {
 }
 
 @media screen and (max-width: 840px) {
-section {
+  section {
     &#article-content {
       grid-column: 1 / 7;
     }
@@ -776,7 +779,7 @@ section {
 }
 
 @media screen and (max-width: 600px) {
-section {
+  section {
     &#article-content {
       grid-column: 1 / 5;
     }
