@@ -220,6 +220,8 @@ if (typeof window !== "undefined") {
 
 @media screen and (max-width: 1600px) {
   #layout #layout-content-flow {
+    grid-template-columns: repeat(12, minmax(60px, 72px));
+
     padding-inline: 12px;
   }
 }

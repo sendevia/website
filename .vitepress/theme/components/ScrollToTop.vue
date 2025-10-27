@@ -56,13 +56,13 @@ if (typeof window !== "undefined") {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @use "../styles/mixin";
 
 #layout-scrolltop {
   display: flex;
   align-items: center;
-  grid-column: 11/13;
+  grid-column: 10 / 13;
   justify-content: center;
 
   position: sticky;
@@ -111,6 +111,9 @@ if (typeof window !== "undefined") {
 }
 
 @media screen and (max-width: 1600px) {
+  #layout-scrolltop {
+    grid-column: 10 / 13;
+  }
 }
 
 @media screen and (max-width: 1200px) {
@@ -120,8 +123,14 @@ if (typeof window !== "undefined") {
 }
 
 @media screen and (max-width: 840px) {
+  #layout-scrolltop {
+    grid-column: 6 / 7;
+  }
 }
 
 @media screen and (max-width: 600px) {
+  #layout-scrolltop {
+    grid-column: 4 / 5;
+  }
 }
 </style>

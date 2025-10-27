@@ -467,7 +467,8 @@ height: 54px;
       h5,
       h6 {
         margin-block-start: 18px;
-        padding-block-end: 36px;
+        padding-block-end: 12px;
+        padding-inline: 24px;
 
         line-height: 54px;
 
@@ -725,7 +726,7 @@ padding-block: 0px;
   }
 
   &#article-indicator {
-    grid-column: 11 / 13;
+    grid-column: 10 / 13;
 
     position: sticky;
     top: 120px;
@@ -733,6 +734,15 @@ padding-block: 0px;
 }
 
 @media screen and (max-width: 1600px) {
+section {
+    &#article-content {
+      grid-column: 1 / 10;
+    }
+
+    &#article-indicator {
+      grid-column: 10 / 13;
+    }
+  }
 }
 
 @media screen and (max-width: 1200px) {
@@ -748,8 +758,26 @@ padding-block: 0px;
 }
 
 @media screen and (max-width: 840px) {
+section {
+    &#article-content {
+      grid-column: 1 / 7;
+    }
+
+    &#article-indicator {
+      grid-column: 5 / 7;
+    }
+  }
 }
 
 @media screen and (max-width: 600px) {
+section {
+    &#article-content {
+      grid-column: 1 / 5;
+    }
+
+    &#article-indicator {
+      grid-column: 3 / 5;
+    }
+  }
 }
 </style>

@@ -43,12 +43,12 @@ if (typeof window !== "undefined") {
   </header>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use "sass:meta";
 @use "../styles/mixin";
 
 header {
-  grid-column: 1 / 13;
+  grid-column: span 12;
 
   position: relative;
 
@@ -159,6 +159,9 @@ header {
 }
 
 @media screen and (max-width: 1600px) {
+  header {
+    grid-column: span 12;
+  }
 }
 
 @media screen and (max-width: 1200px) {
@@ -169,8 +172,6 @@ header {
     min-height: 360px;
 
     #header-hero-container {
-      grid-column: span 2;
-
       padding: 5vw;
 
       #header-hero-headline {
@@ -186,6 +187,8 @@ header {
 
 @media screen and (max-width: 840px) {
   header {
+    grid-column: span 6;
+
     #header-hero-container {
       width: 100%;
 
@@ -202,6 +205,8 @@ header {
 
 @media screen and (max-width: 600px) {
   header {
+    grid-column: span 4;
+
     #header-hero-container {
       padding: 30px;
 

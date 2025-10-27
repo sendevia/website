@@ -37,11 +37,11 @@ const siteVersion = theme.value.siteVersion;
   </footer>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use "sass:meta";
 @use "../styles/mixin";
 
-.main-layout-footer {
+footer {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
@@ -124,17 +124,26 @@ const siteVersion = theme.value.siteVersion;
 }
 
 @media screen and (max-width: 1600px) {
+  footer {
+    grid-column: span 12;
+  }
 }
 
 @media screen and (max-width: 1200px) {
-  .main-layout-footer {
+  footer {
     grid-column: span 8;
   }
 }
 
 @media screen and (max-width: 840px) {
+  footer {
+    grid-column: span 6;
+  }
 }
 
 @media screen and (max-width: 600px) {
+  footer {
+    grid-column: span 4;
+  }
 }
 </style>
