@@ -27,6 +27,9 @@ export default defineConfig({
         space: false,
       }),
     },
+attrs: {
+      allowedAttributes: ["id", "class"],
+    },
     cjkFriendly: true,
     codeCopyButtonTitle: "复制代码",
     config(md) {
