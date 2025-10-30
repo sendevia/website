@@ -63,7 +63,7 @@ export async function generateColorPalette(baseColor: number) {
   const palettes: Palette[] = [
     { name: "error", append: "error", tones: [10, 20, 30, 40, 80, 90, 100] },
     { name: "neutralVariant", append: "n2", tones: [30, 50, 60, 80, 90] },
-    { name: "neutral", append: "n1", tones: [0, 4, 6, 10, 12, 17, 20, 22, 24, 87, 90, 92, 94, 95, 96, 98, 100] },
+    { name: "neutral", append: "n1", tones: [0, 4, 6, 10, 12, 17, 20, 22, 24, 50, 87, 90, 92, 94, 95, 96, 98, 100] },
     { name: "tertiary", append: "a3", tones: [10, 20, 30, 40, 80, 90, 100] },
     { name: "secondary", append: "a2", tones: [10, 20, 30, 40, 48, 80, 90, 100] },
     { name: "primary", append: "a1", tones: [10, 20, 30, 40, 80, 90, 100] },
