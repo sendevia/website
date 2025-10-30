@@ -158,6 +158,8 @@ section {
       }
 
       span.lang {
+        @include mixin.typescale-style("body-medium", $font-family: Source Code Pro, $font-variation-settings: "wght" 700);
+
         position: absolute;
         right: 0px;
         top: 0px;
@@ -165,7 +167,7 @@ section {
         margin-block-start: 6px;
         margin-inline-end: 9px;
 
-        color: var(--md-ref-palette-neutral90);
+        color: var(--md-ref-palette-neutral50);
         text-transform: uppercase;
 
         transition: color var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
