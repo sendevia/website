@@ -264,7 +264,8 @@ section {
       p.custom-block-title {
         grid-column: 2;
 
-        padding-block-end: 12px;
+        margin: 0px;
+        padding: 0px;
 
         font-variation-settings: "wght" 700;
 
@@ -426,6 +427,8 @@ section {
 
         opacity: 0;
         transition: var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
+        user-select: none;
+        -moz-user-select: none;
 
         &:focus-visible {
           @include mixin.focus-ring($size: 2, $z-index: 2);
@@ -514,26 +517,47 @@ section {
     }
 
     blockquote {
-      padding-block-start: 12px;
+      position: relative;
+
+      margin-inline: 0px;
       padding-inline-start: 24px;
 
       color: var(--md-sys-color-on-tertiary-container);
 
-      border-inline-start: 6px solid var(--md-sys-color-inverse-on-surface);
+      &::before {
+        content: "";
 
+        display: block;
+
+        position: absolute;
+        left: 3px;
+
+        height: 100%;
+        width: 6px;
+
+        border-radius: var(--md-sys-shape-corner-small);
+
+        background-color: var(--md-sys-color-inverse-on-surface);
+      }
       blockquote {
-        margin-inline: 24px;
+        margin-inline: 12px;
       }
 
       p {
+        margin-block: 12px;
         margin-inline: 0px;
-        margin-block: 0px;
-        padding-block-end: 12px;
+        padding-block-end: 0px;
       }
 
-      ul,
-      ol {
-        padding-block-end: 7px;
+      .task-list-container {
+        padding-block-end: 0px;
+        padding-inline: 0px;
+
+        li {
+          &::before {
+            display: none;
+          }
+        }
       }
 
       & > {
@@ -589,7 +613,8 @@ section {
     }
 
     hr {
-      margin-block: 24px;
+      margin-block-end: 24px;
+      margin-block-start: 12px;
     }
 
     p {
@@ -671,7 +696,7 @@ section {
 
         position: relative;
 
-        margin-block: 12px;
+        margin-block-start: 12px;
 
         vertical-align: middle;
 
