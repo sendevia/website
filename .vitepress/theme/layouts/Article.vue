@@ -530,7 +530,7 @@ section {
         display: block;
 
         position: absolute;
-        left: 3px;
+        left: calc(24px / 2 / 2.5);
 
         height: 100%;
         width: 6px;
@@ -539,6 +539,7 @@ section {
 
         background-color: var(--md-sys-color-inverse-on-surface);
       }
+
       blockquote {
         margin-inline: 12px;
       }
@@ -553,7 +554,35 @@ section {
         padding-block-end: 0px;
         padding-inline: 0px;
 
-        li {
+        li.task-list-item {
+          display: grid;
+          align-items: center;
+          gap: 12px;
+          grid-template-columns: 20px auto;
+
+          input.task-list-item-checkbox[type="checkbox"] {
+            &::before {
+              @include mixin.material-symbols("check_box_outline_blank", $size: 20);
+
+              font-variation-settings: "FILL" 1;
+            }
+
+            appearance: none;
+
+            grid-column: 1 / 2;
+
+            margin: 0px;
+
+            height: 20px;
+            width: 20px;
+
+            &:checked {
+              &::before {
+                @include mixin.material-symbols("check_box", $size: 20);
+              }
+            }
+          }
+
           &::before {
             display: none;
           }
