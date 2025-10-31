@@ -110,7 +110,6 @@ section {
       position: relative;
 
       margin-block-end: 12px;
-      margin-inline-start: 24px;
 
       border-radius: var(--md-sys-shape-corner-large-increased);
 
@@ -249,7 +248,6 @@ section {
       position: relative;
 
       margin-block-end: 12px;
-      margin-inline-start: 24px;
       padding-block: 12px;
       padding-inline: 12px;
 
@@ -400,8 +398,11 @@ section {
       }
     }
 
-    .title-with-achor {
+    .headline-block {
       position: relative;
+
+      padding-block-end: 12px;
+      padding-inline-start: 24px;
 
       a.title-anchor {
         @include mixin.typescale-style("body-large");
@@ -477,9 +478,7 @@ section {
       h4,
       h5,
       h6 {
-        margin-block-start: 18px;
         padding-block-end: 12px;
-        padding-inline: 24px;
 
         line-height: 54px;
 
@@ -515,7 +514,6 @@ section {
     }
 
     blockquote {
-      margin-inline-start: 24px;
       padding-block-start: 12px;
       padding-inline-start: 24px;
 
@@ -592,13 +590,12 @@ section {
 
     hr {
       margin-block: 24px;
-      margin-inline-start: 24px;
     }
 
     p {
       position: relative;
 
-      margin-inline-start: 24px;
+      margin-block-start: 12px;
       padding-block-end: 12px;
 
       code {
@@ -636,7 +633,6 @@ section {
     }
 
     pre {
-      margin-inline-start: 24px;
       padding-block-end: 12px;
 
       &.shiki {
@@ -661,7 +657,6 @@ section {
 
     table {
       margin-block-end: 12px;
-      margin-inline-start: 24px;
       padding: 0px;
 
       width: calc(100% - 48px);
@@ -669,7 +664,6 @@ section {
 
     ul,
     ol {
-      margin-inline-start: 24px;
       padding-block-end: 12px;
 
       li {
