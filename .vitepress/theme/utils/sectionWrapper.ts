@@ -1,6 +1,9 @@
 import type MarkdownIt from "markdown-it";
 
-export function sectionWrapper(md: MarkdownIt): void {
+/**
+ * 将连续的标题块包裹为独立的 section（headline-block），便于样式与交互处理
+ */
+export function wrapHeadingsAsSections(md: MarkdownIt): void {
   md.core.ruler.before("inline", "group_sections", (state) => {
     const tokens = state.tokens;
     const newTokens: any[] = [];
