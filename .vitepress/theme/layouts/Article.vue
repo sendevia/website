@@ -680,7 +680,7 @@ section {
       }
 
       img {
-        max-width: 100%;
+        width: 50%;
 
         border-radius: var(--md-sys-shape-corner-small);
       }
@@ -688,6 +688,8 @@ section {
 
     pre {
       padding-block-end: 12px;
+
+      overflow: overlay;
 
       &.shiki {
         position: relative;
@@ -711,9 +713,6 @@ section {
 
     table {
       margin-block-end: 12px;
-      padding: 0px;
-
-      width: calc(100% - 48px);
     }
 
     ul,

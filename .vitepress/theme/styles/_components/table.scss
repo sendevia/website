@@ -24,7 +24,7 @@ table {
   }
 
   thead {
-    @include mixin.typescale-style("body-large", $font-variation-settings: 700);
+    @include mixin.typescale-style("body-large", $font-variation-settings: "wght" 700);
 
     white-space: nowrap;
 
