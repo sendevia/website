@@ -3,11 +3,14 @@ import packageJson from "../package.json";
 
 // https://github.com/valeriangalliat/markdown-it-anchor
 import anchor from "markdown-it-anchor";
+
 // https://mdit-plugins.github.io/footnote.html
 import { footnote } from "@mdit/plugin-footnote";
+
 // https://mdit-plugins.github.io/tasklist.html
 import { tasklist } from "@mdit/plugin-tasklist";
-import { sectionWrapper } from "./theme/utils/sectionWrapper";
+
+import { wrapHeadingsAsSections } from "./theme/utils/sectionWrapper";
 
 export default defineConfig({
   base: "/",
@@ -29,16 +32,16 @@ export default defineConfig({
         space: false,
       }),
     },
-attrs: {
+    attrs: {
       allowedAttributes: ["id", "class"],
     },
     cjkFriendly: true,
     codeCopyButtonTitle: "复制代码",
     config(md) {
-md.use(footnote);
-md.use(sectionWrapper);
+      md.use(footnote);
+      md.use(wrapHeadingsAsSections);
       md.use(tasklist, { label: true });
-          },
+    },
     image: {
       lazyLoading: true,
     },
