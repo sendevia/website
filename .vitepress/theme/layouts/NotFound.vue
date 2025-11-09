@@ -24,8 +24,9 @@
 .notfound {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   gap: 24px;
+  grid-column: span 12;
+  justify-content: space-evenly;
 
   height: 100%;
 
@@ -79,13 +80,21 @@
 }
 
 @media screen and (max-width: 1600px) {
+  .notfound {
+    grid-column: span 12;
+  }
 }
 
 @media screen and (max-width: 1200px) {
+  .notfound {
+    grid-column: span 8;
+  }
 }
 
 @media screen and (max-width: 840px) {
   .notfound {
+    grid-column: span 6;
+
     #notfound-information {
       h1 {
         font-size: 75rem;
@@ -98,5 +107,8 @@
 }
 
 @media screen and (max-width: 600px) {
+  .notfound {
+    grid-column: span 4;
+  }
 }
 </style>
