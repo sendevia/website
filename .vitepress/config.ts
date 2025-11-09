@@ -80,7 +80,7 @@ export default defineConfig({
       { text: "所有文章", icon: "list", link: "/posts" },
       { text: "Markdown 示例", icon: "counter_1", link: "/posts/markdown-examples" },
       { text: "API 示例", icon: "counter_2", link: "/posts/api-examples" },
-      { text: "Markdown it", icon: "counter_3", link: "/posts/markdown-it" },
+      { text: "AincradMix", icon: "borg", link: "/posts/AincradMix" },
     ],
   } as any,
 });
