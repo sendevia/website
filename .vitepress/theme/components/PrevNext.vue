@@ -165,7 +165,7 @@ const next = computed(() => {
       }
 
       &:focus-visible {
-        @include mixin.focus-ring();
+        @include mixin.focus-ring($thickness: 2);
       }
     }
 

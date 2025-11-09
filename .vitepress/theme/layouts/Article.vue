@@ -150,7 +150,7 @@ section {
         }
 
         &:focus-visible {
-          @include mixin.focus-ring($size: 2, $z-index: 3);
+          @include mixin.focus-ring($thickness: 2, $z-index: 3);
 
           outline-color: var(--md-ref-palette-neutral90) !important;
         }
@@ -319,7 +319,7 @@ section {
           }
 
           &:focus-visible {
-            @include mixin.focus-ring($size: 3);
+            @include mixin.focus-ring($thickness: 3);
           }
         }
 
@@ -431,7 +431,7 @@ section {
         -moz-user-select: none;
 
         &:focus-visible {
-          @include mixin.focus-ring($size: 2, $z-index: 2);
+          @include mixin.focus-ring($thickness: 2, $z-index: 2);
 
           opacity: 1;
 

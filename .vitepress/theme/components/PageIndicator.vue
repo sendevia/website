@@ -355,7 +355,7 @@ if (typeof window !== "undefined") {
         border-radius: var(--md-sys-shape-corner-extra-large);
 
         &:focus-visible {
-          @include mixin.focus-ring($size: 2);
+          @include mixin.focus-ring($thickness: 2);
 
           background-color: var(--md-sys-color-surface-container);
         }
