@@ -602,7 +602,7 @@ section {
 
       display: inline-block;
 
-      width: 100%;
+      width: max-content;
 
       padding-block: 24px;
 
@@ -680,7 +680,9 @@ section {
       }
 
       img {
-        width: 50%;
+        width: calc(50% - 6px);
+
+        margin-inline: 3px;
 
         border-radius: var(--md-sys-shape-corner-small);
       }

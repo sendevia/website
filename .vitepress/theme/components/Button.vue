@@ -43,6 +43,7 @@ const props = withDefaults(defineProps<Props>(), {
   position: relative;
 
   text-decoration: none !important;
+  vertical-align: middle;
 
   border-color: transparent;
   border-style: solid;
