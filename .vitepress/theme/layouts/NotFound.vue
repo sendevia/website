@@ -3,8 +3,8 @@
     <div id="notfound-information">
       <h1>(⊙x⊙;)</h1>
       <div>
-        <h3>你的网页遇到问题，不需要刷新。</h3>
-        <h3>我们不收集任何信息，你只需 <a href="/">返回本站首页</a>。</h3>
+        <h2>你的网页遇到问题，不需要刷新。</h2>
+        <h2>我们不收集任何信息，你只需 <a href="/">返回本站首页</a>。</h2>
       </div>
       <h4>1000% 完成</h4>
     </div>
@@ -20,6 +20,7 @@
 
 <style lang="scss">
 @use "sass:meta";
+@use "../styles/mixin";
 
 .notfound {
   display: flex;
@@ -48,12 +49,11 @@
       line-height: 100rem;
     }
 
-    h3 {
-      font-size: 25rem;
+    h2,
+    a {
+      @include mixin.typescale-style("display-small");
 
-      a {
-        text-decoration: underline;
-      }
+      text-decoration: none;
     }
   }
 
