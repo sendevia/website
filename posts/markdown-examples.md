@@ -1,9 +1,11 @@
 ---
-date: 2025-09-22
 title: Markdown Extension Examples
 description: This page demonstrates some of the built-in markdown extensions provided by VitePress.
-impression: /assets/images/100628112_p0.webp
+impression: /assets/images/121337686_p0.webp
+color:
+date: 2025-09-22
 ---
+
 # Markdown Extension Examples
 
 This page demonstrates some of the built-in markdown extensions provided by VitePress.

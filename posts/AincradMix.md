@@ -44,24 +44,28 @@ tags:
 ![选歌界面3](/assets/images/22/screenshot07.webp)
 
 ---
+
 std 模式
 
 ![std 模式1](/assets/images/22/screenshot03.webp)
 ![std 模式2](/assets/images/22/screenshot04.webp)
 
 ---
+
 mania 模式
 
 ![mania 模式1](/assets/images/22/screenshot09.webp)
 ![mania 模式2](/assets/images/22/screenshot08.webp)
 
 ---
+
 taiko 模式
 
 ![taiko 模式1](/assets/images/22/screenshot10.webp)
 ![taiko 模式2](/assets/images/22/screenshot11.webp)
 
 ---
+
 catch 模式
 
 ![catch 模式1](/assets/images/22/screenshot12.webp)
@@ -71,7 +75,11 @@ catch 模式
 
 ![成绩结算](/assets/images/22/screenshot05.webp)
 
-# [最新版下载（1.1）](https://github.com/sendevia/AincradMix/releases/latest/download/AincradMix.osk)
+# 最新版下载
+
+::: center
+<MaterialButton text="v1.1 (2024-06-25)" size="l" href="https://github.com/sendevia/AincradMix/releases/latest/download/AincradMix.osk"/>
+:::
 
 # 推荐设置
 
