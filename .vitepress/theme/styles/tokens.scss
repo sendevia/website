@@ -89,6 +89,9 @@
   --md-ref-palette-yellow80: #d1cb54;
   --md-ref-palette-yellow90: #eee76c;
   --md-ref-palette-yellow95: #fcf579;
+  --md-sys-state-hover-state-layer: #00000014;
+  --md-sys-state-focus-state-layer: #0000001a;
+  --md-sys-state-pressed-state-layer: #0000001a;
 
   // Motion(https://m3.material.io/styles/motion/overview/specs)
   --md-sys-motion-duration-short1: 50ms;
@@ -158,7 +161,7 @@
   --md-sys-shape-corner-extra-large-top: 28px 28px 0px 0px;
   --md-sys-shape-corner-extra-large-increased: 32px;
   --md-sys-shape-corner-extra-extra-large: 40px;
-  --md-sys-shape-corner-full: 100%;
+  --md-sys-shape-corner-full: 100px;
 
   // MD Ripple(material-web)
   --md-ripple-hover-color: var(--md-sys-color-primary);
