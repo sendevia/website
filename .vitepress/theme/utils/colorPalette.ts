@@ -77,13 +77,16 @@ export async function generateColorPalette(baseColor: number) {
     { color: "#c27c88", name: "red", append: "a1", tones: [10, 20, 30, 40, 80, 90, 95] },
   ];
 
-  for (const palette of palettes) {
-    const paletteObject = createPaletteProvider(baseColor, palette.name, palette.append, palette.tones);
-    setPalette(paletteObject);
-  }
+  const palettePromises = [
+    ...palettes.map((palette) => {
+      const paletteObject = createPaletteProvider(baseColor, palette.name, palette.append, palette.tones);
+      setPalette(paletteObject);
+    }),
+    ...harmonizedPalettes.map((palette) => {
+      const paletteObject = createPaletteProvider(Blend.harmonize(argbFromHex(palette.color), baseColor), palette.name, palette.append, palette.tones);
+      setPalette(paletteObject);
+    }),
+  ];
 
-  for (const palette of harmonizedPalettes) {
-    const paletteObject = createPaletteProvider(Blend.harmonize(argbFromHex(palette.color), baseColor), palette.name, palette.append, palette.tones);
-    setPalette(paletteObject);
-  }
+  await Promise.all(palettePromises);
 }

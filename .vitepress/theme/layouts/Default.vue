@@ -19,61 +19,43 @@ const isTransitioning = ref(false);
 const currentRoutePath = ref(route.path);
 const pendingRoutePath = ref<string | null>(null);
 
-/**
- * 获取图片主色调（取图片左上角像素点的颜色）
- * @param url 图片地址
- * @returns Promise<number | null> 返回 ARGB 颜色值，获取失败返回 null
- */
-async function getImageMainColor(url: string): Promise<number | null> {
-  return new Promise((resolve) => {
-    if (!url) return resolve(null);
-    const img = new window.Image();
-    img.crossOrigin = "anonymous";
-    img.src = url;
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = 1;
-      canvas.height = 1;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return resolve(null);
-      ctx.drawImage(img, 0, 0, 1, 1);
-      const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
-      const argb = (255 << 24) | (r << 16) | (g << 8) | b;
-      resolve(argb >>> 0);
-    };
-    img.onerror = () => resolve(null);
-  });
-}
+let currentPaletteTask: Promise<void> | null = null;
+let isProcessingPalette = false;
 
-/**
- * 根据头图动态更新调色板
- */
 async function updatePalette() {
-  await nextTick();
-  const el = document.getElementById("header-impression-image");
-  const defaultColor = theme.value.defaultColor;
-
-  if (!el) {
-    await generateColorPalette(argbFromHex(defaultColor));
+  if (isProcessingPalette) {
     return;
   }
 
-  const colorAttr = el.getAttribute("impression-color");
-  if (colorAttr && /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(colorAttr)) {
-    const argb = argbFromHex(colorAttr);
-    await generateColorPalette(argb);
-    return;
-  }
+  isProcessingPalette = true;
 
-  const style = window.getComputedStyle(el);
-  const bg = style.backgroundImage;
-  const match = bg.match(/url\(["']?(.*?)["']?\)/);
-  const url = match?.[1] || null;
-  let argb: number | null = null;
-  if (url) {
-    argb = await getImageMainColor(url);
-  }
-  await generateColorPalette(argb ?? argbFromHex(defaultColor));
+  currentPaletteTask = (async () => {
+    try {
+      await nextTick();
+
+      const defaultColor = theme.value.defaultColor;
+      const defaultArgb = argbFromHex(defaultColor);
+
+      await generateColorPalette(defaultArgb);
+
+      const el = document.getElementById("header-impression-image");
+      if (el) {
+        const colorAttr = el.getAttribute("impression-color");
+        if (colorAttr && /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(colorAttr)) {
+          const argb = argbFromHex(colorAttr);
+          await generateColorPalette(argb);
+          return;
+        }
+      }
+    } finally {
+      isProcessingPalette = false;
+      currentPaletteTask = null;
+    }
+  })();
+
+  currentPaletteTask.catch((error) => {
+    console.warn("Palette update failed:", error);
+  });
 }
 
 const layoutMap = {
