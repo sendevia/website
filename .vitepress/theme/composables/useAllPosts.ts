@@ -3,6 +3,7 @@ import { ref, Ref } from "vue";
 type Data = {
   title: string;
   description?: string;
+  impression?: string;
   date?: string;
   timestamp?: number;
   url: string;
@@ -68,6 +69,7 @@ export function useAllPosts(asRef = false) {
       timestamp,
       url,
       content: typeof content === "string" ? content : undefined,
+      impression: frontmatter.impression,
     };
 
     return po;
