@@ -1,6 +1,9 @@
 import { defineConfig } from "vitepress";
 import packageJson from "../package.json";
 
+// https://mdit-plugins.github.io/zh/align.html
+import { align } from "@mdit/plugin-align";
+
 // https://github.com/valeriangalliat/markdown-it-anchor
 import anchor from "markdown-it-anchor";
 
@@ -38,6 +41,7 @@ export default defineConfig({
     cjkFriendly: true,
     codeCopyButtonTitle: "复制代码",
     config(md) {
+      md.use(align);
       md.use(footnote);
       md.use(wrapHeadingsAsSections);
       md.use(tasklist, { label: true });
