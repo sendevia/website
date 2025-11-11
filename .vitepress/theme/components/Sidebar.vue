@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useGlobalData } from "../composables/useGlobalData";
+import { useScreenWidth } from "../composables/useScreenWidth";
 
 const { page, theme } = useGlobalData();
+const { isAboveBreakpoint } = useScreenWidth(840);
+
 const navSegment = computed(() => {
   const items = theme.value.navSegment;
   if (Array.isArray(items) && items.length > 0) return items;
@@ -16,21 +19,25 @@ function isActive(link: string) {
 </script>
 
 <template>
-  <nav id="navigation" spec="rail">
-    <a href="/search.html" id="navigation-fab">
+  <nav :class="isAboveBreakpoint ? 'rail' : 'bar'">
+    <a href="/search.html" class="nav-fab">
       <span>search</span>
     </a>
-    <ul id="navigation-destinations">
-      <li v-for="item in navSegment" :key="item.link" :class="isActive(item.link) ? 'navigation-segment-active' : 'navigation-segment-inactive'">
+    <ul class="nav-destinations">
+      <li
+        v-for="item in navSegment"
+        :key="item.link"
+        :class="isActive(item.link) ? 'nav-segment-active' : 'nav-segment-inactive'"
+      >
         <a :href="item.link">
-          <div class="navigation-destination-accent">
-            <div class="navigation-segment-icon">
+          <div class="nav-destination-accent">
+            <div class="nav-segment-icon">
               <span>
                 {{ item.icon }}
               </span>
             </div>
           </div>
-          <div class="navigation-destination-label">
+          <div class="nav-destination-label">
             {{ item.text }}
           </div>
         </a>
@@ -43,7 +50,7 @@ function isActive(link: string) {
 @use "sass:meta";
 @use "../styles/mixin";
 
-#navigation {
+nav {
   display: flex;
   align-items: center;
   gap: 44px;
@@ -58,7 +65,7 @@ function isActive(link: string) {
     text-decoration: none;
   }
 
-  #navigation-fab {
+  .nav-fab {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -102,15 +109,16 @@ function isActive(link: string) {
     }
   }
 
-  #navigation-destinations {
+  .nav-destinations {
     display: flex;
     flex-grow: 1;
 
     padding: 0px;
 
-    transition: var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-standard) var(--md-sys-motion-duration-short4);
+    transition: var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-standard)
+      var(--md-sys-motion-duration-short4);
 
-    .navigation-segment-active {
+    .nav-segment-active {
       a {
         display: flex;
         align-items: center;
@@ -121,7 +129,7 @@ function isActive(link: string) {
         width: 100%;
       }
 
-      .navigation-destination-accent {
+      .nav-destination-accent {
         display: flex;
         align-items: center;
         flex: none;
@@ -140,7 +148,7 @@ function isActive(link: string) {
 
         overflow: hidden;
 
-        .navigation-segment-icon {
+        .nav-segment-icon {
           height: 24px;
           width: 24px;
 
@@ -159,7 +167,7 @@ function isActive(link: string) {
         }
       }
 
-      .navigation-destination-label {
+      .nav-destination-label {
         @include mixin.typescale-style("label-small");
 
         margin-bottom: 6px;
@@ -172,48 +180,48 @@ function isActive(link: string) {
       }
 
       &:hover {
-        .navigation-destination-accent {
-          .navigation-segment-icon span {
+        .nav-destination-accent {
+          .nav-segment-icon span {
             font-variation-settings: "FILL" 1, "wght" 500;
           }
         }
       }
     }
 
-    .navigation-segment-inactive {
-      @extend .navigation-segment-active;
+    .nav-segment-inactive {
+      @extend .nav-segment-active;
 
-      .navigation-destination-accent {
+      .nav-destination-accent {
         background-color: transparent;
 
         transition: var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-standard);
 
-        .navigation-segment-icon span {
+        .nav-segment-icon span {
           font-variation-settings: "FILL" 0, "wght" 300;
         }
       }
 
-      .navigation-destination-label {
+      .nav-destination-label {
         opacity: 0.8;
       }
 
       &:hover {
-        .navigation-destination-accent {
+        .nav-destination-accent {
           background-color: var(--md-sys-color-surface-container-high);
 
-          .navigation-segment-icon span {
+          .nav-segment-icon span {
             font-variation-settings: "FILL" 0, "wght" 600;
           }
         }
 
-        .navigation-destination-label {
+        .nav-destination-label {
           opacity: 1;
         }
       }
 
       &:active {
-        .navigation-destination-accent {
-          .navigation-segment-icon span {
+        .nav-destination-accent {
+          .nav-segment-icon span {
             font-variation-settings: "FILL" 0, "wght" 200;
           }
         }
@@ -221,9 +229,10 @@ function isActive(link: string) {
     }
   }
 
-  &[spec="bar"] {
+  &.bar {
     flex-direction: row;
 
+    position: absolute;
     bottom: 0px;
 
     height: 80px;
@@ -232,12 +241,11 @@ function isActive(link: string) {
     overflow-y: hidden;
     z-index: 5;
 
-    #navigation-Hero,
-    #navigation-fab {
+    .nav-fab {
       display: none;
     }
 
-    #navigation-destinations {
+    .nav-destinations {
       align-items: center;
       flex-direction: row;
       justify-content: space-around;
@@ -246,30 +254,30 @@ function isActive(link: string) {
         display: none !important;
       }
 
-      .navigation-segment-active {
+      .nav-segment-active {
         margin: 0px 4px 0px 4px;
 
-        .navigation-destination-accent {
+        .nav-destination-accent {
           height: 32px;
           width: 64px;
 
           margin: 0px 0px 4px 0px;
         }
 
-        .navigation-destination-label {
+        .nav-destination-label {
           margin: 0px;
         }
       }
 
-      .navigation-segment-inactive:hover {
-        .navigation-destination-accent {
+      .nav-segment-inactive:hover {
+        .nav-destination-accent {
           width: 64px;
         }
       }
     }
   }
 
-  &[spec="rail"] {
+  &.rail {
     flex-direction: column;
 
     width: 100%;
@@ -279,7 +287,7 @@ function isActive(link: string) {
     overflow-y: auto;
     z-index: 3;
 
-    #navigation-destinations {
+    .nav-destinations {
       flex-direction: column;
       justify-content: flex-start;
 
