@@ -1,8 +1,41 @@
 <script setup lang="ts">
-import Header from "../components/Header.vue";
-import PageIndicator from "../components/PageIndicator.vue";
-import PrevNext from "../components/PrevNext.vue";
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
+
+const showImageViewer = ref(false);
+const currentImageIndex = ref(0);
+const articleImages = ref<string[]>([]);
+const imageOriginPosition = ref({ x: 0, y: 0, width: 0, height: 0 });
+
+function openImageViewer(index: number, event: MouseEvent) {
+  const contentElement = document.querySelector("#article-content");
+  if (contentElement) {
+    const images = Array.from(contentElement.querySelectorAll("img"))
+      .map((img) => img.src)
+      .filter((src) => src && !src.includes("data:"));
+
+    articleImages.value = images;
+    currentImageIndex.value = index;
+
+    const target = event.target as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    imageOriginPosition.value = {
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2,
+      width: rect.width,
+      height: rect.height,
+    };
+
+    showImageViewer.value = true;
+  }
+}
+
+function closeImageViewer() {
+  showImageViewer.value = false;
+}
+
+function updateCurrentImageIndex(index: number) {
+  currentImageIndex.value = index;
+}
 
 function copyAnchorLink(this: HTMLElement) {
   const anchor = this as HTMLAnchorElement;
@@ -60,14 +93,26 @@ if (typeof window !== "undefined") {
       anchor.addEventListener("click", copyAnchorLink);
     });
 
+    function setupImageClickListeners() {
+      const contentElement = document.querySelector("#article-content");
+      if (contentElement) {
+        const images = contentElement.querySelectorAll("img");
+        images.forEach((img, index) => {
+          (img as HTMLImageElement).onclick = (event: MouseEvent) => openImageViewer(index, event);
+        });
+      }
+    }
+
     ulCustomBullets();
     olCountAttributes();
+    setupImageClickListeners();
 
     window.addEventListener("resize", ulCustomBullets);
 
     const observer = new MutationObserver(() => {
       ulCustomBullets();
       olCountAttributes();
+      setupImageClickListeners();
     });
 
     const contentElement = document.querySelector("#article-content");
@@ -91,6 +136,14 @@ if (typeof window !== "undefined") {
   <section id="article-indicator">
     <PageIndicator />
   </section>
+  <ImageViewer
+    v-if="showImageViewer"
+    :images="articleImages"
+    :current-index="currentImageIndex"
+    :origin-position="imageOriginPosition"
+    @close="closeImageViewer"
+    @update:current-index="updateCurrentImageIndex"
+  />
 </template>
 
 <style lang="scss">
@@ -305,7 +358,8 @@ section {
           border-radius: var(--md-sys-shape-corner-large-increased);
 
           cursor: pointer;
-          transition: var(--md-sys-motion-spring-slow-spatial-standard-duration) var(--md-sys-motion-spring-slow-spatial-standard);
+          transition: var(--md-sys-motion-spring-slow-spatial-standard-duration)
+            var(--md-sys-motion-spring-slow-spatial-standard);
           user-select: none;
           -moz-user-select: none;
 
@@ -685,6 +739,12 @@ section {
         margin-inline: 3px;
 
         border-radius: var(--md-sys-shape-corner-small);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+        &:hover {
+          transform: scale(1.02);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
       }
     }
 
