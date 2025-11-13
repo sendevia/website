@@ -200,11 +200,23 @@ function handleWheel(event: WheelEvent) {
   if (!isVisible.value) return;
 
   event.preventDefault();
-  const step = event.deltaY > 0 ? -ZOOM_STEP : ZOOM_STEP;
-  const newScale = Math.min(Math.max(imageScale.value + step, ZOOM_MIN), ZOOM_MAX);
 
-  imageScale.value = newScale;
+  // 按住 Shift 键时，滚轮用于切换图片
+  if (event.shiftKey) {
+    if (event.deltaY > 0) {
+      nextImage();
+    } else {
+      previousImage();
+    }
+  } else {
+    // 不按 Shift 键时，滚轮用于缩放
+    const step = event.deltaY > 0 ? -ZOOM_STEP : ZOOM_STEP;
+    const newScale = Math.min(Math.max(imageScale.value + step, ZOOM_MIN), ZOOM_MAX);
+
+    imageScale.value = newScale;
+  }
 }
+
 // 触摸缩放功能
 let initialDistance = 0;
 let initialScale = 1;
