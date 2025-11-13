@@ -382,7 +382,7 @@ defineExpose({
       aria-label="上一张图片"
       class="btn-nav prev"
       icon="chevron_left"
-      size="m"
+      size="l"
     />
     <MaterialButton
       v-if="hasNext"
@@ -390,7 +390,7 @@ defineExpose({
       aria-label="下一张图片"
       class="btn-nav next"
       icon="chevron_right"
-      size="m"
+      size="l"
     />
 
     <!-- 图片主体 -->
@@ -428,7 +428,7 @@ defineExpose({
     </div>
 
     <!-- 缩略图导航 -->
-    <p>{{ currentIndex + 1 }} / {{ images.length }}</p>
+    <p class="index-text">{{ currentIndex + 1 }} / {{ images.length }}</p>
     <div class="thumbnails" v-if="images.length > 1">
       <button
         v-for="(image, index) in images"
@@ -460,14 +460,26 @@ defineExpose({
   height: 100%;
   width: 100%;
 
-  background-color: #0000008a;
+  background-color: #ffffffb9;
+  backdrop-filter: blur(20px);
 
   opacity: 0;
   transition: var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect);
+  user-select: none;
+  -moz-user-select: none;
   z-index: 9999;
 
-  &.animating {
-    opacity: 1;
+  .index-text {
+    padding-block: 3px;
+    padding-inline: 9px;
+
+    color: var(--md-sys-color-surface-variant);
+
+    border-radius: var(--md-sys-shape-corner-medium);
+
+    background-color: var(--md-sys-color-on-surface-variant);
+
+    z-index: 3;
   }
 
   .btn-close,
@@ -512,14 +524,11 @@ defineExpose({
   }
 
   .content-image {
-    object-fit: contain;
-    opacity: 0;
-    transition: transform var(--md-sys-motion-spring-slow-spatial-duration) var(--md-sys-motion-spring-slow-spatial),
-      opacity var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect);
+    border-radius: var(--md-sys-shape-corner-full);
 
-    .animating & {
-      opacity: 1;
-    }
+    clip-path: circle(10%);
+    object-fit: contain;
+    transition: var(--md-sys-motion-spring-slow-spatial-duration) var(--md-sys-motion-spring-slow-spatial);
 
     &.transitioning {
       opacity: 0.6;
@@ -534,34 +543,39 @@ defineExpose({
     display: flex;
     gap: 8px;
 
-    max-width: calc(100% - 72px);
+    max-width: calc(100% - 66px);
 
-    margin-block-end: 5vh;
-    margin-block-start: 2.5vh;
-    padding: 10px;
+    padding: 24px;
 
     overflow-x: auto;
+    overflow-y: hidden;
     z-index: 3;
   }
 
   .thumbnail {
     flex-shrink: 0;
 
-    width: 72px;
-    height: 72px;
+    width: 66px;
+    height: 66px;
 
     padding: 0px;
 
     border: 0px;
-    border-radius: var(--md-sys-shape-corner-medium);
+    border-radius: var(--md-sys-shape-corner-large);
 
     cursor: pointer;
     overflow: hidden;
+    transition: transform var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
 
     &.active {
       @include mixin.focus-ring($thickness: 1, $offset: 2);
 
       outline-color: var(--md-sys-color-on-surface-variant) !important;
+      transition: transform var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+    }
+
+    &:hover {
+      transform: scale(0.9);
     }
 
     &:focus-visible {
@@ -574,6 +588,21 @@ defineExpose({
 
       object-fit: cover;
     }
+  }
+
+  // 入场结束
+  &.animating {
+    opacity: 1;
+
+    .content-image {
+      border-radius: var(--md-sys-shape-corner-large);
+
+      clip-path: circle(100%);
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #000000b9;
   }
 }
 
