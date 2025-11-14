@@ -18,18 +18,17 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <a v-if="href" :href="href" :target="target" class="md-button" :class="[props.shape, props.size, props.color, props.icon ? 'icon' : '']">
+  <component
+    :is="href ? 'a' : 'button'"
+    :href="href"
+    class="md-button"
+    :class="[props.shape, props.size, props.color, props.icon ? 'icon' : '']"
+  >
     <span v-if="props.icon">
       {{ props.icon }}
     </span>
     {{ props.text }}
-  </a>
-  <button v-else class="md-button" :class="[props.shape, props.size, props.color, props.icon ? 'icon' : '']">
-    <span v-if="props.icon">
-      {{ props.icon }}
-    </span>
-    {{ props.text }}
-  </button>
+  </component>
 </template>
 
 <style lang="scss" scoped>
