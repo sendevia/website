@@ -18,7 +18,7 @@ const emit = defineEmits<{
 
 // 缩放配置常量
 const ZOOM_MIN = 0.9; // 最小缩放
-const ZOOM_MAX = 1.6; // 最大缩放
+const ZOOM_MAX = 2.0; // 最大缩放
 const ZOOM_STEP = 0.15; // 缩放步长
 const TOUCH_MOVE_THRESHOLD = 10; // 触摸移动阈值 (px)
 
@@ -256,8 +256,8 @@ function handleMouseMove(event: MouseEvent) {
     event.preventDefault();
 
     // 计算光标移动的偏移量
-    const deltaX = event.clientX - dragStartPosition.value.x;
-    const deltaY = event.clientY - dragStartPosition.value.y;
+    const deltaX = (event.clientX - dragStartPosition.value.x) / imageScale.value;
+    const deltaY = (event.clientY - dragStartPosition.value.y) / imageScale.value;
 
     // 直接设置图片位置，使点击点跟随光标
     imagePosition.value = {
