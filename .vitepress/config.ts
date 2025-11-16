@@ -1,18 +1,13 @@
 import { defineConfig } from "vitepress";
 import packageJson from "../package.json";
-
 // https://mdit-plugins.github.io/zh/align.html
 import { align } from "@mdit/plugin-align";
-
 // https://github.com/valeriangalliat/markdown-it-anchor
 import anchor from "markdown-it-anchor";
-
 // https://mdit-plugins.github.io/footnote.html
 import { footnote } from "@mdit/plugin-footnote";
-
 // https://mdit-plugins.github.io/tasklist.html
 import { tasklist } from "@mdit/plugin-tasklist";
-
 import { wrapHeadingsAsSections } from "./theme/utils/sectionWrapper";
 
 export default defineConfig({
@@ -61,15 +56,36 @@ export default defineConfig({
   },
   head: [
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
-    ["link", { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" }],
-    ["link", { href: "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200..800&display=swap", rel: "stylesheet" }],
-    ["link", { href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap", rel: "stylesheet" }],
-    ["link", { href: "https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap", rel: "stylesheet" }],
+    ["link", { rel: "preconnect", href: "https://fonts.gstatic.com" }],
     [
       "link",
-      { href: "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200", rel: "stylesheet" },
+      { href: "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200..800&display=swap", rel: "stylesheet" },
     ],
-    ["link", { href: "https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap", rel: "stylesheet" }],
+    [
+      "link",
+      { href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap", rel: "stylesheet" },
+    ],
+    [
+      "link",
+      {
+        href: "https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap",
+        rel: "stylesheet",
+      },
+    ],
+    [
+      "link",
+      {
+        href: "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200",
+        rel: "stylesheet",
+      },
+    ],
+    [
+      "link",
+      {
+        href: "https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap",
+        rel: "stylesheet",
+      },
+    ],
   ],
   themeConfig: {
     defaultColor: "#39c5bb",
