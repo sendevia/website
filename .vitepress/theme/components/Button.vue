@@ -52,7 +52,8 @@ const props = withDefaults(defineProps<Props>(), {
 
   cursor: pointer;
   overflow: hidden;
-  transition: border-radius var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+  transition: border-radius var(--md-sys-motion-spring-fast-spatial-standard-duration)
+    var(--md-sys-motion-spring-fast-spatial-standard);
 
   &::after {
     content: "";
@@ -82,6 +83,8 @@ const props = withDefaults(defineProps<Props>(), {
   }
 
   &:active {
+    transition: border-radius var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+
     &::after {
       background-color: var(--md-sys-state-pressed-state-layer);
     }

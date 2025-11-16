@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 
 const showImageViewer = ref(false);
 const currentImageIndex = ref(0);
@@ -123,6 +123,11 @@ if (typeof window !== "undefined") {
         characterData: true,
       });
     }
+
+    onBeforeUnmount(() => {
+      observer.disconnect();
+      window.removeEventListener("resize", ulCustomBullets);
+    });
   });
 }
 </script>

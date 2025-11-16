@@ -255,13 +255,25 @@ if (typeof window !== "undefined") {
 
     <div
       class="indicator"
-      :style="{ top: indicator.top, left: indicator.left, width: indicator.width, height: indicator.height, opacity: indicator.opacity }"
+      :style="{
+        top: indicator.top,
+        left: indicator.left,
+        width: indicator.width,
+        height: indicator.height,
+        opacity: indicator.opacity,
+      }"
       aria-hidden="true"
     ></div>
 
     <div class="indicator-container">
       <span v-for="h in grouped" :key="h.id" :data-id="h.id" :class="[{ active: h.id === headingsActiveId }]">
-        <a :href="`#${h.id}`" @click.prevent="navigateTo(h.id)" role="link" :aria-current="h.id === headingsActiveId ? 'true' : undefined">{{ h.text }}</a>
+        <a
+          :href="`#${h.id}`"
+          @click.prevent="navigateTo(h.id)"
+          role="link"
+          :aria-current="h.id === headingsActiveId ? 'true' : undefined"
+          >{{ h.text }}</a
+        >
       </span>
     </div>
   </div>
