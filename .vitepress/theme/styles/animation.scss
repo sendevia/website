@@ -1,6 +1,7 @@
 .layout-content-enter-active {
   transition: opacity var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect),
-    transform var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial) var(--md-sys-motion-duration-short1);
+    transform var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial)
+      var(--md-sys-motion-duration-short1);
 }
 
 .layout-content-leave-active {

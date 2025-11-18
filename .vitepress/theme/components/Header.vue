@@ -34,7 +34,9 @@ if (typeof window !== "undefined") {
         <div id="header-impression-noise"></div>
         <div
           id="header-impression-image"
-          :style="{ backgroundImage: frontmatter.impression ? `url('${frontmatter.impression}')` : `url('${defaultImpression}')` }"
+          :style="{
+            backgroundImage: frontmatter.impression ? `url('${frontmatter.impression}')` : `url('${defaultImpression}')`,
+          }"
           :impression-color="frontmatter.color"
           loading="lazy"
         ></div>
@@ -83,7 +85,12 @@ header {
     z-index: 1;
 
     #header-hero-headline {
-      @include mixin.typescale-style("display-large", $font-size: 90rem, $line-height: 90rem, $font-variation-settings: "wght" 700);
+      @include mixin.typescale-style(
+        "display-large",
+        $font-size: 90rem,
+        $line-height: 90rem,
+        $font-variation-settings: "wght" 700
+      );
 
       width: 100%;
 
@@ -175,11 +182,21 @@ header {
       padding: 5vw;
 
       #header-hero-headline {
-        @include mixin.typescale-style("display-large", $font-size: 7vw, $line-height: 7vw, $font-variation-settings: "wght" 500);
+        @include mixin.typescale-style(
+          "display-large",
+          $font-size: 7vw,
+          $line-height: 7vw,
+          $font-variation-settings: "wght" 500
+        );
       }
 
       #header-hero-subtitle {
-        @include mixin.typescale-style("display-small", $font-size: 18rem, $line-height: 20rem, $font-variation-settings: "wght" 500);
+        @include mixin.typescale-style(
+          "display-small",
+          $font-size: 18rem,
+          $line-height: 20rem,
+          $font-variation-settings: "wght" 500
+        );
       }
     }
   }
@@ -193,7 +210,12 @@ header {
       width: 100%;
 
       #header-hero-headline {
-        @include mixin.typescale-style("display-large", $font-size: 8vw, $line-height: 8vw, $font-variation-settings: "wght" 600);
+        @include mixin.typescale-style(
+          "display-large",
+          $font-size: 8vw,
+          $line-height: 8vw,
+          $font-variation-settings: "wght" 600
+        );
       }
 
       #header-hero-subtitle {
@@ -211,13 +233,23 @@ header {
       padding: 30px;
 
       #header-hero-headline {
-        @include mixin.typescale-style("display-large", $font-size: 40rem, $line-height: 40rem, $font-variation-settings: "wght" 700);
+        @include mixin.typescale-style(
+          "display-large",
+          $font-size: 40rem,
+          $line-height: 40rem,
+          $font-variation-settings: "wght" 700
+        );
 
         word-break: break-word;
       }
 
       #header-hero-subtitle {
-        @include mixin.typescale-style("display-small", $font-size: 15rem, $line-height: 17rem, $font-variation-settings: "wght" 400);
+        @include mixin.typescale-style(
+          "display-small",
+          $font-size: 15rem,
+          $line-height: 17rem,
+          $font-variation-settings: "wght" 400
+        );
       }
     }
   }

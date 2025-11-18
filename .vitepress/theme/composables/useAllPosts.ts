@@ -60,11 +60,16 @@ export function useAllPosts(asRef = false) {
     const name = filename.replace(/\.mdx?$/, "").replace(/\.md$/, "");
     const url = `/posts/${encodeURIComponent(name)}.html`;
 
-    const content = mod.excerpt || mod.excerpt?.text || mod.attributes?.excerpt || (typeof mod.default === "string" ? mod.default : undefined);
+    const content =
+      mod.excerpt ||
+      mod.excerpt?.text ||
+      mod.attributes?.excerpt ||
+      (typeof mod.default === "string" ? mod.default : undefined);
 
     const po: Data = {
       title: frontmatter.title || name,
-      description: frontmatter.description || frontmatter.excerpt || (typeof content === "string" ? content.slice(0, 160) : "") || "",
+      description:
+        frontmatter.description || frontmatter.excerpt || (typeof content === "string" ? content.slice(0, 160) : "") || "",
       date: dateStr,
       timestamp,
       url,
