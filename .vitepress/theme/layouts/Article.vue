@@ -743,12 +743,13 @@ section {
 
         margin-inline: 3px;
 
-        border-radius: var(--md-sys-shape-corner-small);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border-radius: var(--md-sys-shape-corner-medium);
+
+        cursor: pointer;
+        transition: border-radius var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
 
         &:hover {
-          transform: scale(1.02);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          border-radius: var(--md-sys-shape-corner-extra-large);
         }
       }
     }

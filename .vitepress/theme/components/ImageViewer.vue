@@ -367,7 +367,6 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener("keydown", handleKeydown);
   window.removeEventListener("resize", updateWindowSize);
-  document.body.style.overflow = "";
 });
 
 defineExpose({
