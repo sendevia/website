@@ -20,29 +20,25 @@ function isActive(link: string) {
 
 <template>
   <nav :class="isAboveBreakpoint ? 'rail' : 'bar'">
-    <a href="/search.html" class="nav-fab">
+    <a href="/search" class="fab">
       <span>search</span>
     </a>
-    <ul class="nav-destinations">
-      <li
-        v-for="item in navSegment"
-        :key="item.link"
-        :class="isActive(item.link) ? 'nav-segment-active' : 'nav-segment-inactive'"
-      >
+    <div class="destinations">
+      <div class="segment" v-for="item in navSegment" :key="item.link" :class="isActive(item.link) ? 'active' : 'inactive'">
         <a :href="item.link">
-          <div class="nav-destination-accent">
-            <div class="nav-segment-icon">
+          <div class="destination-accent">
+            <div class="segment-icon">
               <span>
                 {{ item.icon }}
               </span>
             </div>
           </div>
-          <div class="nav-destination-label">
+          <div class="destination-label">
             {{ item.text }}
           </div>
         </a>
-      </li>
-    </ul>
+      </div>
+    </div>
   </nav>
 </template>
 
@@ -53,25 +49,32 @@ function isActive(link: string) {
 nav {
   display: flex;
   align-items: center;
-  gap: 44px;
+  gap: 24px;
   justify-content: space-between;
 
   background-color: var(--md-sys-color-surface-container-low);
 
-  transition: filter var(--md-sys-motion-duration-extra-long1) var(--md-sys-motion-easing-standard);
+  transition: background-color var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
+  user-select: none;
+  -moz-user-select: none;
 
   a {
     cursor: pointer;
     text-decoration: none;
+
+    &:focus-visible {
+      .destination-accent {
+        @include mixin.focus-ring($thickness: 3, $offset: 2);
+      }
+    }
   }
 
-  .nav-fab {
+  .fab {
     display: flex;
     align-items: center;
     justify-content: center;
 
-    margin-block-start: 44px;
-    margin-inline: 20px;
+    margin: 20px;
 
     height: 56px;
     width: 56px;
@@ -82,7 +85,7 @@ nav {
 
     background-color: var(--md-sys-color-secondary-container);
 
-    transition: var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-standard);
+    transition: background-color var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
 
     span {
       @include mixin.material-symbols();
@@ -93,32 +96,30 @@ nav {
       text-align: center;
       font-variation-settings: "FILL" 1, "wght" 300;
 
-      transition: var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-standard);
+      transition: font-variation-settings var(--md-sys-motion-spring-fast-spatial-duration)
+        var(--md-sys-motion-spring-fast-spatial);
     }
 
     &:hover span {
-      transition: var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-standard);
-
       font-variation-settings: "FILL" 1, "wght" 600;
     }
 
-    &:active span {
-      transition: var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-standard);
+    &:focus-visible {
+      @include mixin.focus-ring($thickness: 2);
+    }
 
+    &:active span {
       font-variation-settings: "FILL" 1, "wght" 200;
     }
   }
 
-  .nav-destinations {
+  .destinations {
     display: flex;
     flex-grow: 1;
 
     padding: 0px;
 
-    transition: var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-standard)
-      var(--md-sys-motion-duration-short4);
-
-    .nav-segment-active {
+    .segment {
       a {
         display: flex;
         align-items: center;
@@ -129,7 +130,7 @@ nav {
         width: 100%;
       }
 
-      .nav-destination-accent {
+      .destination-accent {
         display: flex;
         align-items: center;
         flex: none;
@@ -142,32 +143,31 @@ nav {
         width: 56px;
         height: 32px;
 
-        border-radius: var(--md-sys-shape-corner-extra-large);
-
-        background-color: var(--md-sys-color-secondary-container);
+        border-radius: var(--md-sys-shape-corner-full);
 
         overflow: hidden;
+        transition: background-color var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
 
-        .nav-segment-icon {
+        .segment-icon {
           height: 24px;
           width: 24px;
 
           color: var(--md-sys-color-on-secondary-container);
 
           pointer-events: none;
-          transition: var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-standard);
 
           span {
             @include mixin.material-symbols();
 
             font-variation-settings: "FILL" 1, "wght" 300;
 
-            transition: var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-standard);
+            transition: font-variation-settings var(--md-sys-motion-spring-fast-spatial-duration)
+              var(--md-sys-motion-spring-fast-spatial);
           }
         }
       }
 
-      .nav-destination-label {
+      .destination-label {
         @include mixin.typescale-style("label-small");
 
         margin-bottom: 6px;
@@ -175,54 +175,45 @@ nav {
         color: var(--md-sys-color-on-surface);
         text-align: center;
         text-decoration: none;
+        text-wrap-mode: nowrap;
 
         opacity: 1;
       }
 
       &:hover {
-        .nav-destination-accent {
-          .nav-segment-icon span {
-            font-variation-settings: "FILL" 1, "wght" 500;
+        .destination-accent {
+          .segment-icon span {
+            font-variation-settings: "FILL" 1, "wght" 400;
           }
-        }
-      }
-    }
-
-    .nav-segment-inactive {
-      @extend .nav-segment-active;
-
-      .nav-destination-accent {
-        background-color: transparent;
-
-        transition: var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-standard);
-
-        .nav-segment-icon span {
-          font-variation-settings: "FILL" 0, "wght" 300;
-        }
-      }
-
-      .nav-destination-label {
-        opacity: 0.8;
-      }
-
-      &:hover {
-        .nav-destination-accent {
-          background-color: var(--md-sys-color-surface-container-high);
-
-          .nav-segment-icon span {
-            font-variation-settings: "FILL" 0, "wght" 600;
-          }
-        }
-
-        .nav-destination-label {
-          opacity: 1;
         }
       }
 
       &:active {
-        .nav-destination-accent {
-          .nav-segment-icon span {
+        .destination-accent {
+          .segment-icon span {
+            font-variation-settings: "FILL" 1, "wght" 200;
+          }
+        }
+      }
+
+      &.active {
+        .destination-accent {
+          background-color: var(--md-sys-color-secondary-container);
+        }
+      }
+
+      &.inactive {
+        .destination-accent {
+          background-color: transparent;
+
+          span {
             font-variation-settings: "FILL" 0, "wght" 200;
+          }
+        }
+
+        &:hover {
+          .destination-accent {
+            background-color: var(--md-sys-color-surface-container-high);
           }
         }
       }
@@ -241,36 +232,32 @@ nav {
     overflow-y: hidden;
     z-index: 5;
 
-    .nav-fab {
+    .fab {
       display: none;
     }
 
-    .nav-destinations {
+    .destinations {
       align-items: center;
       flex-direction: row;
       justify-content: space-around;
 
-      div[spec="menu"] {
-        display: none !important;
-      }
-
-      .nav-segment-active {
+      .segment-active {
         margin: 0px 4px 0px 4px;
 
-        .nav-destination-accent {
+        .destination-accent {
           height: 32px;
           width: 64px;
 
           margin: 0px 0px 4px 0px;
         }
 
-        .nav-destination-label {
+        .destination-label {
           margin: 0px;
         }
       }
 
-      .nav-segment-inactive:hover {
-        .nav-destination-accent {
+      .segment-inactive:hover {
+        .destination-accent {
           width: 64px;
         }
       }
@@ -287,7 +274,7 @@ nav {
     overflow-y: auto;
     z-index: 3;
 
-    .nav-destinations {
+    .destinations {
       flex-direction: column;
       justify-content: flex-start;
 

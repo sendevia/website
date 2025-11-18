@@ -25,6 +25,10 @@
   hyphens: auto;
 }
 
+:focus-visible {
+  outline: none;
+}
+
 html,
 body {
   height: 100%;

@@ -21,9 +21,9 @@ export default {
     app.component("ImageViewer", ImageViewer);
     app.component("MainLayout", Layout);
     app.component("MaterialButton", Button);
+    app.component("Navbar", Navbar);
     app.component("PageIndicator", PageIndicator);
     app.component("PrevNext", PrevNext);
     app.component("ScrollToTop", ScrollToTop);
-    app.component("Sidebar", Sidebar);
   },
 } satisfies Theme;
