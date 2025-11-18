@@ -80,7 +80,7 @@ function olCountAttributes() {
     ol.removeAttribute("data-count-range");
 
     const digitCount = Math.max(1, Math.floor(Math.log10(effectiveCount)) + 1);
-    const paddingValue = 20 + (digitCount - 1) * 10;
+    const paddingValue = 24 + (digitCount - 1) * 10;
 
     (ol as HTMLElement).style.setProperty("padding-inline-start", `${paddingValue}px`);
   });
@@ -589,7 +589,7 @@ section {
         display: block;
 
         position: absolute;
-        left: calc(24px / 2 / 2.5);
+        left: calc(24px / 2 - 3px);
 
         height: 100%;
         width: 6px;
@@ -822,7 +822,7 @@ section {
     }
 
     ul {
-      padding-inline-start: 20px;
+      padding-inline-start: 24px;
 
       list-style-type: none;
 
