@@ -9,7 +9,7 @@ import ImageViewer from "./components/ImageViewer.vue";
 import PageIndicator from "./components/PageIndicator.vue";
 import PrevNext from "./components/PrevNext.vue";
 import ScrollToTop from "./components/ScrollToTop.vue";
-import Sidebar from "./components/Sidebar.vue";
+import Navbar from "./components/Navbar.vue";
 
 import "./styles/main.scss";
 

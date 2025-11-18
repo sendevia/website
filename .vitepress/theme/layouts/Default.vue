@@ -99,7 +99,7 @@ if (typeof window !== "undefined") {
 
 <template>
   <div id="layout">
-    <Sidebar />
+    <Navbar />
     <Transition name="layout-content" mode="out-in" @before-leave="onBeforeLeave" @after-enter="onAfterEnter">
       <div id="layout-content-flow" :key="route.path">
         <div id="layout-home-title" v-if="frontmatter.home">
