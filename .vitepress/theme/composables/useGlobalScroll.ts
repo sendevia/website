@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from "vue";
 let container: HTMLElement | Window | null = null;
 let isInitialized = false;
 let isScrolled = ref(false);
+let precision = 1;
 let scrollPosition = ref(0);
 let targetElementSelector: string = "#layout-content-flow";
 let threshold = 80;
@@ -26,11 +27,10 @@ function handleGlobalScroll() {
     const scrollTop = container === window ? window.scrollY || window.pageYOffset : (container as HTMLElement).scrollTop;
 
     scrollPosition.value = scrollTop;
-
     isScrolled.value = scrollTop > threshold;
 
-    componentCallbacks.forEach(({ threshold, callback }) => {
-      callback(scrollTop > threshold);
+    componentCallbacks.forEach(({ threshold: componentThreshold, callback }) => {
+      callback(scrollTop > componentThreshold);
     });
   } catch (e) {
     scrollPosition.value = 0;
@@ -41,10 +41,10 @@ function handleGlobalScroll() {
   }
 }
 
-function initGlobalScrollListener(threshold: number, scrollContainer: string = "#layout-content-flow") {
+function initGlobalScrollListener(initialThreshold: number, scrollContainer: string = "#layout-content-flow") {
   if (isInitialized) return;
 
-  threshold = threshold;
+  threshold = initialThreshold;
   targetElementSelector = scrollContainer;
 
   if (typeof window !== "undefined") {
@@ -86,8 +86,42 @@ function initGlobalScrollListener(threshold: number, scrollContainer: string = "
   }
 }
 
-export function useGlobalScroll(options?: { threshold?: number; container?: string }) {
+function calculatePercentage(precisionValue: number = precision): number {
+  try {
+    const el = document.querySelector(targetElementSelector);
+    const scrollContainer = el && el instanceof HTMLElement && isScrollable(el as HTMLElement) ? el : window;
+
+    const scrollTop =
+      scrollContainer === window ? window.scrollY || window.pageYOffset : (scrollContainer as HTMLElement).scrollTop;
+
+    let scrollHeight: number, clientHeight: number;
+
+    if (scrollContainer === window) {
+      scrollHeight = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight,
+        document.body.clientHeight,
+        document.documentElement.clientHeight
+      );
+      clientHeight = window.innerHeight;
+    } else {
+      scrollHeight = (scrollContainer as HTMLElement).scrollHeight;
+      clientHeight = (scrollContainer as HTMLElement).clientHeight;
+    }
+
+    const maxScroll = Math.max(scrollHeight - clientHeight, 0);
+    if (maxScroll <= 0) return 0;
+
+    const percentage = Math.min(scrollTop / maxScroll, 1) * 100;
+    return Number(percentage.toFixed(precisionValue));
+  } catch (e) {
+    return 0;
+  }
+}
+
+export function useGlobalScroll(options?: { threshold?: number; container?: string; precision?: number }) {
   const localThreshold = options?.threshold ?? threshold;
+  const localPrecision = options?.precision ?? precision;
   const localIsScrolled = ref(false);
   const componentId = Symbol();
   const updateComponentState = (isScrolled: boolean) => {
@@ -121,28 +155,20 @@ export function useGlobalScroll(options?: { threshold?: number; container?: stri
         return 0;
       }
     }),
+    scrollPercentage: computed(() => {
+      scrollPosition.value;
+      return calculatePercentage(localPrecision);
+    }),
   };
 }
 
 export const globalScrollState = {
   isScrolled: isScrolled,
   threshold: computed(() => threshold),
-  setThreshold: (newThreshold: number) => {
-    threshold = newThreshold;
-  },
   scrollPosition: computed(() => scrollPosition.value),
   scrollPercentage: computed(() => {
-    if (!container) return 0;
-    try {
-      const scrollTop = scrollPosition.value;
-      const scrollHeight =
-        container === window ? document.documentElement.scrollHeight : (container as HTMLElement).scrollHeight;
-      const clientHeight = container === window ? window.innerHeight : (container as HTMLElement).clientHeight;
-      const maxScroll = Math.max(scrollHeight - clientHeight, 0);
-
-      return maxScroll > 0 ? Math.min(scrollTop / maxScroll, 1) : 0;
-    } catch (e) {
-      return 0;
-    }
+    scrollPosition.value;
+    return calculatePercentage(precision);
   }),
+  precision: computed(() => precision),
 };
