@@ -537,6 +537,8 @@ defineExpose({
   .content-image {
     border-radius: var(--md-sys-shape-corner-full);
 
+    background-color: var(--md-sys-color-surface-variant);
+
     clip-path: circle(10%);
     object-fit: contain;
     transition: var(--md-sys-motion-spring-slow-spatial-duration) var(--md-sys-motion-spring-slow-spatial);
