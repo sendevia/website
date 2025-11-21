@@ -1,57 +1,16 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { useGlobalScroll } from "../composables/useGlobalScroll";
 
-const visible = ref(false);
-let container: HTMLElement | Window | null = null;
-
-function isScrollable(el: HTMLElement) {
-  const style = window.getComputedStyle(el);
-  const overflowY = style.overflowY;
-  return overflowY === "auto" || overflowY === "scroll" || el.scrollHeight > el.clientHeight;
-}
-
-function detectContainer() {
-  const el = document.getElementById("layout-content-flow");
-  if (el && isScrollable(el)) return el;
-  return window;
-}
-
-function onScroll() {
-  try {
-    const y = container === window ? window.scrollY || window.pageYOffset : (container as HTMLElement).scrollTop;
-    visible.value = y > 240;
-  } catch (e) {
-    visible.value = false;
-  }
-}
+const { isScrolled } = useGlobalScroll({ threshold: 500 });
 
 function scrollToTop() {
-  if (container === window) {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  } else {
-    (container as HTMLElement).scrollTo({ top: 0, behavior: "smooth" });
-  }
-}
-
-if (typeof window !== "undefined") {
-  onMounted(() => {
-    container = detectContainer();
-    const target: any = container;
-    target.addEventListener("scroll", onScroll, { passive: true });
-    if (container !== window) window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-  });
-
-  onBeforeUnmount(() => {
-    const target: any = container;
-    target.removeEventListener("scroll", onScroll);
-    if (container !== window) window.removeEventListener("scroll", onScroll);
-  });
+  const container = document.getElementById("layout-content-flow");
+  (container as HTMLElement).scrollTo({ top: 0, behavior: "smooth" });
 }
 </script>
 
 <template>
-  <div id="layout-scrolltop" :class="{ visible: visible }">
+  <div id="layout-scrolltop" :class="{ visible: isScrolled }">
     <span id="scrolltop-button" role="button" aria-label="Scroll to top" @click="scrollToTop"> arrow_upward </span>
   </div>
 </template>
