@@ -57,6 +57,7 @@ nav {
   transition: background-color var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
   user-select: none;
   -moz-user-select: none;
+  z-index: 999;
 
   a {
     cursor: pointer;
@@ -230,7 +231,6 @@ nav {
     width: 100%;
 
     overflow-y: hidden;
-    z-index: 5;
 
     .fab {
       display: none;
@@ -272,7 +272,6 @@ nav {
 
     overflow-x: hidden;
     overflow-y: auto;
-    z-index: 3;
 
     .destinations {
       flex-direction: column;
