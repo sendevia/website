@@ -34,15 +34,23 @@ async function updatePalette() {
 
       await generateColorPalette(defaultArgb);
 
+      let logColor = defaultColor;
+
       const el = document.getElementById("header-impression-image");
       if (el) {
         const colorAttr = el.getAttribute("impression-color");
         if (colorAttr && /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(colorAttr)) {
           const argb = argbFromHex(colorAttr);
           await generateColorPalette(argb);
-          return;
+          logColor = colorAttr;
         }
       }
+
+      // 最后输出最终使用的颜色
+      console.log(
+        `%c ${logColor} `,
+        `padding: 3px 4px; border-radius: 6px; color: #fff; background: ${logColor}; font-weight: bold; text-shadow: 0px 1px black;`
+      );
     } finally {
       isProcessingPalette = false;
       currentPaletteTask = null;
@@ -91,7 +99,9 @@ function onBeforeLeave() {
 }
 
 if (typeof window !== "undefined") {
-  onMounted(updatePalette);
+  onMounted(() => {
+    updatePalette();
+  });
 }
 </script>
 
