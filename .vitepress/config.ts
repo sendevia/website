@@ -33,7 +33,7 @@ export default defineConfig({
     attrs: {
       allowedAttributes: ["id", "class"],
     },
-    cjkFriendly: true,
+    cjkFriendlyEmphasis: true,
     codeCopyButtonTitle: "复制代码",
     config(md) {
       md.use(align);
