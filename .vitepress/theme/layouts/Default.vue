@@ -108,12 +108,11 @@ if (typeof window !== "undefined") {
 <template>
   <div id="layout">
     <Navbar />
+    <AppBar />
     <Transition name="layout-content" mode="out-in" @before-leave="onBeforeLeave" @after-enter="onAfterEnter">
       <div id="layout-content-flow" :key="route.path">
         <div id="layout-home-title" v-if="frontmatter.home">
-          <img src="/assets/images/avatar.webp" alt="avatar" />
           <div>
-            <h1>{{ site.title }}</h1>
             <p>{{ site.description }}</p>
           </div>
         </div>

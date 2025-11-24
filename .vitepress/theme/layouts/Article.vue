@@ -467,7 +467,7 @@ section {
       a.title-anchor {
         @include mixin.typescale-style("body-large");
 
-        display: flex;
+        display: inline-flex;
         align-items: center;
         flex-direction: column;
         gap: 6px;
@@ -540,6 +540,8 @@ section {
       h4,
       h5,
       h6 {
+        display: inline-block;
+
         padding-block-end: 12px;
 
         line-height: 54px;

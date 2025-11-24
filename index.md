@@ -1,4 +1,4 @@
 ---
 home: true
-title: "首页"
+title: "sendevia 的小站"
 ---
