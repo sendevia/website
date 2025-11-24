@@ -1,7 +1,7 @@
 import type { Theme } from "vitepress";
-
 import Layout from "./layouts/Default.vue";
 
+import AppBar from "./components/Appbar.vue";
 import Button from "./components/Button.vue";
 import Footer from "./components/Footer.vue";
 import Header from "./components/Header.vue";
@@ -16,6 +16,7 @@ import "./styles/main.scss";
 export default {
   Layout,
   enhanceApp({ app }) {
+    app.component("AppBar", AppBar);
     app.component("Footer", Footer);
     app.component("Header", Header);
     app.component("ImageViewer", ImageViewer);
