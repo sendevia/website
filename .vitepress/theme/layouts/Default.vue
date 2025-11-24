@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AllPostsLayout from "./AllPosts.vue";
 import ArticleLayout from "./Article.vue";
 import NotFoundLayout from "./NotFound.vue";
 import SearchPostsLayout from "./SearchPosts.vue";
@@ -57,7 +56,6 @@ async function updatePalette() {
 
 const layoutMap = {
   article: ArticleLayout,
-  posts: AllPostsLayout,
   search: SearchPostsLayout,
 } as const;
 

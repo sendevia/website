@@ -93,9 +93,6 @@ export default defineConfig({
     siteVersion: packageJson.version || "0.0.0",
     navSegment: [
       { text: "首页", icon: "home", link: "/" },
-      { text: "所有文章", icon: "list", link: "/posts" },
-      { text: "Markdown 示例", icon: "counter_1", link: "/posts/markdown-examples" },
-      { text: "API 示例", icon: "counter_2", link: "/posts/api-examples" },
       { text: "AincradMix", icon: "borg", link: "/posts/AincradMix" },
     ],
   } as any,
