@@ -11,11 +11,11 @@ const { isScrolled } = useGlobalScroll({ threshold: 100 });
 
 const isHome = computed(() => frontmatter.value.home === true);
 
-const appbar = document.querySelector(".appbar") as HTMLInputElement;
 const isSearching = ref(false);
 const postsRef = useAllPosts(true);
 const query = ref("");
 const isTyping = ref(false);
+const appbar = ref<HTMLElement | null>(null);
 
 // 计算过滤后的文章列表
 const filteredPosts = computed<Post[]>(() => {
@@ -53,7 +53,7 @@ const handleResultClick = () => {
 const clearSearchState = () => {
   isSearching.value = false;
   query.value = "";
-  const searchInput = document.querySelector(".searchInput") as HTMLInputElement;
+  const searchInput = appbar.value?.querySelector(".searchInput") as HTMLInputElement;
   if (searchInput) {
     searchInput.blur();
   }
@@ -61,8 +61,8 @@ const clearSearchState = () => {
 
 // 处理按键事件
 const handleKeydown = (event: KeyboardEvent) => {
-  const container = document.querySelector(".appbar") as HTMLElement;
-  const items = container?.querySelectorAll(".searchInput, .item");
+  const container = appbar.value;
+  const items = container?.querySelectorAll(".searchInput, .item") || null;
 
   if (event.key === "Escape" && isSearching.value) {
     event.preventDefault();
@@ -81,7 +81,7 @@ const handleDocumentClick = (event: Event) => {
   const target = event.target as HTMLElement;
 
   // 如果点击的是appbar外部且不是搜索结果
-  if (appbar && !appbar.contains(target) && !target.closest(".searchResult")) {
+  if (appbar.value && !appbar.value.contains(target) && !target.closest(".searchResult")) {
     // 没有搜索结果时，可点击空白处退出搜索
     // 有搜索结果时，只有点击文章链接后才会退出搜索
     if (filteredPosts.value.length === 0) {
@@ -111,7 +111,11 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="appbar" :class="{ scroll: isScrolled, homeLayout: isHome, searching: isSearching, typing: isTyping }">
+  <div
+    ref="appbar"
+    class="appbar"
+    :class="{ scroll: isScrolled, homeLayout: isHome, searching: isSearching, typing: isTyping }"
+  >
     <div class="actionArea">
       <div class="leadingButton">
         <MaterialButton color="text" icon="menu" size="xs" />
