@@ -54,6 +54,8 @@ const props = withDefaults(defineProps<Props>(), {
   overflow: hidden;
   transition: border-radius var(--md-sys-motion-spring-fast-spatial-standard-duration)
     var(--md-sys-motion-spring-fast-spatial-standard);
+  user-select: none;
+  -moz-user-select: none;
 
   &::after {
     content: "";
