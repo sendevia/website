@@ -2,27 +2,48 @@
 import { computed } from "vue";
 import { useGlobalData } from "../composables/useGlobalData";
 import { useScreenWidth } from "../composables/useScreenWidth";
+import { useSearchState } from "../composables/useSearchState";
 
 const { page, theme } = useGlobalData();
 const { isAboveBreakpoint } = useScreenWidth(840);
+const { isSearchActive, activateSearch, deactivateSearch } = useSearchState();
 
+// 计算导航段落
 const navSegment = computed(() => {
   const items = theme.value.navSegment;
-  if (Array.isArray(items) && items.length > 0) return items;
+  return Array.isArray(items) && items.length > 0 ? items : [];
 });
 
-function isActive(link: string) {
-  const current = page.value.relativePath.replace(/(\/index)?\.md$/, "");
-  const target = link.replace(/\/$/, "").replace(/\.html$/, "");
-  return current === target.replace(/^\//, "") || (target === "" && current === "index");
+// 规范化路径
+function normalizePath(path: string): string {
+  return path.replace(/(\/index)?\.(md|html)$/, "").replace(/\/$/, "");
+}
+
+// 检查链接是否为当前活动链接
+function isActive(link: string): boolean {
+  const currentPath = normalizePath(page.value.relativePath);
+  const targetPath = normalizePath(link);
+
+  return currentPath === targetPath.replace(/^\//, "") || (targetPath === "" && currentPath === "index");
+}
+
+// 处理fab点击事件 - 切换搜索状态
+function toggleSearch(event: MouseEvent) {
+  event.stopPropagation();
+
+  if (isSearchActive.value) {
+    deactivateSearch();
+  } else {
+    activateSearch();
+  }
 }
 </script>
 
 <template>
   <nav :class="isAboveBreakpoint ? 'rail' : 'bar'">
-    <a href="/search" class="fab">
+    <button class="fab" @mousedown.prevent @click.stop="toggleSearch">
       <span>search</span>
-    </a>
+    </button>
     <div class="destinations">
       <div class="segment" v-for="item in navSegment" :key="item.link" :class="isActive(item.link) ? 'active' : 'inactive'">
         <a :href="item.link">
@@ -82,6 +103,7 @@ nav {
 
     color: var(--md-sys-color-on-secondary-container);
 
+    border: none;
     border-radius: var(--md-sys-shape-corner-large);
 
     background-color: var(--md-sys-color-secondary-container);

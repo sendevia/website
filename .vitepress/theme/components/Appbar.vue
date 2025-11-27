@@ -1,100 +1,127 @@
 <script setup lang="ts">
-// todo: 优化输入状态的处理
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted, watch, nextTick } from "vue";
 import { useGlobalData } from "../composables/useGlobalData";
 import { useGlobalScroll } from "../composables/useGlobalScroll";
 import { useAllPosts, type Post } from "../composables/useAllPosts";
+import { useSearchState } from "../composables/useSearchState";
+import { useScreenWidth } from "../composables/useScreenWidth";
 import { handleTabNavigation } from "../utils/tabNavigation";
 
 const { frontmatter } = useGlobalData();
 const { isScrolled } = useGlobalScroll({ threshold: 100 });
+const { isSearchActive, isSearchTyping, deactivateSearch, setSearchFocus, setSearchTyping } = useSearchState();
+const { isAboveBreakpoint } = useScreenWidth(840);
 
 const isHome = computed(() => frontmatter.value.home === true);
-
-const isSearching = ref(false);
 const postsRef = useAllPosts(true);
 const query = ref("");
-const isTyping = ref(false);
 const appbar = ref<HTMLElement | null>(null);
+const searchInput = ref<HTMLInputElement | null>(null);
+const isTabFocusable = computed(() => !isAboveBreakpoint.value);
 
-// 计算过滤后的文章列表
+// 计算过滤后的文章
 const filteredPosts = computed<Post[]>(() => {
   const q = query.value.trim().toLowerCase();
-  if (!q) return [];
-  return (postsRef.value ?? []).filter((post) => {
-    const inTitle = post.title?.toLowerCase().includes(q) ?? false;
-    const inDesc = post.description?.toLowerCase().includes(q) ?? false;
-    const inContent = post.content?.toLowerCase().includes(q) ?? false;
-    const inDate = post.date?.toLowerCase().includes(q) ?? false;
-    return inTitle || inDesc || inContent || inDate;
+  if (!q || !postsRef.value) return [];
+
+  return postsRef.value.filter((post) => {
+    const { title = "", description = "", content = "", date = "" } = post;
+    return (
+      title.toLowerCase().includes(q) ||
+      description.toLowerCase().includes(q) ||
+      content.toLowerCase().includes(q) ||
+      date.toLowerCase().includes(q)
+    );
   });
 });
 
-// 处理搜索输入框焦点事件
+// 处理输入框焦点 (仅激活，不处理关闭)
 const handleFocus = () => {
-  isSearching.value = true;
+  if (!isSearchActive.value) {
+    isSearchActive.value = true;
+  }
+  setSearchFocus(true);
 };
 
-// 处理搜索输入框失焦事件
+// 处理输入框失焦 (只改变焦点状态，不关闭搜索，解决双击问题)
 const handleBlur = () => {
-  if (filteredPosts.value.length === 0) {
-    isSearching.value = false;
+  setSearchFocus(false);
+};
+
+// 处理输入
+const handleInput = () => {
+  const hasContent = query.value.trim().length > 0;
+  setSearchTyping(hasContent);
+  if (hasContent && !isSearchActive.value) {
+    isSearchActive.value = true;
   }
 };
 
-// 处理搜索结果链接点击后事件
+// 清除搜索状态
+const clearSearchState = () => {
+  query.value = "";
+  setSearchTyping(false);
+  deactivateSearch();
+  if (searchInput.value) {
+    searchInput.value.blur();
+  }
+};
+
+// 点击搜索结果
 const handleResultClick = () => {
   setTimeout(() => {
     clearSearchState();
   }, 200);
 };
 
-// 清除搜索状态并取消焦点
-const clearSearchState = () => {
-  isSearching.value = false;
-  query.value = "";
-  const searchInput = appbar.value?.querySelector(".searchInput") as HTMLInputElement;
-  if (searchInput) {
-    searchInput.blur();
+// 处理外部点击
+const handleDocumentClick = (event: Event) => {
+  if (!isSearchActive.value) return;
+
+  const target = event.target as HTMLElement;
+  const isClickInsideInput = searchInput.value && searchInput.value.contains(target);
+  const isClickInsideResults = target.closest(".searchResult");
+
+  if (!isClickInsideInput && !isClickInsideResults && query.value.trim() === "") {
+    clearSearchState();
   }
 };
 
-// 处理按键事件
+// 监听状态自动聚焦
+watch(isSearchActive, async (isActive) => {
+  if (isActive && searchInput.value) {
+    await nextTick();
+    setTimeout(() => {
+      searchInput.value?.focus();
+    }, 100);
+  } else if (!isActive) {
+    if (query.value !== "") {
+      query.value = "";
+      setSearchTyping(false);
+    }
+  }
+});
+
+// 键盘事件
 const handleKeydown = (event: KeyboardEvent) => {
+  if (!isSearchActive.value) return;
   const container = appbar.value;
   const items = container?.querySelectorAll(".searchInput, .item") || null;
 
-  if (event.key === "Escape" && isSearching.value) {
+  if (event.key === "Escape") {
     event.preventDefault();
-    handleTabNavigation(container, items, event.key === "Escape");
+    handleTabNavigation(container, items, true);
     clearSearchState();
   }
 
-  if (event.key === "Tab" && isSearching.value && query.value.trim() !== "") {
+  if (event.key === "Tab" && query.value.trim() !== "") {
     event.preventDefault();
     handleTabNavigation(container, items, event.shiftKey);
   }
 };
 
-// 监听页面点击事件，用于处理外部点击
-const handleDocumentClick = (event: Event) => {
-  const target = event.target as HTMLElement;
-
-  // 如果点击的是appbar外部且不是搜索结果
-  if (appbar.value && !appbar.value.contains(target) && !target.closest(".searchResult")) {
-    // 没有搜索结果时，可点击空白处退出搜索
-    // 有搜索结果时，只有点击文章链接后才会退出搜索
-    if (filteredPosts.value.length === 0) {
-      clearSearchState();
-    }
-  }
-};
-
-// 处理移动端返回导航（未验证）
 const handlePopState = () => {
-  if (isSearching.value) {
-    clearSearchState();
-  }
+  if (isSearchActive.value) clearSearchState();
 };
 
 onMounted(() => {
@@ -109,30 +136,55 @@ onUnmounted(() => {
   window.removeEventListener("popstate", handlePopState);
 });
 </script>
-
 <template>
   <div
     ref="appbar"
     class="appbar"
-    :class="{ scroll: isScrolled, homeLayout: isHome, searching: isSearching, typing: isTyping }"
+    :class="{
+      scroll: isScrolled,
+      homeLayout: isHome,
+      searching: isSearchActive,
+      typing: isSearchTyping,
+    }"
+    :tabindex="isTabFocusable ? 0 : -1"
   >
     <div class="actionArea">
       <div class="leadingButton">
-        <MaterialButton color="text" icon="menu" size="xs" />
+        <MaterialButton color="text" icon="menu" size="xs" :tabindex="isTabFocusable ? 0 : -1" />
       </div>
-      <input v-model="query" placeholder="搜索文章" class="searchInput" @focus="handleFocus" @blur="handleBlur" />
-      <div class="authorAvatar">
+
+      <input
+        ref="searchInput"
+        v-model="query"
+        placeholder="搜索文章"
+        class="searchInput"
+        :tabindex="isTabFocusable ? 0 : -1"
+        @focus="handleFocus"
+        @blur="handleBlur"
+        @input="handleInput"
+      />
+
+      <div class="authorAvatar" :tabindex="isTabFocusable ? 0 : -1">
         <img src="/assets/images/avatar.webp" alt="logo" />
       </div>
     </div>
-    <div v-if="filteredPosts.length" class="searchResult">
-      <a v-for="post in filteredPosts" :key="post.url" :href="post.url" class="item" @click="handleResultClick">
+
+    <div v-if="filteredPosts.length > 0" class="searchResult">
+      <a
+        v-for="(post, index) in filteredPosts"
+        :key="post.url"
+        :href="post.url"
+        class="item"
+        :tabindex="isTabFocusable ? 0 : -1"
+        @click="handleResultClick"
+      >
         <div class="title">
           <h3>{{ post.title }}</h3>
           <p v-if="post.date" class="date">{{ post.date }}</p>
         </div>
         <p v-if="post.description" class="description">{{ post.description }}</p>
-        <hr v-if="filteredPosts.indexOf(post) !== filteredPosts.length - 1" />
+        <!-- 只有不是最后一项时才显示分割线 -->
+        <hr v-if="index !== filteredPosts.length - 1" />
       </a>
     </div>
   </div>
@@ -152,9 +204,10 @@ onUnmounted(() => {
 
   position: fixed;
   top: -64px;
+  right: 0px;
 
   height: 64px;
-  width: 100%;
+  width: calc(100% - 96px);
 
   padding-inline: 4px;
 
@@ -162,10 +215,8 @@ onUnmounted(() => {
 
   background-color: var(--md-sys-color-surface);
 
-  opacity: 0;
   overflow: hidden;
   transition: var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect);
-  visibility: hidden;
   z-index: 998;
 
   .actionArea {
@@ -210,7 +261,7 @@ onUnmounted(() => {
       height: 56px;
       min-width: 0px;
 
-      margin-inline-start: 56px;
+      margin-inline-start: 0px;
       padding-block: 0px;
       padding-inline: 24px;
 
@@ -289,7 +340,11 @@ onUnmounted(() => {
   }
 
   &.searching {
+    top: 0px;
+
     height: 100%;
+
+    padding: 12px;
 
     .actionArea {
       .leadingButton {
@@ -324,8 +379,16 @@ onUnmounted(() => {
   .appbar {
     top: 0;
 
+    width: 100%;
+
     opacity: 1;
     visibility: visible;
+
+    .actionArea {
+      .searchInput {
+        margin-inline-start: 56px;
+      }
+    }
 
     .searchResult {
       height: calc(100% - (80px + 64px));
