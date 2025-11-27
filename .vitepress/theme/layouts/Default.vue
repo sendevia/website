@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import ArticleLayout from "./Article.vue";
 import NotFoundLayout from "./NotFound.vue";
-import SearchPostsLayout from "./SearchPosts.vue";
 import { argbFromHex } from "@material/material-color-utilities";
 import { generateColorPalette } from "../utils/colorPalette";
 import { onMounted, nextTick, computed, ref, watch } from "vue";
@@ -64,7 +63,6 @@ async function updatePalette() {
 
 const layoutMap = {
   article: ArticleLayout,
-  search: SearchPostsLayout,
 } as const;
 
 type LayoutKey = keyof typeof layoutMap;
