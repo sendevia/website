@@ -87,9 +87,9 @@ export function useAllPosts(asRef = false) {
     return 0;
   });
 
-  const postsRef = ref<Data[]>(posts);
+  const articlesRef = ref<Data[]>(posts);
 
-  return asRef ? postsRef : postsRef.value;
+  return asRef ? articlesRef : articlesRef.value;
 }
 
 export type { Data as Post };

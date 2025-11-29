@@ -5,7 +5,7 @@ import { useAllPosts } from "../composables/useAllPosts";
 
 const { page } = useGlobalData();
 
-const postsRef = useAllPosts(true);
+const articlesRef = useAllPosts(true);
 
 function normalize(u: string | undefined | null) {
   if (!u) return "";
@@ -48,7 +48,7 @@ const currentCandidates = computed(() => {
 });
 
 const currentIndex = computed(() => {
-  const posts = postsRef.value || [];
+  const posts = articlesRef.value || [];
 
   for (let i = 0; i < posts.length; i++) {
     const post = posts[i];
@@ -68,14 +68,14 @@ const currentIndex = computed(() => {
 });
 
 const prev = computed(() => {
-  const posts = postsRef.value || [];
+  const posts = articlesRef.value || [];
   const idx = currentIndex.value;
   if (idx > 0) return posts[idx - 1];
   return null;
 });
 
 const next = computed(() => {
-  const posts = postsRef.value || [];
+  const posts = articlesRef.value || [];
   const idx = currentIndex.value;
   if (idx >= 0 && idx < posts.length - 1) return posts[idx + 1];
   return null;

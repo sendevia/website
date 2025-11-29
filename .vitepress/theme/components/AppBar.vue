@@ -13,7 +13,7 @@ const { isSearchActive, isSearchTyping, deactivateSearch, setSearchFocus, setSea
 const { isAboveBreakpoint } = useScreenWidth(840);
 
 const isHome = computed(() => frontmatter.value.home === true);
-const postsRef = useAllPosts(true);
+const articlesRef = useAllPosts(true);
 const query = ref("");
 const appbar = ref<HTMLElement | null>(null);
 const searchInput = ref<HTMLInputElement | null>(null);
@@ -22,9 +22,9 @@ const isTabFocusable = computed(() => !isAboveBreakpoint.value);
 // 计算过滤后的文章
 const filteredPosts = computed<Post[]>(() => {
   const q = query.value.trim().toLowerCase();
-  if (!q || !postsRef.value) return [];
+  if (!q || !articlesRef.value) return [];
 
-  return postsRef.value.filter((post) => {
+  return articlesRef.value.filter((post) => {
     const { title = "", description = "", content = "", date = "" } = post;
     return (
       title.toLowerCase().includes(q) ||
