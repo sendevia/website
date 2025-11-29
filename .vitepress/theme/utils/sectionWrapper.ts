@@ -2,18 +2,24 @@ import type MarkdownIt from "markdown-it";
 
 /**
  * 将连续的标题块包裹为独立的 section（headline-block），便于样式与交互处理
+ * @param mdit - MarkdownIt 实例
  */
-export function wrapHeadingsAsSections(md: MarkdownIt): void {
-  md.core.ruler.before("inline", "group_sections", (state) => {
+export function wrapHeadingsAsSections(mdit: MarkdownIt): void {
+  if (!mdit || !mdit.core || !mdit.core.ruler) {
+    console.warn("Invalid MarkdownIt instance provided");
+    return;
+  }
+
+  mdit.core.ruler.before("inline", "group_sections", (state) => {
     const tokens = state.tokens;
     const newTokens: any[] = [];
-    let currentSectionTokens: any[] = [];
     let inSection = false;
 
     for (let i = 0; i < tokens.length; i++) {
       const token = tokens[i];
 
       if (token.type === "heading_open") {
+        // 如果已经在 section 中，先关闭前一个 section
         if (inSection) {
           newTokens.push({
             type: "section_wrapper_close",
@@ -23,6 +29,7 @@ export function wrapHeadingsAsSections(md: MarkdownIt): void {
           });
         }
 
+        // 打开新的 section
         newTokens.push({
           type: "section_wrapper_open",
           tag: "div",
@@ -33,20 +40,15 @@ export function wrapHeadingsAsSections(md: MarkdownIt): void {
 
         newTokens.push(token);
         inSection = true;
-        currentSectionTokens = [token];
       } else if (token.type === "heading_close") {
         newTokens.push(token);
-        currentSectionTokens.push(token);
       } else {
-        if (inSection) {
-          newTokens.push(token);
-          currentSectionTokens.push(token);
-        } else {
-          newTokens.push(token);
-        }
+        // 其他 token 根据是否在 section 中决定是否添加
+        newTokens.push(token);
       }
     }
 
+    // 如果循环结束后仍在 section 中，关闭最后一个 section
     if (inSection) {
       newTokens.push({
         type: "section_wrapper_close",
