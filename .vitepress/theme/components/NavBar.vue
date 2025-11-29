@@ -42,7 +42,7 @@ function toggleSearch(event: MouseEvent) {
 <template>
   <nav :class="isAboveBreakpoint ? 'rail' : 'bar'">
     <button class="fab" @mousedown.prevent @click.stop="toggleSearch">
-      <span>search</span>
+      <span>{{ isSearchActive ? "close" : "search" }}</span>
     </button>
     <div class="destinations">
       <div class="segment" v-for="item in navSegment" :key="item.link" :class="isActive(item.link) ? 'active' : 'inactive'">

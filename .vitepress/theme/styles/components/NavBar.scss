@@ -41,6 +41,7 @@ nav {
 
     background-color: var(--md-sys-color-secondary-container);
 
+    cursor: pointer;
     transition: background-color var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
 
     span {
