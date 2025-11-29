@@ -1,0 +1,174 @@
+@use "../mixin";
+
+.image-viewer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  height: 100%;
+  width: 100%;
+
+  background-color: #ffffffb9;
+  backdrop-filter: blur(20px);
+
+  opacity: 0;
+  transition: var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect);
+  user-select: none;
+  -moz-user-select: none;
+  z-index: 9999;
+
+  .index-text {
+    padding-block: 3px;
+    padding-inline: 9px;
+
+    color: var(--md-sys-color-surface-variant);
+
+    border-radius: var(--md-sys-shape-corner-medium);
+
+    background-color: var(--md-sys-color-on-surface-variant);
+
+    z-index: 3;
+  }
+
+  .btn-close,
+  .btn-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: absolute !important;
+
+    z-index: 3;
+  }
+
+  .btn-close {
+    right: 20px;
+    top: 20px;
+  }
+
+  .btn-nav {
+    top: 50%;
+
+    &.prev {
+      left: 20px;
+    }
+
+    &.next {
+      right: 20px;
+    }
+  }
+
+  .content {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    justify-content: center;
+
+    width: 100%;
+
+    padding-block-start: 5vh;
+
+    z-index: 2;
+  }
+
+  .content-image {
+    border-radius: var(--md-sys-shape-corner-full);
+
+    background-color: var(--md-sys-color-surface-variant);
+
+    clip-path: circle(10%);
+    object-fit: contain;
+    transition: var(--md-sys-motion-spring-slow-spatial-duration) var(--md-sys-motion-spring-slow-spatial);
+
+    &.transitioning {
+      opacity: 0.6;
+    }
+
+    &.notransition {
+      transition: none !important;
+    }
+  }
+
+  .thumbnails {
+    display: flex;
+    gap: 8px;
+
+    max-width: calc(100% - 66px);
+
+    padding: 24px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+    z-index: 3;
+  }
+
+  .thumbnail {
+    flex-shrink: 0;
+
+    width: 66px;
+    height: 66px;
+
+    padding: 0px;
+
+    border: 0px;
+    border-radius: var(--md-sys-shape-corner-large);
+
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+
+    &.active {
+      @include mixin.focus-ring($thickness: 1, $offset: 2);
+
+      outline-color: var(--md-sys-color-on-surface-variant) !important;
+      transition: transform var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+    }
+
+    &:hover {
+      transform: scale(0.9);
+    }
+
+    &:focus-visible {
+      @include mixin.focus-ring($thickness: 2, $offset: 2);
+    }
+
+    img {
+      height: 100%;
+      width: 100%;
+
+      object-fit: cover;
+    }
+  }
+
+  // 入场结束
+  &.animating {
+    opacity: 1;
+
+    .content-image {
+      border-radius: var(--md-sys-shape-corner-large);
+
+      clip-path: circle(100%);
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #000000b9;
+  }
+}
+
+@media screen and (max-width: 1600px) {
+}
+
+@media screen and (max-width: 1200px) {
+}
+
+@media screen and (max-width: 840px) {
+}
+
+@media screen and (max-width: 600px) {
+}

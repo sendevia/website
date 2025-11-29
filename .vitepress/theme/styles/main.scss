@@ -8,10 +8,7 @@
 @include meta.load-css("tokens");
 @include meta.load-css("animation");
 
-@include meta.load-css("_components/dialog");
-@include meta.load-css("_components/loading-splash");
-@include meta.load-css("_components/snackbar");
-@include meta.load-css("_components/table");
+@include meta.load-css("components/Table");
 
 :root {
   -moz-osx-font-smoothing: grayscale;

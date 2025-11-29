@@ -105,7 +105,7 @@ if (typeof window !== "undefined") {
 
 <template>
   <div id="layout">
-    <Navbar />
+    <NavBar />
     <AppBar />
     <Transition name="layout-content" mode="out-in" @before-leave="onBeforeLeave" @after-enter="onAfterEnter">
       <div id="layout-content-flow" :key="route.path">
@@ -124,119 +124,5 @@ if (typeof window !== "undefined") {
 
 <style lang="scss">
 @use "sass:meta";
-@use "../styles/mixin";
-
-#layout {
-  display: grid;
-  grid-template-columns: 96px auto;
-
-  position: relative;
-
-  height: 100%;
-
-  z-index: 1;
-
-  #layout-content-flow {
-    display: grid;
-    align-content: space-between;
-    align-items: start;
-    gap: 24px;
-    grid-column: 2;
-    grid-template-columns: repeat(12, minmax(60px, 72px));
-    justify-content: center;
-
-    position: relative;
-
-    padding-block-end: 68px;
-    padding-block-start: 12px;
-
-    width: 100%;
-
-    overflow: overlay;
-    scroll-behavior: smooth;
-    scroll-padding-top: 120px;
-    scrollbar-width: thin;
-
-    #layout-content-filler {
-      display: flex;
-      flex-flow: column wrap;
-      grid-column: 1 / 13;
-
-      height: 100%;
-
-      padding: 24px;
-    }
-
-    #layout-home-title {
-      display: flex;
-      align-items: center;
-      gap: 42px;
-      grid-column: 1 / 13;
-      justify-content: center;
-
-      width: 100%;
-
-      h1 {
-        @include mixin.typescale-style("display-large");
-
-        grid-column: span 9;
-      }
-
-      h6 {
-        grid-column: span 9;
-
-        text-align: end;
-      }
-
-      img {
-        grid-column: 11 / span 2;
-        grid-row: 2 / span 2;
-
-        height: 120px;
-        width: 120px;
-
-        -webkit-mask: var(--via-svg-mask) no-repeat 0 / 100%;
-        mask: var(--via-svg-mask) no-repeat 0 / 100%;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 1600px) {
-  #layout #layout-content-flow {
-    grid-template-columns: repeat(12, minmax(60px, 72px));
-
-    padding-inline: 12px;
-  }
-}
-
-@media screen and (max-width: 1200px) {
-  #layout #layout-content-flow {
-    grid-template-columns: repeat(8, 1fr);
-
-    width: 100%;
-  }
-}
-
-@media screen and (max-width: 840px) {
-  #layout {
-    grid-template-columns: 0px auto;
-    grid-template-rows: auto 80px;
-
-    #layout-content-flow {
-      grid-template-columns: repeat(6, 1fr);
-
-      padding-block: 64px;
-      padding-inline: 42px;
-    }
-  }
-}
-
-@media screen and (max-width: 600px) {
-  #layout #layout-content-flow {
-    grid-template-columns: repeat(4, 1fr);
-
-    padding-inline: 12px;
-  }
-}
+@include meta.load-css("../styles/layouts/Default");
 </style>

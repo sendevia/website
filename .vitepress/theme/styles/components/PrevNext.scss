@@ -1,0 +1,74 @@
+@use "../mixin";
+
+.prev-next {
+  display: grid;
+  grid-template-columns: 50% 50%;
+
+  margin-block-start: 24px;
+
+  .prev {
+    grid-column: 1 / 2;
+
+    margin-inline-end: 6px;
+
+    text-align: start;
+
+    a {
+      padding-inline-start: 12px;
+    }
+  }
+
+  .next {
+    grid-column: 2 / 3;
+
+    margin-inline-start: 6px;
+
+    text-align: end;
+
+    a {
+      padding-inline-end: 12px;
+    }
+  }
+
+  .prev,
+  .next {
+    border-radius: var(--md-sys-shape-corner-medium);
+
+    background-color: var(--md-sys-color-surface-container-low);
+
+    a {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      width: 100%;
+
+      padding-block: 12px;
+
+      color: var(--md-sys-color-on-surface);
+      text-decoration: none !important;
+
+      border-radius: var(--md-sys-shape-corner-medium);
+
+      .label {
+        @include mixin.typescale-style("label-medium");
+
+        color: var(--md-sys-color-on-surface-variant);
+      }
+
+      .title {
+        @include mixin.typescale-style("title-large");
+
+        font-variation-settings: "wght" 600;
+      }
+
+      &:focus-visible {
+        @include mixin.focus-ring($thickness: 2);
+      }
+    }
+
+    &:hover {
+      background-color: var(--md-sys-color-surface-dim);
+    }
+  }
+}

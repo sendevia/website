@@ -1,0 +1,76 @@
+@use "../mixin";
+
+#layout-scrolltop {
+  display: flex;
+  align-items: center;
+  grid-column: 10 / 13;
+  justify-content: center;
+
+  position: sticky;
+  bottom: 72px;
+  right: 0px;
+
+  height: 100%;
+  width: 100%;
+
+  -moz-user-select: none;
+  opacity: 0;
+  transition: var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
+  user-select: none;
+  visibility: hidden;
+  z-index: 21;
+
+  #scrolltop-button {
+    @include mixin.material-symbols($size: 24, $line-height: 84);
+
+    position: relative;
+
+    height: 84px;
+    width: 84px;
+
+    color: var(--md-sys-color-outline);
+    text-align: center;
+
+    border-radius: var(--md-sys-shape-corner-full);
+    border: 1px solid var(--md-sys-color-outline-variant);
+
+    background-color: var(--md-sys-color-surface-container-low);
+
+    cursor: pointer;
+    overflow: hidden;
+    transition: var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
+
+    &:hover {
+      background-color: var(--md-sys-color-surface-container-high);
+    }
+  }
+
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@media screen and (max-width: 1600px) {
+  #layout-scrolltop {
+    grid-column: 10 / 13;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  #layout-scrolltop {
+    grid-column: 7 / 9;
+  }
+}
+
+@media screen and (max-width: 840px) {
+  #layout-scrolltop {
+    grid-column: 6 / 7;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #layout-scrolltop {
+    grid-column: 4 / 5;
+  }
+}

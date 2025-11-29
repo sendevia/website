@@ -1,0 +1,206 @@
+@use "../mixin";
+
+.appbar {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 8px;
+  justify-content: space-between;
+
+  position: fixed;
+  top: -64px;
+  right: 0px;
+
+  height: 64px;
+  width: calc(100% - 96px);
+
+  padding-inline: 4px;
+
+  color: var(--md-sys-color-on-surface);
+
+  background-color: var(--md-sys-color-surface);
+
+  overflow: hidden;
+  transition: var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect);
+  z-index: 998;
+
+  .actionArea {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+
+    position: relative;
+
+    height: 64px;
+    width: 100%;
+
+    .leadingButton {
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      justify-content: center;
+
+      position: absolute;
+      left: 0px;
+
+      height: 48px;
+      width: 48px;
+
+      margin-inline: 4px 8px;
+
+      opacity: 1;
+      transition: opacity var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
+      z-index: 0;
+
+      MaterialButton:focus-visible {
+        @include mixin.focus-ring($thickness: 2);
+      }
+    }
+
+    .searchInput {
+      @include mixin.typescale-style("title-medium");
+
+      flex-grow: 1;
+
+      height: 56px;
+      min-width: 0px;
+
+      margin-inline-start: 0px;
+      padding-block: 0px;
+      padding-inline: 24px;
+
+      color: var(--md-sys-color-on-surface-variant);
+      text-overflow: ellipsis;
+
+      border: none;
+      border-radius: var(--md-sys-shape-corner-full);
+
+      background-color: var(--md-sys-color-surface-container);
+
+      transition: margin var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+      z-index: 1;
+
+      &:focus-visible {
+        @include mixin.focus-ring($thickness: 2);
+      }
+    }
+
+    .authorAvatar {
+      display: flex;
+      align-content: center;
+      flex-direction: column;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      height: 48px;
+      width: 48px;
+
+      overflow: hidden;
+      z-index: 0;
+
+      img {
+        height: 32px;
+        width: 32px;
+
+        object-fit: cover;
+        -webkit-mask: var(--via-svg-mask) no-repeat 0 / 100%;
+        mask: var(--via-svg-mask) no-repeat 0 / 100%;
+      }
+    }
+  }
+
+  .searchResult {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 8px;
+
+    position: absolute;
+    top: 64px;
+
+    width: 100%;
+
+    padding-inline: 24px;
+    padding-block-start: 12px;
+
+    overflow: scroll;
+
+    .item {
+      width: 100%;
+
+      text-decoration: none;
+
+      border-radius: var(--md-sys-shape-corner-medium);
+
+      .description {
+        margin-block-end: 12px;
+      }
+
+      &:focus-visible {
+        @include mixin.focus-ring($thickness: 2, $offset: 4);
+      }
+    }
+  }
+
+  &.searching {
+    top: 0px;
+
+    height: 100%;
+
+    padding: 12px;
+
+    .actionArea {
+      .leadingButton {
+        opacity: 0;
+        transition: opacity var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
+      }
+
+      .searchInput {
+        margin-inline-start: 0px;
+
+        transition: margin var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+      }
+    }
+  }
+
+  &.scroll {
+    background-color: var(--md-sys-color-surface-container);
+
+    .searchInput {
+      background-color: var(--md-sys-color-surface-container-highest);
+    }
+  }
+}
+
+@media screen and (max-width: 1600px) {
+}
+
+@media screen and (max-width: 1200px) {
+}
+
+@media screen and (max-width: 840px) {
+  .appbar {
+    top: 0;
+
+    width: 100%;
+
+    opacity: 1;
+    visibility: visible;
+
+    .actionArea {
+      .searchInput {
+        margin-inline-start: 56px;
+      }
+    }
+
+    .searchResult {
+      height: calc(100% - (80px + 64px));
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+}
