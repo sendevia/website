@@ -168,8 +168,8 @@
   --md-ripple-pressed-color: var(--md-sys-color-primary);
 
   // Typography
-  $level1-font-family: "Plus Jakarta Sans", "Noto Sans SC", sans-serif;
-  $level2-font-family: "Plus Jakarta Sans", "Noto Sans SC", sans-serif;
+  $level1-font-family: "Google Sans Flex", "Noto Sans SC", sans-serif;
+  $level2-font-family: "Google Sans Flex", "Noto Sans SC", sans-serif;
   @include mixin.typescale("display-large", $level1-font-family, 57, -0.25, 64, 400);
   @include mixin.typescale("display-medium", $level1-font-family, 45, 0, 52, 400);
   @include mixin.typescale("display-small", $level1-font-family, 36, 0, 44, 400);
