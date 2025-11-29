@@ -134,13 +134,13 @@ if (typeof window !== "undefined") {
 
 <template>
   <Header />
-  <section id="article-content">
+  <main id="article-content">
     <Content />
     <PrevNext />
-  </section>
-  <section id="article-indicator">
+  </main>
+  <div id="article-indicator">
     <PageIndicator />
-  </section>
+  </div>
   <ImageViewer
     v-if="showImageViewer"
     :images="articleImages"
