@@ -97,6 +97,11 @@ export default defineConfig({
     navSegment: [
       { text: "首页", icon: "home", link: "/" },
       { text: "AincradMix", icon: "borg", link: "/posts/AincradMix" },
+      {
+        text: "作品集",
+        icon: "auto_awesome_mosaic",
+        link: "https://sendevia.cn53.ug.link/photo/share/?id=4&pagetype=share&uuid=b6f1b05f-5027-451b-b21f-81cae88125e9#/login",
+      },
     ],
   } as any,
 });
