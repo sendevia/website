@@ -2,11 +2,11 @@
 import { computed } from "vue";
 import { useGlobalData } from "../composables/useGlobalData";
 import { useScreenWidthStore } from "../stores/screenWidth";
-import { useSearchState } from "../composables/useSearchState";
+import { useSearchStateStore } from "../stores/searchState";
 
 const { page, theme } = useGlobalData();
 const screenWidthStore = useScreenWidthStore();
-const { isSearchActive, activateSearch, deactivateSearch } = useSearchState();
+const searchStateStore = useSearchStateStore();
 
 // 计算导航段落
 const navSegment = computed(() => {
@@ -30,19 +30,14 @@ function isActive(link: string): boolean {
 // 处理fab点击事件 - 切换搜索状态
 function toggleSearch(event: MouseEvent) {
   event.stopPropagation();
-
-  if (isSearchActive.value) {
-    deactivateSearch();
-  } else {
-    activateSearch();
-  }
+  searchStateStore.toggle();
 }
 </script>
 
 <template>
   <nav :class="screenWidthStore.isAboveBreakpoint ? 'rail' : 'bar'">
     <button class="fab" @mousedown.prevent @click.stop="toggleSearch">
-      <span>{{ isSearchActive ? "close" : "search" }}</span>
+      <span>{{ searchStateStore.isSearchActive ? "close" : "search" }}</span>
     </button>
     <div class="destinations">
       <div class="segment" v-for="item in navSegment" :key="item.link" :class="isActive(item.link) ? 'active' : 'inactive'">

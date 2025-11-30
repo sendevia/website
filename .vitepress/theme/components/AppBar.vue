@@ -3,13 +3,13 @@ import { ref, computed, onMounted, onUnmounted, watch, nextTick } from "vue";
 import { useGlobalData } from "../composables/useGlobalData";
 import { useGlobalScroll } from "../composables/useGlobalScroll";
 import { useAllPosts, type Post } from "../composables/useAllPosts";
-import { useSearchState } from "../composables/useSearchState";
+import { useSearchStateStore } from "../stores/searchState";
 import { useScreenWidthStore } from "../stores/screenWidth";
 import { handleTabNavigation } from "../utils/tabNavigation";
 
 const { frontmatter } = useGlobalData();
 const { isScrolled } = useGlobalScroll({ threshold: 100 });
-const { isSearchActive, isSearchTyping, deactivateSearch, setSearchFocus, setSearchTyping } = useSearchState();
+const searchStateStore = useSearchStateStore();
 const screenWidthStore = useScreenWidthStore();
 const isHome = computed(() => frontmatter.value.home === true);
 const articlesRef = useAllPosts(true);
@@ -36,31 +36,31 @@ const filteredPosts = computed<Post[]>(() => {
 
 // 处理输入框焦点 (仅激活，不处理关闭)
 const handleFocus = () => {
-  if (!isSearchActive.value) {
-    isSearchActive.value = true;
+  if (!searchStateStore.isSearchActive) {
+    searchStateStore.activate();
   }
-  setSearchFocus(true);
+  searchStateStore.setFocus(true);
 };
 
 // 处理输入框失焦 (只改变焦点状态，不关闭搜索，解决双击问题)
 const handleBlur = () => {
-  setSearchFocus(false);
+  searchStateStore.setFocus(false);
 };
 
 // 处理输入
 const handleInput = () => {
   const hasContent = query.value.trim().length > 0;
-  setSearchTyping(hasContent);
-  if (hasContent && !isSearchActive.value) {
-    isSearchActive.value = true;
+  searchStateStore.setTyping(hasContent);
+  if (hasContent && !searchStateStore.isSearchActive) {
+    searchStateStore.activate();
   }
 };
 
 // 清除搜索状态
 const clearSearchState = () => {
   query.value = "";
-  setSearchTyping(false);
-  deactivateSearch();
+  searchStateStore.setTyping(false);
+  searchStateStore.deactivate();
   if (searchInput.value) {
     searchInput.value.blur();
   }
@@ -75,7 +75,7 @@ const handleResultClick = () => {
 
 // 处理外部点击
 const handleDocumentClick = (event: Event) => {
-  if (!isSearchActive.value) return;
+  if (!searchStateStore.isSearchActive) return;
 
   const target = event.target as HTMLElement;
   const isClickInsideInput = searchInput.value && searchInput.value.contains(target);
@@ -87,23 +87,26 @@ const handleDocumentClick = (event: Event) => {
 };
 
 // 监听状态自动聚焦
-watch(isSearchActive, async (isActive) => {
-  if (isActive && searchInput.value) {
-    await nextTick();
-    setTimeout(() => {
-      searchInput.value?.focus();
-    }, 100);
-  } else if (!isActive) {
-    if (query.value !== "") {
-      query.value = "";
-      setSearchTyping(false);
+watch(
+  () => searchStateStore.isSearchActive,
+  async (isActive) => {
+    if (isActive && searchInput.value) {
+      await nextTick();
+      setTimeout(() => {
+        searchInput.value?.focus();
+      }, 100);
+    } else if (!isActive) {
+      if (query.value !== "") {
+        query.value = "";
+        searchStateStore.setTyping(false);
+      }
     }
   }
-});
+);
 
 // 键盘事件
 const handleKeydown = (event: KeyboardEvent) => {
-  if (!isSearchActive.value) return;
+  if (!searchStateStore.isSearchActive) return;
   const container = appbar.value;
   const items = container?.querySelectorAll(".searchInput, .item") || null;
 
@@ -113,9 +116,14 @@ const handleKeydown = (event: KeyboardEvent) => {
     clearSearchState();
   }
 
-  if (event.key === "Tab" && query.value.trim() !== "") {
+  if (event.key === "Tab") {
     event.preventDefault();
     handleTabNavigation(container, items, event.shiftKey);
+
+    // 当搜索框没有内容时，Tab 键取消搜索激活状态
+    if (query.value.trim() === "") {
+      searchStateStore.deactivate();
+    }
   }
 };
 
@@ -137,8 +145,8 @@ onUnmounted(() => {
     :class="{
       scroll: isScrolled,
       homeLayout: isHome,
-      searching: isSearchActive,
-      typing: isSearchTyping,
+      searching: searchStateStore.isSearchActive,
+      typing: searchStateStore.isSearchTyping,
     }"
     :tabindex="isTabFocusable ? 0 : -1"
   >
