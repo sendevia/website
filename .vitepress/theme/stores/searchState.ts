@@ -57,9 +57,11 @@ export const useSearchStateStore = defineStore("searchState", () => {
     }
   }
 
-  // 监听状态变化
-  watch(isSearchFocused, () => {
-    isSearchActive.value = true;
+  // 监听 isSearchFocused 变化，当获得焦点时，自动激活搜索
+  watch(isSearchFocused, (focused) => {
+    if (focused && !isSearchActive.value) {
+      isSearchActive.value = true;
+    }
   });
 
   return {
