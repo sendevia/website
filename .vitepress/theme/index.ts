@@ -1,4 +1,5 @@
 import type { Theme } from "vitepress";
+import { createPinia } from "pinia";
 import Layout from "./layouts/Default.vue";
 
 import AppBar from "./components/AppBar.vue";
@@ -12,10 +13,13 @@ import ScrollToTop from "./components/ScrollToTop.vue";
 import NavBar from "./components/NavBar.vue";
 
 import "./styles/main.scss";
+const pinia = createPinia();
 
 export default {
   Layout,
   enhanceApp({ app }) {
+    app.use(pinia);
+
     app.component("AppBar", AppBar);
     app.component("Footer", Footer);
     app.component("Header", Header);
