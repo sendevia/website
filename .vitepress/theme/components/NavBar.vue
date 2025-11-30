@@ -32,6 +32,13 @@ function toggleSearch(event: MouseEvent) {
   event.stopPropagation();
   searchStateStore.toggle();
 }
+
+// 判断是否为外部链接
+function isExternalLink(link: string): boolean {
+  const externalLinkPatterns = [/^https?:\/\//];
+
+  return externalLinkPatterns.some((pattern) => pattern.test(link));
+}
 </script>
 
 <template>
@@ -41,7 +48,7 @@ function toggleSearch(event: MouseEvent) {
     </button>
     <div class="destinations">
       <div class="segment" v-for="item in navSegment" :key="item.link" :class="isActive(item.link) ? 'active' : 'inactive'">
-        <a :href="item.link">
+        <a :href="item.link" :target="isExternalLink(item.link) ? '_blank' : undefined">
           <div class="destination-accent">
             <div class="segment-icon">
               <span>
