@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount, nextTick, watch } from "vue";
 import { useGlobalData } from "../composables/useGlobalData";
-import { useScreenWidth } from "../composables/useScreenWidth";
+import { useScreenWidthStore } from "../stores/screenWidth";
 
 const { page, frontmatter } = useGlobalData();
-const { isAboveBreakpoint: isMonitoring } = useScreenWidth(840);
+const screenWidthStore = useScreenWidthStore();
 const navRef = ref<HTMLElement | null>(null);
 const indicator = ref({ top: "0px", left: "0px", width: "100%", height: "0px", opacity: 0 });
 const headings = ref<Array<{ id: string; text: string; level: number }>>([]);
@@ -165,7 +165,7 @@ function toggleMonitoring(shouldMonitor: boolean) {
 }
 
 const resizeHandler = () => {
-  if (isMonitoring.value) {
+  if (screenWidthStore.isAboveBreakpoint) {
     collectHeadings();
     createObserver();
   }
@@ -173,18 +173,18 @@ const resizeHandler = () => {
 
 if (typeof window !== "undefined") {
   onMounted(() => {
-    toggleMonitoring(isMonitoring.value);
+    toggleMonitoring(screenWidthStore.isAboveBreakpoint);
 
     window.addEventListener("resize", resizeHandler);
     window.addEventListener("resize", updateIndicator, { passive: true });
     window.addEventListener("hashchange", () => {
-      if (isMonitoring.value) {
+      if (screenWidthStore.isAboveBreakpoint) {
         collectHeadings();
         createObserver();
       }
     });
     window.addEventListener("popstate", () => {
-      if (isMonitoring.value) {
+      if (screenWidthStore.isAboveBreakpoint) {
         collectHeadings();
         createObserver();
       }
@@ -224,14 +224,17 @@ if (typeof window !== "undefined") {
     }
   });
 
-  watch(isMonitoring, (newValue) => {
-    toggleMonitoring(newValue);
-  });
+  watch(
+    () => screenWidthStore.isAboveBreakpoint,
+    (newValue) => {
+      toggleMonitoring(newValue);
+    }
+  );
 
   watch(
     () => headingsActiveId.value,
     () => {
-      if (isMonitoring.value) {
+      if (screenWidthStore.isAboveBreakpoint) {
         nextTick(() => updateIndicator());
       }
     }
@@ -240,7 +243,7 @@ if (typeof window !== "undefined") {
   watch(
     () => grouped.value,
     () => {
-      if (isMonitoring.value) {
+      if (screenWidthStore.isAboveBreakpoint) {
         nextTick(() => updateIndicator());
       }
     }

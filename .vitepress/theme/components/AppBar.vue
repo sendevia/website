@@ -4,20 +4,19 @@ import { useGlobalData } from "../composables/useGlobalData";
 import { useGlobalScroll } from "../composables/useGlobalScroll";
 import { useAllPosts, type Post } from "../composables/useAllPosts";
 import { useSearchState } from "../composables/useSearchState";
-import { useScreenWidth } from "../composables/useScreenWidth";
+import { useScreenWidthStore } from "../stores/screenWidth";
 import { handleTabNavigation } from "../utils/tabNavigation";
 
 const { frontmatter } = useGlobalData();
 const { isScrolled } = useGlobalScroll({ threshold: 100 });
 const { isSearchActive, isSearchTyping, deactivateSearch, setSearchFocus, setSearchTyping } = useSearchState();
-const { isAboveBreakpoint } = useScreenWidth(840);
-
+const screenWidthStore = useScreenWidthStore();
 const isHome = computed(() => frontmatter.value.home === true);
 const articlesRef = useAllPosts(true);
 const query = ref("");
 const appbar = ref<HTMLElement | null>(null);
 const searchInput = ref<HTMLInputElement | null>(null);
-const isTabFocusable = computed(() => !isAboveBreakpoint.value);
+const isTabFocusable = computed(() => !screenWidthStore.isAboveBreakpoint);
 
 // 计算过滤后的文章
 const filteredPosts = computed<Post[]>(() => {
@@ -120,20 +119,14 @@ const handleKeydown = (event: KeyboardEvent) => {
   }
 };
 
-const handlePopState = () => {
-  if (isSearchActive.value) clearSearchState();
-};
-
 onMounted(() => {
   document.addEventListener("click", handleDocumentClick);
   document.addEventListener("keydown", handleKeydown);
-  window.addEventListener("popstate", handlePopState);
 });
 
 onUnmounted(() => {
   document.removeEventListener("click", handleDocumentClick);
   document.removeEventListener("keydown", handleKeydown);
-  window.removeEventListener("popstate", handlePopState);
 });
 </script>
 

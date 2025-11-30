@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useGlobalData } from "../composables/useGlobalData";
-import { useScreenWidth } from "../composables/useScreenWidth";
+import { useScreenWidthStore } from "../stores/screenWidth";
 import { useSearchState } from "../composables/useSearchState";
 
 const { page, theme } = useGlobalData();
-const { isAboveBreakpoint } = useScreenWidth(840);
+const screenWidthStore = useScreenWidthStore();
 const { isSearchActive, activateSearch, deactivateSearch } = useSearchState();
 
 // 计算导航段落
@@ -40,7 +40,7 @@ function toggleSearch(event: MouseEvent) {
 </script>
 
 <template>
-  <nav :class="isAboveBreakpoint ? 'rail' : 'bar'">
+  <nav :class="screenWidthStore.isAboveBreakpoint ? 'rail' : 'bar'">
     <button class="fab" @mousedown.prevent @click.stop="toggleSearch">
       <span>{{ isSearchActive ? "close" : "search" }}</span>
     </button>
