@@ -1,35 +1,40 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from "vue";
+import { storeToRefs } from "pinia";
 import { useGlobalData } from "../composables/useGlobalData";
 import { useGlobalScroll } from "../composables/useGlobalScroll";
-import { useAllPosts, type Post } from "../composables/useAllPosts";
+import { usePostStore, type PostData } from "../stores/posts";
 import { useSearchStateStore } from "../stores/searchState";
 import { useScreenWidthStore } from "../stores/screenWidth";
 import { handleTabNavigation } from "../utils/tabNavigation";
 
 const { frontmatter } = useGlobalData();
 const { isScrolled } = useGlobalScroll({ threshold: 100 });
+
 const searchStateStore = useSearchStateStore();
 const screenWidthStore = useScreenWidthStore();
+const postsStore = usePostStore();
+
+const { posts } = storeToRefs(postsStore);
+
 const isHome = computed(() => frontmatter.value.home === true);
-const articlesRef = useAllPosts(true);
 const query = ref("");
 const appbar = ref<HTMLElement | null>(null);
 const searchInput = ref<HTMLInputElement | null>(null);
 const isTabFocusable = computed(() => !screenWidthStore.isAboveBreakpoint);
 
-// 计算过滤后的文章
-const filteredPosts = computed<Post[]>(() => {
+// 计算过滤后的文章，使用 PostData 类型
+const filteredPosts = computed<PostData[]>(() => {
   const q = query.value.trim().toLowerCase();
-  if (!q || !articlesRef.value) return [];
+  if (!q || !posts.value.length) return [];
 
-  return articlesRef.value.filter((post) => {
-    const { title = "", description = "", content = "", date = "" } = post;
+  return posts.value.filter((post) => {
     return (
-      title.toLowerCase().includes(q) ||
-      description.toLowerCase().includes(q) ||
-      content.toLowerCase().includes(q) ||
-      date.toLowerCase().includes(q)
+      post.title.includes(q) ||
+      post.description.includes(q) ||
+      post.date.includes(q) ||
+      post.tags.some((t) => t.includes(q)) ||
+      post.categories.some((t) => t.includes(q))
     );
   });
 });

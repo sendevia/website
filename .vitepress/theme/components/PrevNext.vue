@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useGlobalData } from "../composables/useGlobalData";
-import { useAllPosts } from "../composables/useAllPosts";
+import { usePostStore } from "../stores/posts";
 
 const { page } = useGlobalData();
 
-const articlesRef = useAllPosts(true);
+const postsStore = usePostStore();
+const postsRef = computed(() => postsStore.posts);
 
 function normalize(u: string | undefined | null) {
   if (!u) return "";
@@ -48,7 +49,7 @@ const currentCandidates = computed(() => {
 });
 
 const currentIndex = computed(() => {
-  const posts = articlesRef.value || [];
+  const posts = postsRef.value || [];
 
   for (let i = 0; i < posts.length; i++) {
     const post = posts[i];
@@ -68,14 +69,14 @@ const currentIndex = computed(() => {
 });
 
 const prev = computed(() => {
-  const posts = articlesRef.value || [];
+  const posts = postsRef.value || [];
   const idx = currentIndex.value;
   if (idx > 0) return posts[idx - 1];
   return null;
 });
 
 const next = computed(() => {
-  const posts = articlesRef.value || [];
+  const posts = postsRef.value || [];
   const idx = currentIndex.value;
   if (idx >= 0 && idx < posts.length - 1) return posts[idx + 1];
   return null;
