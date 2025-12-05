@@ -42,7 +42,7 @@ function isExternalLink(link: string): boolean {
 </script>
 
 <template>
-  <nav :class="screenWidthStore.isAboveBreakpoint ? 'rail' : 'bar'">
+  <nav class="NavBar" :class="screenWidthStore.isAboveBreakpoint ? 'rail' : 'bar'">
     <button class="fab" @mousedown.prevent @click.stop="toggleSearch">
       <span>{{ searchStateStore.isSearchActive ? "close" : "search" }}</span>
     </button>
