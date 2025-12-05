@@ -1,6 +1,6 @@
 @use "../mixin";
 
-#layout {
+.MainLayout {
   display: grid;
   grid-template-columns: 96px auto;
 
@@ -10,7 +10,7 @@
 
   z-index: 1;
 
-  #layout-content-flow {
+  .content-flow {
     display: grid;
     align-content: space-between;
     align-items: start;
@@ -31,85 +31,102 @@
     scroll-padding-top: 120px;
     scrollbar-width: thin;
 
-    #layout-content-filler {
+    .home-content {
       display: flex;
       flex-flow: column wrap;
-      grid-column: 1 / 13;
+      gap: 42px;
+      grid-column: span 12;
 
       height: 100%;
 
       padding: 24px;
-    }
 
-    #layout-home-title {
-      display: flex;
-      align-items: center;
-      gap: 42px;
-      grid-column: 1 / 13;
-      justify-content: center;
+      .title {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+        justify-content: left;
 
-      width: 100%;
+        width: 100%;
 
-      h1 {
-        @include mixin.typescale-style("display-large");
+        h1 {
+          @include mixin.typescale-style("display-large");
 
-        grid-column: span 9;
-      }
+          grid-column: span 9;
+        }
 
-      h6 {
-        grid-column: span 9;
+        h6 {
+          grid-column: span 9;
 
-        text-align: end;
-      }
+          text-align: end;
+        }
 
-      img {
-        grid-column: 11 / span 2;
-        grid-row: 2 / span 2;
+        img {
+          grid-column: 11 / span 2;
+          grid-row: 2 / span 2;
 
-        height: 120px;
-        width: 120px;
+          height: 120px;
+          width: 120px;
 
-        -webkit-mask: var(--via-svg-mask) no-repeat 0 / 100%;
-        mask: var(--via-svg-mask) no-repeat 0 / 100%;
+          -webkit-mask: var(--via-svg-mask) no-repeat 0 / 100%;
+          mask: var(--via-svg-mask) no-repeat 0 / 100%;
+        }
       }
     }
   }
 }
 
 @media screen and (max-width: 1600px) {
-  #layout #layout-content-flow {
+  .MainLayout .content-flow {
     grid-template-columns: repeat(12, minmax(60px, 72px));
 
     padding-inline: 12px;
+
+    .home-content {
+      grid-column: span 12;
+    }
   }
 }
 
 @media screen and (max-width: 1200px) {
-  #layout #layout-content-flow {
+  .MainLayout .content-flow {
     grid-template-columns: repeat(8, 1fr);
 
     width: 100%;
+
+    .home-content {
+      grid-column: span 8;
+    }
   }
 }
 
 @media screen and (max-width: 840px) {
-  #layout {
+  .MainLayout {
     grid-template-columns: 0px auto;
     grid-template-rows: auto 80px;
 
-    #layout-content-flow {
+    .content-flow {
       grid-template-columns: repeat(6, 1fr);
 
       padding-block: 64px;
       padding-inline: 42px;
+
+      .home-content {
+        grid-column: span 6;
+      }
     }
   }
 }
 
 @media screen and (max-width: 600px) {
-  #layout #layout-content-flow {
+  .MainLayout .content-flow {
     grid-template-columns: repeat(4, 1fr);
 
     padding-inline: 12px;
+
+    .home-content {
+      grid-column: span 4;
+    }
   }
 }

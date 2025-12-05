@@ -35,7 +35,7 @@ async function updatePalette() {
 
       let logColor = defaultColor;
 
-      const el = document.getElementById("header-impression-image");
+      const el = document.querySelector(".Header .image");
       if (el) {
         const colorAttr = el.getAttribute("impression-color");
         if (colorAttr && /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(colorAttr)) {
@@ -104,16 +104,18 @@ if (typeof window !== "undefined") {
 </script>
 
 <template>
-  <div id="layout">
+  <div class="MainLayout">
     <NavBar />
     <AppBar />
-    <Transition name="layout-content" mode="out-in" @before-leave="onBeforeLeave" @after-enter="onAfterEnter">
-      <div id="layout-content-flow" :key="route.path">
-        <div id="layout-home-title" v-if="frontmatter.home">
-          <div>
-            <p>{{ site.description }}</p>
-          </div>
-        </div>
+    <Transition name="layout" mode="out-in" @before-leave="onBeforeLeave" @after-enter="onAfterEnter">
+      <div class="content-flow" :key="route.path">
+        <main v-if="frontmatter.home" class="home-content">
+          <hgroup class="title">
+            <h1>{{ site.title }}</h1>
+            <h6>{{ site.description }}</h6>
+          </hgroup>
+          <ArticleMasonry />
+        </main>
         <component v-else :is="currentLayout" />
         <ScrollToTop />
         <Footer />
