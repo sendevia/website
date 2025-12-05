@@ -1,6 +1,6 @@
 @use "../mixin";
 
-#layout-scrolltop {
+.ScrollToTop {
   display: flex;
   align-items: center;
   grid-column: 10 / 13;
@@ -20,7 +20,7 @@
   visibility: hidden;
   z-index: 21;
 
-  #scrolltop-button {
+  .button {
     @include mixin.material-symbols($size: 24, $line-height: 84);
 
     position: relative;
@@ -52,25 +52,25 @@
 }
 
 @media screen and (max-width: 1600px) {
-  #layout-scrolltop {
+  .ScrollToTop {
     grid-column: 10 / 13;
   }
 }
 
 @media screen and (max-width: 1200px) {
-  #layout-scrolltop {
+  .ScrollToTop {
     grid-column: 7 / 9;
   }
 }
 
 @media screen and (max-width: 840px) {
-  #layout-scrolltop {
+  .ScrollToTop {
     grid-column: 6 / 7;
   }
 }
 
 @media screen and (max-width: 600px) {
-  #layout-scrolltop {
+  .ScrollToTop {
     grid-column: 4 / 5;
   }
 }
