@@ -1,5 +1,7 @@
 <script setup lang="ts">
+// todo: 焦点选择有问题，不能正确记录打开查看器之前的焦点
 import { ref, computed, onMounted, onUnmounted, watch } from "vue";
+import { handleTabNavigation } from "../utils/tabNavigation";
 
 interface Props {
   images: string[];
@@ -19,6 +21,7 @@ const emit = defineEmits<{
 // 缩放配置常量
 const ZOOM_MIN = 0.9; // 最小缩放
 const ZOOM_MAX = 2.0; // 最大缩放
+const ZOOM_MAX_TOUCH = 5.0; // 触摸设备最大缩放
 const ZOOM_STEP = 0.15; // 缩放步长
 const TOUCH_MOVE_THRESHOLD = 10; // 触摸移动阈值 (px)
 
@@ -59,8 +62,9 @@ function calculateInitialTransform() {
 }
 
 function show() {
-  // 保存之前焦点
+  // 在显示之前立即保存当前焦点，但只保存有效的可聚焦元素
   previousActiveElement.value = document.activeElement as HTMLElement | null;
+  console.log(previousActiveElement.value);
 
   isVisible.value = true;
 
@@ -71,15 +75,11 @@ function show() {
   // 开始入场
   setTimeout(() => {
     isAnimating.value = true;
+    const btn = document.querySelector<HTMLButtonElement>(".btn-close");
+    if (btn) {
+      btn.focus();
+    }
   }, 10);
-
-  // 在动画完成后，将焦点设置到关闭按钮
-  // setTimeout(() => {
-  //   const btn = document.querySelector<HTMLButtonElement>(".image-viewer__close");
-  //   if (btn) {
-  //     btn.focus();
-  //   }
-  // }, 300);
 }
 
 function hide() {
@@ -94,9 +94,21 @@ function hide() {
     setTimeout(() => {
       isVisible.value = false;
 
-      // 还原之前的焦点
-      if (previousActiveElement.value && typeof previousActiveElement.value.focus === "function") {
+      // 还原之前的焦点，如果元素仍然存在且在 DOM 中
+      if (
+        previousActiveElement.value &&
+        typeof previousActiveElement.value.focus === "function" &&
+        document.body.contains(previousActiveElement.value)
+      ) {
         previousActiveElement.value.focus();
+      } else {
+        // 如果之前的焦点元素无法还原，尝试找到页面中第一个可聚焦元素
+        const firstFocusable = document.querySelector(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        ) as HTMLElement;
+        if (firstFocusable) {
+          firstFocusable.focus();
+        }
       }
 
       emit("close");
@@ -125,28 +137,17 @@ function nextImage() {
 function handleKeydown(event: KeyboardEvent) {
   if (!isVisible.value) return;
 
-  // Tab 陷阱：当按 Tab 时仅在弹窗内部循环焦点
   if (event.key === "Tab") {
-    const container = document.querySelector(".image-viewer") as HTMLElement | null;
-    if (container) {
-      const focusable = Array.from(
-        container.querySelectorAll<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
-      ).filter((el) => !el.hasAttribute("disabled"));
+    const container = document.querySelector(".image-viewer") as HTMLElement;
+    const focusableElements = container?.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
 
-      if (focusable.length) {
-        const activeIndex = focusable.indexOf(document.activeElement as HTMLElement);
-        if (event.shiftKey) {
-          // reverse
-          const prev = activeIndex <= 0 ? focusable.length - 1 : activeIndex - 1;
-          focusable[prev].focus();
-          event.preventDefault();
-        } else {
-          const next = activeIndex === focusable.length - 1 ? 0 : activeIndex + 1;
-          focusable[next].focus();
-          event.preventDefault();
-        }
-      }
+    if (focusableElements && focusableElements.length > 0) {
+      event.preventDefault();
+      handleTabNavigation(container, focusableElements, event.shiftKey);
     }
+
     return;
   }
 
@@ -294,7 +295,7 @@ function handleTouchMove(event: TouchEvent) {
     event.preventDefault();
     const currentDistance = getDistance(event.touches[0], event.touches[1]);
     const scaleFactor = currentDistance / initialDistance;
-    const newScale = Math.min(Math.max(initialScale * scaleFactor, ZOOM_MIN), ZOOM_MAX);
+    const newScale = Math.min(Math.max(initialScale * scaleFactor, ZOOM_MIN), ZOOM_MAX_TOUCH);
 
     imageScale.value = newScale;
   } else if (event.touches.length === 1) {
@@ -333,18 +334,6 @@ function handleTouchEnd(event: TouchEvent) {
   }
 
   if (event.touches.length === 0) {
-    // 检查是否是纯点击（未产生拖拽）
-    if (!isDragging.value) {
-      // 如果没有拖拽，说明是纯点击。判断点击位置是否在图片外部
-      const eventTarget = event.target as HTMLElement;
-      const contentContainer = eventTarget.closest(".image-viewer__content");
-
-      // 如果触摸发生在 content 容器但不是图片本身，关闭查看器
-      if (contentContainer && eventTarget === contentContainer) {
-        hide();
-      }
-    }
-
     isDragging.value = false;
   }
 }
@@ -378,7 +367,7 @@ defineExpose({
 <template>
   <div
     v-if="isVisible"
-    class="image-viewer"
+    class="ImageViewer"
     :class="{ animating: isAnimating }"
     role="dialog"
     aria-modal="true"
