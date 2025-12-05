@@ -84,7 +84,7 @@ const next = computed(() => {
 </script>
 
 <template>
-  <div class="prev-next">
+  <div class="PrevNext">
     <div class="prev" v-if="prev">
       <a :href="prev.url">
         <span class="label">上一篇</span>
