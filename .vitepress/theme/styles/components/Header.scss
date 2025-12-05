@@ -1,6 +1,6 @@
 @use "../mixin";
 
-header {
+.Header {
   grid-column: span 12;
 
   position: relative;
@@ -13,7 +13,7 @@ header {
     display: none;
   }
 
-  #header-hero-container {
+  .container {
     display: flex;
     align-items: flex-start;
     flex-direction: column;
@@ -35,7 +35,7 @@ header {
     transition: var(--md-sys-motion-duration-extra-long4) var(--md-sys-motion-easing-standard);
     z-index: 1;
 
-    #header-hero-headline {
+    .headline {
       @include mixin.typescale-style(
         "display-large",
         $font-size: 90rem,
@@ -51,7 +51,7 @@ header {
       transition: var(--md-sys-motion-duration-short1) var(--md-sys-motion-easing-standard);
     }
 
-    #header-hero-subtitle {
+    .subtitle {
       @include mixin.typescale-style("headline-large", $font-size: 22rem, $line-height: 22rem);
 
       width: 100%;
@@ -62,7 +62,7 @@ header {
       transition: var(--md-sys-motion-duration-short1) var(--md-sys-motion-easing-standard);
     }
 
-    #header-impression {
+    .impression {
       position: absolute;
       left: 0px;
       top: 0px;
@@ -75,7 +75,7 @@ header {
       transition: background-color var(--md-sys-motion-duration-extra-long4) var(--md-sys-motion-easing-standard);
       z-index: -1;
 
-      #header-impression-noise {
+      .noise {
         position: relative;
 
         height: 100%;
@@ -87,7 +87,7 @@ header {
         z-index: 2;
       }
 
-      #header-impression-image {
+      .image {
         position: absolute;
         left: 0px;
         top: 0px;
@@ -104,11 +104,11 @@ header {
       @media (prefers-color-scheme: dark) {
         background-color: var(--md-ref-palette-secondary10);
 
-        #header-impression-noise {
+        .noise {
           opacity: 0.1;
         }
 
-        #header-impression-image {
+        .image {
           opacity: 0.4;
         }
       }
@@ -117,22 +117,22 @@ header {
 }
 
 @media screen and (max-width: 1600px) {
-  header {
+  .Header {
     grid-column: span 12;
   }
 }
 
 @media screen and (max-width: 1200px) {
-  header {
+  .Header {
     grid-column: span 8;
 
     height: 45vh;
     min-height: 360px;
 
-    #header-hero-container {
+    .container {
       padding: 5vw;
 
-      #header-hero-headline {
+      .headline {
         @include mixin.typescale-style(
           "display-large",
           $font-size: 7vw,
@@ -141,7 +141,7 @@ header {
         );
       }
 
-      #header-hero-subtitle {
+      .subtitle {
         @include mixin.typescale-style(
           "display-small",
           $font-size: 18rem,
@@ -154,13 +154,13 @@ header {
 }
 
 @media screen and (max-width: 840px) {
-  header {
+  .Header {
     grid-column: span 6;
 
-    #header-hero-container {
+    .container {
       width: 100%;
 
-      #header-hero-headline {
+      .headline {
         @include mixin.typescale-style(
           "display-large",
           $font-size: 8vw,
@@ -169,7 +169,7 @@ header {
         );
       }
 
-      #header-hero-subtitle {
+      .subtitle {
         @include mixin.typescale-style("headline-large", $font-size: 23rem, $line-height: 23rem);
       }
     }
@@ -177,13 +177,13 @@ header {
 }
 
 @media screen and (max-width: 600px) {
-  header {
+  .Header {
     grid-column: span 4;
 
-    #header-hero-container {
+    .container {
       padding: 30px;
 
-      #header-hero-headline {
+      .headline {
         @include mixin.typescale-style(
           "display-large",
           $font-size: 40rem,
@@ -194,7 +194,7 @@ header {
         word-break: break-word;
       }
 
-      #header-hero-subtitle {
+      .subtitle {
         @include mixin.typescale-style(
           "display-small",
           $font-size: 15rem,

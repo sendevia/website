@@ -14,13 +14,13 @@ if (typeof window !== "undefined") {
 </script>
 
 <template>
-  <header>
-    <div id="header-hero-container">
-      <span id="header-hero-headline">{{ frontmatter.title ? frontmatter.title : page.title }}</span>
-      <span id="header-hero-subtitle">{{ frontmatter.description }}</span>
-      <div id="header-impression">
+  <header class="Header">
+    <div class="container">
+      <span class="headline">{{ frontmatter.title ? frontmatter.title : page.title }}</span>
+      <span class="subtitle">{{ frontmatter.description }}</span>
+      <div class="impression">
         <svg width="0" height="0">
-          <filter id="noise-filter">
+          <filter class="noise-filter">
             <feTurbulence type="fractalNoise" baseFrequency="1" numOctaves="5" :seed="seed" result="noise" />
             <feColorMatrix type="saturate" values="0" result="desaturatedNoise" />
             <feComponentTransfer>
@@ -31,9 +31,9 @@ if (typeof window !== "undefined") {
             </feComponentTransfer>
           </filter>
         </svg>
-        <div id="header-impression-noise"></div>
+        <div class="noise"></div>
         <div
-          id="header-impression-image"
+          class="image"
           :style="{
             backgroundImage: frontmatter.impression ? `url('${frontmatter.impression}')` : `url('${defaultImpression}')`,
           }"
