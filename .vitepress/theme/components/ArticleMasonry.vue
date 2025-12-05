@@ -65,7 +65,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div id="articleMasonry">
+  <div class="ArticleMasonry">
     <div class="masonry-column" v-for="(column, index) in masonryGroups" :key="index">
       <MaterialCard
         v-for="item in column"
