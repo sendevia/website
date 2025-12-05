@@ -8,7 +8,7 @@ export type PostData = {
   date: string;
   timestamp: number;
   description: string;
-  impression?: string;
+  impression?: string[];
   tags: string[];
   categories: string[];
 };
@@ -46,7 +46,6 @@ const parseModule = (filePath: string, mod: any): PostData => {
   const rawDate = frontmatter.date || pageData.lastUpdated;
   let dateStr = "";
   let timestamp = 0;
-
   if (rawDate) {
     const d = new Date(rawDate);
     if (!isNaN(d.getTime())) {
@@ -54,7 +53,11 @@ const parseModule = (filePath: string, mod: any): PostData => {
       timestamp = d.getTime();
     }
   }
+  // 头图处理
+  const rawImpression = frontmatter.impression;
+  const impression: string[] = Array.isArray(rawImpression) ? rawImpression : rawImpression ? [rawImpression] : [];
 
+  // url 处理
   const filename = filePath.split("/").pop() || "";
   const name = filename.replace(/\.mdx?$/, "");
   const url = `/posts/${encodeURIComponent(name)}`;
@@ -63,8 +66,8 @@ const parseModule = (filePath: string, mod: any): PostData => {
   const content = frontmatter.description || pageData.description || mod.excerpt;
 
   // 标签与分类处理
-  const tags = Array.isArray(frontmatter.tags) ? frontmatter.tags : frontmatter.tags ? [frontmatter.tags] : [];
-  const categories = Array.isArray(frontmatter.categories)
+  const tags: string[] = Array.isArray(frontmatter.tags) ? frontmatter.tags : frontmatter.tags ? [frontmatter.tags] : [];
+  const categories: string[] = Array.isArray(frontmatter.categories)
     ? frontmatter.categories
     : frontmatter.categories
     ? [frontmatter.categories]
@@ -74,8 +77,8 @@ const parseModule = (filePath: string, mod: any): PostData => {
     id: generateHashId(filePath),
     title: frontmatter.title || pageData.title || name,
     description: content || "",
-    impression: frontmatter.impression || "",
     date: dateStr,
+    impression,
     timestamp,
     url,
     tags,
