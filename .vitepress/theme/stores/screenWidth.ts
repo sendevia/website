@@ -12,6 +12,7 @@ export const useScreenWidthStore = defineStore("screenWidth", () => {
 
   // 内部状态
   let resizeHandler: (() => void) | null = null;
+  let fallbackHandler: (() => void) | null = null;
   let isInitialized = false;
 
   /**
@@ -25,6 +26,13 @@ export const useScreenWidthStore = defineStore("screenWidth", () => {
   }
 
   /**
+   * Fallback 检查
+   */
+  function runFallbackCheck() {
+    update();
+  }
+
+  /**
    * 初始化监听器
    */
   function init() {
@@ -32,6 +40,14 @@ export const useScreenWidthStore = defineStore("screenWidth", () => {
       update();
       resizeHandler = () => update();
       window.addEventListener("resize", resizeHandler);
+
+      if (document.readyState === "complete") {
+        runFallbackCheck();
+      } else {
+        fallbackHandler = () => runFallbackCheck();
+        window.addEventListener("load", fallbackHandler);
+      }
+
       isInitialized = true;
     }
   }
@@ -40,9 +56,15 @@ export const useScreenWidthStore = defineStore("screenWidth", () => {
    * 清理监听器
    */
   function cleanup() {
-    if (typeof window !== "undefined" && resizeHandler) {
-      window.removeEventListener("resize", resizeHandler);
-      resizeHandler = null;
+    if (typeof window !== "undefined") {
+      if (resizeHandler) {
+        window.removeEventListener("resize", resizeHandler);
+        resizeHandler = null;
+      }
+      if (fallbackHandler) {
+        window.removeEventListener("load", fallbackHandler);
+        fallbackHandler = null;
+      }
       isInitialized = false;
     }
   }
