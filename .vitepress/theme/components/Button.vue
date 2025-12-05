@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<Props>(), {
   <component
     :is="href ? 'a' : 'button'"
     :href="href"
-    class="md-button"
+    class="MaterialButton"
     :class="[props.shape, props.size, props.color, props.icon ? 'icon' : '']"
   >
     <span v-if="props.icon">
