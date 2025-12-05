@@ -4,7 +4,7 @@ import { useGlobalScroll } from "../composables/useGlobalScroll";
 const { isScrolled } = useGlobalScroll({ threshold: 500 });
 
 function scrollToTop() {
-  const container = document.getElementById("contentFlow");
+  const container = document.querySelector(".content-flow");
   (container as HTMLElement).scrollTo({ top: 0, behavior: "smooth" });
 }
 </script>

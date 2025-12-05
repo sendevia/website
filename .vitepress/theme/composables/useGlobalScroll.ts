@@ -5,7 +5,7 @@ let isInitialized = false;
 let isScrolled = ref(false);
 let precision = 1;
 let scrollPosition = ref(0);
-let targetElementSelector: string = "#layout-content-flow";
+let targetScrollable: string = ".content-flow";
 let threshold = 80;
 
 const componentCallbacks = new Map<symbol, { threshold: number; callback: (isScrolled: boolean) => void }>();
@@ -17,7 +17,7 @@ function isScrollable(el: HTMLElement) {
 }
 
 function detectContainer() {
-  const el = document.querySelector(targetElementSelector);
+  const el = document.querySelector(targetScrollable);
   if (el && el instanceof HTMLElement && isScrollable(el)) return el;
   return window;
 }
@@ -41,11 +41,11 @@ function handleGlobalScroll() {
   }
 }
 
-function initGlobalScrollListener(initialThreshold: number, scrollContainer: string = "#layout-content-flow") {
+function initGlobalScrollListener(initialThreshold: number = threshold, scrollContainer: string = targetScrollable) {
   if (isInitialized) return;
 
   threshold = initialThreshold;
-  targetElementSelector = scrollContainer;
+  targetScrollable = scrollContainer;
 
   if (typeof window !== "undefined") {
     const updateContainer = () => {
@@ -88,7 +88,7 @@ function initGlobalScrollListener(initialThreshold: number, scrollContainer: str
 
 function calculatePercentage(precisionValue: number = precision): number {
   try {
-    const el = document.querySelector(targetElementSelector);
+    const el = document.querySelector(targetScrollable);
     const scrollContainer = el && el instanceof HTMLElement && isScrollable(el as HTMLElement) ? el : window;
 
     const scrollTop =
