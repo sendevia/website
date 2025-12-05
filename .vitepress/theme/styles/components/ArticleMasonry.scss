@@ -1,0 +1,24 @@
+#articleMasonry {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  gap: 12px;
+
+  width: 100%;
+
+  .masonry-column {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 12px;
+
+    min-width: 0px;
+
+    .MaterialCard {
+      width: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 840px) {
+}

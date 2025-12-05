@@ -3,6 +3,7 @@ import { createPinia } from "pinia";
 import Layout from "./layouts/Default.vue";
 
 import AppBar from "./components/AppBar.vue";
+import ArticleMasonry from "./components/ArticleMasonry.vue";
 import Button from "./components/Button.vue";
 import Card from "./components/Card.vue";
 import Footer from "./components/Footer.vue";
@@ -23,6 +24,7 @@ export default {
     app.use(pinia);
 
     app.component("AppBar", AppBar);
+    app.component("ArticleMasonry", ArticleMasonry);
     app.component("Footer", Footer);
     app.component("Header", Header);
     app.component("ImageViewer", ImageViewer);
