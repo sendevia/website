@@ -1,6 +1,6 @@
 @use "../mixin";
 
-.page-indicator {
+.PageIndicator {
   position: relative;
 
   user-select: none;
@@ -123,17 +123,8 @@
   }
 }
 
-@media screen and (max-width: 1600px) {
-}
-
-@media screen and (max-width: 1200px) {
-}
-
 @media screen and (max-width: 840px) {
   .page-indicator {
     display: none;
   }
-}
-
-@media screen and (max-width: 600px) {
 }

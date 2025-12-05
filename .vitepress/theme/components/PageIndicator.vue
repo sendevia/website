@@ -5,7 +5,7 @@ import { useScreenWidthStore } from "../stores/screenWidth";
 
 const { page, frontmatter } = useGlobalData();
 const screenWidthStore = useScreenWidthStore();
-const navRef = ref<HTMLElement | null>(null);
+const pageIndicator = ref<HTMLElement | null>(null);
 const indicator = ref({ top: "0px", left: "0px", width: "100%", height: "0px", opacity: 0 });
 const headings = ref<Array<{ id: string; text: string; level: number }>>([]);
 const headingsActiveId = ref<string>("");
@@ -95,7 +95,7 @@ function createObserver() {
 }
 
 function updateIndicator() {
-  const nav = navRef.value;
+  const nav = pageIndicator.value;
   if (!nav) return;
 
   const id = headingsActiveId.value;
@@ -129,22 +129,22 @@ function toggleMonitoring(shouldMonitor: boolean) {
     createObserver();
     nextTick(() => updateIndicator());
 
-    if ((window as any).ResizeObserver && navRef.value) {
+    if ((window as any).ResizeObserver && pageIndicator.value) {
       ro = new ResizeObserver(() => updateIndicator());
-      ro.observe(navRef.value);
-      navRef.value.querySelectorAll("[data-id]").forEach((el) => ro!.observe(el as Element));
+      ro.observe(pageIndicator.value);
+      pageIndicator.value.querySelectorAll("[data-id]").forEach((el) => ro!.observe(el as Element));
     }
 
-    if ((window as any).MutationObserver && navRef.value) {
+    if ((window as any).MutationObserver && pageIndicator.value) {
       mo = new MutationObserver(() => {
         nextTick(() => {
           updateIndicator();
-          if (ro && navRef.value) {
-            navRef.value.querySelectorAll("[data-id]").forEach((el) => ro!.observe(el as Element));
+          if (ro && pageIndicator.value) {
+            pageIndicator.value.querySelectorAll("[data-id]").forEach((el) => ro!.observe(el as Element));
           }
         });
       });
-      mo.observe(navRef.value, { childList: true, subtree: true });
+      mo.observe(pageIndicator.value, { childList: true, subtree: true });
     }
   } else {
     pageIndicatorObserver?.disconnect();
@@ -252,7 +252,7 @@ if (typeof window !== "undefined") {
 </script>
 
 <template>
-  <div class="page-indicator" aria-label="页面目录" ref="navRef">
+  <div ref="pageIndicator" class="PageIndicator" aria-label="页面目录">
     <p>在此页上</p>
     <h3>{{ frontmatter.title ? frontmatter.title : page.title }}</h3>
 
