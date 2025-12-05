@@ -1,6 +1,6 @@
 @use "../mixin";
 
-.appbar {
+.AppBar {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -25,7 +25,7 @@
   transition: var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect);
   z-index: 998;
 
-  .actionArea {
+  .action-area {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -36,7 +36,7 @@
     height: 64px;
     width: 100%;
 
-    .leadingButton {
+    .leading-button {
       display: flex;
       flex-direction: column;
       flex-shrink: 0;
@@ -59,7 +59,7 @@
       }
     }
 
-    .searchInput {
+    .search-input {
       @include mixin.typescale-style("title-medium");
 
       flex-grow: 1;
@@ -87,7 +87,7 @@
       }
     }
 
-    .authorAvatar {
+    .author-avatar {
       display: flex;
       align-content: center;
       flex-direction: column;
@@ -112,7 +112,7 @@
     }
   }
 
-  .searchResult {
+  .result-area {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -152,13 +152,13 @@
 
     padding: 12px;
 
-    .actionArea {
-      .leadingButton {
+    .action-area {
+      .leading-button {
         opacity: 0;
         transition: opacity var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
       }
 
-      .searchInput {
+      .search-input {
         margin-inline-start: 0px;
 
         transition: margin var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
@@ -169,20 +169,14 @@
   &.scroll {
     background-color: var(--md-sys-color-surface-container);
 
-    .searchInput {
+    .search-input {
       background-color: var(--md-sys-color-surface-container-highest);
     }
   }
 }
 
-@media screen and (max-width: 1600px) {
-}
-
-@media screen and (max-width: 1200px) {
-}
-
 @media screen and (max-width: 840px) {
-  .appbar {
+  .AppBar {
     top: 0;
 
     width: 100%;
@@ -190,17 +184,14 @@
     opacity: 1;
     visibility: visible;
 
-    .actionArea {
-      .searchInput {
+    .action-area {
+      .search-input {
         margin-inline-start: 56px;
       }
     }
 
-    .searchResult {
+    .result-area {
       height: calc(100% - (80px + 64px));
     }
   }
-}
-
-@media screen and (max-width: 600px) {
 }

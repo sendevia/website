@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from "vue";
 import { storeToRefs } from "pinia";
-import { useGlobalData } from "../composables/useGlobalData";
 import { useGlobalScroll } from "../composables/useGlobalScroll";
 import { usePostStore, type PostData } from "../stores/posts";
 import { useSearchStateStore } from "../stores/searchState";
 import { useScreenWidthStore } from "../stores/screenWidth";
 import { handleTabNavigation } from "../utils/tabNavigation";
 
-const { frontmatter } = useGlobalData();
 const { isScrolled } = useGlobalScroll({ threshold: 100 });
 
 const searchStateStore = useSearchStateStore();
@@ -17,7 +15,6 @@ const postsStore = usePostStore();
 
 const { posts } = storeToRefs(postsStore);
 
-const isHome = computed(() => frontmatter.value.home === true);
 const query = ref("");
 const appbar = ref<HTMLElement | null>(null);
 const searchInput = ref<HTMLInputElement | null>(null);
@@ -146,17 +143,16 @@ onUnmounted(() => {
 <template>
   <div
     ref="appbar"
-    class="appbar"
+    class="AppBar"
     :class="{
       scroll: isScrolled,
-      homeLayout: isHome,
       searching: searchStateStore.isSearchActive,
       typing: searchStateStore.isSearchTyping,
     }"
     :tabindex="isTabFocusable ? 0 : -1"
   >
-    <div class="actionArea">
-      <div class="leadingButton">
+    <div class="action-area">
+      <div class="leading-button">
         <MaterialButton color="text" icon="menu" size="xs" :tabindex="isTabFocusable ? 0 : -1" />
       </div>
 
@@ -164,19 +160,19 @@ onUnmounted(() => {
         ref="searchInput"
         v-model="query"
         placeholder="搜索文章"
-        class="searchInput"
+        class="search-input"
         :tabindex="isTabFocusable ? 0 : -1"
         @focus="handleFocus"
         @blur="handleBlur"
         @input="handleInput"
       />
 
-      <div class="authorAvatar" :tabindex="isTabFocusable ? 0 : -1">
+      <div class="author-avatar" :tabindex="isTabFocusable ? 0 : -1">
         <img src="/assets/images/avatar.webp" alt="logo" />
       </div>
     </div>
 
-    <div v-if="filteredPosts.length > 0" class="searchResult">
+    <div v-if="filteredPosts.length > 0" class="result-area">
       <a
         v-for="(post, index) in filteredPosts"
         :key="post.url"
