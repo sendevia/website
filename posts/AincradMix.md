@@ -1,8 +1,8 @@
 ---
 title: "AincradMix"
 description: "一个 osu! 皮肤"
-color: "#0089ff"
-impression: "/assets/images/22/screenshot01.webp"
+color: "#00318b"
+impression: "/assets/images/22/s0_amix_vision.webp"
 categories:
   - osu!皮肤
 tags:

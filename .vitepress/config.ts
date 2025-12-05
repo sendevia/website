@@ -92,7 +92,7 @@ export default defineConfig({
   ],
   themeConfig: {
     defaultColor: "#39c5bb",
-    defaultImpression: "/assets/images/116014672_p0.webp",
+    defaultImpression: "/assets/images/121337686_p0.webp",
     siteVersion: packageJson.version || "0.0.0",
     navSegment: [
       { text: "首页", icon: "home", link: "/" },
