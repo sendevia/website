@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { useGlobalData } from "../composables/useGlobalData";
 import { useScreenWidthStore } from "../stores/screenWidth";
 import { useSearchStateStore } from "../stores/searchState";
@@ -14,18 +14,9 @@ const navSegment = computed(() => {
   return Array.isArray(items) && items.length > 0 ? items : [];
 });
 
-/**
- * 计算导航栏模式 (Rail / Bar)
- */
-const navMode = computed(() => {
-  const currentWidth = screenWidthStore.screenWidth;
-  const breakpoint = screenWidthStore.breakpoint;
-
-  if (currentWidth <= 840) {
-    return "bar";
-  }
-
-  return currentWidth > breakpoint ? "rail" : "bar";
+// 计算导航栏类名
+const navClass = computed(() => {
+  return screenWidthStore.isAboveBreakpoint ? "rail" : "bar";
 });
 
 // 规范化路径
@@ -52,10 +43,14 @@ function isExternalLink(link: string): boolean {
   const externalLinkPatterns = [/^https?:\/\//];
   return externalLinkPatterns.some((pattern) => pattern.test(link));
 }
+
+onMounted(() => {
+  screenWidthStore.init();
+});
 </script>
 
 <template>
-  <nav class="NavBar" :class="navMode">
+  <nav class="NavBar" :class="navClass">
     <button class="fab" @mousedown.prevent @click.stop="toggleSearch">
       <span>{{ searchStateStore.isSearchActive ? "close" : "search" }}</span>
     </button>

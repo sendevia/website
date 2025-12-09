@@ -173,6 +173,8 @@ const resizeHandler = () => {
 
 if (typeof window !== "undefined") {
   onMounted(() => {
+    screenWidthStore.init();
+
     toggleMonitoring(screenWidthStore.isAboveBreakpoint);
 
     window.addEventListener("resize", resizeHandler);

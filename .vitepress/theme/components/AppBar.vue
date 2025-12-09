@@ -130,6 +130,8 @@ const handleKeydown = (event: KeyboardEvent) => {
 };
 
 onMounted(() => {
+  screenWidthStore.init();
+
   document.addEventListener("click", handleDocumentClick);
   document.addEventListener("keydown", handleKeydown);
 });
