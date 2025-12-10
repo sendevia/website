@@ -7,6 +7,7 @@ import { onMounted, nextTick, computed, ref, watch } from "vue";
 import { useRoute } from "vitepress";
 import { useGlobalData } from "../composables/useGlobalData";
 import { usePostStore } from "../stores/posts";
+import { isClient } from "../utils/env";
 
 const { site, page, frontmatter, theme } = useGlobalData();
 const route = useRoute();
@@ -40,7 +41,7 @@ function checkAndRedirect(path: string): boolean {
       }
 
       redirectTimer = setTimeout(() => {
-        if (typeof window !== "undefined") {
+        if (isClient()) {
           window.location.replace(post.url);
         }
       }, 100);
@@ -133,7 +134,7 @@ function onBeforeLeave() {
   isTransitioning.value = true;
 }
 
-if (typeof window !== "undefined") {
+if (isClient()) {
   onMounted(() => {
     if (!route.path.startsWith("/p/")) {
       updatePalette();

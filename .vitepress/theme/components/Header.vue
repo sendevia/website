@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useGlobalData } from "../composables/useGlobalData";
+import { isClient } from "../utils/env";
 
 const { page, frontmatter, theme } = useGlobalData();
 const seed = ref(1);
 const defaultImpression = theme.value.defaultImpression;
 
-if (typeof window !== "undefined") {
+if (isClient()) {
   onMounted(() => {
     seed.value = Date.now();
   });

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from "vue";
+import { isClient } from "../utils/env";
 
 const showImageViewer = ref(false);
 const currentImageIndex = ref(0);
@@ -86,7 +87,7 @@ function olCountAttributes() {
   });
 }
 
-if (typeof window !== "undefined") {
+if (isClient()) {
   onMounted(() => {
     const anchors = document.querySelectorAll<HTMLAnchorElement>("a.title-anchor");
     anchors.forEach((anchor) => {

@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { ref, watch, onUnmounted } from "vue";
+import { isClient } from "../utils/env";
 
 /**
  * 屏幕宽度响应式状态管理
@@ -13,13 +14,6 @@ export const useScreenWidthStore = defineStore("screenWidth", () => {
   // 内部状态
   let resizeHandler: (() => void) | null = null;
   let isInitialized = false;
-
-  /**
-   * 检查是否在客户端环境
-   */
-  function isClient() {
-    return typeof window !== "undefined";
-  }
 
   /**
    * 更新屏幕宽度状态

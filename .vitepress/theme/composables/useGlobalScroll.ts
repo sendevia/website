@@ -1,4 +1,5 @@
 import { ref, computed, onMounted } from "vue";
+import { isClient } from "../utils/env";
 
 let container: HTMLElement | Window | null = null;
 let isInitialized = false;
@@ -47,7 +48,7 @@ function initGlobalScrollListener(initialThreshold: number = threshold, scrollCo
   threshold = initialThreshold;
   targetScrollable = scrollContainer;
 
-  if (typeof window !== "undefined") {
+  if (isClient()) {
     const updateContainer = () => {
       if (container) {
         const target: any = container;

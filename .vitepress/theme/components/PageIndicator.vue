@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, onBeforeUnmount, nextTick, watch } from "vue";
 import { useGlobalData } from "../composables/useGlobalData";
 import { useScreenWidthStore } from "../stores/screenWidth";
+import { isClient } from "../utils/env";
 
 const { page, frontmatter } = useGlobalData();
 const screenWidthStore = useScreenWidthStore();
@@ -171,7 +172,7 @@ const resizeHandler = () => {
   }
 };
 
-if (typeof window !== "undefined") {
+if (isClient()) {
   onMounted(() => {
     screenWidthStore.init();
 
