@@ -20,34 +20,6 @@ const props = withDefaults(defineProps<Props>(), {
   variant: "feed",
   impression: () => [],
 });
-
-const isSwapped = ref(false);
-let touchStartX = 0;
-
-// 是否有多张图片
-const hasMultipleImages = () => props.impression && props.impression.length >= 2;
-
-// 处理开始触摸
-const handleTouchStart = (e: TouchEvent) => {
-  if (!hasMultipleImages()) return;
-  touchStartX = e.touches[0].clientX;
-};
-
-// 处理结束触摸
-const handleTouchEnd = (e: TouchEvent) => {
-  if (!hasMultipleImages()) return;
-  const touchEndX = e.changedTouches[0].clientX;
-  const diff = touchStartX - touchEndX;
-
-  // 滑动距离超过 50px 视为有效
-  if (Math.abs(diff) > 50) {
-    if (diff > 0) {
-      isSwapped.value = true;
-    } else {
-      isSwapped.value = false;
-    }
-  }
-};
 </script>
 
 <template>
@@ -61,13 +33,7 @@ const handleTouchEnd = (e: TouchEvent) => {
           </div>
         </div>
 
-        <div
-          v-if="props.impression && props.impression.length > 0"
-          class="image-container"
-          :class="{ swapped: isSwapped }"
-          @touchstart.passive="handleTouchStart"
-          @touchend.passive="handleTouchEnd"
-        >
+        <div v-if="props.impression && props.impression.length > 0" class="image-container">
           <img
             v-for="(imgUrl, index) in props.impression.slice(0, 2)"
             :key="index"
