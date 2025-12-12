@@ -23,12 +23,13 @@ export default {
   enhanceApp({ app }) {
     app.use(pinia);
 
+    app.component("MainLayout", Layout);
+
     app.component("AppBar", AppBar);
     app.component("ArticleMasonry", ArticleMasonry);
     app.component("Footer", Footer);
     app.component("Header", Header);
     app.component("ImageViewer", ImageViewer);
-    app.component("MainLayout", Layout);
     app.component("MaterialButton", Button);
     app.component("MaterialCard", Card);
     app.component("NavBar", NavBar);

@@ -1,3 +1,15 @@
+<script setup lang="ts">
+import { onBeforeMount, onMounted } from "vue";
+
+onBeforeMount(() => {
+  document.title = "";
+});
+
+onMounted(() => {
+  document.title = "404";
+});
+</script>
+
 <template>
   <div class="notfound">
     <div id="notfound-information">

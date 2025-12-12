@@ -18,8 +18,6 @@ const currentRoutePath = ref(route.path);
 const pendingRoutePath = ref<string | null>(null);
 const isRedirecting = ref(false);
 
-let redirectTimer: ReturnType<typeof setTimeout> | null = null;
-
 /**
  * 检查并执行重定向
  * 返回 true 表示正在处理重定向
@@ -40,11 +38,9 @@ function checkAndRedirect(path: string): boolean {
         document.title = `跳转中 | ${site.value.title}`;
       }
 
-      redirectTimer = setTimeout(() => {
-        if (isClient()) {
-          window.location.replace(post.url);
-        }
-      }, 100);
+      if (isClient()) {
+        window.location.replace(post.url);
+      }
 
       return true;
     }
@@ -107,10 +103,6 @@ watch(
     // 如果之前是重定向状态，清理状态
     if (isRedirecting.value) {
       isRedirecting.value = false;
-      if (redirectTimer) {
-        clearTimeout(redirectTimer);
-        redirectTimer = null;
-      }
     }
 
     if (newPath !== oldPath && !isTransitioning.value && oldPath !== undefined) {
@@ -145,11 +137,7 @@ if (isClient()) {
 
 <template>
   <div class="MainLayout">
-    <div v-if="isRedirecting">
-      <h1>Redirecting...</h1>
-    </div>
-
-    <template v-else>
+    <template v-if="!isRedirecting">
       <NavBar />
       <AppBar />
       <Transition name="layout" mode="out-in" @before-leave="onBeforeLeave" @after-enter="onAfterEnter">
