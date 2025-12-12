@@ -3,10 +3,6 @@ import { onMounted } from "vue";
 
 onMounted(() => {
   document.title = "";
-
-  setTimeout(() => {
-    document.title = "404";
-  }, 100);
 });
 </script>
 
