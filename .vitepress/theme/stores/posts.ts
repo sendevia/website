@@ -2,6 +2,8 @@ import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { data as postsData, type PostData } from "./posts.data";
 
+export { PostData } from "./posts.data";
+
 export const usePostStore = defineStore("posts", () => {
   const posts = ref<PostData[]>(postsData);
 
