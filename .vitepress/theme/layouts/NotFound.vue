@@ -1,11 +1,3 @@
-<script setup lang="ts">
-import { onMounted } from "vue";
-
-onMounted(() => {
-  document.title = "";
-});
-</script>
-
 <template>
   <div class="notfound">
     <div id="notfound-information">
