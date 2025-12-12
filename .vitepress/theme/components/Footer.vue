@@ -19,7 +19,7 @@ const siteVersion = theme.value.siteVersion;
       <div class="theme-info">
         <p>
           使用
-          <a href="https://github.com/sendevia/vitepress-theme" target="_blank">sendevia's material theme</a>
+          <a href="https://github.com/sendevia/website" target="_blank">sendevia's material theme</a>
           主题
         </p>
         <a :href="'https://github.com/sendevia/website/tags/v' + siteVersion" target="_blank"> 版本：{{ siteVersion }}</a>
