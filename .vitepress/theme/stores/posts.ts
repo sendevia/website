@@ -1,100 +1,9 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
+import { data as postsData, type PostData } from "./posts.data";
 
-export type PostData = {
-  id: string;
-  title: string;
-  url: string;
-  date: string;
-  timestamp: number;
-  description: string;
-  impression?: string[];
-  tags: string[];
-  categories: string[];
-};
-
-declare global {
-  interface ImportMeta {
-    glob: (pattern: string, options?: any) => Record<string, any>;
-  }
-}
-
-const modules = import.meta.glob("../../../posts/**/*.md", { eager: true }) as Record<string, any>;
-
-/**
- * 生成唯一ID
- */
-const generateHashId = (str: string): string => {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = (hash << 5) - hash + char;
-    hash |= 0;
-  }
-  return Math.abs(hash).toString(36);
-};
-
-/**
- * 核心解析逻辑
- */
-const parseModule = (filePath: string, mod: any): PostData => {
-  // 优先获取 VitePress 编译后的 __pageData，其次是 standard frontmatter
-  const pageData = mod.__pageData || {};
-  const frontmatter = pageData.frontmatter || mod.frontmatter || {};
-
-  // 日期处理
-  const rawDate = frontmatter.date || pageData.lastUpdated;
-  let dateStr = "";
-  let timestamp = 0;
-  if (rawDate) {
-    const d = new Date(rawDate);
-    if (!isNaN(d.getTime())) {
-      dateStr = d.toISOString().split("T")[0];
-      timestamp = d.getTime();
-    }
-  }
-  // 头图处理
-  const rawImpression = frontmatter.impression;
-  const impression: string[] = Array.isArray(rawImpression) ? rawImpression : rawImpression ? [rawImpression] : [];
-
-  // url 处理
-  const filename = filePath.split("/").pop() || "";
-  const name = filename.replace(/\.mdx?$/, "");
-  const url = `/posts/${encodeURIComponent(name)}`;
-
-  // 摘要/内容提取
-  const content = frontmatter.description || pageData.description || mod.excerpt;
-
-  // 标签与分类处理
-  const tags: string[] = Array.isArray(frontmatter.tags) ? frontmatter.tags : frontmatter.tags ? [frontmatter.tags] : [];
-  const categories: string[] = Array.isArray(frontmatter.categories)
-    ? frontmatter.categories
-    : frontmatter.categories
-    ? [frontmatter.categories]
-    : [];
-
-  return {
-    id: generateHashId(filePath),
-    title: frontmatter.title || pageData.title || name,
-    description: content || "",
-    date: dateStr,
-    impression,
-    timestamp,
-    url,
-    tags,
-    categories,
-  };
-};
-
-/**
- * 文章列表管理
- */
 export const usePostStore = defineStore("posts", () => {
-  const _allPosts = Object.keys(modules)
-    .map((filePath) => parseModule(filePath, modules[filePath]))
-    .sort((a, b) => b.timestamp - a.timestamp);
-
-  const posts = ref<PostData[]>(_allPosts);
+  const posts = ref<PostData[]>(postsData);
 
   // 最新文章
   const latestPosts = computed(() => posts.value.slice(0, 5));
@@ -115,9 +24,8 @@ export const usePostStore = defineStore("posts", () => {
 
   // 根据 URL 获取文章
   const getPostByUrl = (url: string) => {
-    // 移除 .html 后缀以防匹配失败
-    const target = url.replace(/\.html$/, "");
-    return posts.value.find((p) => p.url.replace(/\.html$/, "") === target);
+    const target = url.replace(/(\.html|\/)$/, "");
+    return posts.value.find((p) => p.url.replace(/(\.html|\/)$/, "") === target);
   };
 
   // 根据 ID 获取文章
