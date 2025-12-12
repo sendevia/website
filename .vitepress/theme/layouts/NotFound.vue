@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { onBeforeMount, onMounted } from "vue";
-
-onBeforeMount(() => {
-  document.title = "";
-});
+import { onMounted } from "vue";
 
 onMounted(() => {
-  document.title = "404";
+  document.title = "";
+
+  setTimeout(() => {
+    document.title = "404";
+  }, 100);
 });
 </script>
 
