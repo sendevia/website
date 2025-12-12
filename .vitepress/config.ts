@@ -90,6 +90,8 @@ export default defineConfig({
       },
     ],
   ],
+  metaChunk: true,
+  lastUpdated: true,
   themeConfig: {
     defaultColor: "#39c5bb",
     defaultImpression: "/assets/images/121337686_p0.webp",
