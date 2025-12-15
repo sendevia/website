@@ -53,9 +53,9 @@ main#article-content {
       }
 
       &:focus-visible {
-        @include mixin.focus-ring($thickness: 2, $z-index: 3);
-
         outline-color: var(--md-ref-palette-neutral90) !important;
+
+        z-index: 3;
       }
     }
 
@@ -221,10 +221,6 @@ main#article-content {
           transform: rotateZ(-90deg);
           transition: var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
         }
-
-        &:focus-visible {
-          @include mixin.focus-ring($thickness: 3);
-        }
       }
 
       :not(summary) {
@@ -335,9 +331,8 @@ main#article-content {
       -moz-user-select: none;
 
       &:focus-visible {
-        @include mixin.focus-ring($thickness: 2, $z-index: 2);
-
         opacity: 1;
+        z-index: 2;
 
         span:nth-of-type(1) {
           opacity: 1;

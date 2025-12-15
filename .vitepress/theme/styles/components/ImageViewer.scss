@@ -133,10 +133,6 @@
       transform: scale(0.9);
     }
 
-    &:focus-visible {
-      @include mixin.focus-ring($thickness: 2, $offset: 2);
-    }
-
     img {
       height: 100%;
       width: 100%;

@@ -61,10 +61,6 @@
 
         font-variation-settings: "wght" 600;
       }
-
-      &:focus-visible {
-        @include mixin.focus-ring($thickness: 2);
-      }
     }
 
     &:hover {

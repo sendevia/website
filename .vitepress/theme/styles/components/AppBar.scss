@@ -53,10 +53,6 @@
       opacity: 1;
       transition: opacity var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
       z-index: 0;
-
-      MaterialButton:focus-visible {
-        @include mixin.focus-ring($thickness: 2);
-      }
     }
 
     .search-input {
@@ -81,10 +77,6 @@
 
       transition: margin var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
       z-index: 1;
-
-      &:focus-visible {
-        @include mixin.focus-ring($thickness: 2);
-      }
     }
 
     .author-avatar {

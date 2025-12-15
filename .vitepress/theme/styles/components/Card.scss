@@ -136,41 +136,16 @@
     }
   }
 
-  &::after {
-    content: "";
-
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    height: 100%;
-    width: 100%;
-
-    z-index: 0;
-  }
-
-  &:hover {
-    &::after {
-      background-color: var(--md-sys-state-hover-state-layer);
-    }
-  }
-
-  &:focus-visible {
-    @include mixin.focus-ring($thickness: 3, $offset: 2);
-  }
-
   &.elevated {
     color: var(--md-sys-color-primary);
 
     background-color: var(--md-sys-color-surface-container-low);
 
-    box-shadow: 0px 1px 3px var(--md-sys-color-shadow);
+    box-shadow: 0px 1px 6px -3px var(--md-sys-color-shadow);
   }
 
   &.filled {
     color: var(--md-sys-color-on-surface);
-
-    border-radius: var(--md-sys-shape-corner-medium);
 
     background-color: var(--md-sys-color-surface-container-highest);
   }

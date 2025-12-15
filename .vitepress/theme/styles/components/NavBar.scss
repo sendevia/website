@@ -18,6 +18,8 @@
     text-decoration: none;
 
     &:focus-visible {
+      outline: none !important;
+
       .destination-accent {
         @include mixin.focus-ring($thickness: 3, $offset: 2);
       }
@@ -59,10 +61,6 @@
 
     &:hover span {
       font-variation-settings: "FILL" 1, "wght" 600;
-    }
-
-    &:focus-visible {
-      @include mixin.focus-ring($thickness: 2);
     }
 
     &:active span {

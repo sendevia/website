@@ -85,8 +85,6 @@
         border-radius: var(--md-sys-shape-corner-extra-large);
 
         &:focus-visible {
-          @include mixin.focus-ring($thickness: 2);
-
           background-color: var(--md-sys-color-surface-container);
         }
       }
