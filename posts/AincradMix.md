@@ -11,6 +11,8 @@ tags:
   - readme
   - osu!
 date: 2022-07-04T04:00:00Z
+download_links:
+  - 直连下载: https://github.com/sendevia/AincradMix/releases/latest/download/AincradMix.osk
 ---
 
 # 介绍
