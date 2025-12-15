@@ -24,17 +24,13 @@
     }
 
     .supporting-area {
-      color: var(--md-sys-color-on-surface);
-
       pointer-events: none;
-
-      h3 {
-        transition: var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
-      }
     }
   }
 
   &.feed {
+    border-radius: var(--md-sys-shape-corner-large);
+
     .content {
       display: flex;
       flex-direction: column;
@@ -137,22 +133,28 @@
   }
 
   &.elevated {
-    color: var(--md-sys-color-primary);
-
     background-color: var(--md-sys-color-surface-container-low);
 
     box-shadow: 0px 1px 6px -3px var(--md-sys-color-shadow);
+
+    .content {
+      color: var(--md-sys-color-on-surface);
+    }
   }
 
   &.filled {
-    color: var(--md-sys-color-on-surface);
-
     background-color: var(--md-sys-color-surface-container-highest);
+
+    .content {
+      color: var(--md-sys-color-on-surface);
+    }
   }
 
   &.outlined {
-    color: var(--md-sys-color-on-surface-variant);
-
     border-color: var(--md-sys-color-outline-variant);
+
+    .content {
+      color: var(--md-sys-color-on-surface-variant);
+    }
   }
 }
