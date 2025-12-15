@@ -1,18 +1,18 @@
 <script setup lang="ts">
 interface Props {
-  href?: string;
-  icon?: string;
-  text?: string;
-  color?: "elevated" | "filled" | "tonal" | "outlined" | "standard" | "text";
   shape?: "round" | "square";
   size?: "xs" | "s" | "m" | "l" | "xl";
+  color?: "elevated" | "filled" | "tonal" | "outlined" | "standard" | "text";
+  icon?: string;
+  text?: string;
+  href?: string;
   target?: "_blank" | "_self" | "_parent" | "_top";
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  color: "filled",
   shape: "round",
   size: "s",
+  color: "filled",
   target: "_blank",
 });
 </script>

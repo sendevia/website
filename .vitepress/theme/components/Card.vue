@@ -1,23 +1,21 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
 interface Props {
-  category?: string[];
-  date?: string;
-  description?: string;
-  href?: string;
-  impression?: string[];
-  tags?: string[];
-  title?: string;
-  color?: "elevated" | "filled" | "outlined";
-  size?: "s" | "m" | "l";
   variant?: "feed";
+  size?: "s" | "m" | "l";
+  color?: "elevated" | "filled" | "outlined";
+  title?: string;
+  description?: string;
+  date?: string;
+  tags?: string[];
+  category?: string[];
+  impression?: string[];
+  href?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  color: "filled",
-  size: "m",
   variant: "feed",
+  size: "m",
+  color: "filled",
   impression: () => [],
 });
 </script>

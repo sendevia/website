@@ -69,8 +69,9 @@ onUnmounted(() => {
     <div class="masonry-column" v-for="(column, index) in masonryGroups" :key="index">
       <MaterialCard
         v-for="item in column"
-        class="feed"
+        variant="feed"
         size="m"
+        color="elevated"
         :key="item.id"
         :href="item.url"
         :title="item.title"
