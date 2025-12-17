@@ -2,69 +2,148 @@
 
 .PrevNext {
   display: grid;
-  grid-template-columns: 50% 50%;
+  gap: 6px;
+  grid-template-columns: 1fr 1fr;
 
   margin-block-start: 24px;
 
-  .prev {
-    grid-column: 1 / 2;
+  a {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
 
-    margin-inline-end: 6px;
+    position: relative;
 
-    text-align: start;
+    width: 100%;
 
-    a {
-      padding-inline-start: 12px;
-    }
-  }
+    padding-block: 18px;
+    padding-inline: 24px;
 
-  .next {
-    grid-column: 2 / 3;
+    text-decoration: none !important;
 
-    margin-inline-start: 6px;
-
-    text-align: end;
-
-    a {
-      padding-inline-end: 12px;
-    }
-  }
-
-  .prev,
-  .next {
-    border-radius: var(--md-sys-shape-corner-medium);
+    border-radius: var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-extra-large)
+      var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-extra-large);
 
     background-color: var(--md-sys-color-surface-container-low);
 
-    a {
+    transition: border-radius var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+
+    &:active {
+      border-radius: var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large)
+        var(--md-sys-shape-corner-large);
+    }
+
+    .label {
+      @include mixin.typescale-style("label-medium");
+
       display: flex;
-      flex-direction: column;
-      gap: 4px;
+      align-items: center;
 
-      width: 100%;
+      color: var(--md-sys-color-on-surface-variant);
 
-      padding-block: 12px;
-
-      color: var(--md-sys-color-on-surface);
-      text-decoration: none !important;
-
-      border-radius: var(--md-sys-shape-corner-medium);
-
-      .label {
-        @include mixin.typescale-style("label-medium");
-
-        color: var(--md-sys-color-on-surface-variant);
-      }
-
-      .title {
-        @include mixin.typescale-style("title-large");
-
-        font-variation-settings: "wght" 600;
+      &::before {
+        @include mixin.material-symbols($size: 18);
       }
     }
 
-    &:hover {
-      background-color: var(--md-sys-color-surface-dim);
+    .title {
+      @include mixin.typescale-style("title-large");
+
+      color: var(--md-sys-color-on-surface);
+      font-variation-settings: "wght" 600;
+    }
+
+    &.prev {
+      grid-column: 1 / 2;
+
+      text-align: start;
+
+      .label {
+        flex-direction: row;
+
+        &::before {
+          content: "arrow_back";
+        }
+      }
+    }
+
+    &.next {
+      grid-column: 2 / 3;
+
+      text-align: end;
+
+      .label {
+        flex-direction: row-reverse;
+
+        &::before {
+          content: "arrow_forward";
+        }
+      }
+    }
+  }
+
+  &:has(a.next):has(a.prev) {
+    a {
+      &.prev {
+        border-radius: var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-medium)
+          var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-extra-large);
+      }
+
+      &.next {
+        border-radius: var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-extra-large)
+          var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-medium);
+      }
+
+      &:active {
+        &.prev {
+          border-radius: var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-medium)
+            var(--md-sys-shape-corner-large);
+        }
+
+        &.next {
+          border-radius: var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large)
+            var(--md-sys-shape-corner-medium);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .PrevNext {
+    grid-template-columns: 1fr;
+
+    a {
+      &.prev,
+      &.next {
+        grid-column: auto;
+      }
+    }
+
+    &:has(a.next):has(a.prev) {
+      a {
+        &.prev {
+          border-radius: var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-extra-large)
+            var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-medium);
+        }
+
+        &.next {
+          border-radius: var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-medium)
+            var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-extra-large);
+        }
+
+        &:active {
+          &.prev {
+            border-radius: var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large)
+              var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-medium);
+          }
+
+          &.next {
+            border-radius: var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-medium)
+              var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large);
+          }
+        }
+      }
     }
   }
 }

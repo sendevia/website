@@ -85,18 +85,14 @@ const next = computed(() => {
 
 <template>
   <div class="PrevNext">
-    <div class="prev" v-if="prev">
-      <a :href="prev.url">
-        <span class="label">上一篇</span>
-        <span class="title">{{ prev.title }}</span>
-      </a>
-    </div>
-    <div class="next" v-if="next">
-      <a :href="next.url">
-        <span class="label">下一篇</span>
-        <span class="title">{{ next.title }}</span>
-      </a>
-    </div>
+    <a class="prev" :href="prev.url" v-if="prev">
+      <span class="label">上一篇</span>
+      <span class="title">{{ prev.title }}</span>
+    </a>
+    <a class="next" :href="next.url" v-if="next">
+      <span class="label">下一篇</span>
+      <span class="title">{{ next.title }}</span>
+    </a>
   </div>
 </template>
 

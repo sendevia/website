@@ -149,7 +149,8 @@ span {
 }
 
 .MaterialButton,
-.MaterialCard {
+.MaterialCard,
+.PrevNext a {
   &::after {
     content: "";
 
