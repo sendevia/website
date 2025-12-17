@@ -6,6 +6,11 @@
     "docs:build-cf": "git fetch --unshallow && vitepress build",
     "docs:preview": "vitepress preview"
   },
+  "dependencies": {
+    "@material/material-color-utilities": "^0.3.0",
+    "@vueuse/core": "^14.1.0",
+    "pinia": "^3.0.4"
+  },
   "devDependencies": {
     "@mdit/plugin-align": "^0.22.2",
     "@mdit/plugin-footnote": "^0.22.3",
@@ -14,9 +19,5 @@
     "sass-embedded": "^1.93.0",
     "vitepress": "^2.0.0-alpha.15",
     "vue": "^3.5.0"
-  },
-  "dependencies": {
-    "@material/material-color-utilities": "^0.3.0",
-    "pinia": "^3.0.4"
   }
 }

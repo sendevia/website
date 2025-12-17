@@ -1,5 +1,7 @@
 import { defineConfig } from "vitepress";
 import packageJson from "../package.json";
+
+// markdown-it plugins
 // https://mdit-plugins.github.io/zh/align.html
 import { align } from "@mdit/plugin-align";
 // https://github.com/valeriangalliat/markdown-it-anchor
@@ -82,13 +84,6 @@ export default defineConfig({
         rel: "stylesheet",
       },
     ],
-    [
-      "link",
-      {
-        href: "https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap",
-        rel: "stylesheet",
-      },
-    ],
   ],
   metaChunk: true,
   lastUpdated: true,
@@ -106,4 +101,10 @@ export default defineConfig({
       },
     ],
   } as any,
+  vite: {
+    build: {
+      minify: true,
+    },
+    plugins: [],
+  },
 });
