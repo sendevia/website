@@ -1,7 +1,11 @@
 import type { Theme } from "vitepress";
 import { createPinia } from "pinia";
-import Layout from "./layouts/Default.vue";
 
+// Layouts
+import Default from "./layouts/Default.vue";
+import NotFound from "./layouts/NotFound.vue";
+
+// Components
 import AppBar from "./components/AppBar.vue";
 import ArticleMasonry from "./components/ArticleMasonry.vue";
 import Button from "./components/Button.vue";
@@ -14,16 +18,18 @@ import PrevNext from "./components/PrevNext.vue";
 import ScrollToTop from "./components/ScrollToTop.vue";
 import NavBar from "./components/NavBar.vue";
 
+// Styles
 import "./styles/main.scss";
 
 const pinia = createPinia();
 
 export default {
-  Layout,
+  Layout: Default,
+  NotFound: NotFound,
   enhanceApp({ app }) {
     app.use(pinia);
 
-    app.component("MainLayout", Layout);
+    app.component("MainLayout", Default);
 
     app.component("AppBar", AppBar);
     app.component("ArticleMasonry", ArticleMasonry);
