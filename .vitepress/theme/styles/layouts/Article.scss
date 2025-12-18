@@ -48,6 +48,10 @@ main#article-content {
         color: var(--md-ref-palette-neutral90);
       }
 
+      &.copied::before {
+        content: "check";
+      }
+
       &:active {
         border-radius: var(--md-sys-shape-corner-large);
       }
