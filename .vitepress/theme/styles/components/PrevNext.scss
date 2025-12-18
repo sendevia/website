@@ -26,7 +26,10 @@
 
     background-color: var(--md-sys-color-surface-container-low);
 
+    overflow: hidden;
     transition: border-radius var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+    user-select: none;
+    -moz-user-select: none;
 
     &:active {
       border-radius: var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large)
