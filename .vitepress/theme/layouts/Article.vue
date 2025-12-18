@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, computed } from "vue";
+import { useClipboard } from "@vueuse/core";
 import { useGlobalData } from "../composables/useGlobalData";
 import { usePostStore } from "../stores/posts";
 import { isClient } from "../utils/env";
@@ -8,8 +9,9 @@ const showImageViewer = ref(false);
 const currentImageIndex = ref(0);
 const articleImages = ref<string[]>([]);
 const imageOriginPosition = ref({ x: 0, y: 0, width: 0, height: 0 });
-const { page, frontmatter } = useGlobalData();
 const postStore = usePostStore();
+const { page, frontmatter } = useGlobalData();
+const { copy: copyToClipboard, copied: isCopied } = useClipboard();
 
 // 计算当前文章 ID
 const articleId = computed(() => {
@@ -34,14 +36,7 @@ const copyShortLink = async () => {
   if (!shortLink.value) return;
 
   const fullUrl = `${window.location.origin}${shortLink.value}`;
-
-  try {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      await navigator.clipboard.writeText(fullUrl);
-    }
-  } catch (err) {
-    console.error("复制失败:", err);
-  }
+  await copyToClipboard(fullUrl);
 };
 
 // 时间处理工具函数
@@ -173,35 +168,33 @@ function copyAnchorLink(this: HTMLElement) {
   const href = anchor.getAttribute("href");
   const fullUrl = `${window.location.origin}${window.location.pathname}${href}`;
 
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(fullUrl);
-  }
+  copyToClipboard(fullUrl);
 
-  const hiddenSpan = anchor.querySelector<HTMLSpanElement>("span.visually-hidden");
-  if (hiddenSpan) {
-    const originalText = hiddenSpan.textContent;
-    hiddenSpan.textContent = "已复制";
+  const label = anchor.querySelector("span.visually-hidden") as HTMLSpanElement;
+  if (isCopied) {
+    const originalText = label.textContent;
+    label.textContent = "已复制";
     setTimeout(() => {
-      hiddenSpan.textContent = originalText;
+      label.textContent = originalText;
     }, 1000);
   }
 }
 
 function ulCustomBullets() {
-  const listItems = document.querySelectorAll("ul li");
+  const listItems = document.querySelectorAll("ul li") as NodeListOf<HTMLElement>;
   listItems.forEach((li, index) => {
     const stableRotation = ((index * 137) % 360) - 180;
     const computedStyle = window.getComputedStyle(li);
     const lineHeight = parseFloat(computedStyle.lineHeight);
     const bulletTop = lineHeight / 2 - 8;
 
-    (li as HTMLElement).style.setProperty("--random-rotation", `${stableRotation}deg`);
-    (li as HTMLElement).style.setProperty("--bullet-top", `${bulletTop}px`);
+    li.style.setProperty("--random-rotation", `${stableRotation}deg`);
+    li.style.setProperty("--bullet-top", `${bulletTop}px`);
   });
 }
 
 function olCountAttributes() {
-  const orderedLists = document.querySelectorAll("ol");
+  const orderedLists = document.querySelectorAll("ol") as NodeListOf<HTMLElement>;
   orderedLists.forEach((ol) => {
     const liCount = ol.querySelectorAll("li").length;
     const startAttr = ol.getAttribute("start");
@@ -213,13 +206,13 @@ function olCountAttributes() {
     const digitCount = Math.max(1, Math.floor(Math.log10(effectiveCount)) + 1);
     const paddingValue = 24 + (digitCount - 1) * 10;
 
-    (ol as HTMLElement).style.setProperty("padding-inline-start", `${paddingValue}px`);
+    ol.style.setProperty("padding-inline-start", `${paddingValue}px`);
   });
 }
 
 if (isClient()) {
   onMounted(() => {
-    const anchors = document.querySelectorAll<HTMLAnchorElement>("a.title-anchor");
+    const anchors = document.querySelectorAll("a.title-anchor");
     anchors.forEach((anchor) => {
       anchor.addEventListener("click", copyAnchorLink);
     });
@@ -227,9 +220,9 @@ if (isClient()) {
     function setupImageClickListeners() {
       const contentElement = document.querySelector("#article-content");
       if (contentElement) {
-        const images = contentElement.querySelectorAll("img");
+        const images = contentElement.querySelectorAll("img") as NodeListOf<HTMLElement>;
         images.forEach((img, index) => {
-          (img as HTMLImageElement).onclick = (event: MouseEvent) => openImageViewer(index, event);
+          img.onclick = (event: MouseEvent) => openImageViewer(index, event);
         });
       }
     }
