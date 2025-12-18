@@ -91,11 +91,20 @@ main#article-content {
       z-index: 0;
 
       code {
+        display: grid;
+
         padding: 0px;
+
+        width: 100%;
+
+        > span:not(:has(span)) {
+          height: 25px;
+        }
       }
     }
 
     div.line-numbers-wrapper {
+      display: grid;
       grid-column: 1/2;
       grid-row: 1;
 
@@ -117,7 +126,15 @@ main#article-content {
       z-index: 0;
 
       span {
-        @include mixin.typescale-style("body-large", $font-family: Source Code Pro);
+        @include mixin.typescale-style("body-large", $font-family: Source Code Pro, $line-height: 25px);
+
+        display: block;
+
+        height: 25px;
+      }
+
+      br {
+        display: none;
       }
     }
 
