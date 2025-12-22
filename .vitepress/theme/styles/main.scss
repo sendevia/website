@@ -3,6 +3,14 @@
 
 * {
   box-sizing: border-box;
+
+  transition: background-color var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
+
+  &::after,
+  &::before {
+    transition: background-color var(--md-sys-motion-spring-default-effect-duration)
+      var(--md-sys-motion-spring-default-effect);
+  }
 }
 
 @include meta.load-css("tokens");
@@ -53,7 +61,6 @@ body {
   width: 100%;
 
   touch-action: none;
-  transition: background-color var(--md-sys-motion-duration-extra-long1) var(--md-sys-motion-easing-standard);
   z-index: 0;
 
   :disabled,
@@ -163,8 +170,6 @@ span {
 
     background-color: transparent;
 
-    transition: background-color var(--md-sys-motion-spring-default-effect-duration)
-      var(--md-sys-motion-spring-default-effect);
     z-index: 0;
   }
 
