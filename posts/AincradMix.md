@@ -15,17 +15,13 @@ download_links:
   - 直连下载: https://github.com/sendevia/AincradMix/releases/latest/download/AincradMix.osk
 ---
 
-# 介绍
+::: tip 简介
 
-## 关于
-
-::: tip
-
-- 通过游戏补丁的方式，做到了几乎全部的 osu! 的界面元素覆盖。
-- 结合更现代的设计，扩展了《刀剑神域》第 1、2 季中出现的操作界面的设计。
+- 本皮肤通过游戏补丁的方式，做到了覆盖几乎全部的 osu! 界面元素。
+- 结合更现代的设计，扩展了《刀剑神域》中出现的界面设计。
 :::
 
-## 优点
+# 优点
 
 1. 使用了类 sao ui 的设计风格
 2. 有较好的打图手感
@@ -33,7 +29,7 @@ download_links:
 4. 覆盖了 osu! 的绝大部分的界面元素[^1]
 5. 可进行简单的个性化搭配
 
-## 你需要注意的
+# 你需要注意的
 
 - 在 std 模式中，本皮肤适用于 **★6.5** 及以下的大多数谱面[^2]
 - 在应用全局皮肤时，要注意备份 `osu!ui.dll` 和 `osu!gameplay.dll`
@@ -79,12 +75,6 @@ catch 模式
 ---
 
 ![成绩结算](/assets/images/22/screenshot05.webp)
-
-# 最新版下载
-
-::: center
-<MaterialButton text="v1.1 (2024-06-25)" size="l" href="https://github.com/sendevia/AincradMix/releases/latest/download/AincradMix.osk"/>
-:::
 
 # 推荐设置
 
