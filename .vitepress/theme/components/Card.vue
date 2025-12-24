@@ -10,6 +10,7 @@ interface Props {
   category?: string[];
   impression?: string[];
   href?: string;
+  downloadable?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -17,6 +18,7 @@ const props = withDefaults(defineProps<Props>(), {
   size: "m",
   color: "filled",
   impression: () => [],
+  downloadable: false,
 });
 </script>
 
@@ -24,10 +26,12 @@ const props = withDefaults(defineProps<Props>(), {
   <component :is="href ? 'a' : 'div'" :href="href" class="MaterialCard" :class="[props.variant, props.size, props.color]">
     <div class="content">
       <div v-if="(props.impression && props.impression.length > 0) || props.title" class="impression-area">
-        <div class="title-container">
-          <div v-if="props.title" class="title">
-            <h4>{{ props.title }}</h4>
+        <div class="tips-container">
+          <div v-if="props.date" class="tips date">
             <h6>{{ props.date }}发布</h6>
+          </div>
+          <div v-if="props.downloadable" class="tips download">
+            <h6>可下载资源</h6>
           </div>
         </div>
 
@@ -42,6 +46,7 @@ const props = withDefaults(defineProps<Props>(), {
       </div>
 
       <div v-if="props.description || props.title || props.date" class="supporting-area">
+        <h4 v-if="props.title">{{ props.title }}</h4>
         <p v-if="props.description">{{ props.description }}</p>
       </div>
     </div>

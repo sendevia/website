@@ -36,23 +36,44 @@
       flex-direction: column;
       gap: 12px;
 
-      padding: 16px;
-
       .impression-area {
         display: flex;
+        flex-direction: column-reverse;
         gap: 12px;
-        flex-direction: column;
 
-        .title-container {
+        position: relative;
+
+        border-radius: 0px 0px var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large);
+
+        overflow: hidden;
+
+        .tips-container {
           display: flex;
-          align-items: flex-start;
-          flex-direction: column;
-          gap: 12px;
+          align-items: flex-end;
+          flex-direction: column-reverse;
+          gap: 6px;
 
-          .title {
-            h4 {
-              font-variation-settings: "wdth" 500;
-              text-transform: uppercase;
+          position: absolute;
+
+          width: 100%;
+
+          padding: 8px;
+
+          z-index: 1;
+
+          .tips {
+            padding-inline: 6px;
+
+            color: var(--md-sys-color-inverse-on-surface);
+
+            border-radius: var(--md-sys-shape-corner-small);
+
+            background-color: var(--md-sys-color-inverse-surface);
+
+            &.download {
+              color: var(--md-sys-color-on-tertiary-container);
+
+              background-color: var(--md-sys-color-tertiary-container);
             }
           }
         }
@@ -64,6 +85,8 @@
           position: relative;
 
           height: 200px;
+
+          z-index: 0;
 
           &:has(img:nth-child(2)) {
             img:nth-child(1) {
@@ -92,8 +115,6 @@
             height: inherit;
             width: 100%;
 
-            border-radius: var(--md-sys-shape-corner-extra-large);
-
             object-fit: cover;
             transition: opacity var(--md-sys-motion-spring-default-effect-duration)
               var(--md-sys-motion-spring-default-effect);
@@ -102,6 +123,15 @@
       }
 
       .supporting-area {
+        padding-inline: 18px;
+        padding-block-end: 16px;
+
+        h4 {
+          color: var(--md-sys-color-primary);
+          font-variation-settings: "wdth" 500;
+          text-transform: uppercase;
+        }
+
         p {
           letter-spacing: 0.6rem;
         }
@@ -151,7 +181,7 @@
   }
 
   &.outlined {
-    border-color: var(--md-sys-color-outline-variant);
+    border: 1px solid var(--md-sys-color-outline-variant);
 
     .content {
       color: var(--md-sys-color-on-surface-variant);

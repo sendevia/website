@@ -54,6 +54,15 @@ const getArticleImage = (item: PostData): string[] => {
   return [];
 };
 
+// 检查是否有可下载内容
+const hasDownloadableContent = (item: PostData): boolean => {
+  if (!item.external_links || !Array.isArray(item.external_links)) {
+    return false;
+  }
+
+  return item.external_links.some((link) => link.type === "download");
+};
+
 onMounted(() => {
   updateColumnCount();
   window.addEventListener("resize", updateColumnCount);
@@ -71,13 +80,14 @@ onUnmounted(() => {
         v-for="item in column"
         variant="feed"
         size="m"
-        color="elevated"
+        color="outlined"
         :key="item.id"
         :href="item.url"
         :title="item.title"
         :description="item.description"
         :date="item.date"
         :impression="getArticleImage(item)"
+        :downloadable="hasDownloadableContent(item)"
       />
     </div>
   </div>
