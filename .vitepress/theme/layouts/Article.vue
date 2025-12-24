@@ -260,10 +260,13 @@ if (isClient()) {
   <Header />
   <main id="article-content">
     <Content />
-    <MaterialButton v-if="articleId" :text="'复制短链'" :color="'outlined'" @click="copyShortLink" />
+    <ButtonGroup v-if="frontmatter?.external_links" :links="frontmatter.external_links" />
     <PrevNext />
   </main>
   <div id="article-beside">
+    <MaterialButton v-if="articleId" :color="'text'" :icon="'content_copy'" @click="copyShortLink">
+      复制短链
+    </MaterialButton>
     <div class="post-info">
       <p class="date-publish" v-if="formattedPublishDate">发布于 {{ formattedPublishDate }}</p>
       <p class="date-update" :title="lastUpdatedRawTime">{{ formattedLastUpdated }}</p>

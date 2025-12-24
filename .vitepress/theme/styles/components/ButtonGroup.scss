@@ -1,0 +1,46 @@
+@use "../mixin";
+
+.ButtonGroup {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+
+  position: relative;
+
+  .MaterialButton {
+    &:nth-child(1n) {
+      &.xs {
+        border-radius: 4px;
+      }
+
+      &.s {
+        border-radius: 8px;
+      }
+    }
+
+    &:nth-child(1) {
+      &.xs {
+        border-radius: var(--md-sys-shape-corner-full) 20px 20px var(--md-sys-shape-corner-full);
+      }
+
+      &.s {
+        border-radius: var(--md-sys-shape-corner-full) 40px 40px var(--md-sys-shape-corner-full);
+      }
+    }
+
+    &:last-child {
+      &.xs {
+        border-radius: 16px var(--md-sys-shape-corner-full) var(--md-sys-shape-corner-full) 20px;
+      }
+
+      &.s {
+        border-radius: 32px var(--md-sys-shape-corner-full) var(--md-sys-shape-corner-full) 40px;
+      }
+    }
+
+    &:active {
+      border-radius: var(--md-sys-shape-corner-full) !important;
+    }
+  }
+}

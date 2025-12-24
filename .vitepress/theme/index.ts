@@ -9,6 +9,7 @@ import NotFound from "./layouts/NotFound.vue";
 import AppBar from "./components/AppBar.vue";
 import ArticleMasonry from "./components/ArticleMasonry.vue";
 import Button from "./components/Button.vue";
+import ButtonGroup from "./components/ButtonGroup.vue";
 import Card from "./components/Card.vue";
 import Footer from "./components/Footer.vue";
 import Header from "./components/Header.vue";
@@ -33,6 +34,7 @@ export default {
 
     app.component("AppBar", AppBar);
     app.component("ArticleMasonry", ArticleMasonry);
+    app.component("ButtonGroup", ButtonGroup);
     app.component("Footer", Footer);
     app.component("Header", Header);
     app.component("ImageViewer", ImageViewer);
