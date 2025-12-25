@@ -13,14 +13,10 @@ const { site, page, frontmatter, theme } = useGlobalData();
 const route = useRoute();
 const postStore = usePostStore();
 
-const isTransitioning = ref(false);
-const currentRoutePath = ref(route.path);
-const pendingRoutePath = ref<string | null>(null);
 const isRedirecting = ref(false);
 
 /**
  * 检查并执行重定向
- * 返回 true 表示正在处理重定向
  */
 function checkAndRedirect(path: string): boolean {
   if (isRedirecting.value) return true;
@@ -34,11 +30,8 @@ function checkAndRedirect(path: string): boolean {
     if (post) {
       isRedirecting.value = true;
 
-      if (typeof document !== "undefined") {
-        document.title = `跳转中 | ${site.value.title}`;
-      }
-
       if (isClient()) {
+        document.title = `跳转中 | ${site.value.title}`;
         window.location.replace(post.url);
       }
 
@@ -48,7 +41,6 @@ function checkAndRedirect(path: string): boolean {
   return false;
 }
 
-let currentPaletteTask: Promise<void> | null = null;
 let isProcessingPalette = false;
 
 async function updatePalette() {
@@ -57,28 +49,26 @@ async function updatePalette() {
   if (isProcessingPalette) return;
   isProcessingPalette = true;
 
-  currentPaletteTask = (async () => {
-    try {
-      await nextTick();
-      const defaultColor = theme.value.defaultColor;
-      const defaultArgb = argbFromHex(defaultColor);
-      await generateColorPalette(defaultArgb);
+  try {
+    await nextTick();
+    const defaultColor = theme.value.defaultColor;
+    const defaultArgb = argbFromHex(defaultColor);
+    await generateColorPalette(defaultArgb);
 
-      const el = document.querySelector(".Header .image");
-      if (el) {
-        const colorAttr = el.getAttribute("impression-color");
-        if (colorAttr && /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(colorAttr)) {
-          const argb = argbFromHex(colorAttr);
-          await generateColorPalette(argb);
-        }
+    const el = document.querySelector(".Header .image");
+    if (el) {
+      const colorAttr = el.getAttribute("impression-color");
+      if (colorAttr && /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(colorAttr)) {
+        const argb = argbFromHex(colorAttr);
+        await generateColorPalette(argb);
       }
-    } finally {
-      isProcessingPalette = false;
-      currentPaletteTask = null;
     }
-  })();
+  } finally {
+    isProcessingPalette = false;
+  }
 }
 
+// 布局映射
 const layoutMap = {
   article: ArticleLayout,
 } as const;
@@ -93,9 +83,10 @@ const currentLayout = computed(() => {
   return layoutMap[key] ?? ArticleLayout;
 });
 
+// 监听路由变化以处理重定向
 watch(
   () => route.path,
-  (newPath, oldPath) => {
+  (newPath) => {
     if (checkAndRedirect(newPath)) {
       return;
     }
@@ -104,26 +95,17 @@ watch(
     if (isRedirecting.value) {
       isRedirecting.value = false;
     }
-
-    if (newPath !== oldPath && !isTransitioning.value && oldPath !== undefined) {
-      isTransitioning.value = true;
-      pendingRoutePath.value = newPath;
-    }
   },
   { immediate: true }
 );
 
 function onAfterEnter() {
   if (isRedirecting.value) return;
-  isTransitioning.value = false;
-  currentRoutePath.value = route.path;
-  pendingRoutePath.value = null;
   updatePalette();
 }
 
 function onBeforeLeave() {
   if (isRedirecting.value) return;
-  isTransitioning.value = true;
 }
 
 if (isClient()) {
