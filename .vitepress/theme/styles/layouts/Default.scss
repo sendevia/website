@@ -2,7 +2,7 @@
 
 .MainLayout {
   display: grid;
-  grid-template-columns: 96px auto;
+  grid-template-columns: max-content auto;
 
   position: relative;
 
@@ -104,7 +104,7 @@
 @media screen and (max-width: 840px) {
   .MainLayout {
     grid-template-columns: 0px auto;
-    grid-template-rows: auto 80px;
+    grid-template-rows: auto 64px;
 
     .content-flow {
       grid-template-columns: repeat(6, 1fr);
