@@ -31,13 +31,16 @@ export const useScreenWidthStore = defineStore("screenWidth", () => {
   function init() {
     if (!isClient() || isInitialized) return;
 
-    // 使用 requestAnimationFrame 确保 DOM 已准备好
-    requestAnimationFrame(() => {
-      update();
-      resizeHandler = () => update();
-      window.addEventListener("resize", resizeHandler);
-      isInitialized = true;
-    });
+    update();
+
+    resizeHandler = () => {
+      requestAnimationFrame(() => {
+        update();
+      });
+    };
+
+    window.addEventListener("resize", resizeHandler);
+    isInitialized = true;
   }
 
   /**
