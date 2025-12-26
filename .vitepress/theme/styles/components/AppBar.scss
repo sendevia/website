@@ -177,11 +177,11 @@
     opacity: 1;
     visibility: visible;
 
-    .action-area {
-      .search-input {
-        margin-inline-start: 56px;
-      }
-    }
+    // .action-area {
+    //   .search-input {
+    //     margin-inline-start: 56px;
+    //   }
+    // }
 
     .result-area {
       height: calc(100% - (80px + 64px));

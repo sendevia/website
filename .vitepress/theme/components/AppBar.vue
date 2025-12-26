@@ -154,9 +154,9 @@ onUnmounted(() => {
     :tabindex="isTabFocusable ? 0 : -1"
   >
     <div class="action-area">
-      <div class="leading-button">
+      <!-- <div class="leading-button">
         <MaterialButton color="text" icon="menu" size="xs" :tabindex="isTabFocusable ? 0 : -1" />
-      </div>
+      </div> -->
 
       <input
         ref="searchInput"
