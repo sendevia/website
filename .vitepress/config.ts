@@ -46,7 +46,7 @@ export default defineConfig({
     image: {
       lazyLoading: true,
     },
-    lineNumbers: true,
+    lineNumbers: false,
     theme: "material-theme",
     codeTransformers: [
       {
