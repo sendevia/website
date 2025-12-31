@@ -6,6 +6,7 @@ import { useGlobalData } from "../composables/useGlobalData";
 import { useScreenWidthStore } from "../stores/screenWidth";
 import { useSearchStateStore } from "../stores/searchState";
 import { useNavStateStore } from "../stores/navState";
+import { isClient } from "../utils/env";
 
 const { page, theme } = useGlobalData();
 const screenWidthStore = useScreenWidthStore();
@@ -134,12 +135,6 @@ function setLabelRef(el: any, index: number) {
   }
 }
 
-onMounted(() => {
-  screenWidthStore.init();
-  navStateStore.init();
-  nextTick(updateAllWidths);
-});
-
 // 监听屏幕宽度变化，更新搜索状态和 label 宽度
 watch(
   () => searchStateStore.isSearchActive,
@@ -162,12 +157,20 @@ watch(
     }
   }
 );
+
+if (isClient()) {
+  onMounted(() => {
+    screenWidthStore.init();
+    navStateStore.init();
+    nextTick(updateAllWidths);
+  });
+}
 </script>
 
 <template>
   <nav class="NavBar" :class="navClass">
     <div>
-      <MaterialButton color="text" icon="menu" @click="toggleNav" />
+      <MaterialButton color="text" :icon="navStateStore.isNavExpanded ? 'menu_open' : 'menu'" @click="toggleNav" />
       <button
         class="fab"
         @mousedown.prevent
