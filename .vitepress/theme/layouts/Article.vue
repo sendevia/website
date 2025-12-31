@@ -259,6 +259,11 @@ if (isClient()) {
 <template>
   <Header />
   <main id="article-content">
+    <hgroup>
+      <h1>{{ frontmatter.title || page.title }}</h1>
+      <h6>{{ frontmatter.description }}</h6>
+      <hr />
+    </hgroup>
     <Content />
     <ButtonGroup v-if="frontmatter?.external_links" :links="frontmatter.external_links" />
     <PrevNext />
