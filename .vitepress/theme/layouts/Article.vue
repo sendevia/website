@@ -261,7 +261,7 @@ if (isClient()) {
   <main id="article-content">
     <hgroup>
       <h1>{{ frontmatter.title || page.title }}</h1>
-      <h6>{{ frontmatter.description }}</h6>
+      <h6 v-if="frontmatter.description">{{ frontmatter.description }}</h6>
       <hr />
     </hgroup>
     <Content />
