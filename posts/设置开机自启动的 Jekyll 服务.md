@@ -44,13 +44,13 @@ SyslogIdentifier = jekyll
 WantedBy = multi-user.target
 ```
 
-保存之后执行
+# 保存之后执行
 
 ```bash
 sudo systemctl daemon-reload
 ```
 
-启动自启服务并检查运行状况
+# 启动自启服务并检查运行状况
 
 ```bash
 sudo systemctl enable jekyll --now

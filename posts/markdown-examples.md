@@ -1,180 +1,261 @@
 ---
-title: "Markdown Extension Examples"
-description: "This page demonstrates some of the built-in markdown extensions provided by VitePress."
+title: "Markdown 扩展示例"
+description: "本页面展示了 VitePress 提供的一些内置 markdown 扩展功能。"
 color: ""
 impression: ""
 categories:
 tags:
-date: 2007-08-31T00:00:00Z
+date: time
 
 ---
 
-# Markdown Extension Examples
+# 语法高亮
 
-This page demonstrates some of the built-in markdown extensions provided by VitePress.
+VitePress 提供由 [Shiki](https://github.com/shikijs/shiki) 驱动的语法高亮功能，并附带行高亮等额外特性：
 
-## Syntax Highlighting
-
-VitePress provides Syntax Highlighting powered by [Shiki](https://github.com/shikijs/shiki), with additional features like line-highlighting:
-
-**Input**
+**输入**
 
 ````md
 ```js{4}
 export default {
   data () {
     return {
-      msg: 'Highlighted!'
+      msg: '已高亮显示！'
     }
   }
 }
 ```
 ````
 
-**Output**
+**输出**
 
 ```js{4}
 export default {
   data () {
     return {
-      msg: 'Highlighted!'
+      msg: '已高亮显示！'
     }
   }
 }
 ```
 
-## Custom Containers
+# 自定义容器
 
-**Input**
+**输入**
 
 ```md
 ::: info
-This is an info box.
+这是一个信息框。
 :::
 
 ::: tip
-This is a tip.
+这是一个提示。
 :::
 
 ::: warning
-This is a warning.
+这是一个警告。
 :::
 
 ::: danger
-This is a dangerous warning.
+这是一个危险警告。
 :::
 
 ::: details
-This is a details block.
+这是一个详情块。
 :::
 ```
 
-**Output**
+**输出**
 
 ::: info
-This is an info box.
+这是一个信息框。
 :::
 
 ::: tip
-This is a tip.
+这是一个提示。
 :::
 
 ::: warning
-This is a warning.
+这是一个警告。
 :::
 
 ::: danger
-This is a dangerous warning.
+这是一个危险警告。
 :::
 
 ::: details
-This is a details block.
+这是一个详情块。
 :::
 
-## Material Buttons
+# 组件使用范例
 
-MaterialButton 组件是一个遵循 Material Design 3 规范的按钮组件，支持多种样式和功能。
+以下是项目中可用组件的使用示例：
 
-### 属性列表
+### MaterialButton 组件 (Button.vue)
+
+MaterialButton 组件是一个通用的按钮组件，支持多种样式和功能。
+
+#### 属性列表
 
 | 属性 | 类型 | 默认值 | 可选值 | 描述 |
-|------|------|--------|--------|------|
-| `text` | `string` | - | 任意字符串 | 按钮显示的文本内容 |
-| `href` | `string` | - | 任意URL | 如果提供，按钮将渲染为链接 |
-| `icon` | `string` | - | Material Icons 名称 | 按钮左侧的图标 |
-| `size` | `string` | `"s"` | `"xs"`, `"s"`, `"m"`, `"l"`, `"xl"` | 按钮尺寸 |
+| ---- | ---- | ---- | ---- | ---- |
 | `shape` | `string` | `"round"` | `"round"`, `"square"` | 按钮形状 |
+| `size` | `string` | `"s"` | `"xs"`, `"s"`, `"m"`, `"l"`, `"xl"` | 按钮尺寸 |
 | `color` | `string` | `"filled"` | `"elevated"`, `"filled"`, `"tonal"`, `"outlined"`, `"standard"`, `"text"` | 按钮颜色样式 |
+| `icon` | `string` | - | Material Icons 名称 | 按钮图标 |
+| `href` | `string` | - | 任意URL | 如果提供，按钮将渲染为链接 |
 | `target` | `string` | `"_blank"` | `"_blank"`, `"_self"`, `"_parent"`, `"_top"` | 链接打开方式 |
 
-### 尺寸规格
+#### 使用示例
 
-| 尺寸 | 高度 | 内边距 | 字体大小 | 图标大小 |
-|------|------|--------|----------|----------|
-| `xs` | 32px | 12px | label-large | 20px |
-| `s` | 40px | 16px | label-large | 20px |
-| `m` | 56px | 24px | title-medium | 24px |
-| `l` | 96px | 48px | headline-small | 32px |
-| `xl` | 136px | 64px | headline-large | 40px |
-
-### 使用示例
-
-**Input**
-
-```md
+```vue
 <!-- 基础按钮 -->
-<MaterialButton text="默认按钮" />
+<MaterialButton>点击我</MaterialButton>
 
 <!-- 带图标按钮 -->
-<MaterialButton text="带图标按钮" icon="favorite" />
+<MaterialButton icon="favorite">收藏</MaterialButton>
 
 <!-- 链接按钮 -->
-<MaterialButton text="链接按钮" href="https://example.com" />
+<MaterialButton href="https://example.com" target="_blank">访问网站</MaterialButton>
 
 <!-- 不同尺寸 -->
-<MaterialButton text="大号按钮" size="l" />
-<MaterialButton text="小号按钮" size="xs" />
+<MaterialButton size="xs">超小按钮</MaterialButton>
+<MaterialButton size="l">大按钮</MaterialButton>
 
 <!-- 不同形状 -->
-<MaterialButton text="方形按钮" shape="square" />
+<MaterialButton shape="square">方形按钮</MaterialButton>
 
 <!-- 不同颜色样式 -->
-<MaterialButton text="轮廓按钮" color="outlined" />
-<MaterialButton text="强调按钮" color="tonal" />
-<MaterialButton text="提升按钮" color="elevated" />
-<MaterialButton text="文本按钮" color="text" />
-
-<!-- 组合使用 -->
-<MaterialButton text="带图标链接" href="/" icon="home" target="_self" />
+<MaterialButton color="outlined">轮廓按钮</MaterialButton>
+<MaterialButton color="tonal">强调按钮</MaterialButton>
+<MaterialButton color="elevated">提升按钮</MaterialButton>
+<MaterialButton color="text">文本按钮</MaterialButton>
 ```
 
-**Output**
+### Card 组件 (Card.vue)
 
-<!-- 基础按钮 -->
-<MaterialButton text="默认按钮" />
+Card 组件用于展示内容卡片，支持多种变体和样式。
 
-<!-- 带图标按钮 -->
-<MaterialButton text="带图标按钮" icon="favorite" />
+#### 属性列表
 
-<!-- 链接按钮 -->
-<MaterialButton text="链接按钮" href="https://example.com" />
+| 属性 | 类型 | 默认值 | 可选值 | 描述 |
+| ---- | ---- | ---- | ---- | ---- |
+| `variant` | `string` | `"feed"` | `"feed"` | 卡片变体 |
+| `size` | `string` | `"m"` | `"s"`, `"m"`, `"l"` | 卡片尺寸 |
+| `color` | `string` | `"filled"` | `"elevated"`, `"filled"`, `"outlined"` | 卡片颜色样式 |
+| `title` | `string` | - | 任意字符串 | 卡片标题 |
+| `description` | `string` | - | 任意字符串 | 卡片描述 |
+| `date` | `string` | - | 日期字符串 | 发布日期 |
+| `tags` | `string[]` | - | 字符串数组 | 标签列表 |
+| `category` | `string[]` | - | 字符串数组 | 分类列表 |
+| `impression` | `string[]` | `[]` | 图片URL数组 | 印象图片 |
+| `href` | `string` | - | 任意URL | 卡片链接 |
+| `downloadable` | `boolean` | `false` | `true`, `false` | 是否可下载 |
 
-<!-- 不同尺寸 -->
-<MaterialButton text="大号按钮" size="l" />
-<MaterialButton text="小号按钮" size="xs" />
+#### 使用示例
 
-<!-- 不同形状 -->
-<MaterialButton text="方形按钮" shape="square" />
+```vue
+<!-- 基础卡片 -->
+<Card 
+  title="文章标题"
+  description="这是一段文章描述，简要介绍文章内容。"
+  date="2023-10-01"
+/>
+```
 
-<!-- 不同颜色样式 -->
-<MaterialButton text="轮廓按钮" color="outlined" />
-<MaterialButton text="强调按钮" color="tonal" />
-<MaterialButton text="提升按钮" color="elevated" />
-<MaterialButton text="文本按钮" color="text" />
+```vue
+<!-- 带图片卡片 -->
+<Card 
+  title="项目展示"
+  description="展示一个有趣的项目"
+  impression="['/assets/images/project1.jpg', '/assets/images/project2.jpg']"
+  href="/projects/example"
+/>
+```
 
-<!-- 组合使用 -->
-<MaterialButton text="带图标链接" href="/" icon="home" target="_self" />
+```vue
+<!-- 可下载资源卡片 -->
+<Card 
+  title="资源下载"
+  description="包含可下载的文件资源"
+  downloadable
+  tags="['资源', '下载']"
+  category="['教程']"
+/>
+```
 
-## More
+```vue
+<!-- 不同样式卡片 -->
+<Card 
+  title="轮廓样式"
+  description="使用轮廓样式的卡片"
+  color="outlined"
+/>
+```
 
-Check out the documentation for the [full list of markdown extensions](https://vitepress.dev/guide/markdown).
+### ButtonGroup 组件 (ButtonGroup.vue)
+
+ButtonGroup 组件用于将多个按钮组合在一起，支持水平和垂直布局。
+
+#### 属性列表
+
+| 属性 | 类型 | 默认值 | 可选值 | 描述 |
+| ---- | ---- | ---- | ---- | ---- |
+| `links` | `ExternalLink[]` | `[]` | 链接对象数组 | 按钮链接列表 |
+| `size` | `string` | `"s"` | `"xs"`, `"s"`, `"m"`, `"l"`, `"xl"` | 按钮尺寸 |
+| `layout` | `string` | `"horizontal"` | `"horizontal"`, `"vertical"` | 布局方向 |
+
+#### ExternalLink 类型
+
+```typescript
+interface ExternalLink {
+  type: string;    // 链接类型：'download' 或 'normal'
+  label: string;   // 按钮标签文本
+  link: string;    // 链接地址
+}
+```
+
+#### 使用示例
+
+```vue
+<!-- 水平按钮组 -->
+<ButtonGroup
+  :links="[
+    { type: 'normal', label: '查看文档', link: '/docs' },
+    { type: 'download', label: '下载资源', link: '/downloads/file.zip' },
+    { type: 'normal', label: 'GitHub', link: 'https://github.com/example' }
+  ]"
+  size="m"
+  layout="horizontal"
+/>
+
+<!-- 垂直按钮组 -->
+<ButtonGroup
+  :links="[
+    { type: 'normal', label: '选项一', link: '/option1' },
+    { type: 'normal', label: '选项二', link: '/option2' },
+    { type: 'normal', label: '选项三', link: '/option3' }
+  ]"
+  size="s"
+  layout="vertical"
+/>
+
+<!-- 不同尺寸按钮组 -->
+<ButtonGroup
+  :links="[
+    { type: 'download', label: '小尺寸下载', link: '/download' }
+  ]"
+  size="xs"
+/>
+
+<ButtonGroup
+  :links="[
+    { type: 'normal', label: '大尺寸按钮', link: '/large' }
+  ]"
+  size="xl"
+/>
+```
+
+# 更多信息
+
+查看 [完整 markdown 扩展列表](https://vitepress.dev/guide/markdown) 的文档。
