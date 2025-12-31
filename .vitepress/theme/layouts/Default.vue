@@ -55,7 +55,7 @@ async function updatePalette() {
     const defaultArgb = argbFromHex(defaultColor);
     await generateColorPalette(defaultArgb);
 
-    const el = document.querySelector(".Header .image");
+    const el = document.querySelector(".Header div.carousel-container");
     if (el) {
       const colorAttr = el.getAttribute("impression-color");
       if (colorAttr && /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(colorAttr)) {

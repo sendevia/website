@@ -7,62 +7,31 @@
 
   height: 540px;
 
-  word-break: break-word;
-
-  svg {
-    display: none;
-  }
-
-  .container {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 12px;
-    justify-content: center;
-
+  .carousel-container {
     position: relative;
 
     height: 100%;
 
-    padding: 54px;
-
-    color: var(--md-ref-palette-secondary100);
-
-    border-radius: var(--md-sys-shape-corner-medium);
-    border: 1px solid var(--md-sys-color-outline-variant);
+    border-radius: var(--md-sys-shape-corner-large);
 
     overflow: hidden;
-    transition: var(--md-sys-motion-duration-extra-long4) var(--md-sys-motion-easing-standard);
-    z-index: 1;
+    z-index: 0;
 
-    .headline {
-      @include mixin.typescale-style(
-        "display-large",
-        $font-size: 90rem,
-        $line-height: 90rem,
-        $font-variation-settings: "wght" 700
-      );
-
+    .single {
+      height: 100%;
       width: 100%;
 
-      text-align: center;
+      border-radius: var(--md-sys-shape-corner-large);
+      border: 1px solid var(--md-sys-color-outline-variant);
 
-      mix-blend-mode: hard-light;
-      transition: var(--md-sys-motion-duration-short1) var(--md-sys-motion-easing-standard);
+      background-size: cover;
+
+      z-index: 1;
     }
 
-    .subtitle {
-      @include mixin.typescale-style("headline-large", $font-size: 22rem, $line-height: 22rem);
+    .stage {
+      display: flex;
 
-      width: 100%;
-
-      text-align: center;
-
-      mix-blend-mode: hard-light;
-      transition: var(--md-sys-motion-duration-short1) var(--md-sys-motion-easing-standard);
-    }
-
-    .impression {
       position: absolute;
       left: 0px;
       top: 0px;
@@ -70,45 +39,134 @@
       height: 100%;
       width: 100%;
 
-      background-color: var(--md-ref-palette-secondary48);
+      z-index: 1;
 
-      z-index: -1;
+      .item {
+        flex-shrink: 0;
 
-      .noise {
         position: relative;
 
         height: 100%;
-        width: 100%;
 
-        filter: url(#noise-filter);
-        mix-blend-mode: soft-light;
-        opacity: 0.2;
-        z-index: 2;
-      }
+        background-size: cover;
+        background-position: center;
+        border-radius: var(--md-sys-shape-corner-medium);
 
-      .image {
-        position: absolute;
-        left: 0px;
-        top: 0px;
+        opacity: 0;
+        overflow: hidden;
+        transition: var(--anim-duration) var(--md-sys-motion-spring-slow-effect);
 
-        height: 100%;
-        width: 100%;
+        &.current {
+          width: 90%;
 
-        background: center/cover no-repeat;
+          margin-inline-end: 12px;
 
-        opacity: 0.8;
-        z-index: 1;
-      }
+          border: 1px solid var(--md-sys-color-outline-variant);
+          border-radius: var(--md-sys-shape-corner-large);
 
-      @media (prefers-color-scheme: dark) {
-        background-color: var(--md-ref-palette-secondary10);
-
-        .noise {
-          opacity: 0.1;
+          opacity: 1;
+          z-index: 10;
         }
 
-        .image {
-          opacity: 0.4;
+        &.next {
+          width: calc(10% - 12px);
+
+          border: 1px solid var(--md-sys-color-outline-variant);
+          border-radius: var(--md-sys-shape-corner-full);
+
+          opacity: 1;
+          z-index: 9;
+        }
+
+        &.previous {
+          width: 0%;
+
+          opacity: 0;
+          z-index: 1;
+        }
+
+        &.standby {
+          width: 0%;
+
+          opacity: 0;
+          z-index: 0;
+        }
+      }
+    }
+
+    .progress-ring {
+      position: absolute;
+      left: 8px;
+      top: 8px;
+
+      pointer-events: none;
+      z-index: 2;
+
+      svg {
+        transform: rotate(-90deg);
+
+        circle {
+          transform-origin: center;
+        }
+      }
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+
+      position: absolute;
+      left: 0px;
+      top: 0px;
+
+      height: 100%;
+      width: 100%;
+
+      cursor: pointer;
+      z-index: 3;
+
+      .prev,
+      .next {
+        height: 100%;
+        width: 50%;
+      }
+    }
+
+    .indicators {
+      display: flex;
+      gap: 6px;
+
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      z-index: 4;
+
+      .dot {
+        height: 8px;
+        width: 8px;
+
+        padding: 0;
+
+        border-radius: var(--md-sys-shape-corner-full);
+        border: none;
+
+        background-color: var(--md-sys-color-tertiary-container);
+
+        cursor: pointer;
+        transition: width var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+
+        &:hover {
+          width: 16px;
+        }
+
+        &.active {
+          width: 16px;
+
+          background-color: var(--md-sys-color-tertiary);
         }
       }
     }
@@ -127,28 +185,6 @@
 
     height: 45vh;
     min-height: 360px;
-
-    .container {
-      padding: 5vw;
-
-      .headline {
-        @include mixin.typescale-style(
-          "display-large",
-          $font-size: 7vw,
-          $line-height: 7vw,
-          $font-variation-settings: "wght" 500
-        );
-      }
-
-      .subtitle {
-        @include mixin.typescale-style(
-          "display-small",
-          $font-size: 18rem,
-          $line-height: 20rem,
-          $font-variation-settings: "wght" 500
-        );
-      }
-    }
   }
 }
 
@@ -156,20 +192,13 @@
   .Header {
     grid-column: span 6;
 
-    .container {
-      width: 100%;
-
-      .headline {
-        @include mixin.typescale-style(
-          "display-large",
-          $font-size: 8vw,
-          $line-height: 8vw,
-          $font-variation-settings: "wght" 600
-        );
+    .carousel-container .stage .item {
+      &.current {
+        width: 85%;
       }
 
-      .subtitle {
-        @include mixin.typescale-style("headline-large", $font-size: 23rem, $line-height: 23rem);
+      &.next {
+        width: calc(15% - 12px);
       }
     }
   }
@@ -179,27 +208,13 @@
   .Header {
     grid-column: span 4;
 
-    .container {
-      padding: 30px;
-
-      .headline {
-        @include mixin.typescale-style(
-          "display-large",
-          $font-size: 40rem,
-          $line-height: 40rem,
-          $font-variation-settings: "wght" 700
-        );
-
-        word-break: break-word;
+    .carousel-container .stage .item {
+      &.current {
+        width: 100%;
       }
 
-      .subtitle {
-        @include mixin.typescale-style(
-          "display-small",
-          $font-size: 15rem,
-          $line-height: 17rem,
-          $font-variation-settings: "wght" 400
-        );
+      &.next {
+        width: 0%;
       }
     }
   }
