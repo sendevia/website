@@ -3,6 +3,7 @@ import { ref, onMounted, onBeforeUnmount, computed } from "vue";
 import { useClipboard } from "@vueuse/core";
 import { useGlobalData } from "../composables/useGlobalData";
 import { usePostStore } from "../stores/posts";
+import { useTimeFormatter } from "../composables/useTimeFormatter";
 import { isClient } from "../utils/env";
 
 const showImageViewer = ref(false);
@@ -12,6 +13,7 @@ const imageOriginPosition = ref({ x: 0, y: 0, width: 0, height: 0 });
 const postStore = usePostStore();
 const { page, frontmatter } = useGlobalData();
 const { copy: copyToClipboard, copied: isCopied } = useClipboard();
+const { formatDate, formatTimeAgo, useFormattedTime } = useTimeFormatter();
 
 // 计算当前文章 ID
 const articleId = computed(() => {
@@ -39,96 +41,45 @@ const copyShortLink = async () => {
   await copyToClipboard(fullUrl);
 };
 
-// 时间处理工具函数
-const formatDate = (timestamp: number, format: "chinese" | "iso" = "chinese"): string => {
-  if (!timestamp) return "";
-
-  const date = new Date(timestamp);
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const seconds = date.getSeconds();
-
-  if (format === "iso") {
-    return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")} ${String(hours).padStart(
-      2,
-      "0"
-    )}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-  }
-
-  return `${year}年${month}月${day}日${hours}时${minutes}分`;
-};
-
-// 计算时间差
-const formatTimeAgo = (diffMs: number): string => {
-  if (diffMs <= 0) return "刚刚";
-
-  const seconds = Math.floor(diffMs / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-  const months = Math.floor(days / 30);
-  const years = Math.floor(days / 365);
-
-  const timeUnits = [
-    { value: years, unit: "年前" },
-    { value: months, unit: "个月前" },
-    { value: days, unit: "天前" },
-    { value: hours, unit: "小时前" },
-    { value: minutes, unit: "分钟前" },
-    { value: seconds, unit: "秒前" },
-  ];
-
-  for (const { value, unit } of timeUnits) {
-    if (value > 0) return `${value}${unit}`;
-  }
-
-  return "刚刚";
-};
-
-// 获取发布时间戳
-const publishTimestamp = computed(() => {
-  const dateStr = frontmatter.value?.date;
-  if (!dateStr) return 0;
-  const ts = new Date(dateStr).getTime();
-  return isNaN(ts) ? 0 : ts;
+// 获取发布时间
+const publishTime = computed(() => {
+  return frontmatter.value?.date;
 });
 
-// 获取最后修改时间戳
-const lastUpdatedTimestamp = computed(() => {
+// 获取最后修改时间
+const lastUpdatedTime = computed(() => {
   const val = page.value?.lastUpdated;
-  if (!val) return 0;
-  if (typeof val === "number") return val;
-  const ts = new Date(val).getTime();
-  return isNaN(ts) ? 0 : ts;
+  if (!val) return undefined;
+  return val;
 });
 
 // 格式化发布日期
-const formattedPublishDate = computed(() => {
-  return formatDate(publishTimestamp.value, "chinese");
-});
+const formattedPublishDate = useFormattedTime(() => publishTime.value, { format: "chinese" });
 
 // 原始最后修改时间（本地ISO格式）
-const lastUpdatedRawTime = computed(() => {
-  return formatDate(lastUpdatedTimestamp.value, "iso");
-});
+const lastUpdatedRawTime = useFormattedTime(() => lastUpdatedTime.value, { format: "iso" });
 
 // 格式化最后修改时间（显示文本）
 const formattedLastUpdated = computed(() => {
-  const publishTs = publishTimestamp.value;
-  const lastUpdateTs = lastUpdatedTimestamp.value;
+  const publishTimeValue = publishTime.value;
+  const lastUpdateTimeValue = lastUpdatedTime.value;
 
-  if (!lastUpdateTs) return "";
+  if (!lastUpdateTimeValue) return "";
 
   // 判定是否为发布即最后修改
-  const isSameTime = !publishTs || Math.abs(lastUpdateTs - publishTs) < 60000;
+  let isSameTime = false;
+  if (publishTimeValue && lastUpdateTimeValue) {
+    const publishDate = new Date(publishTimeValue);
+    const lastUpdateDate = new Date(lastUpdateTimeValue);
+    if (!isNaN(publishDate.getTime()) && !isNaN(lastUpdateDate.getTime())) {
+      isSameTime = Math.abs(lastUpdateDate.getTime() - publishDate.getTime()) < 60000;
+    }
+  }
 
-  if (isSameTime) {
-    return formatDate(lastUpdateTs, "chinese");
+  if (isSameTime || !publishTimeValue) {
+    return formatDate(lastUpdateTimeValue, "chinese");
   } else {
-    return `于${formatTimeAgo(Date.now() - lastUpdateTs)}编辑`;
+    return `${formatTimeAgo(lastUpdateTimeValue)}编辑`;
   }
 });
 
