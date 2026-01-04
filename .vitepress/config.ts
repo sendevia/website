@@ -106,5 +106,8 @@ export default defineConfig({
       minify: true,
     },
     plugins: [],
+    define: {
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: "true",
+    },
   },
 });
