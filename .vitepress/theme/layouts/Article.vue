@@ -261,8 +261,12 @@ if (isClient()) {
   <main id="article-content">
     <hgroup>
       <h1>{{ frontmatter.title || page.title }}</h1>
-      <h6 v-if="frontmatter.description">{{ frontmatter.description }}</h6>
-      <hr />
+      <div>
+        <hr />
+        <h6 v-if="frontmatter.description">
+          {{ frontmatter.description }}
+        </h6>
+      </div>
     </hgroup>
     <Content />
     <ButtonGroup v-if="frontmatter?.external_links" :links="frontmatter.external_links" />

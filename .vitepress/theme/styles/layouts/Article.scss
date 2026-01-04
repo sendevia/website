@@ -11,24 +11,55 @@ main#article-content {
     }
 
     > hgroup {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      gap: 12px;
+
       position: relative;
 
-      width: max-content;
+      width: 100%;
+
+      margin-block-end: 24px;
 
       h1 {
         @include mixin.typescale-style("display-large");
+
+        text-align: center;
       }
 
-      h6::before {
-        @include mixin.material-symbols($name: "message", $size: 18);
+      div {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 6px;
 
-        margin-inline-end: 3px;
+        width: 100%;
 
-        vertical-align: middle;
-      }
+        hr {
+          flex-grow: 1;
 
-      hr {
-        margin-block-start: 3px;
+          margin: 0px;
+        }
+
+        h6 {
+          display: grid;
+          align-items: start;
+          gap: 6px;
+          grid-template-columns: max-content auto;
+
+          width: max-content;
+
+          line-height: 18px;
+          text-align: justify;
+
+          &::before {
+            @include mixin.material-symbols($name: "message", $size: 18);
+
+            vertical-align: middle;
+          }
+        }
       }
     }
   }
@@ -351,6 +382,10 @@ main#article-content {
     & > * {
       margin-block-start: 12px;
       padding-block-end: 0px;
+    }
+
+    &:first-child .title-with-achor {
+      margin-block-start: 0px;
     }
 
     .title-with-achor {
@@ -828,12 +863,6 @@ div#article-beside {
 @media screen and (max-width: 840px) {
   main#article-content {
     grid-column: 1 / 7;
-
-    > hgroup {
-      width: 100%;
-
-      text-align: center;
-    }
 
     .custom-block > * {
       grid-column: 1 / 3;
