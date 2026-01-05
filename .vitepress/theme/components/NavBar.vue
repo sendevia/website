@@ -1,5 +1,3 @@
-<!-- todo: 细分小尺寸设备上导航栏状态 -->
-
 <script setup lang="ts">
 import { computed, onMounted, onBeforeUnmount, ref, watch, nextTick } from "vue";
 import { isClient } from "../utils/env";
@@ -46,7 +44,14 @@ const navSegment = computed(() => {
 });
 
 const navClass = computed(() => {
-  const baseClass = screenWidthStore.isAboveBreakpoint ? "rail" : "bar";
+  let baseClass = "";
+  if (screenWidthStore.screenWidth > 840) {
+    baseClass = "rail";
+  } else if (screenWidthStore.screenWidth > 600) {
+    baseClass = "bar horizontal";
+  } else {
+    baseClass = "bar vertical";
+  }
   const expansionClass = navStateStore.isNavExpanded ? "expanded" : "collapsed";
   return `${baseClass} ${expansionClass}`;
 });
@@ -126,7 +131,7 @@ function onAnimationEnd(el: EventTarget | null) {
 
 // 监听状态变化，手动触发宽度计算
 watch(
-  () => [navStateStore.isNavExpanded, searchStateStore.isSearchActive],
+  () => [navStateStore.isNavExpanded],
   () => {
     isLabelAnimating.value = true;
     nextTick(() => {
@@ -139,6 +144,10 @@ if (isClient()) {
   onMounted(() => {
     screenWidthStore.init();
     navStateStore.init();
+
+    nextTick(() => {
+      window.dispatchEvent(new Event("resize"));
+    });
   });
 
   onBeforeUnmount(() => {

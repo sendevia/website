@@ -180,6 +180,27 @@
         }
       }
 
+      &::after {
+        content: "";
+        display: block;
+
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        top: 0px;
+
+        height: 32px;
+        width: 56px;
+
+        border-radius: var(--md-sys-shape-corner-full);
+
+        pointer-events: none;
+        transition: background-color var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect),
+          height var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect),
+          width var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+        z-index: 0;
+      }
+
       &.active {
         .accent {
           color: var(--md-sys-color-on-secondary-container);
@@ -188,6 +209,14 @@
         .label {
           color: var(--md-sys-color-secondary);
         }
+
+        &::after {
+          background-color: var(--md-sys-color-secondary-container);
+        }
+      }
+
+      &.inactive:hover::after {
+        background-color: var(--md-sys-color-surface-container-high);
       }
 
       &.inactive .accent .icon span {
@@ -229,7 +258,6 @@
 
       .segment {
         height: 100%;
-        width: 100%;
 
         a {
           align-content: center;
@@ -238,13 +266,75 @@
           height: 100%;
           width: 100%;
         }
+      }
+    }
 
-        &.active .accent {
-          background-color: var(--md-sys-color-secondary-container);
+    &.horizontal {
+      .destinations {
+        justify-content: center;
+        gap: 12px;
+
+        .segment {
+          width: max-content;
+
+          a {
+            grid: max-content 0px / max-content max-content;
+            row-gap: 0px;
+            column-gap: 4px;
+
+            height: 100%;
+            width: max-content;
+
+            padding-block: 12px;
+            padding-inline: 12px 18px;
+          }
+
+          .accent {
+            height: 32px;
+            width: 32px;
+          }
+
+          .label {
+            grid-column: 2 / 3;
+            grid-row: 1 / 2;
+
+            width: max-content;
+
+            z-index: 1;
+          }
+
+          &::after {
+            left: 0px;
+            top: 12px;
+
+            height: 40px;
+            width: 100%;
+          }
         }
+      }
+    }
 
-        &.inactive:hover .accent {
-          background-color: var(--md-sys-color-surface-container-high);
+    &.vertical {
+      .destinations {
+        .segment {
+          width: 100%;
+
+          a {
+            padding-block: 4px;
+          }
+
+          .accent {
+            height: 32px;
+            width: 52px;
+          }
+
+          &::after {
+            left: 50%;
+            right: 50%;
+            top: 6px;
+
+            translate: -50%;
+          }
         }
       }
     }
@@ -268,81 +358,31 @@
       width: 100%;
 
       .segment {
-        &.active::after {
-          background-color: var(--md-sys-color-secondary-container);
-        }
-
-        &.inactive:hover::after {
-          background-color: var(--md-sys-color-surface-container-high);
+        &.active .accent {
+          background-color: transparent;
         }
 
         &::after {
-          content: "";
-          display: block;
-
-          position: absolute;
-          bottom: 0px;
-          left: 0px;
-          top: 0px;
-
-          margin-inline-start: 20px;
-
-          border-radius: var(--md-sys-shape-corner-full);
-
-          pointer-events: none;
-          transition: background-color var(--md-sys-motion-spring-fast-effect-duration)
-              var(--md-sys-motion-spring-fast-effect),
-            height var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect),
-            width var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
-          z-index: 0;
-        }
-      }
-    }
-  }
-
-  &.collapsed {
-    .fab-container {
-      .fab {
-        grid: auto / max-content 0px;
-        gap: 0px;
-
-        p {
-          visibility: hidden;
-
-          opacity: 0;
+          left: 20px;
         }
       }
     }
 
-    .destinations {
-      .segment {
-        a {
-          grid: max-content 16px / max-content 0px;
+    &.collapsed {
+      width: 96px;
 
-          &:focus-visible {
-            outline: none !important;
+      .fab-container {
+        .fab {
+          grid: auto / max-content 0px;
+          gap: 0px;
 
-            .accent {
-              @include mixin.focus-ring($thickness: 3, $offset: 2);
-            }
+          p {
+            visibility: hidden;
+
+            opacity: 0;
           }
         }
-
-        .accent {
-          height: 32px;
-          width: 56px;
-        }
-
-        .label {
-          position: relative;
-
-          width: 56px;
-        }
       }
-    }
-
-    &.rail {
-      width: 96px;
 
       .destinations {
         gap: 10px;
@@ -350,79 +390,87 @@
         .segment {
           a {
             column-gap: 0px;
+            grid: max-content 16px / max-content 0px;
             row-gap: 8px;
 
             padding-inline: 20px;
+
+            &::after {
+              height: 32px;
+              width: 56px;
+            }
+
+            &:focus-visible {
+              outline: none !important;
+
+              .accent {
+                @include mixin.focus-ring($thickness: 3, $offset: 2);
+              }
+            }
           }
 
-          &::after {
+          .accent {
             height: 32px;
+            width: 56px;
+          }
+
+          .label {
+            position: relative;
+
             width: 56px;
           }
         }
       }
     }
-  }
 
-  &.expanded {
-    .fab-container {
-      .fab {
-        grid: auto / max-content var(--label-width);
-        gap: 4px;
-
-        padding-inline-end: 24px;
-
-        p {
-          visibility: visible;
-          opacity: 1;
-        }
-      }
-    }
-
-    .destinations {
-      gap: 0px;
-
-      .segment {
-        a {
-          grid: max-content 0px / max-content var(--label-width);
-
-          border-radius: var(--md-sys-shape-corner-full);
-
-          overflow: hidden;
-        }
-
-        .accent {
-          height: 56px;
-          width: 56px;
-        }
-
-        .label {
-          position: absolute;
-        }
-
-        &::after {
-          height: 56px;
-          width: calc(56px + 4px + var(--label-width) + 24px);
-        }
-      }
-    }
-
-    &.rail {
+    &.expanded {
       width: 220px;
       max-width: 360px;
 
-      .destinations .segment {
-        a {
-          column-gap: 4px;
-          row-gap: 0px;
+      .fab-container {
+        .fab {
+          grid: auto / max-content var(--label-width);
+          gap: 4px;
 
-          margin-inline-start: 20px;
-          padding-inline: 0px 24px;
+          padding-inline-end: 24px;
+
+          p {
+            visibility: visible;
+            opacity: 1;
+          }
         }
+      }
 
-        &::after {
-          height: 56px;
-          width: calc(56px + 4px + var(--label-width) + 24px);
+      .destinations {
+        gap: 0px;
+
+        .segment {
+          a {
+            column-gap: 4px;
+            grid: max-content 0px / max-content var(--label-width);
+            row-gap: 0px;
+
+            margin-inline-start: 20px;
+            padding-inline: 0px 24px;
+
+            border-radius: var(--md-sys-shape-corner-full);
+
+            overflow: hidden;
+          }
+
+          .accent {
+            height: 56px;
+            width: 56px;
+          }
+
+          .label {
+            position: absolute;
+          }
+
+          &::after {
+            height: 56px;
+            width: calc(56px + 4px + var(--label-width) + 24px);
+          }
         }
       }
     }
