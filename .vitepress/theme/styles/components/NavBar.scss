@@ -16,79 +16,80 @@
     text-decoration: none;
   }
 
-  .MaterialButton {
-    margin-block: 24px 12px;
-    margin-inline: 21px;
-  }
-
-  .fab {
-    display: grid;
-    align-items: center;
-    justify-content: start;
-
-    position: relative;
-
-    margin-block-end: 24px;
-    margin-inline: 20px;
-    padding-inline: 0px;
-
-    height: 56px;
-    width: max-content;
-
-    color: var(--md-sys-color-on-secondary-container);
-
-    border: none;
-    border-radius: var(--md-sys-shape-corner-large);
-
-    background-color: var(--md-sys-color-secondary-container);
-
-    cursor: pointer;
-    transition: grid var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial),
-      gap var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
-    overflow: hidden;
-
-    span {
-      @include mixin.material-symbols();
-
-      grid-column: 1 / 2;
-
-      height: 24px;
-      width: 56px;
-
-      text-align: center;
-      font-variation-settings: "FILL" 1, "wght" 300;
-
-      transition: font-variation-settings var(--md-sys-motion-spring-fast-spatial-duration)
-        var(--md-sys-motion-spring-fast-spatial);
+  .fab-container {
+    .MaterialButton {
+      margin-block: 24px 12px;
+      margin-inline: 21px;
     }
 
-    p {
-      grid-column: 2 / 3;
+    .fab {
+      display: grid;
+      align-items: center;
+      justify-content: start;
 
+      position: relative;
+
+      margin-block-end: 24px;
+      margin-inline: 20px;
+      padding-inline: 0px;
+
+      height: 56px;
       width: max-content;
 
       color: var(--md-sys-color-on-secondary-container);
 
-      user-select: none;
-      -moz-user-select: none;
-      pointer-events: none;
-      transition: var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
-    }
+      border: none;
+      border-radius: var(--md-sys-shape-corner-large);
 
-    &:hover span {
-      font-variation-settings: "FILL" 1, "wght" 600;
-    }
+      background-color: var(--md-sys-color-secondary-container);
 
-    &:active span {
-      font-variation-settings: "FILL" 1, "wght" 200;
+      cursor: pointer;
+      transition: grid var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial),
+        gap var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+      overflow: hidden;
+
+      span {
+        @include mixin.material-symbols();
+
+        grid-column: 1 / 2;
+
+        height: 24px;
+        width: 56px;
+
+        text-align: center;
+        font-variation-settings: "FILL" 1, "wght" 300;
+
+        transition: font-variation-settings var(--md-sys-motion-spring-fast-spatial-duration)
+          var(--md-sys-motion-spring-fast-spatial);
+      }
+
+      p {
+        grid-column: 2 / 3;
+
+        width: max-content;
+
+        color: var(--md-sys-color-on-secondary-container);
+
+        user-select: none;
+        -moz-user-select: none;
+        pointer-events: none;
+        transition: var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
+      }
+
+      &:hover span {
+        font-variation-settings: "FILL" 1, "wght" 600;
+      }
+
+      &:active span {
+        font-variation-settings: "FILL" 1, "wght" 200;
+      }
     }
   }
 
   .destinations {
     display: flex;
 
-    transition: gap var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial)
-      calc(var(--md-sys-motion-spring-fast-spatial-duration) / 10);
+    transition: gap var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
 
     .segment {
       position: relative;
@@ -104,7 +105,7 @@
         position: relative;
 
         transition: grid var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial),
-          gap var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+          gap var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
       }
 
       .accent {
@@ -121,8 +122,8 @@
         border-radius: var(--md-sys-shape-corner-full);
 
         overflow: hidden;
-        transition: height var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial),
-          width var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+        transition: height var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect),
+          width var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
         z-index: 1;
 
         .icon {
@@ -214,8 +215,7 @@
 
     overflow-y: hidden;
 
-    .MaterialButton,
-    .fab {
+    .fab-container {
       display: none;
     }
 
@@ -292,7 +292,7 @@
           pointer-events: none;
           transition: background-color var(--md-sys-motion-spring-fast-effect-duration)
               var(--md-sys-motion-spring-fast-effect),
-            height var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial),
+            height var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect),
             width var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
           z-index: 0;
         }
@@ -301,14 +301,16 @@
   }
 
   &.collapsed {
-    .fab {
-      grid: auto / max-content 0px;
-      gap: 0px;
+    .fab-container {
+      .fab {
+        grid: auto / max-content 0px;
+        gap: 0px;
 
-      p {
-        visibility: hidden;
+        p {
+          visibility: hidden;
 
-        opacity: 0;
+          opacity: 0;
+        }
       }
     }
 
@@ -363,15 +365,17 @@
   }
 
   &.expanded {
-    .fab {
-      grid: auto / max-content var(--label-width);
-      gap: 4px;
+    .fab-container {
+      .fab {
+        grid: auto / max-content var(--label-width);
+        gap: 4px;
 
-      padding-inline-end: 24px;
+        padding-inline-end: 24px;
 
-      p {
-        visibility: visible;
-        opacity: 1;
+        p {
+          visibility: visible;
+          opacity: 1;
+        }
       }
     }
 

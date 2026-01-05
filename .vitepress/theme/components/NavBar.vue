@@ -1,22 +1,43 @@
 <!-- todo: 细分小尺寸设备上导航栏状态 -->
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch, nextTick } from "vue";
+import { computed, onMounted, onBeforeUnmount, ref, watch, nextTick } from "vue";
+import { isClient } from "../utils/env";
+import { setupWidthObserver } from "../composables/useElementWidth";
 import { useGlobalData } from "../composables/useGlobalData";
+import { useNavStateStore } from "../stores/navState";
 import { useScreenWidthStore } from "../stores/screenWidth";
 import { useSearchStateStore } from "../stores/searchState";
-import { useNavStateStore } from "../stores/navState";
-import { isClient } from "../utils/env";
 
 const { page, theme } = useGlobalData();
 const screenWidthStore = useScreenWidthStore();
 const searchStateStore = useSearchStateStore();
 const navStateStore = useNavStateStore();
 
-const fabParagraphRef = ref<HTMLParagraphElement>();
 const isLabelAnimating = ref(false);
-const labelRefs = ref<HTMLParagraphElement[]>([]);
-const labelWidths = ref<Record<string, number>>({});
+const cleanupFunctions: Array<() => void> = [];
+const observedElements = new WeakSet<HTMLElement>();
+
+/**
+ * 设置元素宽度观察器
+ * @param el 目标元素
+ * @param parentSelector 父级选择器
+ */
+function observeWidth(el: HTMLElement, parentSelector: string) {
+  if (observedElements.has(el)) return;
+  observedElements.add(el);
+
+  const cleanup = setupWidthObserver(
+    {
+      selector: "", // 使用 targetElements 时忽略此项
+      variableName: "label-width",
+      parentSelector,
+      ignoreParentLimit: true, // 允许撑开父级
+    },
+    [el]
+  );
+  cleanupFunctions.push(cleanup);
+}
 
 // 计算 Segments
 const navSegment = computed(() => {
@@ -83,78 +104,34 @@ function toggleNav(event: MouseEvent) {
 }
 
 /**
- * 更新元素宽度
- * @param element
- * @param containerSelector 容器选择器
- */
-function updateElementWidth(element: HTMLElement | null | undefined, containerSelector: string) {
-  if (!element) return;
-
-  const width = element.offsetWidth;
-  const container = element.closest(containerSelector) as HTMLElement;
-
-  if (container) {
-    container.style.setProperty("--label-width", `${width}px`);
-    labelWidths.value[containerSelector] = width;
-  }
-
-  return width;
-}
-
-/**
- * 批量更新所有元素宽度
- */
-function updateAllWidths() {
-  // 更新 fab 的 label 宽度
-  const fabWidth = updateElementWidth(fabParagraphRef.value, ".fab");
-
-  // 更新所有 segment 的 label 宽度
-  labelRefs.value.forEach((label) => {
-    updateElementWidth(label, ".segment");
-  });
-
-  return { fabWidth };
-}
-
-/**
- * 设置 label 引用
+ * 设置 label 引用并初始化观察器
  * @param el
- * @param index
+ * @param parentSelector
  */
-function setLabelRef(el: any, index: number) {
-  if (el) {
-    labelRefs.value[index] = el;
-
-    // 添加 animationend 事件监听
-    el.addEventListener("animationend", () => {
-      isLabelAnimating.value = false;
-    });
-
-    // 初始更新宽度
-    nextTick(() => updateElementWidth(el, ".segment"));
+function setLabelRef(el: any, parentSelector: string) {
+  if (el instanceof HTMLElement) {
+    observeWidth(el, parentSelector);
   }
 }
 
-// 监听屏幕宽度变化，更新搜索状态和 label 宽度
-watch(
-  () => searchStateStore.isSearchActive,
-  () => {
-    nextTick(() => updateElementWidth(fabParagraphRef.value, ".fab"));
+/**
+ * 处理动画结束
+ * @param el
+ */
+function onAnimationEnd(el: EventTarget | null) {
+  if (el) {
+    isLabelAnimating.value = false;
   }
-);
+}
 
-// 监听导航栏展开状态变化，更新 label 宽度并触发动画
+// 监听状态变化，手动触发宽度计算
 watch(
-  () => navStateStore.isNavExpanded,
-  (newVal, oldVal) => {
-    if (newVal !== oldVal) {
-      isLabelAnimating.value = true;
-      nextTick(() => {
-        labelRefs.value.forEach((label) => {
-          updateElementWidth(label, ".segment");
-        });
-      });
-    }
+  () => [navStateStore.isNavExpanded, searchStateStore.isSearchActive],
+  () => {
+    isLabelAnimating.value = true;
+    nextTick(() => {
+      window.dispatchEvent(new Event("resize"));
+    });
   }
 );
 
@@ -162,40 +139,38 @@ if (isClient()) {
   onMounted(() => {
     screenWidthStore.init();
     navStateStore.init();
-    nextTick(updateAllWidths);
+  });
+
+  onBeforeUnmount(() => {
+    cleanupFunctions.forEach((cleanup) => cleanup());
   });
 }
 </script>
 
 <template>
   <nav class="NavBar" :class="navClass">
-    <div>
+    <div class="fab-container">
       <MaterialButton color="text" :icon="navStateStore.isNavExpanded ? 'menu_open' : 'menu'" @click="toggleNav" />
-      <button
-        class="fab"
-        @mousedown.prevent
-        @click.stop="toggleSearch"
-        :style="{ '--label-width': `${labelWidths['.fab'] || 0}px` }"
-      >
+      <button class="fab" @mousedown.prevent @click.stop="toggleSearch">
         <span>{{ searchStateStore.isSearchActive ? "close" : "search" }}</span>
-        <p ref="fabParagraphRef">搜索</p>
+        <p :ref="(el) => setLabelRef(el, '.fab')">搜索</p>
       </button>
     </div>
 
     <div class="destinations">
-      <div
-        class="segment"
-        v-for="(item, index) in navSegment"
-        :key="item.link"
-        :class="isActive(item.link) ? 'active' : 'inactive'"
-      >
+      <div class="segment" v-for="item in navSegment" :key="item.link" :class="isActive(item.link) ? 'active' : 'inactive'">
         <a :href="item.link" :target="isExternalLink(item.link) ? '_blank' : undefined">
           <div class="accent">
             <div class="icon">
               <span>{{ item.icon }}</span>
             </div>
           </div>
-          <p class="label" :class="labelClass" :ref="(el) => setLabelRef(el, index)">
+          <p
+            class="label"
+            :class="labelClass"
+            :ref="(el) => setLabelRef(el, '.segment')"
+            @animationend="onAnimationEnd($event.target)"
+          >
             {{ item.text }}
           </p>
         </a>
