@@ -9,9 +9,10 @@ const { theme } = useGlobalData();
 
 // 定义断点配置：屏幕宽度 -> 列数
 const breakpoints = {
-  1600: 3,
+  1600: 4,
   1200: 3,
-  840: 2,
+  840: 3,
+  600: 2,
   0: 1,
 };
 
