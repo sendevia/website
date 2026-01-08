@@ -16,8 +16,11 @@ external_links:
     label: 直连下载
     link: https://github.com/sendevia/AincradMix/releases/latest/download/AincradMix.osk
   - type: normal
-    label: github
+    label: Github 仓库
     link: https://github.com/sendevia/AincradMix
+  - type: normal
+    label: Bilibili
+    link: https://www.bilibili.com/video/BV1gYiRYiEZ6
 ---
 
 ::: tip 简介
