@@ -215,13 +215,9 @@ if (isClient()) {
       </div>
     </hgroup>
     <Content />
-    <ButtonGroup v-if="frontmatter?.external_links" :links="frontmatter.external_links" />
     <PrevNext />
   </main>
-  <div id="article-beside">
-    <MaterialButton v-if="articleId" :color="'text'" :icon="'content_copy'" @click="copyShortLink">
-      复制短链
-    </MaterialButton>
+  <div id="article-aside">
     <div class="post-info">
       <p class="date-publish" v-if="formattedPublishDate">发布于 {{ formattedPublishDate }}</p>
       <ClientOnly>
@@ -231,7 +227,11 @@ if (isClient()) {
       </ClientOnly>
       <p class="id" v-if="articleId">文章ID {{ articleId }}</p>
     </div>
+    <ButtonGroup v-if="frontmatter?.external_links" :links="frontmatter.external_links" size="m" layout="vertical" />
     <PageIndicator />
+    <MaterialButton v-if="articleId" :color="'text'" :icon="'content_copy'" @click="copyShortLink">
+      复制短链
+    </MaterialButton>
   </div>
   <ImageViewer
     v-if="showImageViewer"

@@ -8,6 +8,10 @@ main#article-content {
   & {
     > div {
       width: 100%;
+
+      > div > :first-child {
+        margin-block-start: 0px;
+      }
     }
 
     > hgroup {
@@ -789,11 +793,14 @@ main#article-content {
   }
 }
 
-div#article-beside {
+div#article-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   grid-column: 10 / 13;
 
   position: sticky;
-  top: 120px;
+  top: 12px;
 
   .post-info {
     display: flex;
@@ -801,7 +808,6 @@ div#article-beside {
     gap: 3px;
 
     margin-inline-start: 16px;
-    margin-bottom: 18px;
 
     p {
       @include mixin.typescale-style("label-small");
