@@ -1,5 +1,5 @@
 {
-  "version": "26.1.7 (1)",
+  "version": "26.1.8(2)",
   "scripts": {
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
