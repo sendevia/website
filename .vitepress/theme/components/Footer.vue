@@ -22,7 +22,9 @@ const siteVersion = theme.value.siteVersion;
           <a href="https://github.com/sendevia/website" target="_blank">sendevia's material theme</a>
           主题
         </p>
-        <a :href="'https://github.com/sendevia/website/tags/v' + siteVersion" target="_blank"> 版本：{{ siteVersion }}</a>
+        <a :href="'https://github.com/sendevia/website/releases/tag/' + siteVersion" target="_blank">
+          版本：{{ siteVersion }}</a
+        >
       </div>
       <div class="beian-info">
         <div class="beian-gongan">
