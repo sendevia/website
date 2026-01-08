@@ -43,6 +43,8 @@ const getButtonIcon = (type: string) => {
   <div v-if="links && links.length > 0" class="ButtonGroup" :class="[props.size, props.layout]">
     <MaterialButton
       v-for="(item, index) in links"
+      class="group"
+      :class="props.layout"
       :key="index"
       :href="item.link"
       :size="props.size"
