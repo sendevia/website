@@ -1,7 +1,7 @@
 {
-  "version": "26.1.9(232)",
+  "version": "26.1.9(234)",
   "scripts": {
-    "update-version": "node scripts/update-version.js",
+    "update-version": "bash ./scripts/update-version.sh",
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
     "docs:build-cf": "git fetch --unshallow && vitepress build",
