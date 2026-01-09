@@ -1,6 +1,6 @@
 @use "../mixin";
 
-main#article-content {
+#article-content {
   display: flex;
   flex-direction: column;
   grid-column: 1 / 10;
@@ -793,7 +793,7 @@ main#article-content {
   }
 }
 
-div#article-aside {
+#article-aside {
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -840,17 +840,17 @@ div#article-aside {
 }
 
 @media screen and (max-width: 1600px) {
-  main#article-content {
+  #article-content {
     grid-column: 1 / 10;
   }
 
-  div#article-beside {
+  #article-aside {
     grid-column: 10 / 13;
   }
 }
 
 @media screen and (max-width: 1200px) {
-  main#article-content {
+  #article-content {
     grid-column: 1 / 7;
 
     .headline-block a.title-anchor {
@@ -861,13 +861,13 @@ div#article-aside {
     }
   }
 
-  div#article-beside {
+  #article-aside {
     grid-column: 7 / 9;
   }
 }
 
 @media screen and (max-width: 840px) {
-  main#article-content {
+  #article-content {
     grid-column: 1 / 7;
 
     .custom-block > * {
@@ -879,13 +879,13 @@ div#article-aside {
     }
   }
 
-  div#article-beside {
+  #article-aside {
     grid-column: 1 / 7;
   }
 }
 
 @media screen and (max-width: 600px) {
-  main#article-content {
+  #article-content {
     grid-column: 1 / 5;
 
     p:has(img) {
@@ -893,7 +893,7 @@ div#article-aside {
     }
   }
 
-  div#article-beside {
+  #article-aside {
     grid-column: 1 / 5;
   }
 }
