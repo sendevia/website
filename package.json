@@ -1,5 +1,5 @@
 {
-  "version": "26.1.9(230)",
+  "version": "26.1.9(232)",
   "scripts": {
     "update-version": "node scripts/update-version.js",
     "docs:dev": "vitepress dev",
