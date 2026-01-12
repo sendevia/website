@@ -1,15 +1,19 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount, nextTick, watch } from "vue";
+import { useClipboard } from "@vueuse/core";
 import { useGlobalData } from "../composables/useGlobalData";
+import { usePostStore } from "../stores/posts";
 import { useScreenWidthStore } from "../stores/screenWidth";
 import { isClient } from "../utils/env";
 
 const { page, frontmatter } = useGlobalData();
+const { copy: copyToClipboard, copied: isCopied } = useClipboard();
 const screenWidthStore = useScreenWidthStore();
 const pageIndicator = ref<HTMLElement | null>(null);
 const indicator = ref({ top: "0px", left: "0px", width: "100%", height: "0px", opacity: 0 });
 const headings = ref<Array<{ id: string; text: string; level: number }>>([]);
 const headingsActiveId = ref<string>("");
+const postStore = usePostStore();
 
 let ro: ResizeObserver | null = null;
 let mo: MutationObserver | null = null;
@@ -172,6 +176,26 @@ const resizeHandler = () => {
   }
 };
 
+// 计算文章ID
+const articleId = computed(() => {
+  const relativePath = page.value?.relativePath;
+  if (!relativePath) return "";
+  const path = relativePath.replace(/\.md$/, "");
+  const lookupUrl = path.startsWith("/") ? path : `/${path}`;
+  const post = postStore.getPostByUrl(lookupUrl);
+  return post?.id || "";
+});
+
+const shortLink = computed(() => {
+  if (!articleId.value) return "";
+  return `/p/${articleId.value}`;
+});
+
+const copyShortLink = async () => {
+  if (!shortLink.value) return;
+  await copyToClipboard(`${window.location.origin}${shortLink.value}`);
+};
+
 if (isClient()) {
   onMounted(() => {
     screenWidthStore.init();
@@ -255,8 +279,14 @@ if (isClient()) {
 </script>
 
 <template>
-  <div ref="pageIndicator" class="PageIndicator" aria-label="页面目录">
-    <p>在此页上</p>
+  <div ref="pageIndicator" class="PageIndicator">
+    <div class="label">
+      <p class="text">在此页上</p>
+      <p class="icon">link</p>
+      <p class="article-id" title="复制短链" v-if="articleId" @click="copyShortLink">
+        {{ isCopied ? `已复制` : articleId }}
+      </p>
+    </div>
     <h3>{{ frontmatter.title ? frontmatter.title : page.title }}</h3>
 
     <div

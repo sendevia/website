@@ -831,10 +831,6 @@
       &.date-update::before {
         content: "update";
       }
-
-      &.id::before {
-        content: "flag";
-      }
     }
   }
 }

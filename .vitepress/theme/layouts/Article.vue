@@ -2,10 +2,8 @@
 import { ref, onMounted, onBeforeUnmount, computed } from "vue";
 import { useClipboard, useTimestamp, useDateFormat } from "@vueuse/core";
 import { useGlobalData } from "../composables/useGlobalData";
-import { usePostStore } from "../stores/posts";
 import { isClient } from "../utils/env";
 
-const postStore = usePostStore();
 const { page, frontmatter } = useGlobalData();
 const { copy: copyToClipboard, copied: isCopied } = useClipboard();
 
@@ -64,26 +62,6 @@ const formattedLastUpdated = computed(() => {
   // 否则显示相对时间 (依赖 now.value，会自动更新)
   return `${formatTimeAgo(uDate)}编辑`;
 });
-
-// 计算文章ID
-const articleId = computed(() => {
-  const relativePath = page.value?.relativePath;
-  if (!relativePath) return "";
-  const path = relativePath.replace(/\.md$/, "");
-  const lookupUrl = path.startsWith("/") ? path : `/${path}`;
-  const post = postStore.getPostByUrl(lookupUrl);
-  return post?.id || "";
-});
-
-const shortLink = computed(() => {
-  if (!articleId.value) return "";
-  return `/p/${articleId.value}`;
-});
-
-const copyShortLink = async () => {
-  if (!shortLink.value) return;
-  await copyToClipboard(`${window.location.origin}${shortLink.value}`);
-};
 
 // 图片查看器相关逻辑
 const showImageViewer = ref(false);
@@ -225,13 +203,9 @@ if (isClient()) {
           {{ formattedLastUpdated }}
         </p>
       </ClientOnly>
-      <p class="id" v-if="articleId">文章ID {{ articleId }}</p>
     </div>
     <ButtonGroup v-if="frontmatter?.external_links" :links="frontmatter.external_links" size="m" layout="vertical" />
     <PageIndicator />
-    <MaterialButton v-if="articleId" :color="'text'" :icon="'content_copy'" @click="copyShortLink">
-      复制短链
-    </MaterialButton>
   </div>
   <ImageViewer
     v-if="showImageViewer"

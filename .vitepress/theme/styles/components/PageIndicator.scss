@@ -6,12 +6,28 @@
   user-select: none;
   -moz-user-select: none;
 
-  p {
-    @include mixin.typescale-style("label-small");
+  .label {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 4px;
 
     margin-inline-start: 18px;
 
-    z-index: 1;
+    p {
+      @include mixin.typescale-style("label-small");
+
+      &.icon {
+        @include mixin.material-symbols($size: 16);
+      }
+
+      &.article-id {
+        text-transform: uppercase;
+
+        cursor: pointer;
+      }
+    }
   }
 
   h3 {
