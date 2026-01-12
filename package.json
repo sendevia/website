@@ -1,5 +1,5 @@
 {
-  "version": "26.1.9(234)",
+  "version": "26.1.13(240)",
   "scripts": {
     "update-version": "bash ./scripts/update-version.sh",
     "docs:dev": "vitepress dev",
