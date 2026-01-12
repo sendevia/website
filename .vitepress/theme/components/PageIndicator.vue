@@ -287,7 +287,8 @@ if (isClient()) {
         {{ isCopied ? `已复制` : articleId }}
       </p>
     </div>
-    <h3>{{ frontmatter.title ? frontmatter.title : page.title }}</h3>
+
+    <h3 class="article-title">{{ frontmatter.title ? frontmatter.title : page.title }}</h3>
 
     <div
       class="indicator"

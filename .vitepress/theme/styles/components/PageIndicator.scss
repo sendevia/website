@@ -30,7 +30,7 @@
     }
   }
 
-  h3 {
+  .article-title {
     margin-inline-start: 18px;
     padding-block-end: 18px;
 
@@ -137,6 +137,10 @@
 
 @media screen and (max-width: 840px) {
   .PageIndicator {
-    display: none;
+    .article-title,
+    .indicator,
+    .indicator-container {
+      display: none;
+    }
   }
 }
