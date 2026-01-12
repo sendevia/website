@@ -1,100 +1,35 @@
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, watch, onMounted, onUnmounted } from "vue";
+import { useScroll } from "@vueuse/core";
 import { isClient } from "../utils/env";
 
-let container: HTMLElement | Window | null = null;
-let isInitialized = false;
-let isScrolled = ref(false);
-let precision = 1;
-let scrollPosition = ref(0);
-let targetScrollable: string = ".content-flow";
-let threshold = 80;
+// 全局状态
+const globalThreshold = ref(80);
+const globalPrecision = ref(1);
+const globalTargetScrollable = ref(".content-flow");
+const globalContainer = ref<HTMLElement | Window | null>(null);
+const globalIsScrolled = ref(false);
+const globalScrollPosition = ref(0);
+const globalScrollPercentage = ref(0);
 
-const componentCallbacks = new Map<symbol, { threshold: number; callback: (isScrolled: boolean) => void }>();
-
+// 检测可滚动容器
 function isScrollable(el: HTMLElement) {
   const style = window.getComputedStyle(el);
   const overflowY = style.overflowY;
   return overflowY === "auto" || overflowY === "scroll" || el.scrollHeight > el.clientHeight;
 }
 
-function detectContainer() {
+// 检测容器
+function detectContainer(targetScrollable: string) {
+  if (!isClient()) return window;
+
   const el = document.querySelector(targetScrollable);
   if (el && el instanceof HTMLElement && isScrollable(el)) return el;
   return window;
 }
 
-function handleGlobalScroll() {
+// 计算滚动百分比
+function calculatePercentage(scrollTop: number, scrollContainer: HTMLElement | Window, precision: number): number {
   try {
-    const scrollTop = container === window ? window.scrollY || window.pageYOffset : (container as HTMLElement).scrollTop;
-
-    scrollPosition.value = scrollTop;
-    isScrolled.value = scrollTop > threshold;
-
-    componentCallbacks.forEach(({ threshold: componentThreshold, callback }) => {
-      callback(scrollTop > componentThreshold);
-    });
-  } catch (e) {
-    scrollPosition.value = 0;
-    isScrolled.value = false;
-    componentCallbacks.forEach(({ callback }) => {
-      callback(false);
-    });
-  }
-}
-
-function initGlobalScrollListener(initialThreshold: number = threshold, scrollContainer: string = targetScrollable) {
-  if (isInitialized) return;
-
-  threshold = initialThreshold;
-  targetScrollable = scrollContainer;
-
-  if (isClient()) {
-    const updateContainer = () => {
-      if (container) {
-        const target: any = container;
-        target.removeEventListener("scroll", handleGlobalScroll);
-      }
-
-      container = detectContainer();
-
-      const target: any = container;
-      target.addEventListener("scroll", handleGlobalScroll, { passive: true });
-
-      handleGlobalScroll();
-    };
-
-    updateContainer();
-
-    const checkContainerInterval = setInterval(() => {
-      const newContainer = detectContainer();
-      if (newContainer !== container) {
-        updateContainer();
-      }
-    }, 500);
-
-    isInitialized = true;
-
-    if ((window as any).__cleanup) {
-      (window as any).__cleanup.push(() => {
-        clearInterval(checkContainerInterval);
-        if (container) {
-          const target: any = container;
-          target.removeEventListener("scroll", handleGlobalScroll);
-        }
-        componentCallbacks.clear();
-      });
-    }
-  }
-}
-
-function calculatePercentage(precisionValue: number = precision): number {
-  try {
-    const el = document.querySelector(targetScrollable);
-    const scrollContainer = el && el instanceof HTMLElement && isScrollable(el as HTMLElement) ? el : window;
-
-    const scrollTop =
-      scrollContainer === window ? window.scrollY || window.pageYOffset : (scrollContainer as HTMLElement).scrollTop;
-
     let scrollHeight: number, clientHeight: number;
 
     if (scrollContainer === window) {
@@ -114,62 +49,130 @@ function calculatePercentage(precisionValue: number = precision): number {
     if (maxScroll <= 0) return 0;
 
     const percentage = Math.min(scrollTop / maxScroll, 1) * 100;
-    return Number(percentage.toFixed(precisionValue));
+    return Number(percentage.toFixed(precision));
   } catch (e) {
     return 0;
   }
 }
 
+// 更新全局状态
+function updateGlobalState(y: number, container: HTMLElement | Window, threshold: number, precision: number) {
+  globalScrollPosition.value = y;
+  globalIsScrolled.value = y > threshold;
+  globalScrollPercentage.value = calculatePercentage(y, container, precision);
+}
+
 export function useGlobalScroll(options?: { threshold?: number; container?: string; precision?: number }) {
-  const localThreshold = options?.threshold ?? threshold;
-  const localPrecision = options?.precision ?? precision;
+  const localThreshold = options?.threshold ?? globalThreshold.value;
+  const localPrecision = options?.precision ?? globalPrecision.value;
+  const localTargetScrollable = options?.container ?? globalTargetScrollable.value;
+
+  const containerRef = ref<HTMLElement | Window | null>(null);
   const localIsScrolled = ref(false);
-  const componentId = Symbol();
-  const updateComponentState = (isScrolled: boolean) => {
-    localIsScrolled.value = isScrolled;
+  const localScrollPosition = ref(0);
+  const localScrollPercentage = ref(0);
+
+  // 初始化容器
+  const initContainer = () => {
+    if (!isClient()) return;
+
+    const container = detectContainer(localTargetScrollable);
+    containerRef.value = container;
+
+    // 更新全局容器引用（如果是第一个实例）
+    if (!globalContainer.value) {
+      globalContainer.value = container;
+    }
   };
 
-  onMounted(() => {
-    if (!isInitialized) {
-      initGlobalScrollListener(80);
-    }
-
-    componentCallbacks.set(componentId, {
-      threshold: localThreshold,
-      callback: updateComponentState,
-    });
-
-    handleGlobalScroll();
-
-    return () => {
-      componentCallbacks.delete(componentId);
-    };
+  const scrollResult = useScroll(containerRef, {
+    throttle: 0,
+    idle: 200,
+    eventListenerOptions: { passive: true },
   });
 
-  return {
-    isScrolled: computed(() => localIsScrolled.value),
-    scrollPosition: computed(() => {
-      if (!container) return 0;
-      try {
-        return container === window ? window.scrollY || window.pageYOffset : (container as HTMLElement).scrollTop;
-      } catch (e) {
-        return 0;
+  // 监听滚动位置变化
+  watch(
+    () => scrollResult.y.value,
+    (y) => {
+      if (containerRef.value) {
+        const yValue = y || 0;
+
+        // 更新本地状态
+        localScrollPosition.value = yValue;
+        localIsScrolled.value = yValue > localThreshold;
+        localScrollPercentage.value = calculatePercentage(yValue, containerRef.value, localPrecision);
+
+        // 更新全局状态
+        updateGlobalState(yValue, containerRef.value, globalThreshold.value, globalPrecision.value);
       }
-    }),
-    scrollPercentage: computed(() => {
-      scrollPosition.value;
-      return calculatePercentage(localPrecision);
-    }),
+    },
+    { immediate: true }
+  );
+
+  // 容器检测和初始化
+  onMounted(() => {
+    if (isClient()) {
+      initContainer();
+
+      // 定期检查容器是否变化
+      const checkContainerInterval = setInterval(() => {
+        const newContainer = detectContainer(localTargetScrollable);
+        if (newContainer !== containerRef.value) {
+          containerRef.value = newContainer;
+        }
+      }, 1000);
+
+      // 清理函数
+      return () => {
+        clearInterval(checkContainerInterval);
+      };
+    }
+  });
+
+  // 监听选项变化
+  watch(
+    () => options?.container,
+    () => {
+      if (isClient()) {
+        initContainer();
+      }
+    }
+  );
+
+  watch(
+    () => options?.threshold,
+    (newThreshold) => {
+      if (newThreshold !== undefined && containerRef.value) {
+        localIsScrolled.value = localScrollPosition.value > newThreshold;
+      }
+    }
+  );
+
+  return {
+    // 本地状态
+    isScrolled: computed(() => localIsScrolled.value),
+    scrollPosition: computed(() => localScrollPosition.value),
+    scrollPercentage: computed(() => localScrollPercentage.value),
+
+    // 原始 useScroll 结果（用于高级用途）
+    scrollResult,
+
+    // 容器引用
+    container: containerRef,
+
+    // 阈值和精度
+    threshold: localThreshold,
+    precision: localPrecision,
   };
 }
 
+// 全局滚动状态
 export const globalScrollState = {
-  isScrolled: isScrolled,
-  threshold: computed(() => threshold),
-  scrollPosition: computed(() => scrollPosition.value),
-  scrollPercentage: computed(() => {
-    scrollPosition.value;
-    return calculatePercentage(precision);
-  }),
-  precision: computed(() => precision),
+  isScrolled: computed(() => globalIsScrolled.value),
+  threshold: computed(() => globalThreshold.value),
+  scrollPosition: computed(() => globalScrollPosition.value),
+  scrollPercentage: computed(() => globalScrollPercentage.value),
+  precision: computed(() => globalPrecision.value),
+  container: computed(() => globalContainer.value),
 };
