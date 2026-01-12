@@ -154,10 +154,6 @@ onUnmounted(() => {
     :tabindex="isTabFocusable ? 0 : -1"
   >
     <div class="action-area">
-      <!-- <div class="leading-button">
-        <MaterialButton color="text" icon="menu" size="xs" :tabindex="isTabFocusable ? 0 : -1" />
-      </div> -->
-
       <input
         ref="searchInput"
         v-model="query"
@@ -188,7 +184,6 @@ onUnmounted(() => {
           <p v-if="post.date" class="date">{{ post.date }}</p>
         </div>
         <p v-if="post.description" class="description">{{ post.description }}</p>
-        <!-- 只有不是最后一项时才显示分割线 -->
         <hr v-if="index !== filteredPosts.length - 1" />
       </a>
     </div>
