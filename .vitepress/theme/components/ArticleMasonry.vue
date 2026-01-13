@@ -1,96 +1,104 @@
 <script setup lang="ts">
+import { computed } from "vue";
+import { useBreakpoints } from "@vueuse/core";
 import { usePostStore, type PostData } from "../stores/posts";
 import { useGlobalData } from "../composables/useGlobalData";
-import { computed, onMounted, onUnmounted, ref } from "vue";
 
 const postsStore = usePostStore();
-const articlesList = computed(() => postsStore.posts || []);
 const { theme } = useGlobalData();
 
-// 定义断点配置：屏幕宽度 -> 列数
-const breakpoints = {
-  1600: 4,
-  1200: 3,
-  840: 3,
-  600: 2,
-  0: 1,
-};
+/** 响应式断点配置 */
+const breakpoints = useBreakpoints({
+  mobile: 600,
+  tablet: 840,
+  desktop: 1200,
+  large: 1600,
+});
 
-const columnCount = ref(2);
+/**
+ * 根据屏幕宽度计算当前的列数
+ * @returns {number} 列数（挂载前默认为 1）
+ */
+const columnCount = computed(() => {
+  if (breakpoints.greaterOrEqual("large").value) return 4;
+  if (breakpoints.greaterOrEqual("desktop").value) return 3;
+  if (breakpoints.greaterOrEqual("tablet").value) return 3;
+  if (breakpoints.greaterOrEqual("mobile").value) return 2;
+  return 1;
+});
 
-// 根据屏幕宽度更新列数
-const updateColumnCount = () => {
-  const width = window.innerWidth;
-  const match = Object.keys(breakpoints)
-    .map(Number)
-    .sort((a, b) => b - a)
-    .find((bp) => width > bp);
+/**
+ * 获取按日期降序排列的文章列表
+ * @returns {PostData[]} 排序后的文章数组
+ */
+const articlesList = computed(() => {
+  const posts = [...(postsStore.posts || [])];
+  return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+});
 
-  columnCount.value = match !== undefined ? breakpoints[match as keyof typeof breakpoints] : 1;
-};
-
-// 将文章列表拆分成 N 个数组
+/**
+ * 将文章数据分配到不同的列数组中
+ * @returns {PostData[][]} 瀑布流分组数据
+ */
 const masonryGroups = computed(() => {
-  const groups: PostData[][] = Array.from({ length: columnCount.value }, () => []);
+  const count = columnCount.value;
+  const groups: PostData[][] = Array.from({ length: count }, () => []);
 
   articlesList.value.forEach((item, index) => {
-    const groupIndex = index % columnCount.value;
-    groups[groupIndex].push(item);
+    groups[index % count].push(item);
   });
 
   return groups;
 });
 
-// 图片处理逻辑
+/**
+ * 计算特定卡片在原始逻辑顺序中的位置
+ * @param colIndex 列索引
+ * @param rowIndex 列内的行索引
+ * @returns {number} 用于 Tab 导航的顺序索引 (从 1 开始)
+ */
+const getTabIndex = (colIndex: number, rowIndex: number): number => {
+  return rowIndex * columnCount.value + colIndex + 1;
+};
+
+/**
+ * 获取文章展示图
+ * @param item 文章数据
+ */
 const getArticleImage = (item: PostData): string[] => {
-  if (item.impression && item.impression.length > 0) {
-    return item.impression;
-  }
-
-  const themeValue = theme.value;
-  if (themeValue?.defaultImpression) {
-    return [themeValue.defaultImpression];
-  }
-
-  return [];
+  if (item.impression?.length) return item.impression;
+  return theme.value?.defaultImpression ? [theme.value.defaultImpression] : [];
 };
 
-// 检查是否有可下载内容
+/**
+ * 检查文章是否有下载内容
+ * @param item 文章数据
+ */
 const hasDownloadableContent = (item: PostData): boolean => {
-  if (!item.external_links || !Array.isArray(item.external_links)) {
-    return false;
-  }
-
-  return item.external_links.some((link) => link.type === "download");
+  return Array.isArray(item.external_links) && item.external_links.some((link) => link.type === "download");
 };
-
-onMounted(() => {
-  updateColumnCount();
-  window.addEventListener("resize", updateColumnCount);
-});
-
-onUnmounted(() => {
-  window.removeEventListener("resize", updateColumnCount);
-});
 </script>
 
 <template>
   <div class="ArticleMasonry">
-    <div class="masonry-column" v-for="(column, index) in masonryGroups" :key="index">
-      <MaterialCard
-        v-for="item in column"
-        variant="feed"
-        size="m"
-        color="outlined"
-        :key="item.id"
-        :href="item.url"
-        :title="item.title"
-        :description="item.description"
-        :date="item.date"
-        :impression="getArticleImage(item)"
-        :downloadable="hasDownloadableContent(item)"
-      />
-    </div>
+    <ClientOnly>
+      <div v-for="(column, index) in masonryGroups" :key="index" class="masonry-column">
+        <MaterialCard
+          v-for="(item, itemIndex) in column"
+          :key="item.id"
+          variant="feed"
+          size="m"
+          color="outlined"
+          :href="item.url"
+          :title="item.title"
+          :description="item.description"
+          :date="item.date"
+          :impression="getArticleImage(item)"
+          :downloadable="hasDownloadableContent(item)"
+          :tabindex="getTabIndex(index, itemIndex)"
+        />
+      </div>
+    </ClientOnly>
   </div>
 </template>
 
