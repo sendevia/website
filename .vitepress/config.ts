@@ -18,7 +18,7 @@ export default defineConfig({
   lang: "zh_CN",
   title: "sendevia 的小站",
   titleTemplate: ":title",
-  description: "一个随便写写的博客",
+  description: "随便写写的博客",
   markdown: {
     anchor: {
       permalink: anchor.permalink.linkAfterHeader({
