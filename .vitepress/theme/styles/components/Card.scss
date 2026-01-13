@@ -8,7 +8,7 @@
 
   text-decoration: none;
 
-  overflow: hidden;
+  outline: none;
 
   .content {
     display: flex;
@@ -19,12 +19,32 @@
     height: 100%;
     width: 100%;
 
+    overflow: hidden;
+
     .impression-area {
       z-index: 1;
     }
 
     .supporting-area {
       pointer-events: none;
+    }
+  }
+
+  &.entrance {
+    animation: card-entrance var(--md-sys-motion-spring-slow-spatial-duration) calc(min(var(--delay), 20) * 0.08s)
+      var(--md-sys-motion-spring-slow-spatial) forwards;
+    opacity: 0;
+    transform: translateY(30px);
+    will-change: transform, opacity;
+  }
+
+  &:focus-visible {
+    .content {
+      @include mixin.focus-ring($thickness: 4);
+
+      &::after {
+        background-color: var(--md-sys-state-focus-state-layer);
+      }
     }
   }
 
@@ -35,6 +55,8 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
+
+      border-radius: var(--md-sys-shape-corner-large);
 
       .impression-area {
         display: flex;
@@ -103,14 +125,6 @@
             }
           }
 
-          &:hover {
-            &:has(img:nth-child(2)) {
-              img:nth-child(2) {
-                opacity: 1;
-              }
-            }
-          }
-
           img {
             position: absolute;
             top: 0px;
@@ -162,6 +176,16 @@
           text-decoration: none;
         }
       }
+
+      &:hover {
+        .impression-area .image-container {
+          &:has(img:nth-child(2)) {
+            img:nth-child(2) {
+              opacity: 1;
+            }
+          }
+        }
+      }
     }
   }
 
@@ -189,5 +213,13 @@
     .content {
       color: var(--md-sys-color-on-surface-variant);
     }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .MaterialCard.entrance {
+    animation: none;
+    opacity: 1;
+    transform: none;
   }
 }

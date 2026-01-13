@@ -52,13 +52,12 @@ const masonryGroups = computed(() => {
 });
 
 /**
- * 计算特定卡片在原始逻辑顺序中的位置
+ * 获取逻辑序号
  * @param colIndex 列索引
- * @param rowIndex 列内的行索引
- * @returns {number} 用于 Tab 导航的顺序索引 (从 1 开始)
+ * @param rowIndex 行索引
  */
-const getTabIndex = (colIndex: number, rowIndex: number): number => {
-  return rowIndex * columnCount.value + colIndex + 1;
+const getLogicIndex = (colIndex: number, rowIndex: number): number => {
+  return rowIndex * columnCount.value + colIndex;
 };
 
 /**
@@ -82,10 +81,11 @@ const hasDownloadableContent = (item: PostData): boolean => {
 <template>
   <div class="ArticleMasonry">
     <ClientOnly>
-      <div v-for="(column, index) in masonryGroups" :key="index" class="masonry-column">
+      <div v-for="(column, colIndex) in masonryGroups" :key="colIndex" class="masonry-column">
         <MaterialCard
-          v-for="(item, itemIndex) in column"
+          v-for="(item, rowIndex) in column"
           :key="item.id"
+          class="entrance"
           variant="feed"
           size="m"
           color="outlined"
@@ -95,7 +95,8 @@ const hasDownloadableContent = (item: PostData): boolean => {
           :date="item.date"
           :impression="getArticleImage(item)"
           :downloadable="hasDownloadableContent(item)"
-          :tabindex="getTabIndex(index, itemIndex)"
+          :tabindex="getLogicIndex(colIndex, rowIndex) + 1"
+          :style="{ '--delay': getLogicIndex(colIndex, rowIndex) }"
         />
       </div>
     </ClientOnly>
