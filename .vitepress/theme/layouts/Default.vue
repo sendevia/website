@@ -159,13 +159,13 @@ onMounted(() => {
 
 <template>
   <div class="MainLayout">
-    <ClientOnly>
-      <template v-if="!isRedirecting">
-        <NavBar />
-        <AppBar />
-        <Transition name="layout" mode="out-in" @after-enter="onAfterEnter">
-          <div class="content-flow" :key="route.path">
-            <main v-if="frontmatter.home" class="home-content">
+    <template v-if="!isRedirecting">
+      <NavBar />
+      <AppBar />
+      <Transition name="layout" mode="out-in" @after-enter="onAfterEnter">
+        <div class="content-flow" :key="route.path">
+          <main v-if="frontmatter.home" class="home-content">
+            <ClientOnly>
               <div class="avatar-box">
                 <h3>
                   {{ randomGreeting }}
@@ -173,19 +173,19 @@ onMounted(() => {
                 <img src="/assets/images/avatar_transparent.png" alt="" />
                 <span></span>
               </div>
-              <hgroup class="title">
-                <h1>欢迎访问 {{ site.title }}</h1>
-                <h4>这是一个{{ site.description }}</h4>
-              </hgroup>
-              <ArticleMasonry />
-            </main>
-            <component v-else :is="currentLayout" />
-            <ScrollToTop />
-            <Footer />
-          </div>
-        </Transition>
-      </template>
-    </ClientOnly>
+            </ClientOnly>
+            <hgroup class="title">
+              <h1>欢迎访问 {{ site.title }}</h1>
+              <h4>这是一个{{ site.description }}</h4>
+            </hgroup>
+            <ArticleMasonry />
+          </main>
+          <component v-else :is="currentLayout" />
+          <ScrollToTop />
+          <Footer />
+        </div>
+      </Transition>
+    </template>
   </div>
 </template>
 
