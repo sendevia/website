@@ -5,8 +5,7 @@ color: ""
 impression: ""
 categories:
 tags:
-date: time
-
+date: 2007-08-31T00:00:00Z
 ---
 
 # 语法高亮
