@@ -1,22 +1,53 @@
 <script setup lang="ts">
-import ArticleLayout from "./Article.vue";
-import NotFoundLayout from "./NotFound.vue";
+import { ref, computed, watch, onMounted, nextTick } from "vue";
+import { useRoute } from "vitepress";
+import { useTitle, useMutationObserver } from "@vueuse/core";
 import { argbFromHex } from "@material/material-color-utilities";
 import { generateColorPalette } from "../utils/colorPalette";
-import { onMounted, nextTick, computed, ref, watch } from "vue";
-import { useRoute } from "vitepress";
+import { getFormattedRandomPhrase } from "../utils/phrases";
 import { useGlobalData } from "../composables/useGlobalData";
 import { usePostStore } from "../stores/posts";
 import { isClient } from "../utils/env";
 
+// 导入布局组件
+import ArticleLayout from "./Article.vue";
+import NotFoundLayout from "./NotFound.vue";
+
+/**
+ * 全局数据与路由状态
+ */
 const { site, page, frontmatter, theme } = useGlobalData();
 const route = useRoute();
 const postStore = usePostStore();
-
 const isRedirecting = ref(false);
+const pageTitle = useTitle();
+
+/** 随机问候语 */
+const randomGreeting = ref(getFormattedRandomPhrase());
+
+/** 布局映射表 */
+const layoutMap = {
+  article: ArticleLayout,
+} as const;
+
+type LayoutKey = keyof typeof layoutMap;
 
 /**
- * 检查并执行重定向
+ * 计算当前应该渲染的布局组件
+ * @returns {Component | null} 布局组件或空
+ */
+const currentLayout = computed(() => {
+  if (isRedirecting.value) return null;
+  if (frontmatter.value.home) return null;
+  if (page.value.isNotFound) return NotFoundLayout;
+  const key = (frontmatter.value.layout ?? "article") as LayoutKey;
+  return layoutMap[key] ?? ArticleLayout;
+});
+
+/**
+ * 检查路径是否符合短链格式并执行重定向
+ * @param {string} path 待检测的路径
+ * @returns {boolean} 是否正在执行重定向
  */
 function checkAndRedirect(path: string): boolean {
   if (isRedirecting.value) return true;
@@ -29,12 +60,10 @@ function checkAndRedirect(path: string): boolean {
 
     if (post) {
       isRedirecting.value = true;
-
       if (isClient()) {
-        document.title = `跳转中 | ${site.value.title}`;
+        pageTitle.value = `跳转中 | ${site.value.title}`;
         window.location.replace(post.url);
       }
-
       return true;
     }
   }
@@ -43,100 +72,120 @@ function checkAndRedirect(path: string): boolean {
 
 let isProcessingPalette = false;
 
+/**
+ * 根据当前页面环境更新 Material Design 全局色板
+ * 逻辑：优先尝试从 Header 的 impression-color 属性提取，否则使用主题默认色
+ */
 async function updatePalette() {
   if (isRedirecting.value || route.path.startsWith("/p/")) return;
-
   if (isProcessingPalette) return;
-  isProcessingPalette = true;
 
+  isProcessingPalette = true;
   try {
     await nextTick();
+
+    // 基础色：来自主题配置
     const defaultColor = theme.value.defaultColor;
     const defaultArgb = argbFromHex(defaultColor);
-    await generateColorPalette(defaultArgb);
 
+    // 尝试寻找文章头部的动态色彩属性
     const el = document.querySelector(".Header div.carousel-container");
-    if (el) {
-      const colorAttr = el.getAttribute("impression-color");
-      if (colorAttr && /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(colorAttr)) {
-        const argb = argbFromHex(colorAttr);
-        await generateColorPalette(argb);
-      }
+    const colorAttr = el?.getAttribute("impression-color");
+
+    if (colorAttr && /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(colorAttr)) {
+      await generateColorPalette(argbFromHex(colorAttr));
+    } else {
+      await generateColorPalette(defaultArgb);
     }
   } finally {
     isProcessingPalette = false;
   }
 }
 
-// 布局映射
-const layoutMap = {
-  article: ArticleLayout,
-} as const;
+/**
+ * 监听 Header 元素的属性变化
+ * 当文章轮播图切换导致 impression-color 改变时，实时更新色板
+ */
+if (isClient()) {
+  useMutationObserver(
+    // 明确指定 querySelector 返回的是 HTMLElement 类型
+    () => document.querySelector<HTMLElement>(".Header div.carousel-container"),
+    () => updatePalette(),
+    {
+      attributes: true,
+      attributeFilter: ["impression-color"],
+    }
+  );
+}
 
-type LayoutKey = keyof typeof layoutMap;
-
-const currentLayout = computed(() => {
-  if (isRedirecting.value) return null;
-  if (frontmatter.value.home) return null;
-  if (page.value.isNotFound) return NotFoundLayout;
-  const key = (frontmatter.value.layout ?? "article") as LayoutKey;
-  return layoutMap[key] ?? ArticleLayout;
-});
-
-// 监听路由变化以处理重定向
+/**
+ * 路由变化监听：处理短链重定向
+ */
 watch(
   () => route.path,
   (newPath) => {
-    if (checkAndRedirect(newPath)) {
-      return;
-    }
-
-    // 如果之前是重定向状态，清理状态
-    if (isRedirecting.value) {
+    if (!checkAndRedirect(newPath)) {
       isRedirecting.value = false;
     }
   },
   { immediate: true }
 );
 
-function onAfterEnter() {
-  if (isRedirecting.value) return;
-  updatePalette();
-}
-
-function onBeforeLeave() {
-  if (isRedirecting.value) return;
-}
-
-if (isClient()) {
-  onMounted(() => {
-    if (!route.path.startsWith("/p/")) {
-      updatePalette();
+/**
+ * 监听首页状态变化，进入首页时更新随机问候语
+ */
+watch(
+  () => frontmatter.value.home,
+  (isHome) => {
+    if (isHome) {
+      randomGreeting.value = getFormattedRandomPhrase();
     }
-  });
+  }
+);
+
+/**
+ * 过渡动画钩子：进入后更新色板
+ */
+function onAfterEnter() {
+  if (!isRedirecting.value) updatePalette();
 }
+
+onMounted(() => {
+  if (isClient() && !route.path.startsWith("/p/")) {
+    updatePalette();
+  }
+});
 </script>
 
 <template>
   <div class="MainLayout">
-    <template v-if="!isRedirecting">
-      <NavBar />
-      <AppBar />
-      <Transition name="layout" mode="out-in" @before-leave="onBeforeLeave" @after-enter="onAfterEnter">
-        <div class="content-flow" :key="route.path">
-          <main v-if="frontmatter.home" class="home-content">
-            <hgroup class="title">
-              <h1>{{ site.title }}</h1>
-              <h6>{{ site.description }}</h6>
-            </hgroup>
-            <ArticleMasonry />
-          </main>
-          <component v-else :is="currentLayout" />
-          <ScrollToTop />
-          <Footer />
-        </div>
-      </Transition>
-    </template>
+    <ClientOnly>
+      <template v-if="!isRedirecting">
+        <NavBar />
+        <AppBar />
+        <Transition name="layout" mode="out-in" @after-enter="onAfterEnter">
+          <div class="content-flow" :key="route.path">
+            <main v-if="frontmatter.home" class="home-content">
+              <div class="avatar-box">
+                <h3>
+                  {{ randomGreeting }}
+                </h3>
+                <img src="/assets/images/avatar_transparent.png" alt="" />
+                <span></span>
+              </div>
+              <hgroup class="title">
+                <h1>欢迎访问 {{ site.title }}</h1>
+                <h4>这是一个{{ site.description }}</h4>
+              </hgroup>
+              <ArticleMasonry />
+            </main>
+            <component v-else :is="currentLayout" />
+            <ScrollToTop />
+            <Footer />
+          </div>
+        </Transition>
+      </template>
+    </ClientOnly>
   </div>
 </template>
 

@@ -33,44 +33,89 @@
 
     .home-content {
       display: flex;
-      flex-flow: column wrap;
-      gap: 42px;
+      align-items: center;
+      flex-flow: column nowrap;
       grid-column: span 12;
 
       height: 100%;
 
-      padding: 24px;
+      .avatar-box {
+        position: relative;
 
-      hgroup.title {
+        height: 420px;
+        width: 420px;
+
+        text-align: center;
+
+        h3 {
+          position: absolute;
+          top: 280px;
+          left: 50%;
+
+          max-width: 420px;
+          width: max-content;
+
+          padding-block: 6px;
+          padding-inline: 12px;
+
+          color: var(--md-sys-color-on-primary-container);
+          text-align: justify;
+
+          background-color: var(--md-sys-color-primary-container);
+
+          border-radius: var(--md-sys-shape-corner-small) var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large);
+
+          z-index: 2;
+        }
+
+        img {
+          position: relative;
+          bottom: 50%;
+          top: 50%;
+
+          height: 300px;
+          width: 300px;
+
+          -webkit-mask: var(--via-svg-mask) no-repeat 0 / 100%;
+          mask: var(--via-svg-mask) no-repeat 0 / 100%;
+          translate: 0 -50%;
+          z-index: 1;
+        }
+
+        span {
+          position: absolute;
+          left: 70px;
+          top: 170px;
+
+          height: 200px;
+          width: 200px;
+
+          background: linear-gradient(90deg, var(--md-sys-color-purple), var(--md-sys-color-purple-container));
+
+          animation: spin 60s linear infinite;
+          mask: var(--via-svg-mask) no-repeat 0 / 100%;
+          -webkit-mask: var(--via-svg-mask) no-repeat 0 / 100%;
+          opacity: 0.5;
+          z-index: 0;
+        }
+      }
+
+      .title {
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         flex-direction: column;
         gap: 12px;
         justify-content: left;
 
         width: 100%;
 
+        margin-block-end: 84px;
+
         h1 {
           @include mixin.typescale-style("display-large");
 
-          grid-column: span 9;
-        }
-
-        h6 {
-          grid-column: span 9;
-
-          text-align: end;
-        }
-
-        img {
-          grid-column: 11 / span 2;
-          grid-row: 2 / span 2;
-
-          height: 120px;
-          width: 120px;
-
-          -webkit-mask: var(--via-svg-mask) no-repeat 0 / 100%;
-          mask: var(--via-svg-mask) no-repeat 0 / 100%;
+          text-align: center;
+          word-break: keep-all;
         }
       }
     }
@@ -114,6 +159,14 @@
 
       .home-content {
         grid-column: span 6;
+
+        .avatar-box {
+          zoom: 0.7;
+        }
+
+        .title {
+          zoom: 0.8;
+        }
       }
     }
   }
@@ -127,6 +180,14 @@
 
     .home-content {
       grid-column: span 4;
+
+      .avatar-box {
+        zoom: 0.6;
+      }
+
+      .title {
+        zoom: 0.7;
+      }
     }
   }
 }
