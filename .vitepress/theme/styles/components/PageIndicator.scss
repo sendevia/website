@@ -41,11 +41,11 @@
   .indicator {
     position: absolute;
 
-    outline: 1px solid var(--md-sys-color-primary);
+    outline: 2px solid var(--md-sys-color-primary);
     border-radius: var(--md-sys-shape-corner-extra-large);
 
     pointer-events: none;
-    transition: var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+    transition: var(--md-sys-motion-spring-default-spatial-duration) var(--md-sys-motion-spring-default-spatial);
     z-index: 1;
   }
 
@@ -93,13 +93,20 @@
         padding-inline: 18px;
 
         color: var(--md-sys-color-on-surface);
-        font-variation-settings: "wght" 200;
+        font-variation-settings: "wght" 400;
         text-decoration: none;
 
         border-radius: var(--md-sys-shape-corner-extra-large);
 
+        opacity: 0.5;
+        transition: font-variation-settings var(--md-sys-motion-spring-fast-effect-duration)
+            var(--md-sys-motion-spring-fast-effect-duration),
+          opacity var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect-duration);
+
         &:focus-visible {
           background-color: var(--md-sys-color-surface-container);
+
+          opacity: 1;
         }
       }
 
@@ -107,6 +114,8 @@
         & > a {
           color: var(--md-sys-color-primary);
           font-variation-settings: "wght" 700;
+
+          opacity: 1;
 
           &:focus-visible {
             color: var(--md-sys-color-on-primary);
