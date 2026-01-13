@@ -52,7 +52,7 @@
 
         opacity: 0;
         overflow: hidden;
-        transition: var(--anim-duration) var(--md-sys-motion-spring-slow-effect);
+        transition: var(--carousel-duration) var(--md-sys-motion-spring-slow-effect);
 
         &.current {
           width: 90%;
