@@ -81,7 +81,6 @@
         width: 42px;
 
         object-fit: cover;
-        -webkit-mask: var(--via-svg-mask) no-repeat 0 / 100%;
         mask: var(--via-svg-mask) no-repeat 0 / 100%;
       }
     }

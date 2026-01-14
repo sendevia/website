@@ -784,7 +784,6 @@
 
         background-color: var(--md-sys-color-on-surface);
 
-        -webkit-mask: var(--via-svg-list-bullet) 0 0/100% no-repeat;
         mask: var(--via-svg-list-bullet) 0 0/100% no-repeat;
 
         transform: rotate(var(--random-rotation, 0deg));
