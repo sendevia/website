@@ -129,7 +129,7 @@ function onAnimationEnd(el: EventTarget | null) {
   }
 }
 
-// 监听状态变化，手动触发宽度计算
+/** 监听状态变化，触发宽度计算 */
 watch(
   () => [navStateStore.isNavExpanded],
   () => {

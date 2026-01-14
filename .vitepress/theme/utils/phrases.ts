@@ -1,5 +1,5 @@
 /**
- * 短语库 - 用于在主页显示随机问候语
+ * 用于在主页显示随机问候语的短语库
  */
 
 export interface Phrase {
@@ -23,9 +23,7 @@ export function getCurrentTimeOfDay(): "morning" | "afternoon" | "evening" {
   }
 }
 
-/**
- * 短语库 - 按时间段分类
- */
+/** 按时间段分类 */
 export const phrasesByTime: Record<"morning" | "afternoon" | "evening" | "any", Phrase[]> = {
   morning: [
     { text: "早上好！新的一天开始啦", timeOfDay: "morning" },

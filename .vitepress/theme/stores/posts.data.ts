@@ -1,3 +1,8 @@
+/**
+ * 文章数据获取
+ * 生成文章 ID，格式化头部数据
+ */
+
 import { createContentLoader, type ContentData } from "vitepress";
 
 export interface PostData {

@@ -1,10 +1,12 @@
+/**
+ * 屏幕宽度响应式状态管理
+ */
+
 import { defineStore } from "pinia";
 import { ref, watch, onUnmounted } from "vue";
 import { isClient } from "../utils/env";
 
-/**
- * 屏幕宽度响应式状态管理
- */
+/** 导出 */
 export const useScreenWidthStore = defineStore("screenWidth", () => {
   // 响应式状态
   const screenWidth = ref<number>(0);
@@ -15,9 +17,7 @@ export const useScreenWidthStore = defineStore("screenWidth", () => {
   let resizeHandler: (() => void) | null = null;
   let isInitialized = false;
 
-  /**
-   * 更新屏幕宽度状态
-   */
+  /** 更新屏幕宽度状态 */
   function update() {
     if (!isClient()) return;
 
@@ -25,9 +25,7 @@ export const useScreenWidthStore = defineStore("screenWidth", () => {
     isAboveBreakpoint.value = screenWidth.value > breakpoint.value;
   }
 
-  /**
-   * 初始化监听器
-   */
+  /** 初始化监听器 */
   function init() {
     if (!isClient() || isInitialized) return;
 
@@ -43,9 +41,7 @@ export const useScreenWidthStore = defineStore("screenWidth", () => {
     isInitialized = true;
   }
 
-  /**
-   * 清理监听器
-   */
+  /** 清理监听器 */
   function cleanup() {
     if (resizeHandler && isClient()) {
       window.removeEventListener("resize", resizeHandler);

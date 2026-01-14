@@ -38,17 +38,13 @@ const articleId = computed(() => {
 
 const shortLink = computed(() => (articleId.value ? `/p/${articleId.value}` : ""));
 
-/**
- * 复制短链到剪贴板
- */
+/** 复制短链到剪贴板 */
 const copyShortLink = async () => {
   if (!shortLink.value) return;
   await copyToClipboard(`${window.location.origin}${shortLink.value}`);
 };
 
-/**
- * 收集页面中的 h1 和 h2 标题
- */
+/** 收集页面中的 h1 和 h2 标题 */
 const collectHeadings = () => {
   if (!isClient()) return;
   const nodes = Array.from(document.querySelectorAll("h1[id], h2[id]")) as HTMLElement[];
@@ -59,9 +55,7 @@ const collectHeadings = () => {
   }));
 };
 
-/**
- * 更新指示器（高亮块）的位置和尺寸
- */
+/** 更新指示器（高亮边框）的位置和尺寸 */
 const updateIndicator = () => {
   const container = pageIndicator.value;
   const id = headingsActiveId.value;

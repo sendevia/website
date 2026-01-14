@@ -8,21 +8,15 @@ import { getFormattedRandomPhrase } from "../utils/phrases";
 import { useGlobalData } from "../composables/useGlobalData";
 import { usePostStore } from "../stores/posts";
 import { isClient } from "../utils/env";
-
-// 导入布局组件
 import ArticleLayout from "./Article.vue";
 import NotFoundLayout from "./NotFound.vue";
 
-/**
- * 全局数据与路由状态
- */
+/** 全局数据与路由状态 */
 const { site, page, frontmatter, theme } = useGlobalData();
 const route = useRoute();
 const postStore = usePostStore();
 const isRedirecting = ref(false);
 const pageTitle = useTitle();
-
-/** 随机问候语 */
 const randomGreeting = ref(getFormattedRandomPhrase());
 
 /** 布局映射表 */
@@ -118,9 +112,7 @@ if (isClient()) {
   );
 }
 
-/**
- * 路由变化监听：处理短链重定向
- */
+/** 处理短链重定向 */
 watch(
   () => route.path,
   (newPath) => {
@@ -131,9 +123,7 @@ watch(
   { immediate: true }
 );
 
-/**
- * 监听首页状态变化，进入首页时更新随机问候语
- */
+/** 进入首页时更新随机问候语 */
 watch(
   () => frontmatter.value.home,
   (isHome) => {
@@ -143,9 +133,7 @@ watch(
   }
 );
 
-/**
- * 过渡动画钩子：进入后更新色板
- */
+/** 进入后更新色板 */
 function onAfterEnter() {
   if (!isRedirecting.value) updatePalette();
 }

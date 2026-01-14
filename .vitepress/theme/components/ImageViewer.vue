@@ -3,9 +3,6 @@ import { ref, computed, onMounted, nextTick, watch } from "vue";
 import { useWindowSize, useEventListener, useVModel } from "@vueuse/core";
 import { handleTabNavigation } from "../utils/tabNavigation";
 
-/**
- * 组件属性定义
- */
 interface Props {
   images: string[];
   currentIndex: number;
@@ -54,9 +51,7 @@ const currentImage = computed(() => props.images[activeIndex.value]);
 const hasPrevious = computed(() => activeIndex.value > 0);
 const hasNext = computed(() => activeIndex.value < props.images.length - 1);
 
-/**
- * 计算图片从文章位置飞出的初始变换参数
- */
+/** 计算图片从文章位置飞出的初始变换参数 */
 const calculateInitialTransform = () => {
   const { x, y, width, height } = props.originPosition;
   if (width > 0 && height > 0) {
@@ -72,17 +67,13 @@ const calculateInitialTransform = () => {
   }
 };
 
-/**
- * 重置缩放与平移位置
- */
+/** 重置缩放与平移位置 */
 const resetZoom = () => {
   imageScale.value = 1;
   imagePosition.value = { x: 0, y: 0 };
 };
 
-/**
- * 显示查看器，并记录当前焦点
- */
+/** 显示查看器，并记录当前焦点 */
 const show = () => {
   // 立即记录当前活跃元素
   lastActiveElement.value = document.activeElement as HTMLElement;
@@ -100,9 +91,7 @@ const show = () => {
   });
 };
 
-/**
- * 隐藏查看器，并还原焦点
- */
+/** 隐藏查看器，并还原焦点 */
 const hide = () => {
   calculateInitialTransform();
   isAnimating.value = false;

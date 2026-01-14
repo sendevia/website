@@ -107,6 +107,5 @@ const next = computed(() => {
 
 <style lang="scss" scoped>
 @use "sass:meta";
-/* 引用现有的导航组件样式 */
 @include meta.load-css("../styles/components/PrevNext");
 </style>

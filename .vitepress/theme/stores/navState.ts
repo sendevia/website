@@ -1,20 +1,20 @@
+/**
+ * 侧边导航栏状态管理
+ */
+
 import { defineStore } from "pinia";
 import { ref, watch } from "vue";
 import { isClient } from "../utils/env";
 import { getCookie, setCookie } from "../utils/cookie";
 import { useScreenWidthStore } from "./screenWidth";
 
-/**
- * 侧边导航栏状态管理
- */
+/** 导出 */
 export const useNavStateStore = defineStore("navState", () => {
   const isNavExpanded = ref<boolean>(false);
   const cookieName = "nav-expanded";
   const screenWidthStore = useScreenWidthStore();
 
-  /**
-   * 初始从 Cookie 读取状态
-   */
+  /** 初始从 Cookie 读取状态 */
   function init() {
     if (!isClient()) return;
     screenWidthStore.update();
@@ -51,34 +51,26 @@ export const useNavStateStore = defineStore("navState", () => {
     }
   }
 
-  /**
-   * 保存状态到 Cookie
-   */
+  /** 保存状态到 Cookie */
   function saveToCookie() {
     if (!isClient()) return;
 
     setCookie(cookieName, isNavExpanded.value.toString());
   }
 
-  /**
-   * 展开导航栏
-   */
+  /** 展开导航栏 */
   function expand() {
     if (screenWidthStore.isAboveBreakpoint) {
       isNavExpanded.value = true;
     }
   }
 
-  /**
-   * 折叠导航栏
-   */
+  /** 折叠导航栏 */
   function collapse() {
     isNavExpanded.value = false;
   }
 
-  /**
-   * 切换导航栏状态
-   */
+  /** 切换导航栏状态 */
   function toggle() {
     if (isNavExpanded.value) {
       collapse();

@@ -1,25 +1,23 @@
-import { defineStore } from "pinia";
-import { ref, watch } from "vue";
-
 /**
  * 搜索状态管理
  */
+
+import { defineStore } from "pinia";
+import { ref, watch } from "vue";
+
+/** 导出 */
 export const useSearchStateStore = defineStore("searchState", () => {
   // 响应式状态
   const isSearchActive = ref<boolean>(false);
   const isSearchFocused = ref<boolean>(false);
   const isSearchTyping = ref<boolean>(false);
 
-  /**
-   * 激活搜索
-   */
+  /** 激活搜索 */
   function activate() {
     isSearchActive.value = true;
   }
 
-  /**
-   * 停用搜索
-   */
+  /** 停用搜索 */
   function deactivate() {
     isSearchActive.value = false;
     isSearchFocused.value = false;
@@ -46,9 +44,7 @@ export const useSearchStateStore = defineStore("searchState", () => {
     isSearchTyping.value = typing;
   }
 
-  /**
-   * 切换搜索状态
-   */
+  /** 切换搜索状态 */
   function toggle() {
     if (isSearchActive.value) {
       deactivate();

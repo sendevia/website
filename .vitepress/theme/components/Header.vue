@@ -32,9 +32,7 @@ const remainingTime = ref(config.duration);
 const isFastForwarding = ref(false);
 const isAnimating = ref(false);
 
-/**
- * 计算当前应该显示的文章印象图列表
- */
+/** 计算当前应该显示的文章印象图列表 */
 const rawImgList = computed<string[]>(() => {
   const imp = frontmatter.value.impression;
   const list = Array.isArray(imp) ? imp : imp ? [imp] : [theme.value.defaultImpression];
@@ -45,18 +43,14 @@ const totalCount = computed(() => rawImgList.value.length);
 const hasMultiple = computed(() => totalCount.value > 1);
 const animDuration = computed(() => (isFastForwarding.value ? config.animFast : config.animNormal));
 
-/**
- * 计算环形进度条百分比
- */
+/** 计算环形进度条百分比 */
 const progress = computed(() => {
   if (!hasMultiple.value) return 0;
   if (isFastForwarding.value) return 100;
   return ((config.duration - remainingTime.value) / config.duration) * 100;
 });
 
-/**
- * 获取真实的索引（对总数取模）
- */
+/** 获取真实的索引（对总数取模） */
 const currentRealIndex = computed(() => {
   if (totalCount.value === 0) return 0;
   return ((virtualIndex.value % totalCount.value) + totalCount.value) % totalCount.value;

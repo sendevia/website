@@ -8,35 +8,34 @@ import { useScreenWidthStore } from "../stores/screenWidth";
 import { handleTabNavigation } from "../utils/tabNavigation";
 import { useRoute } from "vitepress";
 
-// 初始化 store 实例
+/** 初始化 store 实例 */
 const searchStateStore = useSearchStateStore();
 const screenWidthStore = useScreenWidthStore();
 const postsStore = usePostStore();
 
-// 从 posts store 中解构出 posts 响应式数据
+/** 解构出 posts 响应式数据 */
 const { posts } = storeToRefs(postsStore);
 
-// 初始化路由实例
+/** 初始化路由实例 */
 const route = useRoute();
 
-// DOM 元素引用
+/** DOM 元素引用 */
 const scrollTarget = ref<HTMLElement | null>(null); // 滚动容器的 DOM 引用
 const appbar = ref<HTMLElement | null>(null); // AppBar 自身的 DOM 引用
 const searchInput = ref<HTMLInputElement | null>(null); // 搜索输入框的 DOM 引用
 
-// 本地响应式状态
+/** 本地响应式状态 */
 const query = ref(""); // 搜索输入框的绑定值
 const isHidden = ref(false); // 控制 AppBar 是否隐藏的状态
 
-// 使用 useGlobalScroll
 const { scrollResult, isScrolled: globalIsScrolled } = useGlobalScroll({ threshold: 100 });
 const { y, directions } = scrollResult;
 
-// 计算属性
-const isScrolled = computed(() => globalIsScrolled.value); // 使用 useGlobalScroll 的 isScrolled
+/** 计算属性 */
+const isScrolled = computed(() => globalIsScrolled.value);
 const isTabFocusable = computed(() => !screenWidthStore.isAboveBreakpoint); // 判断当前屏幕宽度下，元素是否应该可被 Tab 键聚焦
 
-// 工具函数：获取滚动容器
+/** 获取滚动容器 */
 const getScrollContainer = () => document.querySelector<HTMLElement>(".content-flow");
 
 /**
@@ -148,7 +147,7 @@ watch(
   }
 );
 
-// 检查是否在搜索激活状态
+/** 检查是否在搜索激活状态 */
 const isSearchActive = computed(() => searchStateStore.isSearchActive);
 
 /**
@@ -204,7 +203,7 @@ const handleKeydown = (event: KeyboardEvent) => {
   }
 };
 
-// 监听路由变化，处理页面切换后的状态重置和滚动绑定
+/** 处理页面切换后的状态重置和滚动绑定 */
 watch(
   () => route.path,
   async () => {
@@ -225,25 +224,25 @@ watch(
   }
 );
 
-// 事件处理函数引用（用于清理）
+/** 事件处理函数引用 */
 const eventHandlers = {
   click: handleDocumentClick,
   keydown: handleKeydown,
 } as const;
 
-// 添加事件监听器
+/** 添加事件监听器 */
 const addEventListeners = () => {
   document.addEventListener("click", eventHandlers.click);
   document.addEventListener("keydown", eventHandlers.keydown);
 };
 
-// 移除事件监听器
+/** 移除事件监听器 */
 const removeEventListeners = () => {
   document.removeEventListener("click", eventHandlers.click);
   document.removeEventListener("keydown", eventHandlers.keydown);
 };
 
-// 初始化函数
+/** 初始化函数 */
 const initializeAppBar = () => {
   screenWidthStore.init();
 
@@ -257,7 +256,7 @@ const initializeAppBar = () => {
   addEventListeners();
 };
 
-// 清理函数
+/** 清理函数 */
 const cleanupAppBar = () => {
   // 移除事件监听器
   removeEventListeners();
@@ -324,7 +323,6 @@ onUnmounted(() => {
             </div>
           </div>
         </div>
-        <!-- <p class="description" v-if="post.description">{{ post.description }}</p> -->
       </a>
     </div>
 

@@ -1,3 +1,7 @@
+/**
+ * 文章数据存储处理
+ */
+
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { data as postsData, type PostData } from "./posts.data";

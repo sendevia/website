@@ -6,9 +6,7 @@
 import { onMounted, onBeforeUnmount } from "vue";
 import { isClient } from "../utils/env";
 
-/**
- * 元素宽度观察器配置
- */
+/** 元素宽度观察器配置 */
 interface ElementWidthObserverConfig {
   /** CSS选择器 */
   selector: string;
@@ -22,9 +20,7 @@ interface ElementWidthObserverConfig {
   ignoreParentLimit?: boolean;
 }
 
-/**
- * 生成有效的CSS变量名
- */
+/** 生成有效的CSS变量名 */
 function generateVariableName(selector: string): string {
   // 移除特殊字符，用连字符连接
   let name = selector
@@ -44,9 +40,7 @@ function generateVariableName(selector: string): string {
   return name + "-width";
 }
 
-/**
- * 格式化宽度值，保留指定精度
- */
+/** 格式化宽度值，保留指定精度 */
 function formatWidth(width: number, precision: number = 2): string {
   // 使用toFixed确保精度，但移除不必要的尾随零
   const fixed = width.toFixed(precision);
@@ -54,9 +48,7 @@ function formatWidth(width: number, precision: number = 2): string {
   return parseFloat(fixed).toString();
 }
 
-/**
- * 设置元素宽度CSS变量到父级元素
- */
+/** 设置元素宽度CSS变量到父级元素 */
 export function setupWidthObserver(config: ElementWidthObserverConfig, targetElements?: HTMLElement[]): () => void {
   const { selector, variableName, parentSelector, precision = 2, ignoreParentLimit = false } = config;
 
@@ -147,11 +139,4 @@ export function useElementWidthObserver(configs: ElementWidthObserverConfig[]) {
   onBeforeUnmount(() => {
     cleanupFunctions.forEach((cleanup) => cleanup());
   });
-}
-
-/**
- * 简化的单元素宽度观察器
- */
-export function useSingleElementWidthObserver(config: ElementWidthObserverConfig) {
-  return useElementWidthObserver([config]);
 }

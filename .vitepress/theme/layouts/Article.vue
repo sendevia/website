@@ -18,9 +18,7 @@ const lastUpdatedRawTime = computed(() =>
   lastUpdatedTime.value ? useDateFormat(lastUpdatedTime.value, "YYYY-MM-DD HH:mm:ss").value : ""
 );
 
-/**
- * 相对时间显示配置
- */
+/** 相对时间显示配置 */
 const timeAgo = useTimeAgo(
   computed(() => lastUpdatedTime.value || 0),
   {
@@ -87,9 +85,7 @@ const openImageViewer = (index: number, event: MouseEvent) => {
   showImageViewer.value = true;
 };
 
-/**
- * 复制锚点链接到剪贴板
- */
+/** 复制锚点链接到剪贴板 */
 const handleAnchorClick = (event: MouseEvent) => {
   const anchor = (event.target as HTMLElement).closest("a.title-anchor") as HTMLAnchorElement;
   if (!anchor) return;
@@ -108,9 +104,7 @@ const handleAnchorClick = (event: MouseEvent) => {
   }
 };
 
-/**
- * 处理列表 Bullet 旋转和有序列表对齐
- */
+/** 处理列表 Bullet 旋转和有序列表对齐 */
 const enhanceDomStyles = () => {
   if (!articleContentRef.value) return;
 
@@ -132,9 +126,7 @@ const enhanceDomStyles = () => {
   });
 };
 
-/**
- * 绑定文章图片点击监听
- */
+/** 绑定文章图片点击监听 */
 const bindImageEvents = () => {
   articleContentRef.value?.querySelectorAll("img").forEach((img, index) => {
     (img as HTMLElement).onclick = (e) => openImageViewer(index, e);

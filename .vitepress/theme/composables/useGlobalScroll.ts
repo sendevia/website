@@ -1,8 +1,12 @@
-import { ref, computed, watch, onMounted, onUnmounted } from "vue";
+/**
+ * 适用本项目的再包装 useScroll 工具函数
+ */
+
+import { ref, computed, watch, onMounted } from "vue";
 import { useScroll } from "@vueuse/core";
 import { isClient } from "../utils/env";
 
-// 全局状态
+/** 全局状态 */
 const globalThreshold = ref(80);
 const globalPrecision = ref(1);
 const globalTargetScrollable = ref(".content-flow");
@@ -11,14 +15,21 @@ const globalIsScrolled = ref(false);
 const globalScrollPosition = ref(0);
 const globalScrollPercentage = ref(0);
 
-// 检测可滚动容器
+/**
+ * 容器能否滚动
+ * @param el 容器
+ */
 function isScrollable(el: HTMLElement) {
   const style = window.getComputedStyle(el);
   const overflowY = style.overflowY;
   return overflowY === "auto" || overflowY === "scroll" || el.scrollHeight > el.clientHeight;
 }
 
-// 检测容器
+/**
+ * 检测容器
+ * @param targetScrollable 目标容器
+ * @returns 判断通过的滚动容器
+ */
 function detectContainer(targetScrollable: string) {
   if (!isClient()) return window;
 
@@ -27,7 +38,13 @@ function detectContainer(targetScrollable: string) {
   return window;
 }
 
-// 计算滚动百分比
+/**
+ * 计算滚动百分比
+ * @param scrollTop 顶部距离
+ * @param scrollContainer 滚动容器
+ * @param precision 浮点精度
+ * @returns 百分比
+ */
 function calculatePercentage(scrollTop: number, scrollContainer: HTMLElement | Window, precision: number): number {
   try {
     let scrollHeight: number, clientHeight: number;
@@ -55,13 +72,14 @@ function calculatePercentage(scrollTop: number, scrollContainer: HTMLElement | W
   }
 }
 
-// 更新全局状态
+/** 更新全局状态 */
 function updateGlobalState(y: number, container: HTMLElement | Window, threshold: number, precision: number) {
   globalScrollPosition.value = y;
   globalIsScrolled.value = y > threshold;
   globalScrollPercentage.value = calculatePercentage(y, container, precision);
 }
 
+/** 导出 */
 export function useGlobalScroll(options?: { threshold?: number; container?: string; precision?: number }) {
   const localThreshold = options?.threshold ?? globalThreshold.value;
   const localPrecision = options?.precision ?? globalPrecision.value;
@@ -155,7 +173,7 @@ export function useGlobalScroll(options?: { threshold?: number; container?: stri
     scrollPosition: computed(() => localScrollPosition.value),
     scrollPercentage: computed(() => localScrollPercentage.value),
 
-    // 原始 useScroll 结果（用于高级用途）
+    // 原始 useScroll 结果
     scrollResult,
 
     // 容器引用
@@ -167,7 +185,7 @@ export function useGlobalScroll(options?: { threshold?: number; container?: stri
   };
 }
 
-// 全局滚动状态
+/** 全局滚动状态 */
 export const globalScrollState = {
   isScrolled: computed(() => globalIsScrolled.value),
   threshold: computed(() => globalThreshold.value),
