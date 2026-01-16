@@ -1,3 +1,6 @@
+@use "sass:math";
+@use "sass:string";
+
 @mixin typescale-style(
   $type-scale,
   $font-family: var(--md-sys-typescale-#{$type-scale}-family),
@@ -56,4 +59,91 @@
   transition: outline var(--md-sys-motion-spring-fast-spatial-standard-duration)
     var(--md-sys-motion-spring-fast-spatial-standard);
   z-index: $z-index;
+}
+
+@function svg-enc($svg) {
+  $svg: string-replace($svg, "#", "%23");
+  $svg: string-replace($svg, "<", "%3C");
+  $svg: string-replace($svg, ">", "%3E");
+  $svg: string-replace($svg, '"', "'");
+  @return "data:image/svg+xml," + $svg;
+}
+
+@function string-replace($string, $search, $replace: "") {
+  $index: string.index($string, $search);
+  @if $index {
+    @return string.slice($string, 1, $index - 1) + $replace +
+      string-replace(string.slice($string, $index + string.length($search)), $search, $replace);
+  }
+  @return $string;
+}
+
+@mixin g3-mask($r, $k: 0.72) {
+  // 基础形状路径
+  $offset: 100 * (1 - $k);
+  $path: "M0,100 C0,#{$offset} #{$offset},0 100,0 L100,100 Z";
+
+  // SVG 模板
+  $svg-start: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path transform="rotate(';
+  $svg-end: ' 50 50)" fill="black" d="#{$path}"/></svg>';
+
+  // 生成四个角的 Data URI
+  $tl: url('#{svg-enc($svg-start + "0" + $svg-end)}');
+  $tr: url('#{svg-enc($svg-start + "90" + $svg-end)}');
+  $br: url('#{svg-enc($svg-start + "180" + $svg-end)}');
+  $bl: url('#{svg-enc($svg-start + "270" + $svg-end)}');
+
+  // 布局计算
+  $fill: linear-gradient(#000, #000);
+  $h-fill: calc(100% - 2 * #{$r} + 1px);
+  $v-fill: calc(100% - 2 * #{$r} + 1px);
+
+  mask-image: $tl, $tr, $br, $bl, $fill, $fill;
+  mask-position: top left, top right, bottom right, bottom left, center center, center center;
+  mask-repeat: no-repeat;
+  mask-size: #{$r} #{$r}, #{$r} #{$r}, #{$r} #{$r}, #{$r} #{$r}, 100% $h-fill, $v-fill 100%;
+}
+
+// $radius:       圆角大小 (必填)
+// $border-width: 边框宽度 (可选，默认 0)
+// $border-color: 边框颜色 (可选)
+// $bg-color:     背景颜色 (如果有边框，建议填此项以遮挡边框内部，默认白色)
+// $k:            平滑度 (可选，默认 0.72)
+@mixin g3-box($radius, $border-width: 0, $border-color: transparent, $bg-color: #fff, $k: 0.72) {
+  @if $border-width == 0 {
+    @include g3-mask($radius, $k);
+  } @else {
+    position: relative;
+
+    background-color: transparent;
+
+    z-index: 0;
+
+    // 边框层
+    &::before {
+      @include g3-mask($radius, $k);
+      content: "";
+
+      position: absolute;
+
+      background-color: $border-color;
+
+      inset: 0;
+      z-index: -2;
+    }
+
+    // 背景层
+    &::after {
+      $inner-r: calc(#{$radius} - #{$border-width});
+      @include g3-mask($inner-r, $k);
+      content: "";
+
+      position: absolute;
+
+      background-color: $bg-color;
+
+      inset: $border-width;
+      z-index: -1;
+    }
+  }
 }
