@@ -10,6 +10,8 @@ categories:
 tags:
   - readme
   - osu!
+  - 示例文章
+  - 作品介绍
 date: 2022-07-04T04:00:00Z
 external_links:
   - type: download
