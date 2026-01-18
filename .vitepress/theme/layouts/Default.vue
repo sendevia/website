@@ -108,7 +108,7 @@ if (isClient()) {
     {
       attributes: true,
       attributeFilter: ["impression-color"],
-    }
+    },
   );
 }
 
@@ -120,7 +120,7 @@ watch(
       isRedirecting.value = false;
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 /** 进入首页时更新随机问候语 */
@@ -130,7 +130,7 @@ watch(
     if (isHome) {
       randomGreeting.value = getFormattedRandomPhrase();
     }
-  }
+  },
 );
 
 /** 进入后更新色板 */
