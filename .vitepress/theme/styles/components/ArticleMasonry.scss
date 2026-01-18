@@ -1,21 +1,167 @@
+@use "../mixin";
+
 .ArticleMasonry {
   display: flex;
   align-items: flex-start;
-  flex-direction: row;
+  flex-direction: column;
   gap: 12px;
 
   width: 100%;
 
-  .masonry-column {
+  .toolbar {
     display: flex;
-    flex-direction: column;
-    flex: 1;
+    align-items: center;
+    gap: 12px;
+    justify-content: flex-end;
+
+    position: relative;
+
+    .filter {
+      position: relative;
+
+      .panel {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+
+        position: absolute;
+        left: -12px;
+        top: -12px;
+
+        padding: 24px;
+
+        max-width: 520px;
+        min-width: 340px;
+
+        border-radius: var(--md-sys-shape-corner-extra-large);
+
+        background-color: var(--md-sys-color-surface-container-low);
+
+        box-shadow: 0px 1px 6px -3px var(--md-sys-color-shadow);
+        overflow-y: overlay;
+        transform-origin: 0px 0px;
+        z-index: 100;
+
+        .section {
+          h6 {
+            display: inline-flex;
+            align-items: center;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            gap: 4px;
+
+            margin-block-end: 12px;
+
+            span {
+              @include mixin.material-symbols($size: 16);
+
+              cursor: pointer;
+            }
+          }
+
+          .page-size-options {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            gap: 2px;
+            justify-content: center;
+          }
+
+          .chip-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+          }
+        }
+      }
+    }
+  }
+
+  .masonry-wrapper {
+    display: flex;
     gap: 12px;
 
-    min-width: 0px;
+    width: 100%;
 
-    .MaterialCard {
+    .empty-state {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      gap: 42px;
+      justify-content: center;
+
       width: 100%;
+
+      user-select: none;
+      -moz-user-select: none;
+
+      .icon {
+        @include mixin.material-symbols($size: 100);
+      }
     }
+
+    .masonry-column {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 12px;
+
+      min-width: 0px;
+
+      .MaterialCard {
+        width: 100%;
+      }
+    }
+  }
+
+  .page-navigator {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: center;
+
+    width: 100%;
+
+    .page-info-wrapper {
+      p {
+        cursor: pointer;
+      }
+
+      input {
+        @include mixin.typescale-style("body-large");
+
+        padding: 6px;
+
+        width: 48px;
+
+        color: var(--md-sys-color-on-surface);
+        text-align: center;
+
+        border-radius: var(--md-sys-shape-corner-large);
+        border: none;
+
+        background-color: transparent;
+      }
+    }
+  }
+
+  .expand-enter-active,
+  .expand-leave-active {
+    transition:
+      transform var(--md-sys-motion-spring-default-spatial-duration) var(--md-sys-motion-spring-default-spatial),
+      opacity var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect);
+  }
+
+  .expand-enter-from,
+  .expand-leave-to {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.8);
+  }
+
+  .expand-enter-to,
+  .expand-leave-from {
+    transform: scale(1);
   }
 }
