@@ -11,13 +11,14 @@ import ArticleMasonry from "./components/ArticleMasonry.vue";
 import Button from "./components/Button.vue";
 import ButtonGroup from "./components/ButtonGroup.vue";
 import Card from "./components/Card.vue";
+import Chip from "./components/Chip.vue";
 import Footer from "./components/Footer.vue";
 import Header from "./components/Header.vue";
 import ImageViewer from "./components/ImageViewer.vue";
+import NavBar from "./components/NavBar.vue";
 import PageIndicator from "./components/PageIndicator.vue";
 import PrevNext from "./components/PrevNext.vue";
 import ScrollToTop from "./components/ScrollToTop.vue";
-import NavBar from "./components/NavBar.vue";
 
 // Styles
 import "./styles/main.scss";
@@ -40,6 +41,7 @@ export default {
     app.component("ImageViewer", ImageViewer);
     app.component("MaterialButton", Button);
     app.component("MaterialCard", Card);
+    app.component("MaterialChip", Chip);
     app.component("NavBar", NavBar);
     app.component("PageIndicator", PageIndicator);
     app.component("PrevNext", PrevNext);
