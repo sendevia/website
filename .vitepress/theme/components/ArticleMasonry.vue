@@ -253,93 +253,95 @@ const clearTags = () => {
           </div>
 
           <Transition name="expand" mode="out-in">
-            <aside v-if="isSettingsOpen" ref="settingsPanelRef" class="panel">
-              <div class="section">
-                <div class="section-header">
-                  <h6>排序</h6>
-                </div>
-                <div class="page-size-options">
-                  <MaterialButton
-                    :color="sortField === 'date' ? 'filled' : 'tonal'"
-                    size="s"
-                    class="group horizontal"
-                    icon="acute"
-                    @click="sortField = 'date'"
-                  >
-                    时间
-                  </MaterialButton>
-                  <MaterialButton
-                    :color="sortField === 'title' ? 'filled' : 'tonal'"
-                    size="s"
-                    class="group horizontal"
-                    icon="match_case"
-                    @click="sortField = 'title'"
-                  >
-                    标题
-                  </MaterialButton>
-                  <div>
+            <aside v-if="isSettingsOpen" class="panel">
+              <div ref="settingsPanelRef" class="container">
+                <div class="section">
+                  <div class="section-header">
+                    <h6>排序</h6>
+                  </div>
+                  <div class="page-size-options">
                     <MaterialButton
-                      :icon="sortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward'"
-                      color="tonal"
+                      :color="sortField === 'date' ? 'filled' : 'tonal'"
                       size="s"
-                      @click="sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'"
+                      class="group horizontal"
+                      icon="acute"
+                      @click="sortField = 'date'"
                     >
-                      {{ sortOrder === "asc" ? "正序" : "倒序" }}
+                      时间
+                    </MaterialButton>
+                    <MaterialButton
+                      :color="sortField === 'title' ? 'filled' : 'tonal'"
+                      size="s"
+                      class="group horizontal"
+                      icon="match_case"
+                      @click="sortField = 'title'"
+                    >
+                      标题
+                    </MaterialButton>
+                    <div>
+                      <MaterialButton
+                        :icon="sortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward'"
+                        color="tonal"
+                        size="s"
+                        @click="sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'"
+                      >
+                        {{ sortOrder === "asc" ? "正序" : "倒序" }}
+                      </MaterialButton>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="section">
+                  <div class="section-header">
+                    <h6>每页显示</h6>
+                  </div>
+                  <div class="page-size-options">
+                    <MaterialButton
+                      v-for="opt in pageSizeOptions"
+                      :key="opt"
+                      :color="pageSize === opt ? 'filled' : 'tonal'"
+                      :icon="pageSize === opt ? 'check' : ''"
+                      class="group horizontal"
+                      size="s"
+                      @click="pageSize = opt"
+                    >
+                      {{ opt }}
                     </MaterialButton>
                   </div>
                 </div>
-              </div>
 
-              <div class="section">
-                <div class="section-header">
-                  <h6>每页显示</h6>
+                <div class="section">
+                  <div class="section-header">
+                    <h6>分类 <span v-if="selectedCategory" @click="selectedCategory = ''">clear</span></h6>
+                  </div>
+                  <div class="chip-container">
+                    <MaterialChip
+                      v-for="cat in postsStore.allCategories"
+                      :key="cat"
+                      :color="selectedCategory === cat ? 'tonal' : 'outlined'"
+                      :icon="selectedCategory === cat ? 'check' : ''"
+                      @click="toggleCategory(cat)"
+                    >
+                      {{ cat }}
+                    </MaterialChip>
+                  </div>
                 </div>
-                <div class="page-size-options">
-                  <MaterialButton
-                    v-for="opt in pageSizeOptions"
-                    :key="opt"
-                    :color="pageSize === opt ? 'filled' : 'tonal'"
-                    :icon="pageSize === opt ? 'check' : ''"
-                    class="group horizontal"
-                    size="s"
-                    @click="pageSize = opt"
-                  >
-                    {{ opt }}
-                  </MaterialButton>
-                </div>
-              </div>
 
-              <div class="section">
-                <div class="section-header">
-                  <h6>分类 <span v-if="selectedCategory" @click="selectedCategory = ''">clear</span></h6>
-                </div>
-                <div class="chip-container">
-                  <MaterialChip
-                    v-for="cat in postsStore.allCategories"
-                    :key="cat"
-                    :color="selectedCategory === cat ? 'tonal' : 'outlined'"
-                    :icon="selectedCategory === cat ? 'check' : ''"
-                    @click="toggleCategory(cat)"
-                  >
-                    {{ cat }}
-                  </MaterialChip>
-                </div>
-              </div>
-
-              <div class="section">
-                <div class="section-header">
-                  <h6>标签 <span v-if="selectedTags.length" @click="clearTags">clear</span></h6>
-                </div>
-                <div class="chip-container">
-                  <MaterialChip
-                    v-for="tag in postsStore.allTags"
-                    :key="tag"
-                    :color="selectedTags.includes(tag) ? 'tonal' : 'outlined'"
-                    :icon="selectedTags.includes(tag) ? 'check' : ''"
-                    @click="toggleTag(tag)"
-                  >
-                    {{ tag }}
-                  </MaterialChip>
+                <div class="section">
+                  <div class="section-header">
+                    <h6>标签 <span v-if="selectedTags.length" @click="clearTags">clear</span></h6>
+                  </div>
+                  <div class="chip-container">
+                    <MaterialChip
+                      v-for="tag in postsStore.allTags"
+                      :key="tag"
+                      :color="selectedTags.includes(tag) ? 'tonal' : 'outlined'"
+                      :icon="selectedTags.includes(tag) ? 'check' : ''"
+                      @click="toggleTag(tag)"
+                    >
+                      {{ tag }}
+                    </MaterialChip>
+                  </div>
                 </div>
               </div>
             </aside>

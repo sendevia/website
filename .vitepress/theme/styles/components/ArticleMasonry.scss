@@ -20,27 +20,31 @@
       position: relative;
 
       .panel {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-
         position: absolute;
         left: -12px;
         top: -12px;
 
-        padding: 24px;
-
-        max-width: 520px;
-        min-width: 340px;
-
-        border-radius: var(--md-sys-shape-corner-extra-large);
-
-        background-color: var(--md-sys-color-surface-container-low);
-
-        box-shadow: 0px 1px 6px -3px var(--md-sys-color-shadow);
-        overflow-y: overlay;
-        transform-origin: 0px 0px;
+        transform-origin: top left;
         z-index: 100;
+
+        .container {
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+
+          padding: 24px;
+
+          max-width: 520px;
+          min-width: 340px;
+
+          border-radius: var(--md-sys-shape-corner-extra-large);
+
+          background-color: var(--md-sys-color-surface-container-low);
+
+          box-shadow: 0px 1px 6px -3px var(--md-sys-color-shadow);
+          overflow-y: overlay;
+          transform-origin: top left;
+        }
 
         .section {
           h6 {
@@ -51,6 +55,9 @@
             gap: 4px;
 
             margin-block-end: 12px;
+
+            user-select: none;
+            -moz-user-select: none;
 
             span {
               @include mixin.material-symbols($size: 16);
@@ -71,6 +78,36 @@
             display: flex;
             flex-wrap: wrap;
             gap: 4px;
+          }
+        }
+
+        @media screen and (max-width: 1600px) {
+          left: 0px;
+          top: 0px;
+        }
+
+        @media screen and (max-width: 840px) {
+          position: fixed;
+          left: 0px;
+          top: 0px;
+
+          height: 100%;
+          width: 100%;
+
+          backdrop-filter: brightness(0.5);
+          transform-origin: center center;
+          z-index: 999;
+
+          .container {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+
+            max-width: 380px;
+            min-width: 330px;
+
+            transform-origin: center center;
+            translate: -50% -50%;
           }
         }
       }
@@ -148,20 +185,27 @@
 
   .expand-enter-active,
   .expand-leave-active {
-    transition:
-      transform var(--md-sys-motion-spring-default-spatial-duration) var(--md-sys-motion-spring-default-spatial),
-      opacity var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect);
+    transition: opacity var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect);
+
+    .container {
+      transition: transform var(--md-sys-motion-spring-default-spatial-duration) var(--md-sys-motion-spring-default-spatial);
+    }
   }
 
   .expand-enter-from,
   .expand-leave-to {
     opacity: 0;
     pointer-events: none;
-    transform: scale(0.8);
+
+    .container {
+      transform: scale(0.8);
+    }
   }
 
   .expand-enter-to,
   .expand-leave-from {
-    transform: scale(1);
+    .container {
+      transform: scale(1);
+    }
   }
 }
