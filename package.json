@@ -13,7 +13,7 @@
     "pinia": "^3.0.4"
   },
   "devDependencies": {
-    "@mdit/plugin-align": "^0.22.2",
+    "@mdit/plugin-align": "^0.23.0",
     "@mdit/plugin-footnote": "^0.22.3",
     "@mdit/plugin-tasklist": "^0.22.2",
     "markdown-it-anchor": "^9.2.0",
