@@ -11,7 +11,7 @@ import { useScreenWidthStore } from "./screenWidth";
 /** 导出 */
 export const useNavStateStore = defineStore("navState", () => {
   const isNavExpanded = ref<boolean>(false);
-  const cookieName = "nav-expanded";
+  const cookieName = "navbar_expanded";
   const screenWidthStore = useScreenWidthStore();
 
   /** 初始从 Cookie 读取状态 */
@@ -36,7 +36,7 @@ export const useNavStateStore = defineStore("navState", () => {
                 isNavExpanded.value = true;
                 stop();
               }
-            }
+            },
           );
         }
       } else {
@@ -91,7 +91,7 @@ export const useNavStateStore = defineStore("navState", () => {
       if (!isAbove) {
         isNavExpanded.value = false;
       }
-    }
+    },
   );
 
   return {
