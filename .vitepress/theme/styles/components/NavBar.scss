@@ -44,7 +44,8 @@
       background-color: var(--md-sys-color-secondary-container);
 
       cursor: pointer;
-      transition: grid var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial),
+      transition:
+        grid var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial),
         gap var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
       overflow: hidden;
 
@@ -57,7 +58,9 @@
         width: 56px;
 
         text-align: center;
-        font-variation-settings: "FILL" 1, "wght" 300;
+        font-variation-settings:
+          "FILL" 1,
+          "wght" 300;
 
         transition: font-variation-settings var(--md-sys-motion-spring-fast-spatial-duration)
           var(--md-sys-motion-spring-fast-spatial);
@@ -77,11 +80,15 @@
       }
 
       &:hover span {
-        font-variation-settings: "FILL" 1, "wght" 600;
+        font-variation-settings:
+          "FILL" 1,
+          "wght" 600;
       }
 
       &:active span {
-        font-variation-settings: "FILL" 1, "wght" 200;
+        font-variation-settings:
+          "FILL" 1,
+          "wght" 200;
       }
     }
   }
@@ -104,7 +111,8 @@
 
         position: relative;
 
-        transition: grid var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial),
+        transition:
+          grid var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial),
           gap var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
       }
 
@@ -122,7 +130,8 @@
         border-radius: var(--md-sys-shape-corner-full);
 
         overflow: hidden;
-        transition: height var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect),
+        transition:
+          height var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect),
           width var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
         z-index: 1;
 
@@ -135,7 +144,9 @@
           span {
             @include mixin.material-symbols();
 
-            font-variation-settings: "FILL" 1, "wght" 300;
+            font-variation-settings:
+              "FILL" 1,
+              "wght" 300;
 
             transition: font-variation-settings var(--md-sys-motion-spring-fast-spatial-duration)
               var(--md-sys-motion-spring-fast-spatial);
@@ -195,7 +206,8 @@
         border-radius: var(--md-sys-shape-corner-full);
 
         pointer-events: none;
-        transition: background-color var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect),
+        transition:
+          background-color var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect),
           height var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect),
           width var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
         z-index: 0;
@@ -220,16 +232,37 @@
       }
 
       &.inactive .accent .icon span {
-        font-variation-settings: "FILL" 0, "wght" 200;
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 200;
       }
 
       &:hover .accent .icon span {
-        font-variation-settings: "FILL" 1, "wght" 400;
+        font-variation-settings:
+          "FILL" 1,
+          "wght" 400;
       }
 
       &:active .accent .icon span {
-        font-variation-settings: "FILL" 1, "wght" 200;
+        font-variation-settings:
+          "FILL" 1,
+          "wght" 200;
       }
+    }
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    margin-block: 24px;
+
+    width: 100%;
+
+    @media screen and (max-width: 840px) {
+      display: none;
     }
   }
 
@@ -309,6 +342,12 @@
 
             height: 40px;
             width: 100%;
+          }
+
+          @media screen and (max-width: 840px) {
+            .label {
+              @include mixin.typescale-style("label-large");
+            }
           }
         }
       }
@@ -474,11 +513,9 @@
         }
       }
     }
-  }
-}
 
-@media screen and (max-width: 840px) {
-  .NavBar.rail {
-    display: none;
+    @media screen and (max-width: 840px) {
+      display: none;
+    }
   }
 }

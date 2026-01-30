@@ -6,14 +6,19 @@ import { useGlobalData } from "../composables/useGlobalData";
 import { useNavStateStore } from "../stores/navState";
 import { useScreenWidthStore } from "../stores/screenWidth";
 import { useSearchStateStore } from "../stores/searchState";
+import { useThemeStateStore } from "../stores/themeState";
 
 const { page, theme } = useGlobalData();
 const screenWidthStore = useScreenWidthStore();
 const searchStateStore = useSearchStateStore();
 const navStateStore = useNavStateStore();
+const themeStateStore = useThemeStateStore();
 
+/** 标签动画状态 */
 const isLabelAnimating = ref(false);
+/** 清理函数列表 */
 const cleanupFunctions: Array<() => void> = [];
+/** 已观察元素集合 */
 const observedElements = new WeakSet<HTMLElement>();
 
 /**
@@ -32,17 +37,18 @@ function observeWidth(el: HTMLElement, parentSelector: string) {
       parentSelector,
       ignoreParentLimit: true, // 允许撑开父级
     },
-    [el]
+    [el],
   );
   cleanupFunctions.push(cleanup);
 }
 
-// 计算 Segments
+/** 计算导航分段数据 */
 const navSegment = computed(() => {
   const items = theme.value.navSegment;
   return Array.isArray(items) && items.length > 0 ? items : [];
 });
 
+/** 计算导航栏容器类名 */
 const navClass = computed(() => {
   let baseClass = "";
   if (screenWidthStore.screenWidth > 840) {
@@ -56,14 +62,15 @@ const navClass = computed(() => {
   return `${baseClass} ${expansionClass}`;
 });
 
+/** 计算标签类名 */
 const labelClass = computed(() => [
   navStateStore.isNavExpanded ? "right" : "bottom",
   isLabelAnimating.value ? "animating" : "",
 ]);
 
 /**
- * 规范化路径，去除 /index.md、.md、.html 后缀及末尾斜杠
- * @param path
+ * 规范化路径，去除后缀及末尾斜杠
+ * @param path 原始路径
  */
 function normalizePath(path: string): string {
   return path.replace(/(\/index)?\.(md|html)$/, "").replace(/\/$/, "");
@@ -71,7 +78,7 @@ function normalizePath(path: string): string {
 
 /**
  * 检查链接是否为当前活动页面的链接
- * @param link
+ * @param link 目标链接
  */
 function isActive(link: string): boolean {
   const currentPath = normalizePath(page.value.relativePath);
@@ -81,7 +88,7 @@ function isActive(link: string): boolean {
 
 /**
  * 检查链接是否为外部链接
- * @param link
+ * @param link 目标链接
  */
 function isExternalLink(link: string): boolean {
   return /^https?:\/\//.test(link);
@@ -89,7 +96,7 @@ function isExternalLink(link: string): boolean {
 
 /**
  * 切换搜索栏状态
- * @param event
+ * @param event 鼠标事件
  */
 function toggleSearch(event: MouseEvent) {
   event.stopPropagation();
@@ -97,21 +104,29 @@ function toggleSearch(event: MouseEvent) {
 }
 
 /**
- * 切换导航栏状态
- * @param event
+ * 切换导航栏展开状态
+ * @param event 鼠标事件
  */
 function toggleNav(event: MouseEvent) {
   event.stopPropagation();
-  // 暂时只有在屏幕宽度大于断点时才能切换导航栏状态
   if (screenWidthStore.isAboveBreakpoint) {
     navStateStore.toggle();
   }
 }
 
 /**
+ * 切换颜色偏好 (自动/亮/暗)
+ * @param event 鼠标事件
+ */
+function toggleTheme(event: MouseEvent) {
+  event.stopPropagation();
+  themeStateStore.cycleTheme();
+}
+
+/**
  * 设置 label 引用并初始化观察器
- * @param el
- * @param parentSelector
+ * @param el DOM 元素
+ * @param parentSelector 父级选择器
  */
 function setLabelRef(el: any, parentSelector: string) {
   if (el instanceof HTMLElement) {
@@ -120,8 +135,8 @@ function setLabelRef(el: any, parentSelector: string) {
 }
 
 /**
- * 处理动画结束
- * @param el
+ * 处理动画结束事件
+ * @param el 事件目标
  */
 function onAnimationEnd(el: EventTarget | null) {
   if (el) {
@@ -129,7 +144,7 @@ function onAnimationEnd(el: EventTarget | null) {
   }
 }
 
-/** 监听状态变化，触发宽度计算 */
+/** 监听导航栏展开状态，触发重绘和动画 */
 watch(
   () => [navStateStore.isNavExpanded],
   () => {
@@ -137,13 +152,14 @@ watch(
     nextTick(() => {
       window.dispatchEvent(new Event("resize"));
     });
-  }
+  },
 );
 
 if (isClient()) {
   onMounted(() => {
     screenWidthStore.init();
     navStateStore.init();
+    themeStateStore.init();
 
     nextTick(() => {
       window.dispatchEvent(new Event("resize"));
@@ -184,6 +200,18 @@ if (isClient()) {
           </p>
         </a>
       </div>
+    </div>
+
+    <div class="actions">
+      <MaterialButton
+        class="theme-btn"
+        size="m"
+        color="text"
+        :title="themeStateStore.currentLabel"
+        :icon="themeStateStore.currentIcon"
+        @click="toggleTheme"
+      >
+      </MaterialButton>
     </div>
   </nav>
 </template>
