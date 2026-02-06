@@ -21,7 +21,7 @@ const config = reactive({
   animFast: 300,
 });
 
-const { frontmatter, theme } = useGlobalData();
+const { frontmatter, theme, page } = useGlobalData();
 const headerRef = ref<HTMLElement | null>(null);
 const isHovering = useElementHover(headerRef);
 
@@ -57,6 +57,16 @@ const currentRealIndex = computed(() => {
 });
 
 /**
+ * 获取带 _mesh-gradient 后缀的图片地址
+ * @param url 原始图片地址
+ */
+const getGradientUrl = (url: string): string => {
+  if (!url) return "";
+  // 在扩展名前插入 _mesh-gradient
+  return url.replace(/(\.[^.]+)$/, "_mesh-gradient$1");
+};
+
+/**
  * 解析 CSS 变量中的时间值
  * @param cssVar CSS 变量名
  * @param defaultVal 回退默认值
@@ -72,11 +82,16 @@ const parseTimeToken = (cssVar: string, defaultVal: number): number => {
 
 /**
  * 并行加载图片并存入 Blob 缓存以消除闪烁
+ * 同时缓存原图和梯度背景图
  * @param urls 图片地址列表
  */
 const cacheImages = async (urls: string[]) => {
   if (!isClient()) return;
-  const uncached = urls.filter((url) => !blobCache.has(url));
+
+  // 生成所有需要缓存的 URL（原图 + 梯度图）
+  const allUrls = urls.flatMap((url) => [url, getGradientUrl(url)]);
+  const uncached = allUrls.filter((url) => !blobCache.has(url));
+
   await Promise.all(
     uncached.map(async (url) => {
       try {
@@ -84,9 +99,9 @@ const cacheImages = async (urls: string[]) => {
         const blob = await res.blob();
         blobCache.set(url, URL.createObjectURL(blob));
       } catch {
-        blobCache.set(url, url);
+        blobCache.set(url, url); // 失败时回退到原始 URL
       }
-    })
+    }),
   );
 };
 
@@ -118,8 +133,17 @@ const slotStates = computed(() => {
     ];
     const { cls, order, offset } = stateMap[relativePos];
     const imgIndex = (((currentRealIndex.value + offset) % totalCount.value) + totalCount.value) % totalCount.value;
+
     const rawUrl = rawImgList.value[imgIndex];
-    return { id: slotId, className: cls, imgUrl: blobCache.get(rawUrl) || rawUrl, order };
+    const rawGradientUrl = getGradientUrl(rawUrl);
+
+    return {
+      id: slotId,
+      className: cls,
+      imgUrl: blobCache.get(rawUrl) || rawUrl,
+      gradientUrl: blobCache.get(rawGradientUrl) || rawGradientUrl,
+      order,
+    };
   });
 });
 
@@ -132,7 +156,7 @@ const { pause, resume } = useRafFn(
       step(1).then(() => (remainingTime.value = config.duration));
     }
   },
-  { immediate: false }
+  { immediate: false },
 );
 
 /**
@@ -173,7 +197,7 @@ watch(
     await cacheImages(newList);
     if (hasMultiple.value && isClient()) resume();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 onMounted(() => {
@@ -197,13 +221,9 @@ onUnmounted(() => {
     <div class="carousel-container" :impression-color="frontmatter.color">
       <template v-if="hasMultiple">
         <div class="stage" :style="{ '--carousel-duration': `${animDuration}ms` }">
-          <div
-            v-for="slot in slotStates"
-            :key="slot.id"
-            class="item"
-            :class="slot.className"
-            :style="{ backgroundImage: `url('${slot.imgUrl}')`, order: slot.order }"
-          ></div>
+          <div v-for="slot in slotStates" :key="slot.id" class="item" :class="slot.className" :style="{ order: slot.order }">
+            <img :src="slot.imgUrl" />
+          </div>
         </div>
         <div class="progress-ring">
           <svg width="24" height="24" viewBox="0 0 24 24">
@@ -239,7 +259,31 @@ onUnmounted(() => {
         </div>
       </template>
       <template v-else>
-        <div class="single" :style="{ backgroundImage: `url('${blobCache.get(rawImgList[0]) || rawImgList[0]}')` }"></div>
+        <ClientOnly>
+          <svg width="0" height="0">
+            <defs>
+              <filter id="noise-filter" x="0" y="0" width="100%" height="100%">
+                <feTurbulence
+                  :seed="frontmatter.date ? new Date(frontmatter.date).getTime() : 0"
+                  type="turbulence"
+                  baseFrequency="0.15"
+                  numOctaves="2"
+                  stitchTiles="stitch"
+                ></feTurbulence>
+                <feColorMatrix type="saturate" values="1"></feColorMatrix>
+                <feComponentTransfer>
+                  <feFuncA type="discrete" tableValues="0 0.1"></feFuncA>
+                </feComponentTransfer>
+                <feBlend mode="multiply" in2="SourceGraphic"></feBlend>
+              </filter>
+            </defs>
+          </svg>
+        </ClientOnly>
+        <div class="single">
+          <h1>{{ frontmatter.title || page.title }}</h1>
+          <img :src="getGradientUrl(rawImgList[0])" />
+          <img :src="rawImgList[0]" />
+        </div>
       </template>
     </div>
   </header>

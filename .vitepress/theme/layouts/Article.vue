@@ -12,10 +12,10 @@ const { copy: copyToClipboard } = useClipboard();
 const publishTime = computed(() => frontmatter.value?.date);
 const lastUpdatedTime = computed(() => page.value?.lastUpdated);
 const formattedPublishDate = computed(() =>
-  publishTime.value ? useDateFormat(publishTime.value, "YYYY年M月D日").value : ""
+  publishTime.value ? useDateFormat(publishTime.value, "YYYY年M月D日").value : "",
 );
 const lastUpdatedRawTime = computed(() =>
-  lastUpdatedTime.value ? useDateFormat(lastUpdatedTime.value, "YYYY-MM-DD HH:mm:ss").value : ""
+  lastUpdatedTime.value ? useDateFormat(lastUpdatedTime.value, "YYYY-MM-DD HH:mm:ss").value : "",
 );
 
 /** 相对时间显示配置 */
@@ -35,7 +35,7 @@ const timeAgo = useTimeAgo(
       minute: (n: number) => `${n}分钟`,
       second: (n: number) => `${n}秒`,
     } as any,
-  }
+  },
 );
 
 /** 计算最终显示的编辑时间文本 */
@@ -142,7 +142,7 @@ if (isClient()) {
       enhanceDomStyles();
       bindImageEvents();
     },
-    { childList: true, subtree: true, characterData: true }
+    { childList: true, subtree: true, characterData: true },
   );
 
   onMounted(() => {
@@ -157,21 +157,15 @@ if (isClient()) {
 <template>
   <Header />
   <main id="article-content" ref="articleContentRef" @click="handleAnchorClick">
-    <hgroup>
-      <h1>{{ frontmatter.title || page.title }}</h1>
-      <div v-if="frontmatter.description">
-        <hr />
-        <h6>{{ frontmatter.description }}</h6>
-      </div>
-    </hgroup>
     <Content />
     <PrevNext />
   </main>
   <aside id="article-aside">
     <div class="post-info">
-      <p class="date-publish" v-if="formattedPublishDate">发布于 {{ formattedPublishDate }}</p>
+      <p v-if="frontmatter.description" class="description">{{ frontmatter.description }}</p>
+      <p v-if="formattedPublishDate" class="date-publish">发布于 {{ formattedPublishDate }}</p>
       <ClientOnly>
-        <p class="date-update" :title="lastUpdatedRawTime" v-if="formattedLastUpdated">
+        <p v-if="formattedLastUpdated" :title="lastUpdatedRawTime" class="date-update">
           {{ formattedLastUpdated }}
         </p>
       </ClientOnly>
