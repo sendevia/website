@@ -25,7 +25,7 @@ const { start: lockTimer } = useTimeoutFn(
     isLocked.value = false;
   },
   1200,
-  { immediate: false }
+  { immediate: false },
 );
 
 /** 计算文章 ID 与短链 */
@@ -126,11 +126,11 @@ if (isClient()) {
               headingsActiveId.value = bestId;
             }
           },
-          { rootMargin: "-20% 0px -60% 0px", threshold: [0, 0.1, 0.5, 1] }
+          { rootMargin: "-20% 0px -60% 0px", threshold: [0, 0.1, 0.5, 1] },
         );
       });
     },
-    { immediate: true }
+    { immediate: true },
   );
 
   /** 监听容器及其子元素尺寸变化 */
@@ -153,7 +153,7 @@ watch(
     } else {
       indicator.value.opacity = 0;
     }
-  }
+  },
 );
 
 watch(headingsActiveId, () => {
@@ -174,7 +174,7 @@ onMounted(() => {
 <template>
   <div ref="pageIndicator" class="PageIndicator">
     <div class="label">
-      <p class="text">在此页上</p>
+      <p class="text">文章短链</p>
       <p class="icon">link</p>
       <p class="article-id" :title="isCopied ? '已复制' : '复制短链'" v-if="articleId" @click="copyShortLink">
         {{ isCopied ? "已复制" : articleId }}
