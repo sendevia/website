@@ -451,7 +451,12 @@
   }
 
   a {
-    text-decoration: underline solid;
+    text-decoration: underline 2px dotted;
+    text-underline-offset: 3px;
+
+    &:hover {
+      text-decoration-style: solid;
+    }
   }
 
   blockquote {

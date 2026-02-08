@@ -30,8 +30,6 @@
     h2,
     a {
       @include mixin.typescale-style("display-small");
-
-      text-decoration: none;
     }
   }
 
