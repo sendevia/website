@@ -1,8 +1,8 @@
 ---
 title: "Markdown 扩展示例"
 description: "本页面展示了 VitePress 提供的一些内置 markdown 扩展功能。"
-color: ""
-impression: ""
+color: "#f53283"
+impression: "/assets/images/138124971_p0.webp"
 categories:
 tags:
   - markdown 语法
