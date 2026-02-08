@@ -280,7 +280,10 @@ onUnmounted(() => {
           </svg>
         </ClientOnly>
         <div class="single">
-          <h1>{{ frontmatter.title || page.title }}</h1>
+          <h1 class="overlay">{{ frontmatter.title || page.title }}</h1>
+          <h1 :style="`background-image: url(${getGradientUrl(rawImgList[0])})`">
+            {{ frontmatter.title || page.title }}
+          </h1>
           <img :src="getGradientUrl(rawImgList[0])" />
           <img :src="rawImgList[0]" />
         </div>
