@@ -66,7 +66,8 @@
           animation: avatar-box-h3 var(--md-sys-motion-spring-slow-spatial-duration) var(--md-sys-motion-spring-slow-spatial)
             var(--md-sys-motion-spring-fast-spatial-duration) both;
           overflow: hidden;
-          transition: color var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect),
+          transition:
+            color var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect),
             background-color var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect);
           transform-origin: 0px 0px;
           z-index: 2;
@@ -119,7 +120,9 @@
           width: 200px;
 
           animation: avatar-box-span 60s linear infinite;
-          mask: linear-gradient(45deg, black, transparent), var(--via-svg-mask) 0 / 100% no-repeat;
+          mask:
+            linear-gradient(45deg, black, transparent),
+            var(--via-svg-mask) 0 / 100% no-repeat;
           mask-composite: intersect;
           mask-mode: alpha;
           opacity: 0.5;
@@ -169,6 +172,7 @@
         h1 {
           @include mixin.typescale-style("display-large");
 
+          font-variation-settings: "wght" 600;
           text-align: center;
           word-break: keep-all;
         }

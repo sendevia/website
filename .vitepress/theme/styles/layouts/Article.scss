@@ -337,7 +337,7 @@
     }
 
     &:first-child .title-with-achor {
-      margin-block-start: 0px;
+      margin-block-start: 24px;
     }
 
     .title-with-achor {
@@ -350,6 +350,7 @@
         display: inline-block;
 
         line-height: 54px;
+        font-variation-settings: "wght" 600;
 
         border-radius: var(--md-sys-shape-corner-medium);
 
