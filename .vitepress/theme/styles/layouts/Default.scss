@@ -258,3 +258,22 @@
     }
   }
 }
+
+.layout-enter-active {
+  transition:
+    opacity var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect),
+    transform var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial)
+      var(--md-sys-motion-duration-short1);
+}
+
+.layout-leave-active {
+  transition:
+    opacity var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect),
+    transform var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+}
+
+.layout-enter-from,
+.layout-leave-to {
+  opacity: 0;
+  transform: scale(0.99);
+}
