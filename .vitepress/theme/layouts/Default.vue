@@ -158,7 +158,7 @@ onMounted(() => {
                 <h3>
                   {{ randomGreeting }}
                 </h3>
-                <img src="/assets/images/avatar_transparent.png" alt="" />
+                <img src="/assets/images/avatar_transparent.webp" alt="" />
                 <span></span>
               </div>
             </ClientOnly>

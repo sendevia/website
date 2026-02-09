@@ -28,7 +28,7 @@ const siteVersion = theme.value.siteVersion;
       </div>
       <div class="beian-info">
         <div class="beian-gongan">
-          <img src="/assets/images/beian.png" loading="eager" />
+          <img src="/assets/images/beian.webp" loading="eager" />
           <a href="https://beian.mps.gov.cn/#/query/webSearch?code=23020002230215" target="_blank"
             >黑公网安备23020002230215</a
           >
