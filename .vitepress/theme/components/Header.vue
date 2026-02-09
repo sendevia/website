@@ -217,79 +217,87 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <header ref="headerRef" class="Header">
-    <div class="carousel-container" :impression-color="frontmatter.color">
-      <template v-if="hasMultiple">
-        <div class="stage" :style="{ '--carousel-duration': `${animDuration}ms` }">
-          <div v-for="slot in slotStates" :key="slot.id" class="item" :class="slot.className" :style="{ order: slot.order }">
-            <img :src="slot.imgUrl" />
+  <Transition name="header" mode="in-out" :duration="10000" appear>
+    <header ref="headerRef" class="Header">
+      <div class="carousel-container" :impression-color="frontmatter.color">
+        <template v-if="hasMultiple">
+          <div class="stage" :style="{ '--carousel-duration': `${animDuration}ms` }">
+            <div
+              v-for="slot in slotStates"
+              :key="slot.id"
+              class="item"
+              :class="slot.className"
+              :style="{ order: slot.order }"
+            >
+              <img :src="slot.imgUrl" />
+            </div>
           </div>
-        </div>
-        <div class="progress-ring">
-          <svg width="24" height="24" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="9" fill="none" stroke="var(--md-sys-color-tertiary-container)" stroke-width="5" />
-            <circle
-              cx="12"
-              cy="12"
-              r="9"
-              fill="none"
-              stroke="var(--md-sys-color-tertiary)"
-              stroke-width="5"
-              stroke-linecap="round"
-              :style="{
-                strokeDasharray: `${2 * Math.PI * 9}`,
-                strokeDashoffset: `${2 * Math.PI * 9 * (1 - progress / 100)}`,
-                transition: isFastForwarding ? 'none' : 'stroke-dashoffset 100ms linear',
-              }"
-            />
-          </svg>
-        </div>
-        <div class="controls">
-          <div class="prev" title="上一张" @click="handleNav(-1)"></div>
-          <div class="next" title="下一张" @click="handleNav(1)"></div>
-        </div>
-        <div class="indicators">
-          <button
-            v-for="(_, idx) in rawImgList"
-            :key="idx"
-            class="dot"
-            :class="{ active: currentRealIndex === idx }"
-            @click="jumpTo(idx)"
-          ></button>
-        </div>
-      </template>
-      <template v-else>
-        <ClientOnly>
-          <svg width="0" height="0" style="display: none">
-            <defs>
-              <filter id="noise-filter" x="0" y="0" width="100%" height="100%">
-                <feTurbulence
-                  :seed="frontmatter.date ? new Date(frontmatter.date).getTime() : 0"
-                  type="turbulence"
-                  baseFrequency="0.15"
-                  numOctaves="2"
-                  stitchTiles="stitch"
-                ></feTurbulence>
-                <feColorMatrix type="saturate" values="1"></feColorMatrix>
-                <feComponentTransfer>
-                  <feFuncA type="discrete" tableValues="0 0.1"></feFuncA>
-                </feComponentTransfer>
-                <feBlend mode="multiply" in2="SourceGraphic"></feBlend>
-              </filter>
-            </defs>
-          </svg>
-        </ClientOnly>
-        <div class="single">
-          <h1 class="overlay">{{ frontmatter.title || page.title }}</h1>
-          <h1 :style="`background-image: url(${getGradientUrl(rawImgList[0])})`">
-            {{ frontmatter.title || page.title }}
-          </h1>
-          <img :src="getGradientUrl(rawImgList[0])" />
-          <img :src="rawImgList[0]" />
-        </div>
-      </template>
-    </div>
-  </header>
+          <div class="progress-ring">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="9" fill="none" stroke="var(--md-sys-color-tertiary-container)" stroke-width="5" />
+              <circle
+                cx="12"
+                cy="12"
+                r="9"
+                fill="none"
+                stroke="var(--md-sys-color-tertiary)"
+                stroke-width="5"
+                stroke-linecap="round"
+                :style="{
+                  strokeDasharray: `${2 * Math.PI * 9}`,
+                  strokeDashoffset: `${2 * Math.PI * 9 * (1 - progress / 100)}`,
+                  transition: isFastForwarding ? 'none' : 'stroke-dashoffset 100ms linear',
+                }"
+              />
+            </svg>
+          </div>
+          <div class="controls">
+            <div class="prev" title="上一张" @click="handleNav(-1)"></div>
+            <div class="next" title="下一张" @click="handleNav(1)"></div>
+          </div>
+          <div class="indicators">
+            <button
+              v-for="(_, idx) in rawImgList"
+              :key="idx"
+              class="dot"
+              :class="{ active: currentRealIndex === idx }"
+              @click="jumpTo(idx)"
+            ></button>
+          </div>
+        </template>
+        <template v-else>
+          <ClientOnly>
+            <svg width="0" height="0" style="display: none">
+              <defs>
+                <filter id="noise-filter" x="0" y="0" width="100%" height="100%">
+                  <feTurbulence
+                    :seed="frontmatter.date ? new Date(frontmatter.date).getTime() : 0"
+                    type="turbulence"
+                    baseFrequency="0.15"
+                    numOctaves="2"
+                    stitchTiles="stitch"
+                  ></feTurbulence>
+                  <feColorMatrix type="saturate" values="1"></feColorMatrix>
+                  <feComponentTransfer>
+                    <feFuncA type="discrete" tableValues="0 0.1"></feFuncA>
+                  </feComponentTransfer>
+                  <feBlend mode="multiply" in2="SourceGraphic"></feBlend>
+                </filter>
+              </defs>
+            </svg>
+          </ClientOnly>
+          <div class="single">
+            <h1 class="overlay">{{ frontmatter.title || page.title }}</h1>
+            <h1 :style="`background-image: url(${getGradientUrl(rawImgList[0])})`">
+              {{ frontmatter.title || page.title }}
+            </h1>
+            <img :src="getGradientUrl(rawImgList[0])" />
+            <img :src="rawImgList[0]" />
+          </div>
+        </template>
+      </div>
+    </header>
+  </Transition>
 </template>
 
 <style lang="scss" scoped>
