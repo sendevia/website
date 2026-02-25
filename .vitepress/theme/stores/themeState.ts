@@ -3,88 +3,61 @@
  */
 
 import { defineStore } from "pinia";
-import { ref, computed, watch } from "vue";
-import { usePreferredDark } from "@vueuse/core";
-import { setCookie, getCookie } from "../utils/cookie";
-import { isClient } from "../utils/env";
+import { computed } from "vue";
+import { useColorMode, useCycleList } from "@vueuse/core";
+import { setCookie, getCookie, deleteCookie } from "../utils/cookie";
 
 export type ThemePreference = "auto" | "light" | "dark";
 
+/** 偏好映射配置 */
+const THEME_MAP = {
+  auto: { icon: "brightness_auto", label: "跟随系统" },
+  light: { icon: "light_mode", label: "亮色模式" },
+  dark: { icon: "dark_mode", label: "深色模式" },
+} as const;
+
 export const useThemeStateStore = defineStore("themeState", () => {
-  /** 系统是否偏好深色模式 */
-  const systemDark = usePreferredDark();
-
-  /** 用户当前的偏好设置 */
-  const preference = ref<ThemePreference>("auto");
-
-  /** 计算当前实际生效的颜色模式 */
-  const isDarkActive = computed(() => {
-    if (preference.value === "auto") {
-      return systemDark.value;
-    }
-    return preference.value === "dark";
-  });
-
-  /** 初始化颜色主题，从 Cookie 读取配置，默认为 auto */
-  const init = () => {
-    const stored = getCookie("theme_preference");
-    if (stored === "light" || stored === "dark" || stored === "auto") {
-      preference.value = stored;
-    }
-  };
-
-  /** 监听实际生效的深色状态变化，操作 DOM */
-  watch(
-    isDarkActive,
-    (isDark) => {
-      if (isClient()) {
-        document.documentElement.classList.toggle("dark", isDark);
+  const mode = useColorMode({
+    emitAuto: true,
+    storageKey: "theme_preference",
+    storage: {
+      getItem: (key) => getCookie(key) || "auto",
+      setItem: (key, value) => setCookie(key, value),
+      removeItem: (key) => deleteCookie(key),
+    },
+    onChanged: (val, defaultHandler) => {
+      defaultHandler(val);
+      // 确保同时切换 light/dark 类
+      if (typeof document !== "undefined") {
+        document.documentElement.classList.toggle("dark", val === "dark");
+        document.documentElement.classList.toggle("light", val === "light");
       }
     },
-    { immediate: true },
-  );
+  });
 
-  /** 监听用户偏好变化，持久化到 Cookie */
-  watch(preference, (val) => {
-    setCookie("theme_preference", val);
+  /** 循环切换列表 */
+  const { next } = useCycleList(["auto", "light", "dark"] as ThemePreference[], {
+    initialValue: mode.value as ThemePreference,
   });
 
   /** 切换主题模式 */
   const cycleTheme = () => {
-    const modes: ThemePreference[] = ["auto", "light", "dark"];
-    const nextIndex = (modes.indexOf(preference.value) + 1) % modes.length;
-    preference.value = modes[nextIndex];
+    mode.value = next();
   };
 
+  /** 当前偏好设置 */
+  const preference = computed(() => mode.value as ThemePreference);
+
   /** 当前状态对应的图标 */
-  const currentIcon = computed(() => {
-    switch (preference.value) {
-      case "light":
-        return "light_mode";
-      case "dark":
-        return "dark_mode";
-      default:
-        return "brightness_auto";
-    }
-  });
+  const currentIcon = computed(() => THEME_MAP[preference.value].icon);
 
   /** 当前状态对应的文本标签 */
-  const currentLabel = computed(() => {
-    switch (preference.value) {
-      case "light":
-        return "亮色模式";
-      case "dark":
-        return "深色模式";
-      default:
-        return "跟随系统";
-    }
-  });
+  const currentLabel = computed(() => THEME_MAP[preference.value].label);
 
   return {
     preference,
     currentIcon,
     currentLabel,
-    init,
     cycleTheme,
   };
 });
