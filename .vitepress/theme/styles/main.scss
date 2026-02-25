@@ -52,6 +52,18 @@ body {
 
     background-color: var(--md-sys-color-on-surface-variant);
   }
+
+  &.light {
+    img[data-mode="darkmode-only"] {
+      display: none !important;
+    }
+  }
+
+  &.dark {
+    img[data-mode="lightmode-only"] {
+      display: none !important;
+    }
+  }
 }
 
 #app {
