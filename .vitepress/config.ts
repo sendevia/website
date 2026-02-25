@@ -1,15 +1,17 @@
 import { defineConfig } from "vitepress";
 import packageJson from "../package.json";
 
-// markdown-it plugins
-// https://mdit-plugins.github.io/zh/align.html
-import { align } from "@mdit/plugin-align";
 // https://github.com/valeriangalliat/markdown-it-anchor
 import anchor from "markdown-it-anchor";
+// markdown-it plugins
+// https://mdit-plugins.github.io/align.html
+import { align } from "@mdit/plugin-align";
 // https://mdit-plugins.github.io/footnote.html
 import { footnote } from "@mdit/plugin-footnote";
 // https://mdit-plugins.github.io/tasklist.html
 import { tasklist } from "@mdit/plugin-tasklist";
+// https://mdit-plugins.github.io/img-mark.html
+import { imgMark } from "@mdit/plugin-img-mark";
 import { wrapHeadingsAsSections } from "./theme/utils/sectionWrapper";
 
 export default defineConfig({
@@ -42,6 +44,7 @@ export default defineConfig({
       md.use(footnote);
       md.use(wrapHeadingsAsSections);
       md.use(tasklist, { label: true });
+      md.use(imgMark);
     },
     image: {
       lazyLoading: true,
@@ -94,6 +97,7 @@ export default defineConfig({
     navSegment: [
       { text: "首页", icon: "home", link: "/" },
       { text: "AincradMix", icon: "borg", link: "/posts/AincradMix" },
+      { text: "组件", icon: "code_blocks", link: "/posts/组件" },
       {
         text: "作品集",
         icon: "auto_awesome_mosaic",
