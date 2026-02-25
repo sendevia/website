@@ -159,7 +159,6 @@ if (isClient()) {
   onMounted(() => {
     screenWidthStore.init();
     navStateStore.init();
-    themeStateStore.init();
 
     nextTick(() => {
       window.dispatchEvent(new Event("resize"));
