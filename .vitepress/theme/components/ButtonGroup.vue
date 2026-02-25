@@ -1,33 +1,62 @@
 <script setup lang="ts">
+/** 外部链接类型定义 */
 interface ExternalLink {
-  type: string;
-  label: string;
-  link: string;
+  ariaLabel?: string;
+  color?: string;
+  icon?: string;
+  label?: string;
+  link?: string;
+  size?: "xs" | "s" | "m" | "l" | "xl";
+  target?: string;
+  type?: string;
+  onClick?: (e?: Event) => void;
 }
 
+/** 组件属性定义 */
 interface Props {
+  ariaLabel?: string;
+  color?: string;
+  icon?: string;
+  layout?: "horizontal" | "vertical";
   links?: ExternalLink[];
   size?: "xs" | "s" | "m" | "l" | "xl";
-  layout?: "horizontal" | "vertical";
+  target?: string;
 }
 
+/** 组件属性默认值 */
 const props = withDefaults(defineProps<Props>(), {
+  layout: "horizontal",
   links: () => [],
   size: "s",
-  layout: "horizontal",
 });
 
-const getButtonColor = (type: string) => {
+/** 组件事件定义 */
+const emit = defineEmits<{
+  (e: "click", event: Event, item: ExternalLink, index: number): void;
+}>();
+
+/**
+ * 根据按钮类型获取对应的颜色
+ * @param type 按钮类型
+ * @returns 对应的颜色
+ */
+const getButtonColor = (type?: string): string => {
   switch (type) {
     case "download":
-      return "tonal";
+      return "filled";
     case "normal":
-    default:
       return "tonal";
+    default:
+      return "text";
   }
 };
 
-const getButtonIcon = (type: string) => {
+/**
+ * 根据按钮类型获取对应的图标
+ * @param type 按钮类型
+ * @returns 对应的图标名称
+ */
+const getButtonIcon = (type?: string): string => {
   switch (type) {
     case "download":
       return "download";
@@ -37,22 +66,37 @@ const getButtonIcon = (type: string) => {
       return "";
   }
 };
+
+/**
+ * 处理按钮点击事件
+ * @param e 事件对象
+ * @param item 链接对象
+ * @param index 索引
+ */
+const handleClick = (e: Event, item: ExternalLink, index: number) => {
+  if (item.onClick) {
+    item.onClick(e);
+  }
+  emit("click", e, item, index);
+};
 </script>
 
 <template>
-  <div v-if="links && links.length > 0" class="ButtonGroup" :class="[props.size, props.layout]">
+  <div class="ButtonGroup" :class="[props.size, props.layout]" :aria-label="props.ariaLabel">
     <MaterialButton
       v-for="(item, index) in links"
+      :key="index"
       class="group"
       :class="props.layout"
-      :key="index"
       :href="item.link"
-      :size="props.size"
-      :color="getButtonColor(item.type)"
-      :icon="getButtonIcon(item.type)"
-      :target="'_blank'"
+      :size="item.size || props.size"
+      :color="item.color || props.color || getButtonColor(item.type)"
+      :icon="item.icon || props.icon || getButtonIcon(item.type)"
+      :target="item.target || props.target || (item.link ? '_blank' : undefined)"
+      :aria-label="item.ariaLabel || props.ariaLabel || item.label"
+      @click="handleClick($event, item, index)"
     >
-      {{ item.label }}
+      <template v-if="item.label">{{ item.label }}</template>
     </MaterialButton>
   </div>
 </template>
