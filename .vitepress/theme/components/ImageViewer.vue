@@ -86,7 +86,7 @@ const show = () => {
     // 延迟一帧触发动画，确保 CSS 过渡生效
     isAnimating.value = true;
     // 将焦点转移到查看器内部的关闭按钮
-    const closeBtn = document.querySelector<HTMLElement>(".btn-close");
+    const closeBtn = document.querySelector<HTMLElement>(".ImageViewer .close");
     closeBtn?.focus();
   });
 };
@@ -113,8 +113,32 @@ const hide = () => {
 const prevImage = () => hasPrevious.value && activeIndex.value--;
 const nextImage = () => hasNext.value && activeIndex.value++;
 
-/** 键盘交互处理 */
-useEventListener("keydown", (e: KeyboardEvent) => {
+/** 导航 ButtonGroup 按钮配置 */
+const BUTTONS_NAV_CONFIG = computed(() => [
+  { id: "prev", icon: "chevron_left", ariaLabel: "上一张", type: "normal" },
+  {
+    id: "index",
+    label: `${activeIndex.value + 1} / ${props.images.length}`,
+    color: "tonal",
+    ariaLabel: "当前页码",
+  },
+  { id: "next", icon: "chevron_right", ariaLabel: "下一张", type: "normal" },
+]);
+
+/** 处理按钮组点击事件 */
+const handleButtonGroupClick = (e: Event, item: any) => {
+  switch (item.id) {
+    case "prev":
+      prevImage();
+      break;
+    case "next":
+      nextImage();
+      break;
+  }
+};
+
+/** 处理键盘快捷键 */
+const handleKeyboardShortcuts = (e: KeyboardEvent) => {
   if (!isVisible.value) return;
 
   // 陷阱焦点逻辑
@@ -146,7 +170,10 @@ useEventListener("keydown", (e: KeyboardEvent) => {
       imageScale.value = Math.max(ZOOM_CONFIG.MIN, imageScale.value - ZOOM_CONFIG.STEP);
       break;
   }
-});
+};
+
+/** 键盘交互处理 */
+useEventListener("keydown", handleKeyboardShortcuts);
 
 /** 滚轮缩放与翻页 */
 const handleWheel = (e: WheelEvent) => {
@@ -202,7 +229,7 @@ const handleTouchMove = (e: TouchEvent) => {
     const dist = Math.sqrt(dx * dx + dy * dy);
     imageScale.value = Math.min(
       Math.max((dist / initialTouchDist) * initialTouchScale, ZOOM_CONFIG.MIN),
-      ZOOM_CONFIG.MAX_TOUCH
+      ZOOM_CONFIG.MAX_TOUCH,
     );
   } else if (e.touches.length === 1) {
     const touch = e.touches[0];
@@ -234,23 +261,15 @@ defineExpose({ show, hide });
     aria-modal="true"
     tabindex="-1"
   >
-    <MaterialButton @click="hide" class="btn-close" icon="close" color="text" size="m" aria-label="关闭" />
-    <MaterialButton
-      v-if="hasPrevious"
-      @click="prevImage"
-      class="btn-nav prev"
-      icon="chevron_left"
-      size="l"
-      aria-label="上一张"
+    <ButtonGroup
+      :links="BUTTONS_NAV_CONFIG"
+      layout="horizontal"
+      size="m"
+      class="nav-group"
+      @click="handleButtonGroupClick"
     />
-    <MaterialButton
-      v-if="hasNext"
-      @click="nextImage"
-      class="btn-nav next"
-      icon="chevron_right"
-      size="l"
-      aria-label="下一张"
-    />
+    <MaterialButton color="tonal" icon="close" aria-label="关闭" class="close" @click="hide"></MaterialButton>
+
     <div
       class="content"
       @click.self="hide"
@@ -279,18 +298,6 @@ defineExpose({ show, hide });
           maxHeight: `${winHeight * 0.75}px`,
         }"
       />
-    </div>
-    <p class="index-text">{{ activeIndex + 1 }} / {{ images.length }}</p>
-    <div class="thumbnails" v-if="images.length > 1">
-      <button
-        v-for="(img, idx) in images"
-        :key="idx"
-        class="thumbnail"
-        :class="{ active: idx === activeIndex }"
-        @click="activeIndex = idx"
-      >
-        <img :src="img" alt="thumbnail" />
-      </button>
     </div>
   </div>
 </template>

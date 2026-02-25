@@ -22,45 +22,24 @@
   -moz-user-select: none;
   z-index: 9999;
 
-  .index-text {
-    padding-block: 3px;
-    padding-inline: 9px;
+  .nav-group {
+    position: absolute;
+    bottom: 0px;
 
-    color: var(--md-sys-color-surface-variant);
-
-    border-radius: var(--md-sys-shape-corner-medium);
-
-    background-color: var(--md-sys-color-on-surface-variant);
+    margin-block-end: 12px;
 
     z-index: 3;
   }
 
-  .btn-close,
-  .btn-nav {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .close {
+    position: absolute;
+    right: 0px;
+    top: 0px;
 
-    position: absolute !important;
+    margin-inline-end: 12px;
+    margin-block-start: 12px;
 
     z-index: 3;
-  }
-
-  .btn-close {
-    right: 20px;
-    top: 20px;
-  }
-
-  .btn-nav {
-    top: 50%;
-
-    &.prev {
-      left: 20px;
-    }
-
-    &.next {
-      right: 20px;
-    }
   }
 
   .content {
@@ -74,70 +53,21 @@
     padding-block-start: 5vh;
 
     z-index: 2;
-  }
 
-  .content-image {
-    border-radius: var(--md-sys-shape-corner-full);
+    .content-image {
+      background-color: var(--md-sys-color-surface-variant);
 
-    background-color: var(--md-sys-color-surface-variant);
+      clip-path: circle(10%);
+      object-fit: contain;
+      transition: var(--md-sys-motion-spring-slow-spatial-duration) var(--md-sys-motion-spring-slow-spatial);
 
-    clip-path: circle(10%);
-    object-fit: contain;
-    transition: var(--md-sys-motion-spring-slow-spatial-duration) var(--md-sys-motion-spring-slow-spatial);
+      &.transitioning {
+        opacity: 0.6;
+      }
 
-    &.transitioning {
-      opacity: 0.6;
-    }
-
-    &.notransition {
-      transition: none !important;
-    }
-  }
-
-  .thumbnails {
-    display: flex;
-    gap: 8px;
-
-    max-width: calc(100% - 66px);
-
-    padding: 24px;
-
-    overflow-x: auto;
-    overflow-y: hidden;
-    z-index: 3;
-  }
-
-  .thumbnail {
-    flex-shrink: 0;
-
-    width: 66px;
-    height: 66px;
-
-    padding: 0px;
-
-    border: 0px;
-    border-radius: var(--md-sys-shape-corner-large);
-
-    cursor: pointer;
-    overflow: hidden;
-    transition: transform var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
-
-    &.active {
-      @include mixin.focus-ring($thickness: 1, $offset: 2);
-
-      outline-color: var(--md-sys-color-on-surface-variant) !important;
-      transition: transform var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
-    }
-
-    &:hover {
-      transform: scale(0.9);
-    }
-
-    img {
-      height: 100%;
-      width: 100%;
-
-      object-fit: cover;
+      &.notransition {
+        transition: none !important;
+      }
     }
   }
 
@@ -146,8 +76,6 @@
     opacity: 1;
 
     .content-image {
-      border-radius: var(--md-sys-shape-corner-large);
-
       clip-path: circle(100%);
     }
   }
