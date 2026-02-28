@@ -5,11 +5,6 @@ import type MarkdownIt from "markdown-it";
  * @param mdit - MarkdownIt 实例
  */
 export function sectionWrapper(mdit: MarkdownIt): void {
-  if (!mdit || !mdit.core || !mdit.core.ruler) {
-    console.warn("Invalid MarkdownIt instance provided");
-    return;
-  }
-
   mdit.core.ruler.before("inline", "group_sections", (state) => {
     const tokens = state.tokens;
     const newTokens: any[] = [];
