@@ -66,6 +66,10 @@ table {
   :is(td, th) {
     border: 1px solid var(--md-sys-color-outline);
 
+    &:empty {
+      display: none;
+    }
+
     code {
       padding-block: 0px !important;
     }

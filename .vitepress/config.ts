@@ -13,6 +13,7 @@ import { tasklist } from "@mdit/plugin-tasklist";
 // https://mdit-plugins.github.io/img-mark.html
 import { imgMark } from "@mdit/plugin-img-mark";
 import { sectionWrapper } from "./theme/utils/mdSectionWrapper";
+import { table } from "./theme/utils/mdTable";
 
 export default defineConfig({
   base: "/",
@@ -45,6 +46,7 @@ export default defineConfig({
       md.use(sectionWrapper);
       md.use(tasklist, { label: true });
       md.use(imgMark);
+      md.use(table);
     },
     image: {
       lazyLoading: true,
