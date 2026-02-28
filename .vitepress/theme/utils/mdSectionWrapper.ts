@@ -4,7 +4,7 @@ import type MarkdownIt from "markdown-it";
  * 将连续的标题块包裹为独立的 section（headline-block），便于样式与交互处理
  * @param mdit - MarkdownIt 实例
  */
-export function wrapHeadingsAsSections(mdit: MarkdownIt): void {
+export function sectionWrapper(mdit: MarkdownIt): void {
   if (!mdit || !mdit.core || !mdit.core.ruler) {
     console.warn("Invalid MarkdownIt instance provided");
     return;

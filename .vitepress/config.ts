@@ -12,7 +12,7 @@ import { footnote } from "@mdit/plugin-footnote";
 import { tasklist } from "@mdit/plugin-tasklist";
 // https://mdit-plugins.github.io/img-mark.html
 import { imgMark } from "@mdit/plugin-img-mark";
-import { wrapHeadingsAsSections } from "./theme/utils/sectionWrapper";
+import { sectionWrapper } from "./theme/utils/mdSectionWrapper";
 
 export default defineConfig({
   base: "/",
@@ -42,7 +42,7 @@ export default defineConfig({
     config(md) {
       md.use(align);
       md.use(footnote);
-      md.use(wrapHeadingsAsSections);
+      md.use(sectionWrapper);
       md.use(tasklist, { label: true });
       md.use(imgMark);
     },
