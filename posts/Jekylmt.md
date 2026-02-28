@@ -59,17 +59,17 @@ external_links:
 
 下面是所有头信息的详解：
 
-| name         |               | description      | type    | default                     |
-| ------------ | ------------- | ---------------- | ------- | --------------------------- |
-| 文章相关     | title         | 文章标题         | text    | 使用 `_config.yml` 中的配置 |
-| ^^           | description   | 文章简介         | ^^      | ^^                          |
-| ^^           | author        | 文章作者         | ^^      | ^^                          |
-| ^^           | color         | 文章主题颜色     | ^^      | ^^                          |
-| ^^           | impression    | 文章头图         | ^^      | ^^                          |
-| ^^           | categories    | 目录分类         | list    | 未定义                      |
-| ^^           | tags          | 文章标签         | ^^      | ^^                          |
-| ^^           | published     | 是否发布文章     | boolean | true                        |
-| ^^           | toc           | 是否生成文章目录 | ^^      | true                        |
-| 页面导航相关 | segment_icon  | 导航栏中的图标   | text    | -                           |
-| ^^           | segment_title | 导航栏中的标题   | ^^      | ^^                          |
-| ^^           | navigation    | 是否在导航中显示 | boolean | ^^                          |
+| name { colspan=2 }         |               | description      | type                  | default                                   |
+| -------------------------- | ------------- | ---------------- | --------------------- | ----------------------------------------- |
+| 文章相关 { rowspan=9 }     | title         | 文章标题         | text { rowspan=5 }    | 使用 `_config.yml` 中的配置 { rowspan=5 } |
+|                            | description   | 文章简介         |                       |                                           |
+|                            | author        | 文章作者         |                       |                                           |
+|                            | color         | 文章主题颜色     |                       |                                           |
+|                            | impression    | 文章头图         |                       |                                           |
+|                            | categories    | 目录分类         | list { rowspan=2 }    | 未定义 { rowspan=2 }                      |
+|                            | tags          | 文章标签         |                       |                                           |
+|                            | published     | 是否发布文章     | boolean { rowspan=2 } | true { rowspan=2 }                        |
+|                            | toc           | 是否生成文章目录 |                       |                                           |
+| 页面导航相关 { rowspan=3 } | segment_icon  | 导航栏中的图标   | text { rowspan=2 }    | - { rowspan=3 }                           |
+|                            | segment_title | 导航栏中的标题   |                       |                                           |
+|                            | navigation    | 是否在导航中显示 | boolean               |                                           |
