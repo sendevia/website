@@ -1,8 +1,6 @@
 import { defineConfig } from "vitepress";
 import packageJson from "../package.json";
 
-// https://github.com/valeriangalliat/markdown-it-anchor
-import anchor from "markdown-it-anchor";
 // markdown-it plugins
 // https://mdit-plugins.github.io/align.html
 import { align } from "@mdit/plugin-align";
@@ -14,6 +12,7 @@ import { tasklist } from "@mdit/plugin-tasklist";
 import { imgMark } from "@mdit/plugin-img-mark";
 import { sectionWrapper } from "./theme/utils/mdSectionWrapper";
 import { table } from "./theme/utils/mdTable";
+import { anchor } from "./theme/utils/mdCustomAnchor";
 
 export default defineConfig({
   base: "/",
@@ -23,18 +22,6 @@ export default defineConfig({
   titleTemplate: ":title",
   description: "随便写写的博客",
   markdown: {
-    anchor: {
-      permalink: anchor.permalink.linkAfterHeader({
-        style: "visually-hidden",
-        symbol: "link",
-        class: "title-anchor",
-        assistiveText: () => "复制链接",
-        visuallyHiddenClass: "visually-hidden",
-        wrapper: ['<div class="title-with-achor">', "</div>"],
-        placement: "before",
-        space: false,
-      }),
-    },
     attrs: {
       allowedAttributes: ["id", "class"],
     },
@@ -42,11 +29,14 @@ export default defineConfig({
     codeCopyButtonTitle: "复制代码",
     config(md) {
       md.use(align);
+      md.use(anchor, {
+        levels: [1, 2, 3, 4],
+      });
       md.use(footnote);
-      md.use(sectionWrapper);
-      md.use(tasklist, { label: true });
       md.use(imgMark);
+      md.use(sectionWrapper);
       md.use(table);
+      md.use(tasklist, { label: true });
     },
     image: {
       lazyLoading: true,

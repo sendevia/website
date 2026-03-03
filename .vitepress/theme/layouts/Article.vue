@@ -85,25 +85,6 @@ const openImageViewer = (index: number, event: MouseEvent) => {
   showImageViewer.value = true;
 };
 
-/** 复制锚点链接到剪贴板 */
-const handleAnchorClick = (event: MouseEvent) => {
-  const anchor = (event.target as HTMLElement).closest("a.title-anchor") as HTMLAnchorElement;
-  if (!anchor) return;
-
-  const href = anchor.getAttribute("href");
-  const fullUrl = `${window.location.origin}${window.location.pathname}${href}`;
-  copyToClipboard(fullUrl);
-
-  const label = anchor.querySelector("span.visually-hidden");
-  if (label) {
-    const originalText = label.textContent;
-    label.textContent = "已复制";
-    setTimeout(() => {
-      label.textContent = originalText;
-    }, 1000);
-  }
-};
-
 /** 处理列表 Bullet 旋转和有序列表对齐 */
 const enhanceDomStyles = () => {
   if (!articleContentRef.value) return;
@@ -156,7 +137,7 @@ if (isClient()) {
 
 <template>
   <Header />
-  <main id="article-content" ref="articleContentRef" @click="handleAnchorClick">
+  <main id="article-content" ref="articleContentRef">
     <Content />
     <PrevNext />
   </main>

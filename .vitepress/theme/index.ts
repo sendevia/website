@@ -6,6 +6,7 @@ import Default from "./layouts/Default.vue";
 import NotFound from "./layouts/NotFound.vue";
 
 // Components
+import AnchorLink from "./components/AnchorLink.vue";
 import AppBar from "./components/AppBar.vue";
 import ArticleMasonry from "./components/ArticleMasonry.vue";
 import Button from "./components/Button.vue";
@@ -33,6 +34,7 @@ export default {
 
     app.component("MainLayout", Default);
 
+    app.component("AnchorLink", AnchorLink);
     app.component("AppBar", AppBar);
     app.component("ArticleMasonry", ArticleMasonry);
     app.component("ButtonGroup", ButtonGroup);
