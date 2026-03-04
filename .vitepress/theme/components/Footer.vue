@@ -28,7 +28,7 @@ const siteVersion = theme.value.siteVersion;
       </div>
       <div class="beian-info">
         <div>
-          <a href="https://beian.miit.gov.cn/" target="_blank">黑ICP备2024016516号-1</a>
+          <a href="https://beian.miit.gov.cn/" target="_blank">黑ICP备2024016516号</a>
         </div>
       </div>
     </div>
