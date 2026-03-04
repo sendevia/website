@@ -48,11 +48,21 @@ const copyShortLink = async () => {
 const collectHeadings = () => {
   if (!isClient()) return;
   const nodes = Array.from(document.querySelectorAll("h1[id], h2[id]")) as HTMLElement[];
-  headings.value = nodes.map((n) => ({
-    id: n.id,
-    text: n.textContent?.trim() || n.id,
-    level: +n.tagName.replace("H", ""),
-  }));
+
+  headings.value = nodes.map((n) => {
+    // 克隆节点并移除行内锚点
+    const clone = n.cloneNode(true) as HTMLElement;
+    const inlineAnchors = Array.from(clone.querySelectorAll(".AnchorLink.inline")) as HTMLElement[];
+    inlineAnchors.forEach((el) => el.remove());
+
+    const text = clone.textContent?.trim() || n.id;
+
+    return {
+      id: n.id,
+      text,
+      level: +n.tagName.replace("H", ""),
+    };
+  });
 };
 
 /** 更新指示器（高亮边框）的位置和尺寸 */
