@@ -174,7 +174,9 @@ if (isClient()) {
 <template>
   <nav class="NavBar" :class="navClass">
     <div class="fab-container">
-      <MaterialButton color="text" :icon="navStateStore.isNavExpanded ? 'menu_open' : 'menu'" @click="toggleNav" />
+      <ClientOnly>
+        <MaterialButton color="text" :icon="navStateStore.isNavExpanded ? 'menu_open' : 'menu'" @click="toggleNav" />
+      </ClientOnly>
       <button class="fab" @mousedown.prevent @click.stop="toggleSearch">
         <span>{{ searchStateStore.isSearchActive ? "close" : "search" }}</span>
         <p :ref="(el) => setLabelRef(el, '.fab')">搜索</p>
@@ -202,15 +204,17 @@ if (isClient()) {
     </div>
 
     <div class="actions">
-      <MaterialButton
-        class="theme-btn"
-        size="m"
-        color="text"
-        :title="themeStateStore.currentLabel"
-        :icon="themeStateStore.currentIcon"
-        @click="toggleTheme"
-      >
-      </MaterialButton>
+      <ClientOnly>
+        <MaterialButton
+          class="theme-btn"
+          size="m"
+          color="text"
+          :title="themeStateStore.currentLabel"
+          :icon="themeStateStore.currentIcon"
+          @click="toggleTheme"
+        >
+        </MaterialButton>
+      </ClientOnly>
     </div>
   </nav>
 </template>
