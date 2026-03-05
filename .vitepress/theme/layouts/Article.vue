@@ -142,15 +142,15 @@ if (isClient()) {
     <PrevNext />
   </main>
   <aside id="article-aside">
-    <div class="post-info">
-      <p v-if="frontmatter.description" class="description">{{ frontmatter.description }}</p>
-      <p v-if="formattedPublishDate" class="date-publish">发布于 {{ formattedPublishDate }}</p>
-      <ClientOnly>
+    <ClientOnly>
+      <div class="post-info">
+        <p v-if="frontmatter.description" class="description">{{ frontmatter.description }}</p>
+        <p v-if="formattedPublishDate" class="date-publish">发布于 {{ formattedPublishDate }}</p>
         <p v-if="formattedLastUpdated" :title="lastUpdatedRawTime" class="date-update">
           {{ formattedLastUpdated }}
         </p>
-      </ClientOnly>
-    </div>
+      </div>
+    </ClientOnly>
     <ButtonGroup v-if="frontmatter?.external_links" :links="frontmatter.external_links" size="m" layout="vertical" />
     <PageIndicator />
   </aside>
