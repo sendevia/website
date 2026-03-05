@@ -15,13 +15,13 @@ RUN git clone https://github.com/sendevia/website .
 RUN npm i && npm run docs:build
 
 # 最终阶段
-FROM nginx:stable-perl
+FROM caddy:alpine AS final
 
-# 从构建阶段复制 dist 产物到 workdir
-COPY --from=builder /app/.vitepress/dist /app/dist
+# 从构建阶段复制 dist 产物到工作目录
+COPY --from=builder /app/.vitepress/dist /app
 
-# 暴露端口（80 HTTP 和 443 HTTPS）
-EXPOSE 80 443
+# 复制Caddyfile配置文件
+COPY Caddyfile /etc/caddy/Caddyfile
 
-# 启动 nginx
-CMD ["nginx", "-g", "daemon off;"]
+# 启动Caddy服务器
+CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile"]
