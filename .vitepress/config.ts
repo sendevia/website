@@ -17,6 +17,9 @@ import { anchor } from "./theme/utils/mdCustomAnchor";
 export default defineConfig({
   base: "/",
   cleanUrls: true,
+  rewrites: {
+    "posts/index.md": "index.md",
+  },
   lang: "zh_CN",
   title: "sendevia 的小站",
   titleTemplate: ":title",
