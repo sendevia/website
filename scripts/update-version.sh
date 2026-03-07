@@ -21,7 +21,7 @@ YEAR=$(date +%y)
 MONTH=$(date +%-m)
 DAY=$(date +%-d)
 
-NEW_VERSION="${YEAR}.${MONTH}.${DAY}(${NEXT_COMMIT_COUNT})"
+NEW_VERSION="${YEAR}.${MONTH}.${DAY}.${NEXT_COMMIT_COUNT}"
 
 echo "📝 更新版本号..."
 # 使用 sed 更新 package.json 中的版本号
