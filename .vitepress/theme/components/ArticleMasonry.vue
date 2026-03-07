@@ -7,6 +7,15 @@ import { useGlobalData } from "../composables/useGlobalData";
 const postsStore = usePostStore();
 const { theme } = useGlobalData();
 
+interface Props {
+  /** 预设分类筛选 */
+  presetCategory?: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  presetCategory: "",
+});
+
 /** 设置面板是否打开 */
 const isSettingsOpen = ref(false);
 /** 设置面板的 DOM 引用 */
@@ -14,7 +23,7 @@ const settingsPanelRef = ref<HTMLElement | null>(null);
 /** 触发按钮的 DOM 引用 */
 const settingsTriggerRef = ref<HTMLElement | null>(null);
 /** 选中的分类（单选，空字符串代表全部） */
-const selectedCategory = ref("");
+const selectedCategory = ref(props.presetCategory);
 /** 选中的标签（多选，空数组代表全部） */
 const selectedTags = ref<string[]>([]);
 /** 排序字段: `date` | `title` */
@@ -81,7 +90,7 @@ const columnCount = computed(() => {
 
 /**
  * 获取仅经过筛选（未排序）的文章列表
- * 逻辑：筛选分类和标签
+ * 筛选分类和标签
  */
 const filteredRawList = computed(() => {
   let posts = [...(postsStore.posts || [])];
@@ -102,8 +111,35 @@ const filteredRawList = computed(() => {
 });
 
 /**
+ * 获取当前分类下的文章标签
+ * 如果当前有选中的分类，则只返回该分类下的文章所出现的标签
+ */
+const currentCategoryTags = computed(() => {
+  if (!selectedCategory.value) {
+    return postsStore.allTags;
+  }
+
+  const tagSet = new Set<string>();
+  postsStore.posts.forEach((post) => {
+    if (post.categories.includes(selectedCategory.value)) {
+      post.tags.forEach((tag) => tagSet.add(tag));
+    }
+  });
+
+  return Array.from(tagSet);
+});
+
+/**
+ * 判断是否有预设分类
+ * 如果有预设分类，则分类section应该隐藏
+ */
+const hasPresetCategory = computed(() => {
+  return props.presetCategory !== "";
+});
+
+/**
  * 对筛选后的列表进行排序
- * 逻辑：根据 sortField 和 sortOrder 排序
+ * 根据 sortField 和 sortOrder 排序
  */
 const sortedArticlesList = useSorted(filteredRawList, (a, b) => {
   let comparison = 0;
@@ -310,7 +346,7 @@ const clearTags = () => {
                   </div>
                 </div>
 
-                <div class="section">
+                <div v-if="!hasPresetCategory" class="section">
                   <div class="section-header">
                     <h6>分类 <span v-if="selectedCategory" @click="selectedCategory = ''">clear</span></h6>
                   </div>
@@ -333,7 +369,7 @@ const clearTags = () => {
                   </div>
                   <div class="chip-container">
                     <MaterialChip
-                      v-for="tag in postsStore.allTags"
+                      v-for="tag in currentCategoryTags"
                       :key="tag"
                       :color="selectedTags.includes(tag) ? 'tonal' : 'outlined'"
                       :icon="selectedTags.includes(tag) ? 'check' : ''"
