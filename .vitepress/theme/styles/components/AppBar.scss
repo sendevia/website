@@ -233,6 +233,10 @@
         transition: opacity var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
       }
     }
+
+    &.hidden {
+      top: 0px;
+    }
   }
 
   &.scroll {
@@ -246,10 +250,8 @@
   &.hidden {
     top: -64px;
   }
-}
 
-@media screen and (max-width: 840px) {
-  .AppBar {
+  @media screen and (max-width: 840px) {
     top: 0;
 
     width: 100%;
