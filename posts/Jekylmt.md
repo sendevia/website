@@ -7,7 +7,7 @@ categories:
   - 博客主题
 tags:
   - readme
-date: 2026-02-25T21:44:00Z
+date: 2026-02-25T21:44:00+08
 external_links:
   - type: download
     icon: rocket_launch

@@ -2,7 +2,7 @@
 title: "AincradMix"
 description: "一个 osu! 皮肤"
 color: "#8400db"
-impression: 
+impression:
   - /assets/images/22/s0_amix_vision.webp
   - /assets/images/22/screenshot01.webp
 categories:
@@ -12,7 +12,7 @@ tags:
   - osu!
   - 示例文章
   - 作品介绍
-date: 2022-07-04T04:00:00Z
+date: 2022-07-04T04:00:00+08
 external_links:
   - type: download
     label: 直连下载
@@ -29,7 +29,7 @@ external_links:
 
 1. 本皮肤通过游戏补丁的方式，做到了覆盖几乎全部的 osu! 界面元素。
 2. 结合更现代的设计，扩展了《刀剑神域》中出现的界面设计。
-:::
+   :::
 
 # 优点
 
@@ -46,6 +46,7 @@ external_links:
 - 本皮肤所提供的 dll 文件仅替换了图像资源，未做其他修改。如果不放心，你可以使用 dnSpy 自行替换文件
 
 [^1]: 通过修改 osu! 的资源 dll。
+
 [^2]: 此为估计得出。
 
 # 皮肤预览
