@@ -90,9 +90,21 @@ export default defineConfig({
     defaultImpression: "/assets/images/121337686_p0.webp",
     siteVersion: packageJson.version || "0.0.0",
     navSegment: [
-      { text: "首页", icon: "home", link: "/" },
-      { text: "AincradMix", icon: "borg", link: "/posts/AincradMix" },
-      { text: "组件", icon: "code_blocks", link: "/posts/组件" },
+      {
+        text: "首页",
+        icon: "home",
+        link: "/",
+      },
+      {
+        text: "AincradMix",
+        icon: "borg",
+        link: "/posts/AincradMix",
+      },
+      {
+        text: "组件",
+        icon: "code_blocks",
+        link: "/posts/components/",
+      },
       {
         text: "作品集",
         icon: "auto_awesome_mosaic",

@@ -9,6 +9,7 @@ import { useGlobalData } from "../composables/useGlobalData";
 import { usePostStore } from "../stores/posts";
 import { isClient } from "../utils/env";
 import ArticleLayout from "./Article.vue";
+import ComponentsLayout from "./Components.vue";
 import NotFoundLayout from "./NotFound.vue";
 
 /** 全局数据与路由状态 */
@@ -22,6 +23,7 @@ const randomGreeting = ref(getFormattedRandomPhrase());
 /** 布局映射表 */
 const layoutMap = {
   article: ArticleLayout,
+  components: ComponentsLayout,
 } as const;
 
 type LayoutKey = keyof typeof layoutMap;
