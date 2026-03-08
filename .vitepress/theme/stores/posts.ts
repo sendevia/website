@@ -11,6 +11,9 @@ export type { PostData };
 export const usePostStore = defineStore("posts", () => {
   const posts = ref<PostData[]>(postsData);
 
+  // 排除 index.md
+  posts.value = posts.value.filter((p) => !p.url.endsWith("/"));
+
   // 最新文章
   const latestPosts = computed(() => posts.value.slice(0, 5));
 
