@@ -28,8 +28,6 @@
       border-radius: var(--md-sys-shape-corner-large);
       border: 1px solid var(--md-sys-color-outline-variant);
 
-      background-size: cover;
-
       overflow: hidden;
       z-index: 1;
 
@@ -55,7 +53,7 @@
         background-repeat: no-repeat;
         background-size: 100%;
 
-        animation: title-gradient 5s var(--md-sys-motion-spring-slow-effect) infinite alternate-reverse;
+        animation: title-gradient 15s var(--md-sys-motion-spring-slow-effect) infinite alternate-reverse;
         z-index: 2;
 
         &.overlay {
@@ -65,6 +63,7 @@
 
           animation: none;
           mix-blend-mode: luminosity;
+          opacity: 0.9;
           z-index: 3;
         }
 
@@ -74,12 +73,22 @@
             background-size: 100%;
           }
 
-          50% {
+          25% {
             background-position: 100% 0%;
           }
 
-          100% {
+          50% {
             background-position: 100% 100%;
+            background-size: 200%;
+          }
+
+          75% {
+            background-position: 0% 100%;
+            background-size: 200%;
+          }
+
+          100% {
+            background-position: 0% 0%;
             background-size: 200%;
           }
         }
@@ -345,8 +354,7 @@
 
     img {
       &:nth-of-type(2) {
-        transition: var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-default-effect)
-          var(--md-sys-motion-spring-fast-effect-duration);
+        transition: var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-default-effect);
       }
     }
   }
@@ -366,7 +374,7 @@
   .carousel-container .single {
     h1 {
       opacity: 0;
-      transform: translateX(5%);
+      transform: translateX(-5%);
     }
 
     img {
