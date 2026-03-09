@@ -71,7 +71,7 @@ const filteredPosts = computed<PostData[]>(() => {
       post.title.toLowerCase().includes(q) ||
       post.description.toLowerCase().includes(q) ||
       post.tags.some((t) => t.toLowerCase().includes(q)) ||
-      post.categories.some((t) => t.toLowerCase().includes(q))
+      post.categories.some((t) => t.toLowerCase().includes(q)),
   );
 });
 
@@ -144,7 +144,7 @@ watch(
       query.value = "";
       searchStateStore.setTyping(false);
     }
-  }
+  },
 );
 
 /** 检查是否在搜索激活状态 */
@@ -221,7 +221,7 @@ watch(
     } else {
       scrollTarget.value = null;
     }
-  }
+  },
 );
 
 /** 事件处理函数引用 */
@@ -289,6 +289,7 @@ onUnmounted(() => {
       <input
         ref="searchInput"
         v-model="query"
+        type="text"
         placeholder="搜索文章"
         class="search-input"
         :tabindex="isTabFocusable ? 0 : -1"
