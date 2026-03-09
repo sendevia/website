@@ -11,6 +11,7 @@ import { isClient } from "../utils/env";
 import ArticleLayout from "./Article.vue";
 import ComponentsLayout from "./Components.vue";
 import NotFoundLayout from "./NotFound.vue";
+import ToolsLayout from "./Tools.vue";
 
 /** 全局数据与路由状态 */
 const { site, page, frontmatter, theme } = useGlobalData();
@@ -24,6 +25,7 @@ const randomGreeting = ref(getFormattedRandomPhrase());
 const layoutMap = {
   article: ArticleLayout,
   components: ComponentsLayout,
+  tools: ToolsLayout,
 } as const;
 
 type LayoutKey = keyof typeof layoutMap;
