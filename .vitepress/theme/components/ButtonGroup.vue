@@ -1,25 +1,41 @@
 <script setup lang="ts">
 /** 外部链接类型定义 */
 interface ExternalLink {
+  /** ARIA 标签 */
   ariaLabel?: string;
+  /** 按钮颜色 */
   color?: string;
+  /** 图标名称（使用 Material Symbols 图标字体） */
   icon?: string;
+  /** 按钮文本 */
   label?: string;
+  /** 链接地址 */
   link?: string;
+  /** 按钮大小 */
   size?: "xs" | "s" | "m" | "l" | "xl";
+  /** 链接打开方式 */
   target?: string;
+  /** 按钮类型 */
   type?: string;
+  /* 点击事件回调 */
   onClick?: (e?: Event) => void;
 }
 
 /** 组件属性定义 */
 interface Props {
+  /** ARIA 标签 */
   ariaLabel?: string;
+  /** 按钮颜色 */
   color?: string;
+  /** 图标名称（使用 Material Symbols 图标字体） */
   icon?: string;
+  /** 按钮组布局 */
   layout?: "horizontal" | "vertical";
+  /** 链接地址 */
   links?: ExternalLink[];
+  /** 按钮大小 */
   size?: "xs" | "s" | "m" | "l" | "xl";
+  /** 链接打开方式 */
   target?: string;
 }
 

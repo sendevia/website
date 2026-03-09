@@ -3,10 +3,11 @@ import { ref } from "vue";
 import { useAchorLink } from "../composables/useAnchorLink";
 
 interface Props {
+  /** 锚点链接地址 */
   href: string;
   /** 锚点显示的字符串 */
   symbol?: string;
-  /** 锚点的 class 名称 */
+  /** 锚点的类名称 */
   className?: string;
 }
 

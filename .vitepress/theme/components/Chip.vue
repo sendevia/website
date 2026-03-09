@@ -1,9 +1,14 @@
 <script setup lang="ts">
 interface Props {
+  /** 标签形状 */
   shape?: "round" | "square";
+  /** 标签颜色 */
   color?: "elevated" | "filled" | "tonal" | "outlined" | "standard" | "text";
+  /** 图标名称（使用 Material Symbols 图标字体） */
   icon?: string;
+  /** 链接地址 */
   href?: string;
+  /** 链接打开方式 */
   target?: "_blank" | "_self" | "_parent" | "_top";
 }
 

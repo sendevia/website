@@ -4,8 +4,11 @@ import { useWindowSize, useEventListener, useVModel } from "@vueuse/core";
 import { handleTabNavigation } from "../utils/tabNavigation";
 
 interface Props {
+  /** 图片列表 */
   images: string[];
+  /** 当前索引（双向绑定） */
   currentIndex: number;
+  /** 图片原始位置 */
   originPosition?: { x: number; y: number; width: number; height: number };
 }
 

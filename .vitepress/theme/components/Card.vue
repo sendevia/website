@@ -1,15 +1,26 @@
 <script setup lang="ts">
 interface Props {
+  /** 卡片变体 */
   variant?: "feed";
+  /** 卡片大小 */
   size?: "s" | "m" | "l";
+  /** 卡片颜色 */
   color?: "elevated" | "filled" | "outlined";
+  /** 内容标题 */
   title?: string;
+  /** 内容描述 */
   description?: string;
+  /** 内容发布时间 */
   date?: string;
+  /** 内容标签 */
   tags?: string[];
+  /** 内容分类 */
   category?: string[];
+  /** 内容题图 */
   impression?: string[];
+  /** 跳转链接 */
   href?: string;
+  /** 内容有资源可下载 */
   downloadable?: boolean;
 }
 
