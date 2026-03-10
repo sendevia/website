@@ -16,6 +16,7 @@ import Chip from "./components/Chip.vue";
 import Footer from "./components/Footer.vue";
 import Header from "./components/Header.vue";
 import ImageViewer from "./components/ImageViewer.vue";
+import Input from "./components/Input.vue";
 import NavBar from "./components/NavBar.vue";
 import PageIndicator from "./components/PageIndicator.vue";
 import PrevNext from "./components/PrevNext.vue";
@@ -44,6 +45,7 @@ export default {
     app.component("MaterialButton", Button);
     app.component("MaterialCard", Card);
     app.component("MaterialChip", Chip);
+    app.component("MaterialInput", Input);
     app.component("NavBar", NavBar);
     app.component("PageIndicator", PageIndicator);
     app.component("PrevNext", PrevNext);

@@ -1,0 +1,188 @@
+@use "../mixin";
+
+.MaterialInput {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  position: relative;
+
+  width: 100%;
+
+  .input-container {
+    display: flex;
+    align-items: center;
+
+    position: relative;
+
+    min-height: 56px;
+
+    transition: background-color var(--md-sys-motion-spring-default-effect-duration)
+      var(--md-sys-motion-spring-default-effect);
+
+    input {
+      @include mixin.typescale-style("body-large");
+
+      height: 100%;
+      width: 100%;
+
+      padding: 27px 16px 8px;
+
+      border: none;
+      outline: none;
+
+      color: var(--md-sys-color-on-surface-variant);
+
+      background-color: transparent;
+
+      appearance: none;
+    }
+
+    label {
+      @include mixin.typescale-style("body-large");
+
+      position: absolute;
+      left: 16px;
+      top: 16px;
+
+      appearance: none;
+      pointer-events: none;
+      transform-origin: left top;
+      transition: all var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+      user-select: none;
+      -moz-user-select: none;
+    }
+  }
+
+  &.filled {
+    .input-container {
+      border-bottom: 1px solid var(--md-sys-color-on-surface);
+      border-radius: var(--md-sys-shape-corner-extra-small-top);
+
+      background-color: var(--md-sys-color-surface-container-highest);
+
+      input {
+        &::placeholder {
+          display: none;
+        }
+      }
+
+      label {
+        color: var(--md-sys-color-on-surface-variant);
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+
+        height: 3px;
+
+        background-color: var(--md-sys-color-on-surface);
+
+        transform: scaleX(0);
+        transition: transform var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+      }
+    }
+
+    &:focus-within .input-container::after {
+      background-color: var(--md-sys-color-primary);
+
+      transform: scaleX(1);
+    }
+
+    &.has-value label,
+    &:focus-within label {
+      color: var(--md-sys-color-primary);
+
+      transform: translateY(-8px) scale(0.75);
+    }
+  }
+
+  &.outlined {
+    .input-container {
+      outline: 1px solid var(--md-sys-color-outline);
+      border-radius: var(--md-sys-shape-corner-extra-small);
+
+      background-color: transparent;
+
+      input {
+        padding: 18px;
+
+        overflow: hidden;
+
+        &::placeholder {
+          opacity: 0;
+          transition: opacity var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
+          user-select: none;
+          -moz-user-select: none;
+        }
+      }
+
+      &:focus-within {
+        padding: -1px;
+
+        outline: 3px solid var(--md-sys-color-primary);
+
+        input::placeholder {
+          opacity: 1;
+        }
+      }
+    }
+
+    &.has-value label,
+    &:focus-within label {
+      left: 12px;
+
+      padding-inline: 8px;
+
+      background-color: var(--md-sys-color-surface-container-lowest);
+
+      transform: translateY(-26px) scale(0.75);
+    }
+  }
+
+  &.error {
+    &.filled {
+      .input-container {
+        border-color: var(--md-sys-color-error);
+
+        &::after {
+          background-color: var(--md-sys-color-error);
+        }
+
+        label {
+          color: var(--md-sys-color-error);
+        }
+      }
+    }
+
+    &.outlined {
+      .input-container {
+        outline-color: var(--md-sys-color-error);
+
+        label {
+          color: var(--md-sys-color-error);
+        }
+      }
+    }
+
+    .support-text {
+      color: var(--md-sys-color-error);
+    }
+  }
+
+  &.disabled {
+    opacity: 0.5;
+  }
+
+  .support-text {
+    @include mixin.typescale-style("label-medium");
+
+    padding-inline: 16px;
+
+    color: var(--input-on-surface-variant);
+  }
+}
