@@ -259,6 +259,8 @@ const handlePageJump = () => {
 /** 切换分类选择 */
 const toggleCategory = (cat: string) => {
   selectedCategory.value = selectedCategory.value === cat ? "" : cat;
+  clearTags();
+  isSettingsOpen.value = false;
 };
 
 /** 切换标签选择 (多选) */
@@ -274,6 +276,11 @@ const toggleTag = (tag: string) => {
 /** 清除所有标签筛选 */
 const clearTags = () => {
   selectedTags.value = [];
+};
+
+/** 清除分类 */
+const clearCategory = () => {
+  selectedCategory.value = "";
 };
 </script>
 
@@ -348,7 +355,7 @@ const clearTags = () => {
 
                 <div v-if="!hasPresetCategory" class="section">
                   <div class="section-header">
-                    <h6>分类 <span v-if="selectedCategory" @click="selectedCategory = ''">clear</span></h6>
+                    <h6>分类 <span v-if="selectedCategory" @click="clearCategory">clear</span></h6>
                   </div>
                   <div class="chip-container">
                     <MaterialChip
@@ -415,7 +422,7 @@ const clearTags = () => {
           :disabled="currentPage === 1"
           :color="currentPage === 1 ? 'text' : 'filled'"
           @click="changePage(currentPage - 1)"
-          >上一页</MaterialButton
+          >{{ currentPage === 1 ? "第一页喽" : "上一页" }}</MaterialButton
         >
         <div @click="startEditPage" class="page-info-wrapper" title="点击跳转页码">
           <p v-if="!isEditingPage" class="page-info-text">{{ currentPage }} / {{ totalPages }}</p>
@@ -434,7 +441,7 @@ const clearTags = () => {
           :disabled="currentPage === totalPages"
           :color="currentPage === totalPages ? 'text' : 'filled'"
           @click="changePage(currentPage + 1)"
-          >下一页</MaterialButton
+          >{{ currentPage === totalPages ? "全都看完啦" : "下一页" }}</MaterialButton
         >
       </div>
     </ClientOnly>
