@@ -4,7 +4,12 @@ import MaterialSymbolDL from "../components/tools/MaterialSymbolDL.vue";
 
 <template>
   <Header />
-  <main class="ToolsLayout"></main>
+  <main class="ToolsLayout">
+    <section id="msdl">
+      <h1>图标字体URL拼接下载</h1>
+      <MaterialSymbolDL />
+    </section>
+  </main>
 </template>
 
 <style lang="scss">
