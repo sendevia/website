@@ -90,6 +90,10 @@
           "FILL" 1,
           "wght" 200;
       }
+
+      &:focus-visible {
+        @include mixin.focus-ring($thickness: 3, $offset: 2);
+      }
     }
   }
 

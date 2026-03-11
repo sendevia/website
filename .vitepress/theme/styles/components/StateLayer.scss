@@ -1,0 +1,11 @@
+.StateLayer {
+  position: absolute;
+
+  border-radius: inherit;
+
+  background-color: transparent;
+
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}

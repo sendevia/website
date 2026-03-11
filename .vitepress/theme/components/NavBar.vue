@@ -7,6 +7,7 @@ import { useNavStateStore } from "../stores/navState";
 import { useScreenWidthStore } from "../stores/screenWidth";
 import { useSearchStateStore } from "../stores/searchState";
 import { useThemeStateStore } from "../stores/themeState";
+import StateLayer from "./StateLayer.vue";
 
 const { page, theme } = useGlobalData();
 const screenWidthStore = useScreenWidthStore();
@@ -178,6 +179,7 @@ if (isClient()) {
         <MaterialButton color="text" :icon="navStateStore.isNavExpanded ? 'menu_open' : 'menu'" @click="toggleNav" />
       </ClientOnly>
       <button class="fab" @mousedown.prevent @click.stop="toggleSearch">
+        <StateLayer />
         <span>{{ searchStateStore.isSearchActive ? "close" : "search" }}</span>
         <p :ref="(el) => setLabelRef(el, '.fab')">搜索</p>
       </button>

@@ -41,10 +41,6 @@
   &:focus-visible {
     .content {
       @include mixin.focus-ring($thickness: 4);
-
-      &::after {
-        background-color: var(--md-sys-state-focus-state-layer);
-      }
     }
   }
 
@@ -214,12 +210,12 @@
       color: var(--md-sys-color-on-surface-variant);
     }
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .MaterialCard.entrance {
-    animation: none;
-    opacity: 1;
-    transform: none;
+  @media (prefers-reduced-motion: reduce) {
+    &.entrance {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
   }
 }

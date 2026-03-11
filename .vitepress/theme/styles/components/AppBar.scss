@@ -57,6 +57,10 @@
 
       transition: margin var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
       z-index: 1;
+
+      &:focus-visible {
+        @include mixin.focus-ring($thickness: 3, $offset: 2);
+      }
     }
 
     .author-avatar {

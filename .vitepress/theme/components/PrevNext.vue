@@ -8,8 +8,8 @@ const postsStore = usePostStore();
 
 /**
  * 规范化路径字符串，移除 Origin、.html 后缀及末尾斜杠
- * @param {string | undefined | null} u 原始路径或 URL
- * @returns {string} 处理后的规范化路径
+ * @param u 原始路径或 URL
+ * @returns 处理后的规范化路径
  */
 function normalize(u: string | undefined | null): string {
   if (!u) return "";
@@ -24,7 +24,7 @@ function normalize(u: string | undefined | null): string {
 
 /**
  * 计算当前页面的潜在匹配标识符（路径、Slug、文件名等）
- * @returns {ComputedRef<string[]>} 规范化后的候选标识符数组
+ * @returns 规范化后的候选标识符数组
  */
 const currentCandidates = computed(() => {
   const p = page.value as any;
@@ -62,7 +62,7 @@ const currentCandidates = computed(() => {
 
 /**
  * 在文章列表中查找当前页面的索引
- * @returns {ComputedRef<number>} 当前文章的索引，未找到返回 -1
+ * @returns 当前文章的索引，未找到返回 -1
  */
 const currentIndex = computed(() => {
   const posts = postsStore.posts || [];
@@ -95,10 +95,12 @@ const next = computed(() => {
 <template>
   <div class="PrevNext">
     <a v-if="prev" class="prev" :href="prev.url">
+      <StateLayer />
       <span class="label">上一篇</span>
       <span class="title">{{ prev.title }}</span>
     </a>
     <a v-if="next" class="next" :href="next.url">
+      <StateLayer />
       <span class="label">下一篇</span>
       <span class="title">{{ next.title }}</span>
     </a>

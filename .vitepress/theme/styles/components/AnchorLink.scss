@@ -25,7 +25,7 @@
     border-radius: var(--md-sys-shape-corner-full);
 
     opacity: 0;
-    z-index: 999;
+    z-index: 20;
 
     .symbol {
       @include mixin.material-symbols($size: 24);
@@ -49,11 +49,9 @@
 
       opacity: 0;
 
-      &:hover {
-        background-color: var(--md-sys-color-surface-container-low);
-      }
-
       &:focus-visible {
+        @include mixin.focus-ring($thickness: 3, $offset: 2);
+
         opacity: 1;
       }
     }

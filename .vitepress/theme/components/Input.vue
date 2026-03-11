@@ -46,6 +46,7 @@ const hasValue = computed(() => {
     ]"
   >
     <div class="input-container">
+      <StateLayer />
       <input v-model="modelValue" :type="type" :placeholder="placeholder" :disabled="disabled" />
       <label v-if="label">{{ label }}</label>
     </div>

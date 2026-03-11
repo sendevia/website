@@ -33,7 +33,10 @@ const handleClick = (event: MouseEvent) => {
 
 <template>
   <span :class="className">
-    <a :href="href" class="symbol" @click="handleClick">{{ symbol }}</a>
+    <a :href="href" class="symbol" @click="handleClick">
+      <StateLayer />
+      {{ symbol }}
+    </a>
     <span v-if="isCopied" class="feedback">已复制</span>
   </span>
 </template>

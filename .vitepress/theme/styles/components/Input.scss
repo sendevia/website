@@ -48,7 +48,7 @@
       appearance: none;
       pointer-events: none;
       transform-origin: left top;
-      transition: all var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+      transition: var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
       user-select: none;
       -moz-user-select: none;
     }
@@ -83,7 +83,7 @@
         background-color: var(--md-sys-color-on-surface);
 
         transform: scaleX(0);
-        transition: transform var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+        transition: transform var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
       }
     }
 
@@ -107,6 +107,8 @@
       border-radius: var(--md-sys-shape-corner-extra-small);
 
       background-color: transparent;
+
+      transition: outline var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
 
       input {
         padding: 18px;

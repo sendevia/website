@@ -36,6 +36,7 @@ const props = withDefaults(defineProps<Props>(), {
 <template>
   <component :is="href ? 'a' : 'div'" :href="href" class="MaterialCard" :class="[props.variant, props.size, props.color]">
     <div class="content">
+      <StateLayer />
       <div v-if="(props.impression && props.impression.length > 0) || props.title" class="impression-area">
         <div class="tips-container">
           <div v-if="props.date" class="tips date">

@@ -89,9 +89,6 @@
   --md-ref-palette-yellow80: #d1cb54;
   --md-ref-palette-yellow90: #eee76c;
   --md-ref-palette-yellow95: #fcf579;
-  --md-sys-state-hover-state-layer: #00000014;
-  --md-sys-state-focus-state-layer: #0000001a;
-  --md-sys-state-pressed-state-layer: #0000001a;
 
   // Motion(https://m3.material.io/styles/motion/overview/specs)
   --md-sys-motion-duration-short1: 50ms;
@@ -233,6 +230,9 @@ html {
     --md-sys-color-shadow: var(--md-ref-palette-neutral0);
     --md-sys-color-surface-tint-color: var(--md-sys-color-primary);
     --md-sys-color-scrim: var(--md-ref-palette-neutral0);
+    --md-sys-state-hover-state-layer: #00000014;
+    --md-sys-state-focus-state-layer: #0000001a;
+    --md-sys-state-pressed-state-layer: #0000001a;
 
     --md-sys-color-red: var(--md-ref-palette-red40);
     --md-sys-color-red-container: var(--md-ref-palette-red90);
@@ -303,6 +303,9 @@ html {
     --md-sys-color-shadow: var(--md-ref-palette-neutral0);
     --md-sys-color-surface-tint-color: var(--md-sys-color-primary);
     --md-sys-color-scrim: var(--md-ref-palette-neutral0);
+    --md-sys-state-hover-state-layer: #ffffff14;
+    --md-sys-state-focus-state-layer: #ffffff1a;
+    --md-sys-state-pressed-state-layer: #ffffff1a;
 
     --md-sys-color-red: var(--md-ref-palette-red80);
     --md-sys-color-red-container: var(--md-ref-palette-red30);

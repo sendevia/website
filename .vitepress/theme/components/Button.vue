@@ -12,6 +12,8 @@ interface Props {
   href?: string;
   /** 链接打开方式 */
   target?: "_blank" | "_self" | "_parent" | "_top";
+  /** 指定状态 */
+  currentState?: "hover" | "focus" | "active" | "none";
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -30,10 +32,11 @@ const props = withDefaults(defineProps<Props>(), {
     :class="[props.shape, props.size, props.color, props.icon ? 'icon' : '']"
     :target="props.target"
   >
+    <StateLayer :currentState="props.currentState" />
     <span v-if="props.icon">
       {{ props.icon }}
     </span>
-    <slot></slot>
+    <slot />
   </component>
 </template>
 

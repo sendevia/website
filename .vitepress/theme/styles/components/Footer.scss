@@ -16,6 +16,12 @@
 
   a {
     text-decoration: none;
+
+    border-radius: var(--md-sys-shape-corner-extra-small);
+
+    &:focus-visible {
+      @include mixin.focus-ring($thickness: 3, $offset: 2);
+    }
   }
 
   hr {
@@ -83,28 +89,20 @@
     gap: 6px;
     justify-content: flex-end;
   }
-}
 
-@media screen and (max-width: 1600px) {
-  .Footer {
+  @media screen and (max-width: 1600px) {
     grid-column: span 12;
   }
-}
 
-@media screen and (max-width: 1200px) {
-  .Footer {
+  @media screen and (max-width: 1200px) {
     grid-column: span 8;
   }
-}
 
-@media screen and (max-width: 840px) {
-  .Footer {
+  @media screen and (max-width: 840px) {
     grid-column: span 6;
   }
-}
 
-@media screen and (max-width: 600px) {
-  .Footer {
+  @media screen and (max-width: 600px) {
     grid-column: span 4;
   }
 }

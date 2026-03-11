@@ -56,7 +56,8 @@
 
   animation: focus-ring var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect) forwards;
   outline-offset: #{$offset}px;
-  transition: outline var(--md-sys-motion-spring-fast-spatial-standard-duration)
-    var(--md-sys-motion-spring-fast-spatial-standard);
+  transition:
+    border-radius var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial),
+    outline var(--md-sys-motion-spring-fast-spatial-standard-duration) var(--md-sys-motion-spring-fast-spatial-standard);
   z-index: $z-index;
 }

@@ -415,4 +415,8 @@
   &.text {
     color: var(--md-sys-color-primary);
   }
+
+  &:focus-visible {
+    @include mixin.focus-ring($thickness: 3, $offset: 2);
+  }
 }
