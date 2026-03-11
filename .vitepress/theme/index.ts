@@ -12,7 +12,6 @@ import ArticleMasonry from "./components/ArticleMasonry.vue";
 import Button from "./components/Button.vue";
 import ButtonGroup from "./components/ButtonGroup.vue";
 import Card from "./components/Card.vue";
-import Chip from "./components/Chip.vue";
 import Footer from "./components/Footer.vue";
 import Header from "./components/Header.vue";
 import ImageViewer from "./components/ImageViewer.vue";
@@ -45,7 +44,6 @@ export default {
     app.component("ImageViewer", ImageViewer);
     app.component("MaterialButton", Button);
     app.component("MaterialCard", Card);
-    app.component("MaterialChip", Chip);
     app.component("MaterialInput", Input);
     app.component("NavBar", NavBar);
     app.component("PageIndicator", PageIndicator);

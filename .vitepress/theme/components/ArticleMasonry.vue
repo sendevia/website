@@ -358,15 +358,16 @@ const clearCategory = () => {
                     <h6>分类 <span v-if="selectedCategory" @click="clearCategory">clear</span></h6>
                   </div>
                   <div class="chip-container">
-                    <MaterialChip
+                    <MaterialButton
                       v-for="cat in postsStore.allCategories"
                       :key="cat"
+                      variant="chip"
                       :color="selectedCategory === cat ? 'tonal' : 'outlined'"
                       :icon="selectedCategory === cat ? 'check' : ''"
                       @click="toggleCategory(cat)"
                     >
                       {{ cat }}
-                    </MaterialChip>
+                    </MaterialButton>
                   </div>
                 </div>
 
@@ -375,15 +376,16 @@ const clearCategory = () => {
                     <h6>标签 <span v-if="selectedTags.length" @click="clearTags">clear</span></h6>
                   </div>
                   <div class="chip-container">
-                    <MaterialChip
+                    <MaterialButton
                       v-for="tag in currentCategoryTags"
                       :key="tag"
+                      variant="chip"
                       :color="selectedTags.includes(tag) ? 'tonal' : 'outlined'"
                       :icon="selectedTags.includes(tag) ? 'check' : ''"
                       @click="toggleTag(tag)"
                     >
                       {{ tag }}
-                    </MaterialChip>
+                    </MaterialButton>
                   </div>
                 </div>
               </div>

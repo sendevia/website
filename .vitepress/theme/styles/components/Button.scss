@@ -385,6 +385,31 @@
     }
   }
 
+  &.chip {
+    @include mixin.typescale-style("label-large");
+
+    gap: 8px;
+
+    height: 32px;
+
+    padding-inline: 12px;
+
+    border-radius: var(--md-sys-shape-corner-small) !important;
+    border-width: 1px;
+
+    span {
+      @include mixin.material-symbols($size: 20);
+    }
+
+    &:active {
+      border-radius: var(--md-sys-shape-corner-medium) !important;
+    }
+
+    &.icon {
+      padding-inline: 8px 12px;
+    }
+  }
+
   &.elevated {
     color: var(--md-sys-color-primary);
 

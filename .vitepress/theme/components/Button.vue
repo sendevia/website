@@ -1,5 +1,7 @@
 <script setup lang="ts">
 interface Props {
+  /** 组件变体 */
+  variant?: "button" | "chip";
   /** 按钮形状 */
   shape?: "round" | "square";
   /** 按钮大小 */
@@ -17,7 +19,8 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  shape: "round",
+  variant: "button",
+  shape: (props) => (props.variant === "button" ? "round" : "square"),
   size: "s",
   color: "filled",
   target: "_blank",
@@ -29,7 +32,7 @@ const props = withDefaults(defineProps<Props>(), {
     :is="href ? 'a' : 'button'"
     :href="href"
     class="MaterialButton"
-    :class="[props.shape, props.size, props.color, props.icon ? 'icon' : '']"
+    :class="[props.variant, props.shape, props.size, props.color, props.icon ? 'icon' : '']"
     :target="props.target"
   >
     <StateLayer :currentState="props.currentState" />
