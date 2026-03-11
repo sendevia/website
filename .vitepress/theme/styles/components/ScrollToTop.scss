@@ -13,64 +13,31 @@
   height: 100%;
   width: 100%;
 
-  -moz-user-select: none;
   opacity: 0;
   transition: var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
   user-select: none;
+  -moz-user-select: none;
   visibility: hidden;
   z-index: 21;
-
-  .button {
-    @include mixin.material-symbols($size: 24, $line-height: 84);
-
-    position: relative;
-
-    height: 84px;
-    width: 84px;
-
-    color: var(--md-sys-color-outline);
-    text-align: center;
-
-    border-radius: var(--md-sys-shape-corner-full);
-    border: 1px solid var(--md-sys-color-outline-variant);
-
-    background-color: var(--md-sys-color-surface-container-low);
-
-    cursor: pointer;
-    overflow: hidden;
-    transition: var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
-
-    &:hover {
-      background-color: var(--md-sys-color-surface-container-high);
-    }
-  }
 
   &.visible {
     opacity: 1;
     visibility: visible;
   }
-}
 
-@media screen and (max-width: 1600px) {
-  .ScrollToTop {
+  @media screen and (max-width: 1600px) {
     grid-column: 10 / 13;
   }
-}
 
-@media screen and (max-width: 1200px) {
-  .ScrollToTop {
+  @media screen and (max-width: 1200px) {
     grid-column: 7 / 9;
   }
-}
 
-@media screen and (max-width: 840px) {
-  .ScrollToTop {
+  @media screen and (max-width: 840px) {
     grid-column: 6 / 7;
   }
-}
 
-@media screen and (max-width: 600px) {
-  .ScrollToTop {
+  @media screen and (max-width: 600px) {
     grid-column: 4 / 5;
   }
 }
