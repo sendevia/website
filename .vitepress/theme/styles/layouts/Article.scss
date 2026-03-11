@@ -336,27 +336,23 @@
       padding-block-end: 0px;
     }
 
-    &:first-child .title-with-achor {
-      margin-block-start: 24px;
-    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      display: inline-block;
 
-    .title-with-achor {
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        display: inline-block;
+      line-height: 54px;
+      font-variation-settings: "wght" 600;
 
-        line-height: 54px;
-        font-variation-settings: "wght" 600;
+      &:focus-visible {
+        outline: none;
+      }
 
-        border-radius: var(--md-sys-shape-corner-medium);
-
-        a {
-          text-decoration: none;
-        }
+      a {
+        text-decoration: none;
       }
     }
 
