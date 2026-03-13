@@ -1,17 +1,115 @@
+@use "../mixin";
+
 .ToolsLayout {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 24px;
   grid-column: span 12;
-
-  padding: 40px 24px 80px;
-  margin: 0 auto;
+  grid-template-columns: repeat(2, 1fr);
 
   width: 100%;
 
   section {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    padding: 12px;
+    padding-bottom: 24px;
+
+    border-radius: var(--md-sys-shape-corner-large);
+
+    background-color: var(--md-sys-color-surface-bright);
+
+    hgroup {
+      margin-bottom: 24px;
+      padding: 12px;
+
+      h1 {
+        margin-bottom: 12px;
+      }
+
+      .description {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 4px;
+
+        color: var(--md-sys-color-on-surface-variant);
+
+        div {
+          padding: 16px;
+
+          border-radius: var(--md-sys-shape-corner-medium);
+
+          background-color: var(--md-sys-color-surface-container);
+        }
+
+        .text p {
+          @include mixin.typescale-style("title-medium", $letter-spacing: 1.75rem);
+
+          text-indent: 2em;
+        }
+
+        .icons {
+          display: flex;
+          align-items: flex-start;
+          flex-direction: column;
+          justify-content: space-between;
+          gap: 12px;
+
+          p {
+            @include mixin.typescale-style("title-small");
+
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+
+            span {
+              @include mixin.material-symbols($size: 20);
+
+              padding: 3px 6px;
+
+              border-radius: var(--md-sys-shape-corner-medium);
+
+              background-color: var(--md-sys-color-surface-variant);
+
+              user-select: none;
+              --moz-user-select: none;
+            }
+          }
+        }
+
+        @media screen and (max-width: 840px) {
+          grid-template-columns: 1fr;
+        }
+      }
+    }
+
+    &.empty {
+      text-align: center;
+
+      color: var(--md-sys-color-on-surface-variant);
+
+      outline: 2px dashed var(--md-sys-color-outline);
+
+      background-color: transparent;
+
+      hgroup {
+        position: sticky;
+        top: 0px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1600px) {
+    grid-column: span 12;
+  }
+
+  @media screen and (max-width: 1200px) {
+    grid-column: span 8;
+    grid-template-columns: 1fr;
+  }
+
+  @media screen and (max-width: 840px) {
+    grid-column: span 6;
+  }
+
+  @media screen and (max-width: 600px) {
+    grid-column: span 4;
   }
 }

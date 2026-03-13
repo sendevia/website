@@ -170,7 +170,7 @@ async function downloadFont() {
     // 创建下载链接并触发下载
     const downloadLink = document.createElement("a");
     downloadLink.href = URL.createObjectURL(fontBlob.value);
-    downloadLink.download = `MaterialSymbolsOutlined-${iconQueue.value.length}pcs.woff2`;
+    downloadLink.download = `MaterialSymbolsOutlined.woff2`;
     downloadLink.click();
     URL.revokeObjectURL(downloadLink.href);
   } catch (error) {
@@ -198,36 +198,37 @@ function clearQueue() {
         placeholder="输入多个名称，用逗号或空格分隔"
         @keyup.enter="addToQueue"
       ></MaterialInput>
+      <MaterialButton icon="add" color="filled" size="m" @click="addToQueue">添加图标</MaterialButton>
     </div>
 
     <div v-if="iconQueue.length > 0" class="section queue">
-      <div class="queue-header">
-        <span>当前队列 ({{ iconQueue.length }})</span>
-        <MaterialButton class="clear-btn" color="tonal" @click="clearQueue">清空全部</MaterialButton>
+      <div class="header">
+        <ButtonGroup
+          color="tonal"
+          :links="[
+            {
+              icon: 'download',
+              label: isDownloading ? '下载中...' : `下载字体 (${iconQueue.length}个)`,
+              onClick: downloadFont,
+            },
+            { icon: 'content_copy', ariaLabel: copied ? '已复制！' : '复制 URL', onClick: () => copy() },
+            { icon: 'clear_all', ariaLabel: '清空队列', onClick: clearQueue },
+          ]"
+        />
       </div>
-      <div class="queue-grid">
+      <div class="grid">
         <div
           v-for="(name, index) in iconQueue"
           :key="index"
-          class="card"
+          class="item"
           :class="{ duplicate: duplicateIndices.has(index) }"
           @animationend="onAnimationEnd(index)"
+          @click="removeFromQueue(index)"
         >
           <span class="preview-icon" :class="`item-${name}-${index}`">{{ name }}</span>
           <span class="icon-name">{{ name }}</span>
-          <MaterialButton class="delete-btn" icon="close" title="删除" @click="removeFromQueue(index)" />
         </div>
       </div>
-    </div>
-
-    <div class="section action">
-      <MaterialButton icon="add" @click="addToQueue" />
-      <MaterialButton v-if="iconQueue.length !== 0" color="outlined" icon="content_copy" @click="copy()">
-        {{ copied ? "已复制！" : "复制 URL" }}
-      </MaterialButton>
-      <MaterialButton v-if="iconQueue.length !== 0 || isDownloading" color="filled" @click="downloadFont">
-        {{ isDownloading ? "下载中..." : "下载字体 (.woff2)" }}
-      </MaterialButton>
     </div>
   </div>
 </template>
