@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, nextTick } from "vue";
-import { useClipboard, useDateFormat, useTimeAgo, useEventListener, useMutationObserver } from "@vueuse/core";
+import { useDateFormat, useTimeAgo, useEventListener, useMutationObserver } from "@vueuse/core";
 import { useGlobalData } from "../composables/useGlobalData";
 import { isClient } from "../utils/env";
 
-/** 全局状态与剪贴板 */
 const { page, frontmatter } = useGlobalData();
-const { copy: copyToClipboard } = useClipboard();
 
 /** 时间处理逻辑 */
 const publishTime = computed(() => frontmatter.value?.date);
