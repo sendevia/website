@@ -109,7 +109,8 @@ const handleClick = (e: Event, item: ExternalLink, index: number) => {
       :color="item.color || props.color || getButtonColor(item.type)"
       :icon="item.icon || props.icon || getButtonIcon(item.type)"
       :target="item.target || props.target || (item.link ? '_blank' : undefined)"
-      :aria-label="item.ariaLabel || props.ariaLabel || item.label"
+      :title="item.ariaLabel || props.ariaLabel"
+      :aria-label="item.ariaLabel || props.ariaLabel"
       @click="handleClick($event, item, index)"
     >
       <template v-if="item.label">{{ item.label }}</template>
