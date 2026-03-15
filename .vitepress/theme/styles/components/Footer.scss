@@ -68,10 +68,10 @@
       flex-wrap: wrap;
       gap: 6px;
 
-      .beian-gongan {
+      a:has(img) {
         display: inline-flex;
         align-items: center;
-        gap: 5px;
+        gap: 6px;
 
         img {
           height: 16px;
