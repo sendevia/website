@@ -33,8 +33,6 @@
 
     padding-inline: 12px;
 
-    border-width: 1px;
-
     span {
       @include mixin.material-symbols($size: 20);
     }
@@ -104,8 +102,6 @@
     height: 40px;
 
     padding-inline: 16px;
-
-    border-width: 1px;
 
     span {
       @include mixin.material-symbols($size: 20);
@@ -178,8 +174,6 @@
 
     padding-inline: 24px;
 
-    border-width: 1px;
-
     span {
       @include mixin.material-symbols($size: 24);
     }
@@ -250,8 +244,6 @@
 
     padding-inline: 48px;
 
-    border-width: 2px;
-
     span {
       @include mixin.material-symbols($size: 32);
     }
@@ -321,8 +313,6 @@
     height: 136px;
 
     padding-inline: 64px;
-
-    border-width: 3px;
 
     span {
       @include mixin.material-symbols($size: 40);
@@ -434,6 +424,26 @@
     color: var(--md-sys-color-on-surface-variant);
 
     border-color: var(--md-sys-color-outline-variant);
+
+    &.xs {
+      border-width: 1px;
+    }
+
+    &.s {
+      border-width: 1px;
+    }
+
+    &.m {
+      border-width: 1px;
+    }
+
+    &.l {
+      border-width: 2px;
+    }
+
+    &.xl {
+      border-width: 3px;
+    }
   }
 
   &.standard,

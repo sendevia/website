@@ -1,11 +1,13 @@
 <script setup lang="ts">
-/** 外部链接类型定义 */
-interface ExternalLink {
+/**
+ * 按钮组配置项定义
+ */
+interface GroupItem {
   /** ARIA 标签 */
   ariaLabel?: string;
   /** 按钮颜色 */
-  color?: string;
-  /** 图标名称（使用 Material Symbols 图标字体） */
+  color?: "elevated" | "filled" | "tonal" | "outlined" | "standard" | "text";
+  /** 图标名称 */
   icon?: string;
   /** 按钮文本 */
   label?: string;
@@ -15,105 +17,76 @@ interface ExternalLink {
   size?: "xs" | "s" | "m" | "l" | "xl";
   /** 链接打开方式 */
   target?: string;
-  /** 按钮类型 */
+  /** 预设类型 */
   type?: string;
-  /* 点击事件回调 */
-  onClick?: (e?: Event) => void;
+  /** 点击事件回调 */
+  onClick?: (e: Event) => void;
 }
 
-/** 组件属性定义 */
+/**
+ * 按钮组组件属性
+ */
 interface Props {
-  /** ARIA 标签 */
-  ariaLabel?: string;
-  /** 按钮颜色 */
-  color?: string;
-  /** 图标名称（使用 Material Symbols 图标字体） */
-  icon?: string;
-  /** 按钮组布局 */
+  /** 按钮配置列表 */
+  links?: GroupItem[];
+  /** 布局方向 */
   layout?: "horizontal" | "vertical";
-  /** 链接地址 */
-  links?: ExternalLink[];
-  /** 按钮大小 */
+  /** 默认大小 */
   size?: "xs" | "s" | "m" | "l" | "xl";
-  /** 链接打开方式 */
+  /** 默认颜色 */
+  color?: "elevated" | "filled" | "tonal" | "outlined" | "standard" | "text";
+  /** 默认图标 */
+  icon?: string;
+  /** 默认链接目标 */
   target?: string;
+  /** 无障碍标签 */
+  ariaLabel?: string;
 }
 
-/** 组件属性默认值 */
 const props = withDefaults(defineProps<Props>(), {
-  layout: "horizontal",
   links: () => [],
+  layout: "horizontal",
   size: "s",
 });
 
-/** 组件事件定义 */
 const emit = defineEmits<{
-  (e: "click", event: Event, item: ExternalLink, index: number): void;
+  (e: "click", event: Event, item: GroupItem, index: number): void;
 }>();
 
-/**
- * 根据按钮类型获取对应的颜色
- * @param type 按钮类型
- * @returns 对应的颜色
- */
-const getButtonColor = (type?: string): string => {
-  switch (type) {
-    case "download":
-      return "filled";
-    case "normal":
-      return "tonal";
-    default:
-      return "text";
-  }
+/** 预设类型的配置映射 */
+const PRESETS: Record<string, { color: Props["color"]; icon: string }> = {
+  download: { color: "filled", icon: "download" },
+  normal: { color: "tonal", icon: "open_in_new" },
 };
 
 /**
- * 根据按钮类型获取对应的图标
- * @param type 按钮类型
- * @returns 对应的图标名称
+ * 处理按钮点击
  */
-const getButtonIcon = (type?: string): string => {
-  switch (type) {
-    case "download":
-      return "download";
-    case "normal":
-      return "open_in_new";
-    default:
-      return "";
-  }
-};
-
-/**
- * 处理按钮点击事件
- * @param e 事件对象
- * @param item 链接对象
- * @param index 索引
- */
-const handleClick = (e: Event, item: ExternalLink, index: number) => {
-  if (item.onClick) {
-    item.onClick(e);
-  }
+const handleClick = (e: Event, item: GroupItem, index: number) => {
+  item.onClick?.(e);
   emit("click", e, item, index);
 };
 </script>
 
 <template>
-  <div class="ButtonGroup" :class="[props.size, props.layout]" :aria-label="props.ariaLabel">
+  <div class="ButtonGroup" :class="[size, layout]" :aria-label="ariaLabel">
     <MaterialButton
       v-for="(item, index) in links"
       :key="index"
       class="group"
-      :class="props.layout"
+      :class="layout"
       :href="item.link"
-      :size="item.size || props.size"
-      :color="item.color || props.color || getButtonColor(item.type)"
-      :icon="item.icon || props.icon || getButtonIcon(item.type)"
-      :target="item.target || props.target || (item.link ? '_blank' : undefined)"
-      :title="item.ariaLabel || props.ariaLabel"
-      :aria-label="item.ariaLabel || props.ariaLabel"
+      :size="item.size || size"
+      :color="item.color || color || (item.type ? PRESETS[item.type]?.color : undefined) || 'text'"
+      :icon="item.icon || icon || (item.type ? PRESETS[item.type]?.icon : undefined)"
+      :target="item.target || target"
+      :title="item.ariaLabel || ariaLabel"
+      :aria-label="item.ariaLabel || ariaLabel"
       @click="handleClick($event, item, index)"
     >
-      <template v-if="item.label">{{ item.label }}</template>
+      <slot :item="item" :index="index">
+        {{ item.label }}
+      </slot>
     </MaterialButton>
   </div>
 </template>
