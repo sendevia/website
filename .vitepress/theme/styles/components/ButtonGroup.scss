@@ -14,5 +14,9 @@
 
   &.vertical {
     flex-direction: column;
+
+    .MaterialButton {
+      width: 100%;
+    }
   }
 }

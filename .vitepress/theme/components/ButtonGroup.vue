@@ -73,8 +73,7 @@ const handleClick = (e: Event, item: GroupItem, index: number) => {
     <MaterialButton
       v-for="(item, index) in links"
       :key="index"
-      class="group"
-      :class="layout"
+      :class="[layout, { group: links.length > 1 }]"
       :href="item.link"
       :size="item.size || size"
       :color="item.color || color || (item.type ? PRESETS[item.type]?.color : undefined) || 'text'"
