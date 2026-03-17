@@ -192,6 +192,15 @@
 
         &.animating {
           animation: fade-out var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect) both;
+
+          @keyframes fade-out {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
+          }
         }
       }
 

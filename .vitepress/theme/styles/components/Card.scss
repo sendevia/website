@@ -36,6 +36,17 @@
     opacity: 0;
     transform: translateY(30px);
     will-change: transform, opacity;
+
+    @keyframes card-entrance {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0px);
+      }
+    }
   }
 
   &:focus-visible {
