@@ -90,7 +90,7 @@
   --md-ref-palette-yellow90: #eee76c;
   --md-ref-palette-yellow95: #fcf579;
 
-  // Motion(https://m3.material.io/styles/motion/overview/specs)
+  // Motion (https://m3.material.io/styles/motion/overview/specs)
   --md-sys-motion-duration-short1: 50ms;
   --md-sys-motion-duration-short2: 100ms;
   --md-sys-motion-duration-short3: 150ms;
@@ -143,7 +143,7 @@
   --md-sys-motion-spring-slow-effect-standard: cubic-bezier(0.34, 0.88, 0.34, 1);
   --md-sys-motion-spring-slow-effect-standard-duration: 300ms;
 
-  // Shape(https://m3.material.io/styles/shape/corner-radius-scale)
+  // Shape (https://m3.material.io/styles/shape/corner-radius-scale)
   --md-sys-shape-corner-none: 0px;
   --md-sys-shape-corner-extra-small: 4px;
   --md-sys-shape-corner-extra-small-top: 4px 4px 0px 0px;
@@ -159,10 +159,6 @@
   --md-sys-shape-corner-extra-large-increased: 32px;
   --md-sys-shape-corner-extra-extra-large: 40px;
   --md-sys-shape-corner-full: 100px;
-
-  // MD Ripple(material-web)
-  --md-ripple-hover-color: var(--md-sys-color-primary);
-  --md-ripple-pressed-color: var(--md-sys-color-primary);
 
   // Typography
   $level1-font-family: "Google Sans Flex", "Noto Sans SC", sans-serif;
