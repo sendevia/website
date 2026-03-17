@@ -6,6 +6,25 @@
   background-color: transparent;
 
   inset: 0;
+  overflow: hidden;
   pointer-events: none;
+  transition: background-color var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
   z-index: 10;
+
+  .ripple {
+    position: absolute;
+    left: var(--ripple-x);
+    top: var(--ripple-y);
+
+    height: var(--ripple-size);
+    width: var(--ripple-size);
+
+    border-radius: 50%;
+
+    background-color: var(--md-sys-color-on-surface);
+
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0);
+  }
 }
