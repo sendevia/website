@@ -1,3 +1,4 @@
+# 转换自 vitepress 的 nginx 配置
 :80 {
 	# 根目录指向构建产物
 	root * /app
@@ -5,6 +6,7 @@
 	# 关闭访问日志
 	log {
 		output discard
+		level WARN
 	}
 
 	# 启用压缩
