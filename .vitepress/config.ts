@@ -13,6 +13,7 @@ import { imgMark } from "@mdit/plugin-img-mark";
 import { sectionWrapper } from "./theme/utils/mdSectionWrapper";
 import { table } from "./theme/utils/mdTable";
 import { anchor } from "./theme/utils/mdCustomAnchor";
+import { symbol } from "./theme/utils/mdSymbol";
 
 export default defineConfig({
   base: "/",
@@ -41,6 +42,7 @@ export default defineConfig({
       md.use(sectionWrapper);
       md.use(table);
       md.use(tasklist, { label: true });
+      md.use(symbol);
     },
     image: {
       lazyLoading: true,

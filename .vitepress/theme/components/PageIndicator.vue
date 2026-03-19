@@ -50,10 +50,10 @@ const collectHeadings = () => {
   const nodes = Array.from(document.querySelectorAll("h1[id], h2[id]")) as HTMLElement[];
 
   headings.value = nodes.map((n) => {
-    // 克隆节点并移除行内锚点
+    // 克隆节点并移除行内锚点、内联图标
     const clone = n.cloneNode(true) as HTMLElement;
-    const inlineAnchors = Array.from(clone.querySelectorAll(".AnchorLink.inline")) as HTMLElement[];
-    inlineAnchors.forEach((el) => el.remove());
+    const elementsToRemove = Array.from(clone.querySelectorAll(".AnchorLink.inline, .inline-symbol")) as HTMLElement[];
+    elementsToRemove.forEach((el) => el.remove());
 
     const text = clone.textContent?.trim() || n.id;
 

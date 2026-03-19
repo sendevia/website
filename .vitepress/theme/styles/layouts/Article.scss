@@ -568,16 +568,6 @@
     font-variation-settings: "wght" 700;
   }
 
-  sup.footnote-ref {
-    vertical-align: bottom;
-
-    a[href] {
-      @include mixin.typescale-style("label-large");
-
-      text-decoration: none;
-    }
-  }
-
   table {
     margin-block-end: 12px;
   }
@@ -649,6 +639,22 @@
 
         transform: rotate(var(--random-rotation, 0deg));
       }
+    }
+  }
+
+  .inline-symbol {
+    @include mixin.material-symbols($size: var(--size, 1.5em), $line-height: var(--size, inherit));
+
+    vertical-align: text-bottom;
+  }
+
+  .footnote-ref {
+    vertical-align: bottom;
+
+    a[href] {
+      @include mixin.typescale-style("label-large");
+
+      text-decoration: none;
     }
   }
 }
