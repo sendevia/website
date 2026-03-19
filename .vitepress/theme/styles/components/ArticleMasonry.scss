@@ -60,7 +60,7 @@
             -moz-user-select: none;
 
             span {
-              @include mixin.material-symbols($size: 16);
+              @include mixin.material-symbols($size: 16rem);
 
               cursor: pointer;
             }
@@ -134,7 +134,7 @@
       -moz-user-select: none;
 
       .icon {
-        @include mixin.material-symbols($size: 100);
+        @include mixin.material-symbols($size: 100rem);
       }
     }
 

@@ -28,7 +28,7 @@
     z-index: 20;
 
     .symbol {
-      @include mixin.material-symbols($size: 24);
+      @include mixin.material-symbols();
 
       display: block;
 
@@ -78,7 +78,7 @@
   }
 
   &.inline {
-    @include mixin.material-symbols($size: 24);
+    @include mixin.material-symbols();
 
     display: none;
 

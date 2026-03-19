@@ -19,7 +19,7 @@
       @include mixin.typescale-style("label-small");
 
       &.icon {
-        @include mixin.material-symbols($size: 16);
+        @include mixin.material-symbols($size: 16rem);
       }
 
       &.article-id {

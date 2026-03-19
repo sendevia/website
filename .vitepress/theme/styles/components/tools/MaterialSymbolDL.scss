@@ -68,7 +68,7 @@
         }
 
         &::before {
-          @include mixin.material-symbols("close", $size: 42);
+          @include mixin.material-symbols("close", $size: 42rem);
 
           display: flex;
           align-items: center;

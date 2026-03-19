@@ -9,7 +9,7 @@
   gap: 12px;
 
   #modal-dialog-leader-icon {
-    @include mixin.material-symbols($size: 24);
+    @include mixin.material-symbols();
   }
 
   #modal-dialog-headline {

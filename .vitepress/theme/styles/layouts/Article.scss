@@ -50,7 +50,7 @@
       z-index: 2;
 
       &::before {
-        @include mixin.material-symbols($name: "content_copy", $size: 18, $line-height: 42);
+        @include mixin.material-symbols($name: "content_copy", $size: 18rem, $line-height: 42rem);
 
         color: var(--md-ref-palette-neutral90);
       }
@@ -210,7 +210,7 @@
     }
 
     &::before {
-      @include mixin.material-symbols($size: 24);
+      @include mixin.material-symbols();
 
       grid-column: 1;
     }
@@ -329,6 +329,87 @@
       padding-block-end: 0px;
     }
 
+    blockquote {
+      position: relative;
+
+      margin-inline: 0px;
+      padding-inline-start: 24px;
+
+      color: var(--md-sys-color-on-tertiary-container);
+
+      &::before {
+        content: "";
+
+        display: block;
+
+        position: absolute;
+        left: calc(24px / 2 - 3px);
+
+        height: 100%;
+        width: 6px;
+
+        border-radius: var(--md-sys-shape-corner-small);
+
+        background-color: var(--md-sys-color-inverse-on-surface);
+      }
+
+      blockquote {
+        margin-inline: 12px;
+      }
+
+      p {
+        margin-block: 12px;
+        margin-inline: 0px;
+        padding-block-end: 0px;
+      }
+
+      .task-list-container {
+        padding-block-end: 0px;
+        padding-inline: 0px;
+
+        li.task-list-item {
+          display: grid;
+          align-items: center;
+          gap: 12px;
+          grid-template-columns: 20px auto;
+
+          input.task-list-item-checkbox[type="checkbox"] {
+            &::before {
+              @include mixin.material-symbols("check_box_outline_blank", $size: 20rem);
+
+              font-variation-settings: "FILL" 1;
+            }
+
+            appearance: none;
+
+            grid-column: 1 / 2;
+
+            margin: 0px;
+
+            height: 20px;
+            width: 20px;
+
+            &:checked {
+              &::before {
+                @include mixin.material-symbols("check_box", $size: 20rem);
+              }
+            }
+          }
+
+          &::before {
+            display: none;
+          }
+        }
+      }
+
+      & > {
+        ul,
+        ol {
+          margin-inline: 0px;
+        }
+      }
+    }
+
     h1,
     h2,
     h3,
@@ -355,12 +436,14 @@
       }
     }
 
+    .inline-symbol {
+      @include mixin.material-symbols($size: var(--size, 1.5em), $line-height: var(--size, inherit));
+
+      vertical-align: text-bottom;
+    }
+
     &:hover .AnchorLink {
       opacity: 1;
-
-      .symbol {
-        opacity: 1;
-      }
     }
   }
 
@@ -370,87 +453,6 @@
 
     &:hover {
       text-decoration-style: solid;
-    }
-  }
-
-  blockquote {
-    position: relative;
-
-    margin-inline: 0px;
-    padding-inline-start: 24px;
-
-    color: var(--md-sys-color-on-tertiary-container);
-
-    &::before {
-      content: "";
-
-      display: block;
-
-      position: absolute;
-      left: calc(24px / 2 - 3px);
-
-      height: 100%;
-      width: 6px;
-
-      border-radius: var(--md-sys-shape-corner-small);
-
-      background-color: var(--md-sys-color-inverse-on-surface);
-    }
-
-    blockquote {
-      margin-inline: 12px;
-    }
-
-    p {
-      margin-block: 12px;
-      margin-inline: 0px;
-      padding-block-end: 0px;
-    }
-
-    .task-list-container {
-      padding-block-end: 0px;
-      padding-inline: 0px;
-
-      li.task-list-item {
-        display: grid;
-        align-items: center;
-        gap: 12px;
-        grid-template-columns: 20px auto;
-
-        input.task-list-item-checkbox[type="checkbox"] {
-          &::before {
-            @include mixin.material-symbols("check_box_outline_blank", $size: 20);
-
-            font-variation-settings: "FILL" 1;
-          }
-
-          appearance: none;
-
-          grid-column: 1 / 2;
-
-          margin: 0px;
-
-          height: 20px;
-          width: 20px;
-
-          &:checked {
-            &::before {
-              @include mixin.material-symbols("check_box", $size: 20);
-            }
-          }
-        }
-
-        &::before {
-          display: none;
-        }
-      }
-    }
-
-    & > {
-      ul,
-      ol {
-        margin-inline: 0px;
-      }
     }
   }
 
@@ -642,12 +644,6 @@
     }
   }
 
-  .inline-symbol {
-    @include mixin.material-symbols($size: var(--size, 1.5em), $line-height: var(--size, inherit));
-
-    vertical-align: text-bottom;
-  }
-
   .footnote-ref {
     vertical-align: bottom;
 
@@ -687,7 +683,7 @@
       color: var(--md-sys-color-outline);
 
       &::before {
-        @include mixin.material-symbols($size: 14);
+        @include mixin.material-symbols($size: 14rem);
 
         margin-block: 1px auto;
       }

@@ -40,7 +40,7 @@
       color: var(--md-sys-color-on-surface-variant);
 
       &::before {
-        @include mixin.material-symbols($size: 18);
+        @include mixin.material-symbols($size: 18rem);
       }
     }
 

@@ -149,7 +149,7 @@
             }
 
             &::before {
-              @include mixin.material-symbols($size: 16);
+              @include mixin.material-symbols($size: 16rem);
             }
 
             &.date {
@@ -214,7 +214,7 @@
     -moz-user-select: none;
 
     .icon {
-      @include mixin.material-symbols($size: 100);
+      @include mixin.material-symbols($size: 100rem);
     }
   }
 
