@@ -5,6 +5,30 @@
 import { ref, computed } from "vue";
 import { useClipboard, useFetch, useLocalStorage, useStyleTag } from "@vueuse/core";
 
+const emit = defineEmits<{
+  updateToolInfo: [
+    info: {
+      title: string;
+      description: string;
+      icons: { icon: string; desc: string }[];
+    },
+  ];
+}>();
+
+// 向外传回工具的标题、介绍和按键说明
+emit("updateToolInfo", {
+  title: "Material Symbol URL 拼接下载",
+  description:
+    "在这里你可以将多个 Material Symbol 图标名称拼接到谷歌字体 API 中并一键下载，这样得到的是经过分割的体积大幅减小的字体文件。",
+  icons: [
+    { icon: "add", desc: "添加新的图标" },
+    { icon: "download", desc: "下载生成的字体文件" },
+    { icon: "content_copy", desc: "复制生成的 URL" },
+    { icon: "clear_all", desc: "清空所有图标" },
+    { icon: "close", desc: "移除单个图标" },
+  ],
+});
+
 /** 输入框绑定的图标名称字符串 */
 const iconNamesInput = ref("");
 /** 图标持久化队列 */
@@ -34,7 +58,7 @@ const baseUrl =
 const fullUrl = computed(() => {
   const names = iconQueue.value.join(",");
   if (!names) return "";
-  return `${baseUrl}&icon_names=${names}&display=block`;
+  return `${baseUrl}&icon_names=${names}&display=swap`;
 });
 /** 图标 CSS 缓存 */
 const iconCssCache = useLocalStorage<Record<string, string>>("icon-cache", {});
@@ -45,7 +69,7 @@ const iconCssCache = useLocalStorage<Record<string, string>>("icon-cache", {});
  */
 async function fetchIconCss(name: string) {
   if (iconCssCache.value[name]) return;
-  const url = `${baseUrl}&icon_names=${name}&display=block`;
+  const url = `${baseUrl}&icon_names=${name}&display=swap`;
   try {
     const { data } = await useFetch(url).text();
     if (data.value) {
@@ -92,8 +116,13 @@ const scopedStyleContent = computed(() => {
 /** 注入聚合后的独立样式 */
 useStyleTag(scopedStyleContent);
 
-/** 处理复制 */
-const { copy, copied } = useClipboard({ source: fullUrl });
+/** 处理复制 URL */
+const { copy: copyUrl, copied: urlCopied } = useClipboard({ source: fullUrl });
+
+/** 图标列表字符串 */
+const iconListString = computed(() => iconQueue.value.join(", "));
+/** 处理复制图标列表 */
+const { copy: copyList, copied: listCopied } = useClipboard({ source: iconListString });
 
 /** 记录需要显示重复动画的项索引 */
 const duplicateIndices = ref<Set<number>>(new Set());
@@ -211,7 +240,8 @@ function clearQueue() {
               label: isDownloading ? '下载中...' : `下载字体 (${iconQueue.length}个)`,
               onClick: downloadFont,
             },
-            { icon: 'content_copy', ariaLabel: copied ? '已复制！' : '复制 URL', onClick: () => copy() },
+            { icon: 'link', ariaLabel: urlCopied ? '已复制！' : '复制 URL', onClick: () => copyUrl() },
+            { icon: 'copy_all', ariaLabel: listCopied ? '已复制！' : '复制列表', onClick: () => copyList() },
             { icon: 'clear_all', ariaLabel: '清空队列', onClick: clearQueue },
           ]"
         />
