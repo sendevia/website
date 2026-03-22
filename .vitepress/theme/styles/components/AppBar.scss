@@ -210,9 +210,6 @@
     height: calc(100% - 76px);
     width: 100%;
 
-    user-select: none;
-    -moz-user-select: none;
-
     .icon {
       @include mixin.material-symbols($size: 100rem);
     }

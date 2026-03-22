@@ -56,9 +56,6 @@
 
             margin-block-end: 12px;
 
-            user-select: none;
-            -moz-user-select: none;
-
             span {
               @include mixin.material-symbols($size: 16rem);
 
@@ -129,9 +126,6 @@
       justify-content: center;
 
       width: 100%;
-
-      user-select: none;
-      -moz-user-select: none;
 
       .icon {
         @include mixin.material-symbols($size: 100rem);

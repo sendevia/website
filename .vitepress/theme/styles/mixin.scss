@@ -48,8 +48,10 @@
   line-height: #{$line-height};
   text-rendering: optimizeLegibility;
   text-transform: none;
+  user-select: none;
   white-space: nowrap;
   word-wrap: normal;
+  -moz-user-select: none;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
 }
