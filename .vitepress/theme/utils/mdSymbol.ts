@@ -43,7 +43,7 @@ export function symbol(md: MarkdownIt): void {
         styleAttr = ` style="--size: ${size}"`;
       }
 
-      token.content = `<span class="inline-symbol"${styleAttr}>${iconName}</span>`;
+      token.content = `<span class="inline-symbol"${styleAttr}><span>${iconName}</span></span>`;
     }
 
     state.pos = pos + 1;

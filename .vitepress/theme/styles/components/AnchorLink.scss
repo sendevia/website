@@ -47,12 +47,8 @@
 
       background-color: transparent;
 
-      opacity: 0;
-
       &:focus-visible {
         @include mixin.focus-ring($thickness: 3, $offset: 2);
-
-        opacity: 1;
       }
     }
 
