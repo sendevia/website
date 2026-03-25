@@ -34,24 +34,17 @@
     animation: card-entrance var(--md-sys-motion-spring-slow-spatial-duration) calc(min(var(--delay), 20) * 0.08s)
       var(--md-sys-motion-spring-slow-spatial) forwards;
     opacity: 0;
-    transform: translateY(30px);
     will-change: transform, opacity;
 
     @keyframes card-entrance {
       from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(30px) scale(0.95);
       }
       to {
         opacity: 1;
-        transform: translateY(0px);
+        transform: translateY(0px) scale(1);
       }
-    }
-  }
-
-  &:focus-visible {
-    .content {
-      @include mixin.focus-ring($thickness: 4);
     }
   }
 
@@ -219,6 +212,12 @@
 
     .content {
       color: var(--md-sys-color-on-surface-variant);
+    }
+  }
+
+  &:focus-visible {
+    .content {
+      @include mixin.focus-ring($thickness: 4);
     }
   }
 
