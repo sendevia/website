@@ -33,7 +33,8 @@ function handleUpdateToolInfo(info: typeof toolInfo.value) {
     <hgroup v-if="toolInfo.title">
       <h1>{{ toolInfo.title }}</h1>
       <div class="description" v-if="toolInfo.description || toolInfo.icons.length > 0">
-        <div class="text" v-if="toolInfo.description">
+        <div class="desc" v-if="toolInfo.description">
+          <span>info</span>
           <p>{{ toolInfo.description }}</p>
         </div>
         <div class="icons" v-if="toolInfo.icons.length > 0">

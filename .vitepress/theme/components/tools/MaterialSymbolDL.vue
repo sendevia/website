@@ -17,13 +17,13 @@ const emit = defineEmits<{
 
 // 向外传回工具的标题、介绍和按键说明
 emit("updateToolInfo", {
-  title: "Material Symbol URL 拼接下载",
-  description:
-    "在这里你可以将多个 Material Symbol 图标名称拼接到谷歌字体 API 中并一键下载，这样得到的是经过分割的体积大幅减小的字体文件。",
+  title: "Material Symbol 字体文件下载",
+  description: "在这里你可以通过输入需要的 Material Symbol 图标名称，获取到只包含这些图标的 woff2 字体文件。",
   icons: [
     { icon: "add", desc: "添加新的图标" },
     { icon: "download", desc: "下载生成的字体文件" },
-    { icon: "content_copy", desc: "复制生成的 URL" },
+    { icon: "link", desc: "复制 URL" },
+    { icon: "content_copy", desc: "复制图标列表" },
     { icon: "clear_all", desc: "清空所有图标" },
     { icon: "close", desc: "移除单个图标" },
   ],
@@ -240,8 +240,16 @@ function clearQueue() {
               label: isDownloading ? '下载中...' : `下载字体 (${iconQueue.length}个)`,
               onClick: downloadFont,
             },
-            { icon: 'link', ariaLabel: urlCopied ? '已复制！' : '复制 URL', onClick: () => copyUrl() },
-            { icon: 'copy_all', ariaLabel: listCopied ? '已复制！' : '复制列表', onClick: () => copyList() },
+            {
+              icon: urlCopied ? 'check' : 'link',
+              ariaLabel: urlCopied ? '已复制！' : '复制 URL',
+              onClick: () => copyUrl(),
+            },
+            {
+              icon: listCopied ? 'check' : 'copy_all',
+              ariaLabel: listCopied ? '已复制！' : '复制列表',
+              onClick: () => copyList(),
+            },
             { icon: 'clear_all', ariaLabel: '清空队列', onClick: clearQueue },
           ]"
         />
