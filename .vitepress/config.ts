@@ -56,6 +56,7 @@ export default defineConfig({
         },
       },
     ],
+    math: true,
   },
   head: [
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
