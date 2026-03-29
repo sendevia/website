@@ -4,19 +4,30 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 2px;
 
   position: relative;
 
-  &.horizontal {
-    flex-direction: row;
+  &.standard {
+    gap: 4px;
   }
 
-  &.vertical {
-    flex-direction: column;
+  &.connected {
+    gap: 0;
 
     .MaterialButton {
-      width: 100%;
+      &:not(:last-child) {
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+      }
+
+      &:not(:first-child) {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+      }
+
+      &.outlined:not(:first-child) {
+        margin-left: -1px;
+      }
     }
   }
 }

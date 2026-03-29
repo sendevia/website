@@ -3,8 +3,20 @@ import { ref, computed, onMounted, nextTick } from "vue";
 import { useDateFormat, useTimeAgo, useEventListener, useMutationObserver } from "@vueuse/core";
 import { useGlobalData } from "../composables/useGlobalData";
 import { isClient } from "../utils/env";
+import type { ButtonConfig } from "../composables/buttonGroup";
 
 const { page, frontmatter } = useGlobalData();
+
+/** 将 frontmatter.external_links 映射为 ButtonConfig 数组 */
+const externalLinkButtons = computed<ButtonConfig[]>(() =>
+  (frontmatter.value?.external_links ?? []).map((item: { icon: string; label: string; link: string }) => ({
+    value: item.link,
+    label: item.label,
+    icon: item.icon,
+    href: item.link,
+    target: "_blank" as const,
+  })),
+);
 
 /** 时间处理逻辑 */
 const publishTime = computed(() => frontmatter.value?.date);
@@ -137,19 +149,21 @@ if (isClient()) {
   <Header />
   <main id="article-content" ref="articleContentRef">
     <Content />
+    <ButtonGroup v-if="frontmatter?.external_links?.length" size="m" :buttons="externalLinkButtons" />
     <PrevNext />
   </main>
   <aside id="article-aside">
     <ClientOnly>
       <div class="post-info">
-        <p v-if="frontmatter.description" class="description">{{ frontmatter.description }}</p>
+        <p v-if="frontmatter.description" class="description">
+          {{ frontmatter.description }}
+        </p>
         <p v-if="formattedPublishDate" class="date-publish">发布于 {{ formattedPublishDate }}</p>
         <p v-if="formattedLastUpdated" :title="lastUpdatedRawTime" class="date-update">
           {{ formattedLastUpdated }}
         </p>
       </div>
     </ClientOnly>
-    <ButtonGroup v-if="frontmatter?.external_links" :links="frontmatter.external_links" size="m" layout="vertical" />
     <PageIndicator />
   </aside>
   <ImageViewer

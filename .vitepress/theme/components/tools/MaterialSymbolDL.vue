@@ -232,27 +232,22 @@ function clearQueue() {
 
     <div v-if="iconQueue.length > 0" class="section queue">
       <div class="header">
-        <ButtonGroup
-          color="tonal"
-          :links="[
-            {
-              icon: 'download',
-              label: isDownloading ? '下载中...' : `下载字体 (${iconQueue.length}个)`,
-              onClick: downloadFont,
-            },
-            {
-              icon: urlCopied ? 'check' : 'link',
-              ariaLabel: urlCopied ? '已复制！' : '复制 URL',
-              onClick: () => copyUrl(),
-            },
-            {
-              icon: listCopied ? 'check' : 'copy_all',
-              ariaLabel: listCopied ? '已复制！' : '复制列表',
-              onClick: () => copyList(),
-            },
-            { icon: 'clear_all', ariaLabel: '清空队列', onClick: clearQueue },
-          ]"
-        />
+        <ButtonGroup color="tonal" size="s">
+          <MaterialButton :icon="isDownloading ? 'hourglass_empty' : 'download'" @click="downloadFont">{{
+            isDownloading ? "下载中..." : `下载字体 (${iconQueue.length}个)`
+          }}</MaterialButton>
+          <MaterialButton
+            :icon="urlCopied ? 'check' : 'link'"
+            :aria-label="urlCopied ? '已复制！' : '复制 URL'"
+            @click="copyUrl()"
+          />
+          <MaterialButton
+            :icon="listCopied ? 'check' : 'copy_all'"
+            :aria-label="listCopied ? '已复制！' : '复制列表'"
+            @click="copyList()"
+          />
+          <MaterialButton icon="clear_all" aria-label="清空队列" @click="clearQueue" />
+        </ButtonGroup>
       </div>
       <div class="grid">
         <div

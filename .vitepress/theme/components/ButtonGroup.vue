@@ -1,92 +1,118 @@
 <script setup lang="ts">
 /**
- * 按钮组配置项定义
+ * MD3E 按钮组组件
+ * 支持单选/多选/必选状态、standard/connected 变种、数组驱动配置
+ * https://m3.material.io/components/button-groups/specs
  */
-interface GroupItem {
-  /** ARIA 标签 */
-  ariaLabel?: string;
-  /** 按钮颜色 */
-  color?: "elevated" | "filled" | "tonal" | "outlined" | "standard" | "text";
-  /** 图标名称 */
-  icon?: string;
-  /** 按钮文本 */
-  label?: string;
-  /** 链接地址 */
-  link?: string;
-  /** 按钮大小 */
-  size?: "xs" | "s" | "m" | "l" | "xl";
-  /** 链接打开方式 */
-  target?: string;
-  /** 预设类型 */
-  type?: string;
-  /** 点击事件回调 */
-  onClick?: (e: Event) => void;
-}
+import { computed, provide, ref, watch } from "vue";
+import Button from "./Button.vue";
+import type { ButtonColor, ButtonConfig, ButtonShape, ButtonSize, ButtonVariant } from "../composables/buttonGroup";
+import { BUTTON_GROUP_KEY } from "../composables/buttonGroup";
 
-/**
- * 按钮组组件属性
- */
 interface Props {
-  /** 按钮配置列表 */
-  links?: GroupItem[];
-  /** 布局方向 */
-  layout?: "horizontal" | "vertical";
-  /** 默认大小 */
-  size?: "xs" | "s" | "m" | "l" | "xl";
-  /** 默认颜色 */
-  color?: "elevated" | "filled" | "tonal" | "outlined" | "standard" | "text";
-  /** 默认图标 */
-  icon?: string;
-  /** 默认链接目标 */
-  target?: string;
-  /** 无障碍标签 */
-  ariaLabel?: string;
+  /** 布局变种 */
+  variant?: "standard" | "connected";
+  /** 组内按钮默认变体，可被单个配置覆盖 */
+  buttonVariant?: ButtonVariant;
+  /** 选择模式：单选 / 多选 / 必选（至少一个） */
+  selectionMode?: "single" | "multi" | "required";
+  /** 受控选中值（v-model），single 下为 string，multi/required 下为 string[] */
+  modelValue?: string | string[];
+  /** 数组驱动的按钮配置 */
+  buttons?: ButtonConfig[];
+  /** 组级默认尺寸 */
+  size?: ButtonSize;
+  /** 组级默认颜色 */
+  color?: ButtonColor;
+  /** 组级默认形状 */
+  shape?: ButtonShape;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  links: () => [],
-  layout: "horizontal",
-  size: "s",
+  variant: "standard",
 });
 
 const emit = defineEmits<{
-  (e: "click", event: Event, item: GroupItem, index: number): void;
+  /** 选中值变更，配合 v-model 使用 */
+  "update:modelValue": [value: string | string[]];
+  /** 任意按钮被点击，携带其 value */
+  change: [value: string];
 }>();
 
-/** 预设类型的配置映射 */
-const PRESETS: Record<string, { color: Props["color"]; icon: string }> = {
-  download: { color: "filled", icon: "download" },
-  normal: { color: "tonal", icon: "open_in_new" },
-};
+/** 内部选中集合 */
+const selected = ref<Set<string>>(new Set());
 
-/**
- * 处理按钮点击
- */
-const handleClick = (e: Event, item: GroupItem, index: number) => {
-  item.onClick?.(e);
-  emit("click", e, item, index);
-};
+/** 根据 modelValue 同步内部状态 */
+function syncFromModel(v: string | string[] | undefined) {
+  if (v === undefined) return;
+  selected.value = new Set(Array.isArray(v) ? v : [v]);
+}
+
+syncFromModel(props.modelValue);
+watch(() => props.modelValue, syncFromModel);
+
+/** 判断某值是否被选中 */
+function isSelected(value: string): boolean {
+  return selected.value.has(value);
+}
+
+/** 切换选中状态，遵守 selectionMode 规则 */
+function toggle(value: string) {
+  const mode = props.selectionMode;
+  if (!mode) return;
+
+  const cur = new Set(selected.value);
+
+  if (mode === "single") {
+    cur.has(value) ? cur.delete(value) : (cur.clear(), cur.add(value));
+  } else if (mode === "multi") {
+    cur.has(value) ? cur.delete(value) : cur.add(value);
+  } else if (mode === "required") {
+    if (cur.has(value) && cur.size > 1) cur.delete(value);
+    else if (!cur.has(value)) cur.add(value);
+  }
+
+  selected.value = cur;
+  emit("change", value);
+
+  const arr = Array.from(cur);
+  emit("update:modelValue", mode === "single" ? (arr[0] ?? "") : arr);
+}
+
+provide(BUTTON_GROUP_KEY, {
+  selectionMode: props.selectionMode,
+  variant: props.buttonVariant,
+  size: props.size,
+  color: props.color,
+  shape: props.shape,
+  isSelected,
+  toggle,
+});
+
+/** 根元素 CSS class */
+const groupClass = computed(() => ["ButtonGroup", props.variant]);
 </script>
 
 <template>
-  <div class="ButtonGroup" :class="[size, layout]" :aria-label="ariaLabel">
-    <MaterialButton
-      v-for="(item, index) in links"
-      :key="index"
-      :class="[layout, { group: links.length > 1 }]"
-      :href="item.link"
-      :size="item.size || size"
-      :color="item.color || color || (item.type ? PRESETS[item.type]?.color : undefined) || 'text'"
-      :icon="item.icon || icon || (item.type ? PRESETS[item.type]?.icon : undefined)"
-      :target="item.target || target"
-      :title="item.ariaLabel || ariaLabel"
-      :aria-label="item.ariaLabel || ariaLabel"
-      @click="handleClick($event, item, index)"
-    >
-      <slot :item="item" :index="index">
-        {{ item.label }}
-      </slot>
-    </MaterialButton>
+  <div :class="groupClass">
+    <template v-if="buttons?.length">
+      <Button
+        v-for="btn in buttons"
+        :key="btn.value"
+        :data-group-value="btn.value"
+        :variant="btn.variant"
+        :size="btn.size"
+        :color="btn.color"
+        :shape="btn.shape"
+        :icon="btn.icon"
+        :href="btn.href"
+        :target="btn.target"
+        :disabled="btn.disabled"
+      >
+        {{ btn.label }}
+      </Button>
+    </template>
+    <slot v-else />
   </div>
 </template>
 

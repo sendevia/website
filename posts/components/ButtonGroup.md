@@ -1,6 +1,6 @@
 ---
 title: "Button group"
-description: "按钮组组件"
+description: "按钮组组件是一个用于聚合多个 MaterialButton 的容器组件。"
 categories:
   - 组件
 tags:
@@ -8,89 +8,165 @@ tags:
 date: 2026-03-15T20:00:00+08
 ---
 
-# 按钮组组件 # ButtonGroup
+<script setup>
+import { ref } from "vue";
+const align = ref("center");
+</script>
 
-`ButtonGroup` 是一个用于聚合多个 `MaterialButton` 的容器组件。它支持灵活的布局切换、统一的属性默认值配置以及便捷的配置式生成。
+# 按钮组组件 `ButtonGroup`
 
-## 核心特性
+聚合多个 `Button` 形成功能单元，支持单选 / 多选 / 必选状态管理，两种布局变种，以及数组驱动配置。
 
-- **布局自适应**：支持水平（Horizontal）和垂直（Vertical）两种排列方式，自动处理子按钮的圆角过渡。
-- **属性继承**：支持在组级别设置默认的尺寸、颜色、图标等，简化重复配置。
-- **类型预设**：内置 `download` 和 `normal` 类型，自动匹配 Material 风格的颜色与图标。
-- **配置驱动**：通过简单的数组配置即可生成复杂的按钮组合。
+# 展示
 
-## 组件属性 (Props)
+<div style="display:flex;flex-direction:column;gap:16px;align-items:center;padding:24px 0">
+  <ButtonGroup variant="standard" selectionMode="single" :modelValue="'b'" :buttons="[
+    { value: 'a', label: '全部', icon: 'apps' },
+    { value: 'b', label: '图片', icon: 'images' },
+    { value: 'c', label: '视频', icon: 'movie' },
+  ]" />
+  <ButtonGroup variant="connected" color="outlined" :buttons="[
+    { value: 'left',   icon: 'format_align_left' },
+    { value: 'center', icon: 'format_align_center' },
+    { value: 'right',  icon: 'format_align_right' },
+  ]" selectionMode="required" :modelValue="'center'" />
+</div>
 
-| 属性名      | 类型          | 默认值         | 可选值                              | 说明             |
-| :---------- | :------------ | :------------- | :---------------------------------- | :--------------- |
-| `links`     | `GroupItem[]` | `[]`           | -                                   | 按钮项配置数组   |
-| `layout`    | `string`      | `"horizontal"` | `"horizontal"`, `"vertical"`        | 布局方向         |
-| `size`      | `string`      | `"s"`          | `"xs"`, `"s"`, `"m"`, `"l"`, `"xl"` | 默认按钮尺寸     |
-| `color`     | `string`      | -              | -                                   | 默认按钮颜色变体 |
-| `icon`      | `string`      | -              | -                                   | 默认按钮图标     |
-| `target`    | `string`      | -              | -                                   | 默认链接打开方式 |
-| `ariaLabel` | `string`      | -              | -                                   | 容器的无障碍标签 |
+# 组件属性
 
-## 组件事件 (Emits)
+| Prop            | 类型                                                  | 默认值       | 说明                                                                      |
+| --------------- | ----------------------------------------------------- | ------------ | ------------------------------------------------------------------------- |
+| `variant`       | `"standard""connected"`                               | `"standard"` | 布局变种                                                                  |
+| `selectionMode` | `"single""multi""required"`                           | —            | 选择模式，不传则无选中行为                                                |
+| `modelValue`    | `string string[]`                                     | —            | 受控选中值（`v-model`），single 下为 string，multi/required 下为 string[] |
+| `buttons`       | `ButtonConfig[]`                                      | —            | 数组驱动配置，不传则使用默认插槽                                          |
+| `buttonVariant` | `"button""chip"`                                      | —            | 组内按钮默认变体                                                          |
+| `size`          | `"xs""s""m""l""xl"`                                   | —            | 组内按钮默认尺寸                                                          |
+| `color`         | `"elevated""filled""tonal""outlined""standard""text"` | —            | 组内按钮默认颜色                                                          |
+| `shape`         | `"round""square"`                                     | —            | 组内按钮默认形状                                                          |
 
-| 事件名   | 回调参数                                         | 说明                       |
-| :------- | :----------------------------------------------- | :------------------------- |
-| `@click` | `(event: Event, item: GroupItem, index: number)` | 当组内任意按钮被点击时触发 |
+# 组件事件
 
-## 配置项定义 (GroupItem)
+| 事件                | 参数              | 说明                                       |
+| ------------------- | ----------------- | ------------------------------------------ |
+| `update:modelValue` | `string string[]` | 选中值变更，配合 `v-model` 使用            |
+| `change`            | `string`          | 任意按钮被切换时触发，携带该按钮的 `value` |
 
-| 属性名      | 类型       | 说明                                                    |
-| :---------- | :--------- | :------------------------------------------------------ |
-| `label`     | `string`   | 按钮显示的文本内容                                      |
-| `link`      | `string`   | (可选) 跳转链接。提供时渲染为 `<a>`                     |
-| `type`      | `string`   | (可选) 预设类型：`download` (下载), `normal` (通用跳转) |
-| `icon`      | `string`   | (可选) 图标名称                                         |
-| `color`     | `string`   | (可选) 颜色变体                                         |
-| `size`      | `string`   | (可选) 按钮尺寸                                         |
-| `target`    | `string`   | (可选) 打开方式                                         |
-| `ariaLabel` | `string`   | (可选) 无障碍标签                                       |
-| `onClick`   | `Function` | (可选) 独立的点击回调                                   |
+# 配置项定义
 
-## 使用示例
+`ButtonConfig` 类型（用于 `buttons` prop 数组中的每一项）：
 
-### 1. 混合图标与文本
+| 字段       | 类型            | 说明                                 |
+| ---------- | --------------- | ------------------------------------ |
+| `value`    | `string`        | **必填**，唯一标识，用于选中状态追踪 |
+| `label`    | `string`        | 按钮文字                             |
+| `icon`     | `string`        | Material Symbols 图标名              |
+| `size`     | `ButtonSize`    | 覆盖组级尺寸                         |
+| `color`    | `ButtonColor`   | 覆盖组级颜色                         |
+| `shape`    | `ButtonShape`   | 覆盖组级形状                         |
+| `variant`  | `ButtonVariant` | 覆盖组级变体                         |
+| `disabled` | `boolean`       | 是否禁用                             |
+| `href`     | `string`        | 链接地址                             |
+| `target`   | `string`        | 链接打开方式                         |
+
+# 使用示例
+
+**数组配置 + 单选（standard）**
 
 ```vue
 <ButtonGroup
-  size="m"
-  :links="[
-    { id: 'prev', icon: 'chevron_left', ariaLabel: '上一页' },
-    { id: 'index', label: '1 / 5', color: 'tonal' },
-    { id: 'next', icon: 'chevron_right', ariaLabel: '下一页' },
+  variant="standard"
+  selectionMode="single"
+  v-model="activeTab"
+  :buttons="[
+    { value: 'all', label: '全部', icon: 'apps' },
+    { value: 'image', label: '图片', icon: 'image' },
+    { value: 'video', label: '视频', icon: 'movie' },
   ]"
 />
 ```
 
 <ButtonGroup
-  size="m"
-  :links="[
-    { id: 'prev', icon: 'chevron_left', ariaLabel: '上一页' },
-    { id: 'index', label: '1 / 5', color: 'tonal' },
-    { id: 'next', icon: 'chevron_right', ariaLabel: '下一页' }
+  variant="standard"
+  selectionMode="single"
+  v-model="activeTab"
+  :buttons="[
+    { value: 'all', label: '全部', icon: 'apps' },
+    { value: 'image', label: '图片', icon: 'image' },
+    { value: 'video', label: '视频', icon: 'movie' },
   ]"
 />
 
-### 2. 链接跳转
+**连体多选（connected）**
 
 ```vue
 <ButtonGroup
-  target="_blank"
-  :links="[
-    { label: 'GitHub', link: 'https://github.com', icon: 'code' },
-    { label: '首页', link: '/', icon: 'home' },
+  variant="connected"
+  selectionMode="multi"
+  color="outlined"
+  v-model="formats"
+  :buttons="[
+    { value: 'bold', icon: 'format_bold' },
+    { value: 'italic', icon: 'format_italic' },
+    { value: 'under', icon: 'format_underlined' },
   ]"
 />
 ```
 
 <ButtonGroup
-  target="_blank"
-  :links="[
-    { label: 'GitHub', link: 'https://github.com', icon: 'code' },
-    { label: '首页', link: '/', icon: 'home' }
+  variant="connected"
+  selectionMode="multi"
+  color="outlined"
+  v-model="formats"
+  :buttons="[
+    { value: 'bold', icon: 'format_bold' },
+    { value: 'italic', icon: 'format_italic' },
+    { value: 'under', icon: 'format_underlined' },
+  ]"
+/>
+
+**插槽 + 必选（required）**
+
+```vue
+<script setup>
+const align = ref("center");
+</script>
+
+<template>
+  <ButtonGroup variant="connected" selectionMode="required" color="tonal" v-model="align">
+    <Button data-group-value="left" icon="format_align_left" />
+    <Button data-group-value="center" icon="format_align_center" />
+    <Button data-group-value="right" icon="format_align_right" />
+  </ButtonGroup>
+</template>
+```
+
+<ButtonGroup variant="connected" selectionMode="required" color="tonal" v-model="align">
+  <Button data-group-value="left" icon="format_align_left" />
+  <Button data-group-value="center" icon="format_align_center" />
+  <Button data-group-value="right" icon="format_align_right" />
+</ButtonGroup>
+
+**覆盖单个按钮样式**
+
+```vue
+<ButtonGroup
+  color="tonal"
+  size="s"
+  :buttons="[
+    { value: 'a', label: '默认色' },
+    { value: 'b', label: '强调色', color: 'filled' },
+    { value: 'c', label: '危险', color: 'outlined' },
+  ]"
+/>
+```
+
+<ButtonGroup
+  color="tonal"
+  size="s"
+  :buttons="[
+    { value: 'a', label: '默认色' },
+    { value: 'b', label: '强调色', color: 'filled' },
+    { value: 'c', label: '危险', color: 'outlined' },
   ]"
 />
