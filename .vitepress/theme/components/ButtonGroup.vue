@@ -6,8 +6,8 @@
  */
 import { computed, provide, ref, watch } from "vue";
 import Button from "./Button.vue";
-import type { ButtonColor, ButtonConfig, ButtonShape, ButtonSize, ButtonVariant } from "../composables/buttonGroup";
-import { BUTTON_GROUP_KEY } from "../composables/buttonGroup";
+import type { ButtonColor, ButtonConfig, ButtonShape, ButtonSize, ButtonVariant } from "../composables/useButtonGroup";
+import { BUTTON_GROUP_KEY } from "../composables/useButtonGroup";
 
 interface Props {
   /** 布局变种 */

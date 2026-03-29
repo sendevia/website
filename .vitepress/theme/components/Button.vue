@@ -6,8 +6,8 @@
  * https://m3.material.io/components/chips/specs
  */
 import { computed, inject, useAttrs } from "vue";
-import { BUTTON_GROUP_KEY } from "../composables/buttonGroup";
-import type { ButtonColor, ButtonShape, ButtonSize, ButtonVariant } from "../composables/buttonGroup";
+import { BUTTON_GROUP_KEY } from "../composables/useButtonGroup";
+import type { ButtonColor, ButtonShape, ButtonSize, ButtonVariant } from "../composables/useButtonGroup";
 
 defineOptions({ inheritAttrs: false });
 
