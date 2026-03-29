@@ -19,7 +19,7 @@ const currentComponent = computed(() => toolComponents[props.id]);
 const toolInfo = ref({
   title: "",
   description: "",
-  icons: [] as { icon: string; desc: string }[],
+  tips: [] as { icon: string; desc: string }[],
 });
 
 /** 处理工具信息更新 */
@@ -32,13 +32,13 @@ function handleUpdateToolInfo(info: typeof toolInfo.value) {
   <section :id="id" class="ToolCard" v-if="currentComponent">
     <hgroup v-if="toolInfo.title">
       <h1>{{ toolInfo.title }}</h1>
-      <div class="description" v-if="toolInfo.description || toolInfo.icons.length > 0">
+      <div class="description" v-if="toolInfo.description || toolInfo.tips.length > 0">
         <div class="desc" v-if="toolInfo.description">
           <span>info</span>
           <p>{{ toolInfo.description }}</p>
         </div>
-        <div class="icons" v-if="toolInfo.icons.length > 0">
-          <p v-for="item in toolInfo.icons" :key="item.icon">
+        <div class="icons" v-if="toolInfo.tips.length > 0">
+          <p v-for="item in toolInfo.tips" :key="item.icon">
             <span>{{ item.icon }}</span> {{ item.desc }}
           </p>
         </div>

@@ -10,7 +10,7 @@ const emit = defineEmits<{
     info: {
       title: string;
       description: string;
-      icons: { icon: string; desc: string }[];
+      tips: { icon: string; desc: string }[];
     },
   ];
 }>();
@@ -19,13 +19,13 @@ const emit = defineEmits<{
 emit("updateToolInfo", {
   title: "Material Symbol 字体文件下载",
   description: "在这里你可以通过输入需要的 Material Symbol 图标名称，获取到只包含这些图标的 woff2 字体文件。",
-  icons: [
+  tips: [
     { icon: "add", desc: "添加新的图标" },
     { icon: "download", desc: "下载生成的字体文件" },
     { icon: "link", desc: "复制 URL" },
-    { icon: "content_copy", desc: "复制图标列表" },
+    { icon: "copy_all", desc: "复制图标列表" },
     { icon: "clear_all", desc: "清空所有图标" },
-    { icon: "close", desc: "移除单个图标" },
+    { icon: "delete_forever", desc: "移除单个图标" },
   ],
 });
 

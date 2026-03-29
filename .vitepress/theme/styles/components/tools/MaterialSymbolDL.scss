@@ -68,7 +68,7 @@
         }
 
         &::before {
-          @include mixin.material-symbols("close", $size: 42rem);
+          @include mixin.material-symbols("delete_forever", $size: 42rem);
 
           display: flex;
           align-items: center;
