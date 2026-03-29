@@ -24,7 +24,7 @@
   --md-sys-typescale-#{$name}-line-height: #{$line-height}rem;
 }
 
-// acute, add, arrow_back, arrow_downward, arrow_forward, arrow_outward, arrow_upward, auto_awesome_mosaic, borg, brightness_alert, brightness_auto, build, calendar_today, category, check, check_box, check_box_outline_blank, chevron_left, chevron_right, clear_all, close, code, code_blocks, content_copy, copy_all, dangerous, dark_mode, download, expand_more, favorite, filter_list_off, home, info, light_mode, lightbulb_2, link, match_case, menu, menu_open, message, open_in_new, page_info, person, remove, rocket_launch, search, search_off, settings, tag, update, verified
+// acute, add, arrow_back, arrow_downward, arrow_forward, arrow_outward, arrow_upward, auto_awesome_mosaic, borg, brightness_alert, brightness_auto, build, calendar_today, category, check, check_box, check_box_outline_blank, chevron_left, chevron_right, clear_all, close, code, code_blocks, content_copy, copy_all, dangerous, dark_mode, delete_forever, download, expand_more, favorite, filter_list_off, home, hourglass_empty, info, light_mode, lightbulb_2, link, match_case, menu, menu_open, message, open_in_new, page_info, person, remove, rocket_launch, search, search_off, settings, sort_by_alpha, tag, update, verified
 @mixin material-symbols($name: "", $size: 24rem, $font-size: $size, $line-height: $size) {
   @font-face {
     font-display: swap;
