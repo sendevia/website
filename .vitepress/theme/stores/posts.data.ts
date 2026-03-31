@@ -20,6 +20,7 @@ export interface PostData {
     label: string;
     link: string;
   }>;
+  draft?: boolean;
 }
 
 declare const data: PostData[];
@@ -53,23 +54,30 @@ export default createContentLoader("./posts/**/*.md", {
   includeSrc: false,
   excerpt: true,
   transform(raw: ContentData[]): PostData[] {
-    return raw
-      .map(({ url, frontmatter }) => {
-        const { dateStr, timestamp } = formatDate(frontmatter.date);
+    const posts = raw.map(({ url, frontmatter }) => {
+      const { dateStr, timestamp } = formatDate(frontmatter.date);
 
-        return {
-          id: generateHashId(url),
-          title: frontmatter.title || "",
-          url,
-          date: dateStr,
-          timestamp,
-          description: frontmatter.description || "",
-          impression: toArray(frontmatter.impression),
-          tags: toArray(frontmatter.tags),
-          categories: toArray(frontmatter.categories),
-          external_links: frontmatter.external_links,
-        };
-      })
-      .sort((a, b) => b.timestamp - a.timestamp);
+      return {
+        id: generateHashId(url),
+        title: frontmatter.title || "",
+        url,
+        date: dateStr,
+        timestamp,
+        description: frontmatter.description || "",
+        impression: toArray(frontmatter.impression),
+        tags: toArray(frontmatter.tags),
+        categories: toArray(frontmatter.categories),
+        external_links: frontmatter.external_links,
+        draft: frontmatter.draft || false,
+      };
+    });
+
+    // 在开发模式下显示所有文章（包括草稿），在生产模式下过滤掉草稿
+    const isDev = process.env.NODE_ENV === "development";
+    const filteredPosts = isDev
+      ? posts // 开发模式：显示所有文章
+      : posts.filter((post) => !post.draft); // 生产模式：过滤掉草稿
+
+    return filteredPosts.sort((a, b) => b.timestamp - a.timestamp);
   },
 });

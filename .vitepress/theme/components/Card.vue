@@ -22,6 +22,8 @@ interface Props {
   href?: string;
   /** 内容有资源可下载 */
   downloadable?: boolean;
+  /** 是否为草稿 */
+  draft?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -39,6 +41,9 @@ const props = withDefaults(defineProps<Props>(), {
       <StateLayer />
       <div v-if="(props.impression && props.impression.length > 0) || props.title" class="impression-area">
         <div class="tips-container">
+          <div v-if="props.draft" class="tips draft">
+            <h6>草稿</h6>
+          </div>
           <div v-if="props.date" class="tips date">
             <h6>{{ props.date }}发布</h6>
           </div>

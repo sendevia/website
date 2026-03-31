@@ -6,6 +6,7 @@ categories:
 tags:
   - 按钮
 date: 2026-03-15T19:33:00+08
+draft: true
 ---
 
 # 按钮组件 - MaterialButton
@@ -49,19 +50,19 @@ date: 2026-03-15T19:33:00+08
 
 下表展示了 `MaterialButton` 在不同属性组合下的视觉表现。
 
-| 变体 | 形状 | 大小 | 颜色 | 图标 | 内容 | 演示 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `button` | `round` | `s` | `filled` | - | Filled | <MaterialButton color="filled" size="s">Filled</MaterialButton> |
-| `button` | `round` | `s` | `tonal` | - | Tonal | <MaterialButton color="tonal" size="s">Tonal</MaterialButton> |
-| `button` | `round` | `s` | `outlined` | - | Outlined | <MaterialButton color="outlined" size="s">Outlined</MaterialButton> |
-| `button` | `round` | `s` | `elevated` | - | Elevated | <MaterialButton color="elevated" size="s">Elevated</MaterialButton> |
-| `button` | `round` | `s` | `text` | - | Text | <MaterialButton color="text" size="s">Text</MaterialButton> |
-| `button` | `round` | `s` | `filled` | `home` | 发送 | <MaterialButton icon="home" color="filled" size="s">发送</MaterialButton> |
-| `button` | `round` | `s` | `tonal` | `build` | - | <MaterialButton icon="build" color="tonal" size="s" /> |
-| `button` | `round` | `xs` | `filled` | - | Extra Small | <MaterialButton size="xs" color="filled">Extra Small</MaterialButton> |
-| `button` | `square` | `l` | `filled` | - | Large Square | <MaterialButton size="l" shape="square" color="filled">Large Square</MaterialButton> |
-| `button` | `round` | `xl` | `filled` | `add` | Extra Large | <MaterialButton size="xl" icon="add" color="filled">Extra Large</MaterialButton> |
-| `chip` | `square` | `s` | `filled` | - | Chip Button | <MaterialButton variant="chip" color="filled" size="s">Chip Button</MaterialButton> |
+| 变体     | 形状     | 大小 | 颜色       | 图标    | 内容         | 演示                                                                                 |
+| :------- | :------- | :--- | :--------- | :------ | :----------- | :----------------------------------------------------------------------------------- |
+| `button` | `round`  | `s`  | `filled`   | -       | Filled       | <MaterialButton color="filled" size="s">Filled</MaterialButton>                      |
+| `button` | `round`  | `s`  | `tonal`    | -       | Tonal        | <MaterialButton color="tonal" size="s">Tonal</MaterialButton>                        |
+| `button` | `round`  | `s`  | `outlined` | -       | Outlined     | <MaterialButton color="outlined" size="s">Outlined</MaterialButton>                  |
+| `button` | `round`  | `s`  | `elevated` | -       | Elevated     | <MaterialButton color="elevated" size="s">Elevated</MaterialButton>                  |
+| `button` | `round`  | `s`  | `text`     | -       | Text         | <MaterialButton color="text" size="s">Text</MaterialButton>                          |
+| `button` | `round`  | `s`  | `filled`   | `home`  | 发送         | <MaterialButton icon="home" color="filled" size="s">发送</MaterialButton>            |
+| `button` | `round`  | `s`  | `tonal`    | `build` | -            | <MaterialButton icon="build" color="tonal" size="s" />                               |
+| `button` | `round`  | `xs` | `filled`   | -       | Extra Small  | <MaterialButton size="xs" color="filled">Extra Small</MaterialButton>                |
+| `button` | `square` | `l`  | `filled`   | -       | Large Square | <MaterialButton size="l" shape="square" color="filled">Large Square</MaterialButton> |
+| `button` | `round`  | `xl` | `filled`   | `add`   | Extra Large  | <MaterialButton size="xl" icon="add" color="filled">Extra Large</MaterialButton>     |
+| `chip`   | `square` | `s`  | `filled`   | -       | Chip Button  | <MaterialButton variant="chip" color="filled" size="s">Chip Button</MaterialButton>  |
 
 ### 4. 手动状态控制
 

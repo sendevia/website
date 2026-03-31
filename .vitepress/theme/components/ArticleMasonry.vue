@@ -403,18 +403,19 @@ const clearCategory = () => {
           <MaterialCard
             v-for="(item, rowIndex) in column"
             :key="item.id"
-            :href="item.url"
             :title="item.title"
             :description="item.description"
             :date="item.date"
             :impression="getArticleImage(item)"
+            :href="item.url"
             :downloadable="hasDownloadableContent(item)"
+            :draft="item.draft"
             :tabindex="getLogicIndex(colIndex, rowIndex) + 1"
             :style="{ '--delay': getLogicIndex(colIndex, rowIndex) }"
-            class="entrance"
             variant="feed"
             size="m"
             color="outlined"
+            class="entrance"
           />
         </div>
       </div>
