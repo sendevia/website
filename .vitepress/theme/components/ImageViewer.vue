@@ -230,10 +230,7 @@ const handleTouchMove = (e: TouchEvent) => {
     const dx = e.touches[0].clientX - e.touches[1].clientX;
     const dy = e.touches[0].clientY - e.touches[1].clientY;
     const dist = Math.sqrt(dx * dx + dy * dy);
-    imageScale.value = Math.min(
-      Math.max((dist / initialTouchDist) * initialTouchScale, ZOOM_CONFIG.MIN),
-      ZOOM_CONFIG.MAX_TOUCH,
-    );
+    imageScale.value = Math.min(Math.max((dist / initialTouchDist) * initialTouchScale, ZOOM_CONFIG.MIN), ZOOM_CONFIG.MAX_TOUCH);
   } else if (e.touches.length === 1) {
     const touch = e.touches[0];
     const dx = touch.clientX - lastTouchPos.x;
@@ -256,31 +253,10 @@ defineExpose({ show, hide });
 </script>
 
 <template>
-  <div
-    v-if="isVisible"
-    class="ImageViewer"
-    :class="{ animating: isAnimating }"
-    role="dialog"
-    aria-modal="true"
-    tabindex="-1"
-  >
-    <ButtonGroup
-      :links="BUTTONS_NAV_CONFIG"
-      layout="horizontal"
-      size="m"
-      class="nav-group"
-      @click="handleButtonGroupClick"
-    />
-    <MaterialButton color="tonal" icon="close" aria-label="关闭" class="close" @click="hide"></MaterialButton>
+  <div v-if="isVisible" class="ImageViewer" :class="{ animating: isAnimating }" role="dialog" aria-modal="true" tabindex="-1">
+    <MaterialButton pattern="icon-button" size="l" class="close" color="text" aria-label="关闭" @click="hide">close</MaterialButton>
 
-    <div
-      class="content"
-      @click.self="hide"
-      @wheel="handleWheel"
-      @touchstart="handleTouchStart"
-      @touchmove="handleTouchMove"
-      @touchend="isZooming = isDragging = false"
-    >
+    <div class="content" @click.self="hide" @wheel="handleWheel" @touchstart="handleTouchStart" @touchmove="handleTouchMove" @touchend="isZooming = isDragging = false">
       <img
         :src="currentImage"
         :alt="`Image ${activeIndex + 1}`"
@@ -292,9 +268,7 @@ defineExpose({ show, hide });
         @mouseup="isDragging = false"
         @mouseleave="isDragging = false"
         :style="{
-          transform: isAnimating
-            ? `scale(${imageScale}) translate(${imagePosition.x}px, ${imagePosition.y}px)`
-            : `scale(${initialTransform.scale}) translate(${initialTransform.translateX}px, ${initialTransform.translateY}px)`,
+          transform: isAnimating ? `scale(${imageScale}) translate(${imagePosition.x}px, ${imagePosition.y}px)` : `scale(${initialTransform.scale}) translate(${initialTransform.translateX}px, ${initialTransform.translateY}px)`,
           opacity: isAnimating ? 1 : 0,
           cursor: imageScale > 1 ? (isDragging ? 'grabbing' : 'grab') : 'zoom-in',
           maxWidth: `${winWidth * 0.85}px`,
