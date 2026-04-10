@@ -3,30 +3,14 @@ import { ref, computed, onMounted, nextTick } from "vue";
 import { useDateFormat, useTimeAgo, useEventListener, useMutationObserver } from "@vueuse/core";
 import { useGlobalData } from "../composables/useGlobalData";
 import { isClient } from "../utils/env";
-import type { ButtonConfig } from "../composables/buttonGroup";
 
 const { page, frontmatter } = useGlobalData();
-
-/** 将 frontmatter.external_links 映射为 ButtonConfig 数组 */
-const externalLinkButtons = computed<ButtonConfig[]>(() =>
-  (frontmatter.value?.external_links ?? []).map((item: { icon: string; label: string; link: string }) => ({
-    value: item.link,
-    label: item.label,
-    icon: item.icon,
-    href: item.link,
-    target: "_blank" as const,
-  })),
-);
 
 /** 时间处理逻辑 */
 const publishTime = computed(() => frontmatter.value?.date);
 const lastUpdatedTime = computed(() => page.value?.lastUpdated);
-const formattedPublishDate = computed(() =>
-  publishTime.value ? useDateFormat(publishTime.value, "YYYY年M月D日").value : "",
-);
-const lastUpdatedRawTime = computed(() =>
-  lastUpdatedTime.value ? useDateFormat(lastUpdatedTime.value, "YYYY-MM-DD HH:mm:ss").value : "",
-);
+const formattedPublishDate = computed(() => (publishTime.value ? useDateFormat(publishTime.value, "YYYY年M月D日").value : ""));
+const lastUpdatedRawTime = computed(() => (lastUpdatedTime.value ? useDateFormat(lastUpdatedTime.value, "YYYY-MM-DD HH:mm:ss").value : ""));
 
 /** 相对时间显示配置 */
 const timeAgo = useTimeAgo(
@@ -149,7 +133,6 @@ if (isClient()) {
   <Header />
   <main id="article-content" ref="articleContentRef">
     <Content />
-    <ButtonGroup v-if="frontmatter?.external_links?.length" size="m" :buttons="externalLinkButtons" />
     <PrevNext />
   </main>
   <aside id="article-aside">
@@ -166,14 +149,7 @@ if (isClient()) {
     </ClientOnly>
     <PageIndicator />
   </aside>
-  <ImageViewer
-    v-if="showImageViewer"
-    :images="articleImages"
-    :current-index="currentImageIndex"
-    :origin-position="imageOriginPosition"
-    @close="showImageViewer = false"
-    @update:current-index="currentImageIndex = $event"
-  />
+  <ImageViewer v-if="showImageViewer" :images="articleImages" :current-index="currentImageIndex" :origin-position="imageOriginPosition" @close="showImageViewer = false" @update:current-index="currentImageIndex = $event" />
 </template>
 
 <style lang="scss">
