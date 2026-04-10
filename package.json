@@ -1,7 +1,7 @@
 {
   "name": "sendevia-website",
   "private": true,
-  "version": "26.3.23.376",
+  "version": "26.4.405",
   "scripts": {
     "update-version": "bash ./scripts/update-version.sh",
     "docs:dev": "vitepress dev",
