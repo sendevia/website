@@ -64,10 +64,7 @@ const navClass = computed(() => {
 });
 
 /** 计算标签类名 */
-const labelClass = computed(() => [
-  navStateStore.isNavExpanded ? "right" : "bottom",
-  isLabelAnimating.value ? "animating" : "",
-]);
+const labelClass = computed(() => [navStateStore.isNavExpanded ? "right" : "bottom", isLabelAnimating.value ? "animating" : ""]);
 
 /**
  * 规范化路径，去除后缀及末尾斜杠
@@ -173,52 +170,37 @@ if (isClient()) {
 </script>
 
 <template>
-  <nav class="NavBar" :class="navClass">
-    <div class="fab-container">
-      <ClientOnly>
-        <MaterialButton color="text" :icon="navStateStore.isNavExpanded ? 'menu_open' : 'menu'" @click="toggleNav" />
-      </ClientOnly>
-      <button class="fab" @mousedown.prevent @click.stop="toggleSearch">
-        <StateLayer />
-        <span>{{ searchStateStore.isSearchActive ? "close" : "search" }}</span>
-        <p :ref="(el) => setLabelRef(el, '.fab')">搜索</p>
-      </button>
-    </div>
-
-    <div class="destinations">
-      <div class="segment" v-for="item in navSegment" :key="item.link" :class="isActive(item.link) ? 'active' : 'inactive'">
-        <a :href="item.link" :target="isExternalLink(item.link) ? '_blank' : undefined">
-          <div class="accent">
-            <div class="icon">
-              <span>{{ item.icon }}</span>
-            </div>
-          </div>
-          <p
-            class="label"
-            :class="labelClass"
-            :ref="(el) => setLabelRef(el, '.segment')"
-            @animationend="onAnimationEnd($event.target)"
-          >
-            {{ item.text }}
-          </p>
-        </a>
+  <ClientOnly>
+    <nav class="NavBar" :class="navClass">
+      <div class="fab-container">
+        <MaterialButton pattern="icon-button" color="text" @click="toggleNav">{{ navStateStore.isNavExpanded ? "menu_open" : "menu" }}</MaterialButton>
+        <button class="fab" @mousedown.prevent @click.stop="toggleSearch">
+          <StateLayer />
+          <span>{{ searchStateStore.isSearchActive ? "close" : "search" }}</span>
+          <p :ref="(el) => setLabelRef(el, '.fab')">搜索</p>
+        </button>
       </div>
-    </div>
 
-    <div class="actions">
-      <ClientOnly>
-        <MaterialButton
-          class="theme-btn"
-          size="m"
-          color="text"
-          :title="themeStateStore.currentLabel"
-          :icon="themeStateStore.currentIcon"
-          @click="toggleTheme"
-        >
-        </MaterialButton>
-      </ClientOnly>
-    </div>
-  </nav>
+      <div class="destinations">
+        <div class="segment" v-for="item in navSegment" :key="item.link" :class="isActive(item.link) ? 'active' : 'inactive'">
+          <a :href="item.link" :target="isExternalLink(item.link) ? '_blank' : undefined">
+            <div class="accent">
+              <div class="icon">
+                <span>{{ item.icon }}</span>
+              </div>
+            </div>
+            <p class="label" :class="labelClass" :ref="(el) => setLabelRef(el, '.segment')" @animationend="onAnimationEnd($event.target)">
+              {{ item.text }}
+            </p>
+          </a>
+        </div>
+      </div>
+
+      <div class="actions">
+        <MaterialButton pattern="icon-button" class="theme-btn" size="m" color="text" :title="themeStateStore.currentLabel" @click="toggleTheme">{{ themeStateStore.currentIcon }}</MaterialButton>
+      </div>
+    </nav>
+  </ClientOnly>
 </template>
 
 <style lang="scss">

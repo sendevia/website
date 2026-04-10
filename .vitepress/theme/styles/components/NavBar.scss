@@ -28,6 +28,10 @@
 
     width: stretch;
 
+    .MaterialButton button {
+      margin-inline: 8px;
+    }
+
     .fab {
       display: grid;
       align-items: center;
@@ -66,8 +70,7 @@
           "FILL" 1,
           "wght" 300;
 
-        transition: font-variation-settings var(--md-sys-motion-spring-fast-spatial-duration)
-          var(--md-sys-motion-spring-fast-spatial);
+        transition: font-variation-settings var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
       }
 
       p {
@@ -156,8 +159,7 @@
               "FILL" 1,
               "wght" 300;
 
-            transition: font-variation-settings var(--md-sys-motion-spring-fast-spatial-duration)
-              var(--md-sys-motion-spring-fast-spatial);
+            transition: font-variation-settings var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
           }
         }
       }
