@@ -1,3 +1,5 @@
+/// <reference types="../../types/scss.d.ts" />
+
 import type { Theme } from "vitepress";
 import { createPinia } from "pinia";
 
