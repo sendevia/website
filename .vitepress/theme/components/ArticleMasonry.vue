@@ -10,10 +10,16 @@ const { theme } = useGlobalData();
 interface Props {
   /** 预设分类筛选 */
   presetCategory?: string;
+  /** 是否显示工具栏 */
+  showToolbar?: boolean;
+  /** 是否启用分页 */
+  showPagination?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   presetCategory: "",
+  showToolbar: true,
+  showPagination: true,
 });
 
 /** 设置面板是否打开 */
@@ -176,6 +182,10 @@ const totalPages = computed(() => {
 
 /** 计算每页显示的文章（基于排序后的列表） */
 const displayArticles = computed(() => {
+  if (!props.showPagination) {
+    return sortedArticlesList.value;
+  }
+
   const start = (currentPage.value - 1) * pageSize.value;
   const end = start + pageSize.value;
   return sortedArticlesList.value.slice(start, end);
@@ -287,7 +297,7 @@ const clearCategory = () => {
 <template>
   <div class="ArticleMasonry">
     <ClientOnly>
-      <div class="toolbar">
+      <div v-if="props.showToolbar" class="toolbar">
         <div class="filter">
           <div ref="settingsTriggerRef">
             <MaterialButton size="s" color="text" icon="page_info" @click="isSettingsOpen = !isSettingsOpen">
@@ -420,7 +430,7 @@ const clearCategory = () => {
         </div>
       </div>
 
-      <div v-if="totalPages > 1" class="page-navigator">
+      <div v-if="props.showPagination && totalPages > 1" class="page-navigator">
         <MaterialButton
           :disabled="currentPage === 1"
           :color="currentPage === 1 ? 'text' : 'filled'"
