@@ -300,9 +300,7 @@ const clearCategory = () => {
       <div v-if="props.showToolbar" class="toolbar">
         <div class="filter">
           <div ref="settingsTriggerRef">
-            <MaterialButton size="s" color="text" icon="page_info" @click="isSettingsOpen = !isSettingsOpen">
-              列表设置
-            </MaterialButton>
+            <MaterialButton size="s" color="text" icon="page_info" @click="isSettingsOpen = !isSettingsOpen"> 列表设置 </MaterialButton>
           </div>
 
           <Transition name="expand" mode="out-in">
@@ -313,31 +311,10 @@ const clearCategory = () => {
                     <h6>排序</h6>
                   </div>
                   <div class="page-size-options">
-                    <MaterialButton
-                      :color="sortField === 'date' ? 'filled' : 'tonal'"
-                      size="s"
-                      class="group horizontal"
-                      icon="acute"
-                      @click="sortField = 'date'"
-                    >
-                      时间
-                    </MaterialButton>
-                    <MaterialButton
-                      :color="sortField === 'title' ? 'filled' : 'tonal'"
-                      size="s"
-                      class="group horizontal"
-                      icon="match_case"
-                      @click="sortField = 'title'"
-                    >
-                      标题
-                    </MaterialButton>
+                    <MaterialButton :color="sortField === 'date' ? 'filled' : 'tonal'" size="s" class="group horizontal" icon="acute" @click="sortField = 'date'"> 时间 </MaterialButton>
+                    <MaterialButton :color="sortField === 'title' ? 'filled' : 'tonal'" size="s" class="group horizontal" icon="match_case" @click="sortField = 'title'"> 标题 </MaterialButton>
                     <div>
-                      <MaterialButton
-                        :icon="sortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward'"
-                        color="tonal"
-                        size="s"
-                        @click="sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'"
-                      >
+                      <MaterialButton :icon="sortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward'" color="tonal" size="s" @click="sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'">
                         {{ sortOrder === "asc" ? "正序" : "倒序" }}
                       </MaterialButton>
                     </div>
@@ -349,15 +326,7 @@ const clearCategory = () => {
                     <h6>每页显示</h6>
                   </div>
                   <div class="page-size-options">
-                    <MaterialButton
-                      v-for="opt in pageSizeOptions"
-                      :key="opt"
-                      :color="pageSize === opt ? 'filled' : 'tonal'"
-                      :icon="pageSize === opt ? 'check' : ''"
-                      class="group horizontal"
-                      size="s"
-                      @click="pageSize = opt"
-                    >
+                    <MaterialButton v-for="opt in pageSizeOptions" :key="opt" :color="pageSize === opt ? 'filled' : 'tonal'" :icon="pageSize === opt ? 'check' : ''" class="group horizontal" size="s" @click="pageSize = opt">
                       {{ opt }}
                     </MaterialButton>
                   </div>
@@ -368,14 +337,7 @@ const clearCategory = () => {
                     <h6>分类 <span v-if="selectedCategory" @click="clearCategory">clear</span></h6>
                   </div>
                   <div class="chip-container">
-                    <MaterialButton
-                      v-for="cat in postsStore.allCategories"
-                      :key="cat"
-                      variant="chip"
-                      :color="selectedCategory === cat ? 'tonal' : 'outlined'"
-                      :icon="selectedCategory === cat ? 'check' : ''"
-                      @click="toggleCategory(cat)"
-                    >
+                    <MaterialButton v-for="cat in postsStore.allCategories" :key="cat" pattern="chip" variant="filter" :selected="selectedCategory === cat" :icon="selectedCategory === cat ? 'check' : ''" @click="toggleCategory(cat)">
                       {{ cat }}
                     </MaterialButton>
                   </div>
@@ -386,14 +348,7 @@ const clearCategory = () => {
                     <h6>标签 <span v-if="selectedTags.length" @click="clearTags">clear</span></h6>
                   </div>
                   <div class="chip-container">
-                    <MaterialButton
-                      v-for="tag in currentCategoryTags"
-                      :key="tag"
-                      variant="chip"
-                      :color="selectedTags.includes(tag) ? 'tonal' : 'outlined'"
-                      :icon="selectedTags.includes(tag) ? 'check' : ''"
-                      @click="toggleTag(tag)"
-                    >
+                    <MaterialButton v-for="tag in currentCategoryTags" :key="tag" pattern="chip" variant="filter" :selected="selectedTags.includes(tag)" :icon="selectedTags.includes(tag) ? 'check' : ''" @click="toggleTag(tag)">
                       {{ tag }}
                     </MaterialButton>
                   </div>
@@ -431,31 +386,12 @@ const clearCategory = () => {
       </div>
 
       <div v-if="props.showPagination && totalPages > 1" class="page-navigator">
-        <MaterialButton
-          :disabled="currentPage === 1"
-          :color="currentPage === 1 ? 'text' : 'filled'"
-          @click="changePage(currentPage - 1)"
-          >{{ currentPage === 1 ? "第一页喽" : "上一页" }}</MaterialButton
-        >
+        <MaterialButton :disabled="currentPage === 1" :color="currentPage === 1 ? 'text' : 'filled'" @click="changePage(currentPage - 1)">{{ currentPage === 1 ? "第一页喽" : "上一页" }}</MaterialButton>
         <div @click="startEditPage" class="page-info-wrapper" title="点击跳转页码">
           <p v-if="!isEditingPage" class="page-info-text">{{ currentPage }} / {{ totalPages }}</p>
-          <input
-            v-else
-            ref="pageInputRef"
-            v-model="inputPageNum"
-            @keydown.enter="handlePageJump"
-            @blur="isEditingPage = false"
-            type="text"
-            min="1"
-            class="page-jump-input"
-          />
+          <input v-else ref="pageInputRef" v-model="inputPageNum" @keydown.enter="handlePageJump" @blur="isEditingPage = false" type="text" min="1" class="page-jump-input" />
         </div>
-        <MaterialButton
-          :disabled="currentPage === totalPages"
-          :color="currentPage === totalPages ? 'text' : 'filled'"
-          @click="changePage(currentPage + 1)"
-          >{{ currentPage === totalPages ? "全都看完啦" : "下一页" }}</MaterialButton
-        >
+        <MaterialButton :disabled="currentPage === totalPages" :color="currentPage === totalPages ? 'text' : 'filled'" @click="changePage(currentPage + 1)">{{ currentPage === totalPages ? "全都看完啦" : "下一页" }}</MaterialButton>
       </div>
     </ClientOnly>
   </div>
