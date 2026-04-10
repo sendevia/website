@@ -1,19 +1,15 @@
 import { defineConfig } from "vitepress";
 import packageJson from "../package.json";
 
-// markdown-it plugins
-// https://mdit-plugins.github.io/align.html
 import { align } from "@mdit/plugin-align";
-// https://mdit-plugins.github.io/footnote.html
+import { anchor } from "./theme/utils/mdCustomAnchor";
 import { footnote } from "@mdit/plugin-footnote";
-// https://mdit-plugins.github.io/tasklist.html
-import { tasklist } from "@mdit/plugin-tasklist";
-// https://mdit-plugins.github.io/img-mark.html
 import { imgMark } from "@mdit/plugin-img-mark";
 import { sectionWrapper } from "./theme/utils/mdSectionWrapper";
-import { table } from "./theme/utils/mdTable";
-import { anchor } from "./theme/utils/mdCustomAnchor";
 import { symbol } from "./theme/utils/mdSymbol";
+import { tab } from "@mdit/plugin-tab";
+import { table } from "./theme/utils/mdTable";
+import { tasklist } from "@mdit/plugin-tasklist";
 
 export default defineConfig({
   base: "/",
@@ -34,15 +30,14 @@ export default defineConfig({
     codeCopyButtonTitle: "复制代码",
     config(md) {
       md.use(align);
-      md.use(anchor, {
-        levels: [1, 2, 3, 4],
-      });
+      md.use(anchor, { levels: [1, 2, 3, 4] });
       md.use(footnote);
       md.use(imgMark);
       md.use(sectionWrapper);
+      md.use(symbol);
+      md.use(tab, { name: "tabs" });
       md.use(table);
       md.use(tasklist, { label: true });
-      md.use(symbol);
     },
     image: {
       lazyLoading: true,
