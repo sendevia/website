@@ -63,28 +63,6 @@
 
       border-radius: var(--md-sys-shape-corner-extra-large);
 
-      &::after {
-        content: "";
-
-        display: block;
-
-        position: absolute;
-        left: 0px;
-        top: 0px;
-
-        height: 100%;
-
-        border-radius: var(--md-sys-shape-corner-extra-large);
-
-        background-color: transparent;
-
-        transition:
-          width var(--md-sys-motion-spring-default-spatial-duration) var(--md-sys-motion-spring-default-spatial),
-          heigh var(--md-sys-motion-spring-default-spatial-duration) var(--md-sys-motion-spring-default-spatial),
-          background-color var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
-        z-index: -1;
-      }
-
       a {
         @include mixin.typescale-style("label-large");
 
@@ -108,8 +86,6 @@
         &:focus-visible {
           @include mixin.focus-ring($thickness: 3, $offset: 2);
 
-          background-color: var(--md-sys-color-surface-container);
-
           opacity: 1;
         }
       }
@@ -126,22 +102,6 @@
 
             background-color: var(--md-sys-color-primary);
           }
-        }
-
-        &:hover {
-          background-color: var(--md-sys-color-surface-container);
-        }
-      }
-
-      &:not(.active) {
-        &::after {
-          width: 50%;
-        }
-
-        &:hover::after {
-          width: 100%;
-
-          background-color: var(--md-sys-color-surface-container);
         }
       }
     }

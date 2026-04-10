@@ -204,6 +204,7 @@ onMounted(() => {
     ></div>
     <div class="indicator-container">
       <span v-for="h in headings" :key="h.id" :data-id="h.id" :class="{ active: h.id === headingsActiveId }">
+        <StateLayer />
         <a
           :href="`#${h.id}`"
           @click.prevent="navigateTo(h.id)"
