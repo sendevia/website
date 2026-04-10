@@ -3,9 +3,8 @@
 	# 根目录指向构建产物
 	root * /app
 
-	# 关闭访问日志
+	# 调整访问日志
 	log {
-		output discard
 		level WARN
 	}
 

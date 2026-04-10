@@ -20,8 +20,8 @@ FROM caddy:alpine AS final
 # 从构建阶段复制 dist 产物到工作目录
 COPY --from=builder /app/.vitepress/dist /app
 
-# 复制Caddyfile配置文件
+# 复制 Caddyfile 配置文件
 COPY Caddyfile /etc/caddy/Caddyfile
 
-# 启动Caddy服务器
+# 启动 Caddy 服务器
 CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile"]
