@@ -21,7 +21,7 @@ interface Props {
   /** 是否启用激活效果响应 */
   activeEnabled?: boolean;
   /** 强制指定的当前状态，优先级高于内部交互状态 */
-  currentState?: "hover" | "focus" | "active" | "none";
+  state?: "hover" | "focus" | "active" | "none";
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -31,7 +31,7 @@ const props = withDefaults(defineProps<Props>(), {
   hoverEnabled: true,
   focusEnabled: true,
   activeEnabled: true,
-  currentState: "none",
+  state: "none",
 });
 
 /** 挂载的父容器元素引用，用于主动绑定交互事件 */
@@ -43,6 +43,12 @@ const isHovered = useElementHover(parent);
 const isFocused = ref(false);
 /** 追踪是否处于按压或激活动作中 */
 const isActive = ref(false);
+/** 是否由指针交互触发的焦点，用于避免点击后仍然显示 Focus 状态层 */
+const isPointerFocus = ref(false);
+/** 是否由键盘交互触发的焦点，保留键盘导航时的 Focus 显示 */
+const isKeyboardFocus = ref(false);
+/** 只有键盘触发的焦点才会显示 Focus 状态层 */
+const isFocusVisible = computed(() => isFocused.value && !isPointerFocus.value && isKeyboardFocus.value);
 
 /** 单个水波纹数据模型 */
 interface Ripple {
@@ -166,11 +172,35 @@ const handleRelease = () => {
   });
 };
 
-useEventListener(parent, "focus", () => (isFocused.value = true));
-useEventListener(parent, "blur", () => (isFocused.value = false));
-useEventListener(parent, "mousedown", handlePress);
+useEventListener(parent, "focus", () => {
+  isFocused.value = true;
+  isKeyboardFocus.value = !isPointerFocus.value;
+});
+useEventListener(parent, "blur", () => {
+  isFocused.value = false;
+  isPointerFocus.value = false;
+  isKeyboardFocus.value = false;
+});
+useEventListener(parent, "mousedown", (e: MouseEvent) => {
+  isPointerFocus.value = true;
+  isKeyboardFocus.value = false;
+  handlePress(e);
+});
 // 标记 passive 对于滚动页面时的触控性能有显著提升响应效果
-useEventListener(parent, "touchstart", handlePress, { passive: true });
+useEventListener(
+  parent,
+  "touchstart",
+  (e: TouchEvent) => {
+    isPointerFocus.value = true;
+    isKeyboardFocus.value = false;
+    handlePress(e);
+  },
+  { passive: true },
+);
+useEventListener(parent, "keydown", () => {
+  isPointerFocus.value = false;
+  isKeyboardFocus.value = true;
+});
 useEventListener(parent, "mouseup", handleRelease);
 useEventListener(parent, "touchend", handleRelease);
 useEventListener(parent, "mouseleave", handleRelease);
@@ -182,16 +212,16 @@ useEventListener(parent, "touchcancel", handleRelease);
  */
 const computedBackgroundColor = computed(() => {
   // 若外部明确强制指定了状态覆盖，优先校验该对应参数
-  if (props.currentState !== "none") {
-    if (props.currentState === "hover" && props.hoverEnabled) return props.hoverColor;
-    if (props.currentState === "focus" && props.focusEnabled) return props.focusColor;
-    if (props.currentState === "active" && props.activeEnabled) return props.activeColor;
+  if (props.state !== "none") {
+    if (props.state === "hover" && props.hoverEnabled) return props.hoverColor;
+    if (props.state === "focus" && props.focusEnabled) return props.focusColor;
+    if (props.state === "active" && props.activeEnabled) return props.activeColor;
     return "transparent";
   }
 
   // 内部优先级由高到底依次判断：Active > Focus > Hover
   if (isActive.value && props.activeEnabled) return props.activeColor;
-  if (isFocused.value && props.focusEnabled) return props.focusColor;
+  if (isFocusVisible.value && props.focusEnabled) return props.focusColor;
   if (isHovered.value && props.hoverEnabled) return props.hoverColor;
 
   return "transparent";
