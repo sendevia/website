@@ -50,5 +50,5 @@ function handleUpdateToolInfo(info: typeof toolInfo.value) {
 
 <style lang="scss" scoped>
 @use "sass:meta";
-@include meta.load-css("../../styles/components/tools/ToolCard");
+@include meta.load-css("../../styles/components/Tools/ToolCard");
 </style>

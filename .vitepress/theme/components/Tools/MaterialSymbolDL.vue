@@ -18,7 +18,7 @@ const emit = defineEmits<{
 // 向外传回工具的标题、介绍和按键说明
 emit("updateToolInfo", {
   title: "Material Symbol 字体文件下载",
-  description: "在这里你可以通过输入需要的 Material Symbol 图标名称，获取到只包含这些图标的 woff2 字体文件。",
+  description: "你可以在这里输入需要的 Material Symbol 图标名称，获取到只包含这些图标的 woff2 字体文件。",
   tips: [
     { icon: "add", desc: "添加新的图标" },
     { icon: "download", desc: "下载生成的字体文件" },
@@ -268,5 +268,5 @@ function clearQueue() {
 
 <style lang="scss" scoped>
 @use "sass:meta";
-@include meta.load-css("../../styles/components/tools/MaterialSymbolDL");
+@include meta.load-css("../../styles/components/Tools/MaterialSymbolDL");
 </style>
