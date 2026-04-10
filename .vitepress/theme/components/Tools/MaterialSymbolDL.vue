@@ -52,8 +52,7 @@ const iconQueue = useLocalStorage<string[]>("icon-queue", [], {
 /** 下载状态 */
 const isDownloading = ref(false);
 /** Google 字体基础 URL */
-const baseUrl =
-  "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200";
+const baseUrl = "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200";
 /** 计算完整的 URL，包含队列中的图标名称 */
 const fullUrl = computed(() => {
   const names = iconQueue.value.join(",");
@@ -104,9 +103,7 @@ const scopedStyleContent = computed(() => {
       // 为每个项生成唯一的标识，防止样式冲突
       const uniqueId = `item-${name}-${index}`;
       const familyName = `preview-${index}`;
-      const transformed = raw
-        .replace(/'Material Symbols Outlined'/g, `'${familyName}'`)
-        .replace(/\.material-symbols-outlined/g, `.${uniqueId}`);
+      const transformed = raw.replace(/'Material Symbols Outlined'/g, `'${familyName}'`).replace(/\.material-symbols-outlined/g, `.${uniqueId}`);
       combinedStyles += transformed + "\n";
     }
   });
@@ -175,8 +172,7 @@ async function downloadFont() {
   try {
     const { data: cssText, error: cssError } = await useFetch(fullUrl.value, {
       headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
       },
     }).text();
 
@@ -219,45 +215,19 @@ function clearQueue() {
 <template>
   <div class="MaterialSymbolDL">
     <div class="section input">
-      <MaterialInput
-        v-model="iconNamesInput"
-        type="text"
-        variant="outlined"
-        label="图标名称"
-        placeholder="输入多个名称，用逗号或空格分隔"
-        @keyup.enter="addToQueue"
-      ></MaterialInput>
+      <MaterialInput v-model="iconNamesInput" type="text" variant="outlined" label="图标名称" placeholder="输入多个名称，用逗号或空格分隔" @keyup.enter="addToQueue"></MaterialInput>
       <MaterialButton icon="add" color="filled" size="m" @click="addToQueue">添加图标</MaterialButton>
     </div>
 
     <div v-if="iconQueue.length > 0" class="section queue">
       <div class="header">
-        <ButtonGroup color="tonal" size="s">
-          <MaterialButton :icon="isDownloading ? 'hourglass_empty' : 'download'" @click="downloadFont">{{
-            isDownloading ? "下载中..." : `下载字体 (${iconQueue.length}个)`
-          }}</MaterialButton>
-          <MaterialButton
-            :icon="urlCopied ? 'check' : 'link'"
-            :aria-label="urlCopied ? '已复制！' : '复制 URL'"
-            @click="copyUrl()"
-          />
-          <MaterialButton
-            :icon="listCopied ? 'check' : 'copy_all'"
-            :aria-label="listCopied ? '已复制！' : '复制列表'"
-            @click="copyList()"
-          />
-          <MaterialButton icon="clear_all" aria-label="清空队列" @click="clearQueue" />
-        </ButtonGroup>
+        <MaterialButton :icon="isDownloading ? 'hourglass_empty' : 'download'" @click="downloadFont">{{ isDownloading ? "下载中..." : `下载字体 (${iconQueue.length}个)` }}</MaterialButton>
+        <MaterialButton pattern="icon-button" :aria-label="urlCopied ? '已复制！' : '复制 URL'" @click="copyUrl()">{{ urlCopied ? "check" : "link" }}</MaterialButton>
+        <MaterialButton pattern="icon-button" :aria-label="listCopied ? '已复制！' : '复制列表'" @click="copyList()">{{ listCopied ? "check" : "copy_all" }}</MaterialButton>
+        <MaterialButton pattern="icon-button" aria-label="清空队列" @click="clearQueue">clear_all</MaterialButton>
       </div>
       <div class="grid">
-        <div
-          v-for="(name, index) in iconQueue"
-          :key="index"
-          class="item"
-          :class="{ duplicate: duplicateIndices.has(index) }"
-          @animationend="onAnimationEnd(index)"
-          @click="removeFromQueue(index)"
-        >
+        <div v-for="(name, index) in iconQueue" :key="index" class="item" :class="{ duplicate: duplicateIndices.has(index) }" @animationend="onAnimationEnd(index)" @click="removeFromQueue(index)">
           <span class="preview-icon" :class="`item-${name}-${index}`">{{ name }}</span>
           <span class="icon-name">{{ name }}</span>
         </div>
