@@ -1,0 +1,56 @@
+@use "../../mixin";
+
+.chip {
+  @include mixin.typescale-style("label-large");
+
+  gap: 8px;
+
+  height: 32px;
+
+  padding-inline: 16px;
+
+  border-radius: var(--md-sys-shape-corner-small);
+  outline-width: 1px;
+
+  span {
+    @include mixin.material-symbols($size: 18px);
+  }
+
+  &.icon {
+    padding-inline: 8px 12px;
+  }
+
+  &.assist,
+  &.suggestion {
+    color: var(--md-sys-color-on-surface);
+
+    outline-color: var(--md-sys-color-outline-variant);
+
+    background-color: transparent;
+
+    span {
+      color: var(--md-sys-color-primary);
+    }
+  }
+
+  &.filter,
+  &.input {
+    color: var(--md-sys-color-on-surface-variant);
+
+    outline-color: var(--md-sys-color-outline-variant);
+
+    background-color: transparent;
+
+    &.selected {
+      color: var(--md-sys-color-on-secondary-container);
+
+      outline-color: transparent;
+
+      background-color: var(--md-sys-color-secondary-container);
+
+      span {
+        color: var(--md-sys-color-on-secondary-container);
+      }
+    }
+  }
+}

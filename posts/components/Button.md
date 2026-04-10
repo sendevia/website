@@ -5,89 +5,76 @@ categories:
   - 组件
 tags:
   - 按钮
-date: 2026-03-15T19:33:00+08
-draft: true
+date: 2026-04-11T00:13:57+08:00
 ---
 
-# 按钮组件 - MaterialButton
+# 基础按钮组件 MaterialButton - Button
 
-`MaterialButton` 是一个符合 Material Design 3 Expressive 规范的基础交互组件。它支持多种变体、尺寸和形状，并且能够自动透传所有 HTML 属性和事件监听器。
+- **2种变体**：`default` 和 `toggle`
+- **5个大小**：`xs`, `s`, `m`, `l`, 还有 `xl`
+- **2种形状**：`round` 和 `square`
+- **5种颜色**：`elevated`, `filled`, `tonal`, `outlined`, 还有 `text`
+- **智能渲染**：根据是否提供 `href` 属性，自动切换渲染为 `<a>` 或 `<button>` 标签。
+- **自动属性透传**：可以像使用原生 `<a>` 或 `<button>` 标签一样传递属性和监听事件。
+- **内置交互反馈**：提供 Material 风格的状态反馈。
 
-## 核心特性
+::: center
+<MaterialButton size="m" color="elevated">Elevated</MaterialButton>
+<MaterialButton size="m" color="filled">Filled</MaterialButton>
+<MaterialButton size="m" color="tonal">Tonal</MaterialButton>
+<MaterialButton size="m" color="outlined">Outlined</MaterialButton>
+<MaterialButton size="m" color="text">Text</MaterialButton>
+:::
 
-- **高度可定制**：支持多种变体（Button, Chip）、形状（Round, Square）和颜色主题。
-- **自动属性透传**：通过 `v-bind="$attrs"`，可以像使用原生 `button` 或 `a` 标签一样传递属性和监听事件。
-- **智能渲染**：根据是否提供 `href` 属性，自动切换渲染为 `<a>` 标签或 `<button>` 标签。
-- **内置交互反馈**：集成 `StateLayer`，提供 Material 风格的悬停、聚焦和激活状态反馈。
+## 组件属性
 
-## 组件属性 (Props)
+| 属性名    | 类型                  | 默认值                     | 可选值                                                        | 说明                         |
+| :-------- | :-------------------- | :------------------------- | :------------------------------------------------------------ | :--------------------------- |
+| `pattern` | `string` { rowspan=9} | `"standard"` { colspan=2 } |                                                               | 按钮形态（可省略）           |
+| `variant` |                       | `"default"`                | `"default"`, `"toggle"`                                       | 按钮变体类型                 |
+| `size`    |                       | `"s"`                      | `"xs"`, `"s"`, `"m"`, `"l"`, `"xl"`                           | 按钮大小                     |
+| `shape`   |                       | `"round"`                  | `"round"`, `"square"`                                         | 按钮形状                     |
+| `color`   |                       | `"filled"`                 | `"elevated"`, `"filled"`, `"tonal"`, `"outlined"`, `"text"`   | 按钮颜色                     |
+| `icon`    |                       | -                          | -                                                             | 图标名称（Material Symbols） |
+| `href`    |                       | -                          | -                                                             | 链接地址                     |
+| `target`  |                       | -                          | -                                                             | 链接打开方式                 |
+| `state`   |                       | `"none"`                   | `"hover"`, `"focus"`, `"focus-visible"`, `"active"`, `"none"` | 交互状态                     |
+| `disable` | `boolean`             | `false`                    | `true`, `false`                                               | 是否禁用                     |
 
-| 属性名         | 类型     | 默认值                                                  | 可选值                                                                    | 说明                           |
-| :------------- | :------- | :------------------------------------------------------ | :------------------------------------------------------------------------ | :----------------------------- |
-| `variant`      | `string` | `"button"`                                              | `"button"`, `"chip"`                                                      | 组件变体                       |
-| `shape`        | `string` | `"button"`变体默认`"round"`，`"chip"`变体默认`"square"` | `"round"`, `"square"`                                                     | 按钮形状                       |
-| `size`         | `string` | `"s"`                                                   | `"xs"`, `"s"`, `"m"`, `"l"`, `"xl"`                                       | 按钮尺寸                       |
-| `color`        | `string` | `"filled"`                                              | `"elevated"`, `"filled"`, `"tonal"`, `"outlined"`, `"standard"`, `"text"` | 颜色变体                       |
-| `icon`         | `string` | -                                                       | -                                                                         | 图标名称（Material Symbols）   |
-| `href`         | `string` | -                                                       | -                                                                         | 链接地址（提供时渲染为 `<a>`） |
-| `target`       | `string` | `"_blank"`                                              | `"_blank"`, `"_self"`, etc.                                               | 链接打开方式                   |
-| `currentState` | `string` | `"none"`                                                | `"hover"`, `"focus"`, `"active"`, `"none"`                                | 手动强制指定状态               |
-
-## 组件事件 (Events)
-
-由于启用了属性透传，组件支持所有原生 HTML 事件。
-
-| 事件名        | 说明                   |
-| :------------ | :--------------------- |
-| `@click`      | 点击事件               |
-| `@mouseenter` | 鼠标进入事件           |
-| `@mousedown`  | 鼠标按下事件           |
-| `...`         | 其他标准鼠标及键盘事件 |
-
-## 使用示例
-
-### 1. 样式与配置全览
-
-下表展示了 `MaterialButton` 在不同属性组合下的视觉表现。
-
-| 变体     | 形状     | 大小 | 颜色       | 图标    | 内容         | 演示                                                                                 |
-| :------- | :------- | :--- | :--------- | :------ | :----------- | :----------------------------------------------------------------------------------- |
-| `button` | `round`  | `s`  | `filled`   | -       | Filled       | <MaterialButton color="filled" size="s">Filled</MaterialButton>                      |
-| `button` | `round`  | `s`  | `tonal`    | -       | Tonal        | <MaterialButton color="tonal" size="s">Tonal</MaterialButton>                        |
-| `button` | `round`  | `s`  | `outlined` | -       | Outlined     | <MaterialButton color="outlined" size="s">Outlined</MaterialButton>                  |
-| `button` | `round`  | `s`  | `elevated` | -       | Elevated     | <MaterialButton color="elevated" size="s">Elevated</MaterialButton>                  |
-| `button` | `round`  | `s`  | `text`     | -       | Text         | <MaterialButton color="text" size="s">Text</MaterialButton>                          |
-| `button` | `round`  | `s`  | `filled`   | `home`  | 发送         | <MaterialButton icon="home" color="filled" size="s">发送</MaterialButton>            |
-| `button` | `round`  | `s`  | `tonal`    | `build` | -            | <MaterialButton icon="build" color="tonal" size="s" />                               |
-| `button` | `round`  | `xs` | `filled`   | -       | Extra Small  | <MaterialButton size="xs" color="filled">Extra Small</MaterialButton>                |
-| `button` | `square` | `l`  | `filled`   | -       | Large Square | <MaterialButton size="l" shape="square" color="filled">Large Square</MaterialButton> |
-| `button` | `round`  | `xl` | `filled`   | `add`   | Extra Large  | <MaterialButton size="xl" icon="add" color="filled">Extra Large</MaterialButton>     |
-| `chip`   | `square` | `s`  | `filled`   | -       | Chip Button  | <MaterialButton variant="chip" color="filled" size="s">Chip Button</MaterialButton>  |
-
-### 4. 手动状态控制
-
-通过 `currentState` 属性，可以强制按钮显示特定的交互状态（如在演示或联动显示时）。
+组件示例
 
 ```vue
-<MaterialButton currentState="hover">强制悬停状态</MaterialButton>
-<MaterialButton currentState="active" color="tonal">强制激活状态</MaterialButton>
+<MaterialButton variant="" size="" shape="" color="" icon="" href="" target="" state="" :disabled="">TEXT</MaterialButton>
 ```
 
-<div>
-  <MaterialButton currentState="hover">强制悬停状态</MaterialButton>
-  <MaterialButton currentState="active" color="tonal">强制激活状态</MaterialButton>
-</div>
+## 样式全览
 
-### 5. 事件绑定示例
+#### 按钮形状: round
 
-您可以像使用普通按钮一样绑定事件。
+| 颜色                     | XS                                                                                            | S                                                                                            | M                                                                                            | L                                                                                            | XL                                                                                            |
+| :----------------------- | :-------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `elevated` { rowspan=2 } | <MaterialButton size="xs" shape="round" color="elevated">Elevated</MaterialButton>            | <MaterialButton size="s" shape="round" color="elevated">Elevated</MaterialButton>            | <MaterialButton size="m" shape="round" color="elevated">Elevated</MaterialButton>            | <MaterialButton size="l" shape="round" color="elevated">Elevated</MaterialButton>            | <MaterialButton size="xl" shape="round" color="elevated">Elevated</MaterialButton>            |
+|                          | <MaterialButton size="xs" shape="round" color="elevated" icon="add">Elevated</MaterialButton> | <MaterialButton size="s" shape="round" color="elevated" icon="add">Elevated</MaterialButton> | <MaterialButton size="m" shape="round" color="elevated" icon="add">Elevated</MaterialButton> | <MaterialButton size="l" shape="round" color="elevated" icon="add">Elevated</MaterialButton> | <MaterialButton size="xl" shape="round" color="elevated" icon="add">Elevated</MaterialButton> |
+| `filled` { rowspan=2 }   | <MaterialButton size="xs" shape="round" color="filled">Filled</MaterialButton>                | <MaterialButton size="s" shape="round" color="filled">Filled</MaterialButton>                | <MaterialButton size="m" shape="round" color="filled">Filled</MaterialButton>                | <MaterialButton size="l" shape="round" color="filled">Filled</MaterialButton>                | <MaterialButton size="xl" shape="round" color="filled">Filled</MaterialButton>                |
+|                          | <MaterialButton size="xs" shape="round" color="filled" icon="add">Filled</MaterialButton>     | <MaterialButton size="s" shape="round" color="filled" icon="add">Filled</MaterialButton>     | <MaterialButton size="m" shape="round" color="filled" icon="add">Filled</MaterialButton>     | <MaterialButton size="l" shape="round" color="filled" icon="add">Filled</MaterialButton>     | <MaterialButton size="xl" shape="round" color="filled" icon="add">Filled</MaterialButton>     |
+| `tonal` { rowspan=2 }    | <MaterialButton size="xs" shape="round" color="tonal">Tonal</MaterialButton>                  | <MaterialButton size="s" shape="round" color="tonal">Tonal</MaterialButton>                  | <MaterialButton size="m" shape="round" color="tonal">Tonal</MaterialButton>                  | <MaterialButton size="l" shape="round" color="tonal">Tonal</MaterialButton>                  | <MaterialButton size="xl" shape="round" color="tonal">Tonal</MaterialButton>                  |
+|                          | <MaterialButton size="xs" shape="round" color="tonal" icon="add">Tonal</MaterialButton>       | <MaterialButton size="s" shape="round" color="tonal" icon="add">Tonal</MaterialButton>       | <MaterialButton size="m" shape="round" color="tonal" icon="add">Tonal</MaterialButton>       | <MaterialButton size="l" shape="round" color="tonal" icon="add">Tonal</MaterialButton>       | <MaterialButton size="xl" shape="round" color="tonal" icon="add">Tonal</MaterialButton>       |
+| `outlined` { rowspan=2 } | <MaterialButton size="xs" shape="round" color="outlined">Outlined</MaterialButton>            | <MaterialButton size="s" shape="round" color="outlined">Outlined</MaterialButton>            | <MaterialButton size="m" shape="round" color="outlined">Outlined</MaterialButton>            | <MaterialButton size="l" shape="round" color="outlined">Outlined</MaterialButton>            | <MaterialButton size="xl" shape="round" color="outlined">Outlined</MaterialButton>            |
+|                          | <MaterialButton size="xs" shape="round" color="outlined" icon="add">Outlined</MaterialButton> | <MaterialButton size="s" shape="round" color="outlined" icon="add">Outlined</MaterialButton> | <MaterialButton size="m" shape="round" color="outlined" icon="add">Outlined</MaterialButton> | <MaterialButton size="l" shape="round" color="outlined" icon="add">Outlined</MaterialButton> | <MaterialButton size="xl" shape="round" color="outlined" icon="add">Outlined</MaterialButton> |
+| `text` { rowspan=2 }     | <MaterialButton size="xs" shape="round" color="text">Text</MaterialButton>                    | <MaterialButton size="s" shape="round" color="text">Text</MaterialButton>                    | <MaterialButton size="m" shape="round" color="text">Text</MaterialButton>                    | <MaterialButton size="l" shape="round" color="text">Text</MaterialButton>                    | <MaterialButton size="xl" shape="round" color="text">Text</MaterialButton>                    |
+|                          | <MaterialButton size="xs" shape="round" color="text" icon="add">Text</MaterialButton>         | <MaterialButton size="s" shape="round" color="text" icon="add">Text</MaterialButton>         | <MaterialButton size="m" shape="round" color="text" icon="add">Text</MaterialButton>         | <MaterialButton size="l" shape="round" color="text" icon="add">Text</MaterialButton>         | <MaterialButton size="xl" shape="round" color="text" icon="add">Text</MaterialButton>         |
 
-### 6. 链接模式
+#### 按钮形状: square
 
-当提供 `href` 时，组件会渲染为 `<a>` 标签。
-
-```vue
-<MaterialButton href="https://google.com" target="_blank" icon="open_in_new">访问 Google</MaterialButton>
-```
-
-<MaterialButton href="https://google.com" target="_blank" icon="open_in_new">访问 Google</MaterialButton>
+| 颜色                     | XS                                                                                             | S                                                                                             | M                                                                                             | L                                                                                             | XL                                                                                             |
+| :----------------------- | :--------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `elevated` { rowspan=2 } | <MaterialButton size="xs" shape="square" color="elevated">Elevated</MaterialButton>            | <MaterialButton size="s" shape="square" color="elevated">Elevated</MaterialButton>            | <MaterialButton size="m" shape="square" color="elevated">Elevated</MaterialButton>            | <MaterialButton size="l" shape="square" color="elevated">Elevated</MaterialButton>            | <MaterialButton size="xl" shape="square" color="elevated">Elevated</MaterialButton>            |
+|                          | <MaterialButton size="xs" shape="square" color="elevated" icon="add">Elevated</MaterialButton> | <MaterialButton size="s" shape="square" color="elevated" icon="add">Elevated</MaterialButton> | <MaterialButton size="m" shape="square" color="elevated" icon="add">Elevated</MaterialButton> | <MaterialButton size="l" shape="square" color="elevated" icon="add">Elevated</MaterialButton> | <MaterialButton size="xl" shape="square" color="elevated" icon="add">Elevated</MaterialButton> |
+| `filled` { rowspan=2 }   | <MaterialButton size="xs" shape="square" color="filled">Filled</MaterialButton>                | <MaterialButton size="s" shape="square" color="filled">Filled</MaterialButton>                | <MaterialButton size="m" shape="square" color="filled">Filled</MaterialButton>                | <MaterialButton size="l" shape="square" color="filled">Filled</MaterialButton>                | <MaterialButton size="xl" shape="square" color="filled">Filled</MaterialButton>                |
+|                          | <MaterialButton size="xs" shape="square" color="filled" icon="add">Filled</MaterialButton>     | <MaterialButton size="s" shape="square" color="filled" icon="add">Filled</MaterialButton>     | <MaterialButton size="m" shape="square" color="filled" icon="add">Filled</MaterialButton>     | <MaterialButton size="l" shape="square" color="filled" icon="add">Filled</MaterialButton>     | <MaterialButton size="xl" shape="square" color="filled" icon="add">Filled</MaterialButton>     |
+| `tonal` { rowspan=2 }    | <MaterialButton size="xs" shape="square" color="tonal">Tonal</MaterialButton>                  | <MaterialButton size="s" shape="square" color="tonal">Tonal</MaterialButton>                  | <MaterialButton size="m" shape="square" color="tonal">Tonal</MaterialButton>                  | <MaterialButton size="l" shape="square" color="tonal">Tonal</MaterialButton>                  | <MaterialButton size="xl" shape="square" color="tonal">Tonal</MaterialButton>                  |
+|                          | <MaterialButton size="xs" shape="square" color="tonal" icon="add">Tonal</MaterialButton>       | <MaterialButton size="s" shape="square" color="tonal" icon="add">Tonal</MaterialButton>       | <MaterialButton size="m" shape="square" color="tonal" icon="add">Tonal</MaterialButton>       | <MaterialButton size="l" shape="square" color="tonal" icon="add">Tonal</MaterialButton>       | <MaterialButton size="xl" shape="square" color="tonal" icon="add">Tonal</MaterialButton>       |
+| `outlined` { rowspan=2 } | <MaterialButton size="xs" shape="square" color="outlined">Outlined</MaterialButton>            | <MaterialButton size="s" shape="square" color="outlined">Outlined</MaterialButton>            | <MaterialButton size="m" shape="square" color="outlined">Outlined</MaterialButton>            | <MaterialButton size="l" shape="square" color="outlined">Outlined</MaterialButton>            | <MaterialButton size="xl" shape="square" color="outlined">Outlined</MaterialButton>            |
+|                          | <MaterialButton size="xs" shape="square" color="outlined" icon="add">Outlined</MaterialButton> | <MaterialButton size="s" shape="square" color="outlined" icon="add">Outlined</MaterialButton> | <MaterialButton size="m" shape="square" color="outlined" icon="add">Outlined</MaterialButton> | <MaterialButton size="l" shape="square" color="outlined" icon="add">Outlined</MaterialButton> | <MaterialButton size="xl" shape="square" color="outlined" icon="add">Outlined</MaterialButton> |
+| `text` { rowspan=2 }     | <MaterialButton size="xs" shape="square" color="text">Text</MaterialButton>                    | <MaterialButton size="s" shape="square" color="text">Text</MaterialButton>                    | <MaterialButton size="m" shape="square" color="text">Text</MaterialButton>                    | <MaterialButton size="l" shape="square" color="text">Text</MaterialButton>                    | <MaterialButton size="xl" shape="square" color="text">Text</MaterialButton>                    |
+|                          | <MaterialButton size="xs" shape="square" color="text" icon="add">Text</MaterialButton>         | <MaterialButton size="s" shape="square" color="text" icon="add">Text</MaterialButton>         | <MaterialButton size="m" shape="square" color="text" icon="add">Text</MaterialButton>         | <MaterialButton size="l" shape="square" color="text" icon="add">Text</MaterialButton>         | <MaterialButton size="xl" shape="square" color="text" icon="add">Text</MaterialButton>         |
