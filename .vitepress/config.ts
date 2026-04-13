@@ -18,7 +18,7 @@ export default defineConfig({
     "posts/index.md": "index.md",
     "posts/tools/index.md": "tools/index.md",
   },
-  lang: "zh_CN",
+  lang: "zh-CN",
   title: "sendevia 的小站",
   titleTemplate: ":title",
   description: "随便写写的博客",
@@ -56,10 +56,7 @@ export default defineConfig({
   head: [
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
     ["link", { rel: "preconnect", href: "https://fonts.gstatic.com" }],
-    [
-      "link",
-      { href: "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200..800&display=swap", rel: "stylesheet" },
-    ],
+    ["link", { href: "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200..800&display=swap", rel: "stylesheet" }],
     [
       "link",
       {

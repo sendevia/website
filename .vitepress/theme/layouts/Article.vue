@@ -1,48 +1,25 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, nextTick } from "vue";
-import { useDateFormat, useTimeAgo, useEventListener, useMutationObserver } from "@vueuse/core";
+import { useEventListener, useMutationObserver } from "@vueuse/core";
 import { useGlobalData } from "../composables/useGlobalData";
 import { isClient } from "../utils/env";
+import { formatDate, formatRelativeTime } from "../utils/date";
 
-const { page, frontmatter } = useGlobalData();
+const { page, frontmatter, lang } = useGlobalData();
 
-/** 时间处理逻辑 */
-const publishTime = computed(() => frontmatter.value?.date);
-const lastUpdatedTime = computed(() => page.value?.lastUpdated);
-const formattedPublishDate = computed(() => (publishTime.value ? useDateFormat(publishTime.value, "YYYY年M月D日").value : ""));
-const lastUpdatedRawTime = computed(() => (lastUpdatedTime.value ? useDateFormat(lastUpdatedTime.value, "YYYY-MM-DD HH:mm:ss").value : ""));
-
-/** 相对时间显示配置 */
-const timeAgo = useTimeAgo(
-  computed(() => lastUpdatedTime.value || 0),
-  {
-    messages: {
-      justNow: "刚刚",
-      invalid: "未知时间",
-      past: (n: string) => `${n}前`,
-      future: (n: string) => `${n}后`,
-      month: (n: number) => `${n}个月`,
-      year: (n: number) => `${n}年`,
-      day: (n: number) => `${n}天`,
-      week: (n: number) => `${n}周`,
-      hour: (n: number) => `${n}小时`,
-      minute: (n: number) => `${n}分钟`,
-      second: (n: number) => `${n}秒`,
-    } as any,
-  },
-);
+const lastUpdated = computed(() => {
+  const value = page.value?.lastUpdated;
+  return value ? new Date(value) : null;
+});
 
 /** 计算最终显示的编辑时间文本 */
 const formattedLastUpdated = computed(() => {
-  if (!lastUpdatedTime.value) return "";
-  const uDate = new Date(lastUpdatedTime.value).getTime();
-  const pDate = publishTime.value ? new Date(publishTime.value).getTime() : null;
+  return lastUpdated.value ? `编辑于 ${formatRelativeTime(lastUpdated.value, lang.value || "zh-CN")}` : "";
+});
 
-  // 如果没有发布时间，或修改时间与发布时间在1分钟内，显示绝对日期
-  if (!pDate || Math.abs(uDate - pDate) < 60000) {
-    return useDateFormat(uDate, "YYYY年M月D日").value;
-  }
-  return `${timeAgo.value}编辑`;
+/** 格式化发布时间 */
+const formattedPublishDate = computed(() => {
+  return frontmatter.value?.date ? formatDate(frontmatter.value.date, { locale: lang.value || "zh-CN" }) : "";
 });
 
 /** 图片查看器状态 */
@@ -141,8 +118,8 @@ if (isClient()) {
         <p v-if="frontmatter.description" class="description">
           {{ frontmatter.description }}
         </p>
-        <p v-if="formattedPublishDate" class="date-publish">发布于 {{ formattedPublishDate }}</p>
-        <p v-if="formattedLastUpdated" :title="lastUpdatedRawTime" class="date-update">
+        <p class="date-publish">发布于 {{ formattedPublishDate }}</p>
+        <p v-if="formattedLastUpdated" class="date-update">
           {{ formattedLastUpdated }}
         </p>
       </div>

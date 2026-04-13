@@ -152,7 +152,7 @@ const sortedArticlesList = useSorted(filteredRawList, (a, b) => {
 
   if (sortField.value === "date") {
     // 时间比较
-    comparison = new Date(a.date).getTime() - new Date(b.date).getTime();
+    comparison = new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
   } else {
     // 标题比较
     comparison = String(a.title).localeCompare(String(b.title));

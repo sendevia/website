@@ -4,15 +4,16 @@
  */
 
 import { createContentLoader, type ContentData } from "vitepress";
+import { formatDate } from "../utils/date";
 
 export interface PostData {
   id: string;
-  title: string;
   url: string;
-  date: string;
-  timestamp: number;
+  title: string;
   description: string;
   impression?: string[];
+  timestamp: number;
+  date: string;
   tags: string[];
   categories: string[];
   external_links?: Array<{
@@ -36,13 +37,10 @@ const generateHashId = (str: string): string => {
   return Math.abs(hash).toString(36);
 };
 
-const formatDate = (rawDate: any): { dateStr: string; timestamp: number } => {
+const formatDateTimestamp = (rawDate: any): { timestamp: number } => {
   const d = new Date(rawDate || 0);
-  if (isNaN(d.getTime())) return { dateStr: "", timestamp: 0 };
-  return {
-    dateStr: d.toISOString().split("T")[0],
-    timestamp: d.getTime(),
-  };
+  if (isNaN(d.getTime())) return { timestamp: 0 };
+  return { timestamp: d.getTime() };
 };
 
 const toArray = (val: any): string[] => {
@@ -55,16 +53,16 @@ export default createContentLoader("./posts/**/*.md", {
   excerpt: true,
   transform(raw: ContentData[]): PostData[] {
     const posts = raw.map(({ url, frontmatter }) => {
-      const { dateStr, timestamp } = formatDate(frontmatter.date);
+      const { timestamp } = formatDateTimestamp(frontmatter.date);
 
       return {
         id: generateHashId(url),
-        title: frontmatter.title || "",
         url,
-        date: dateStr,
-        timestamp,
+        title: frontmatter.title || "",
         description: frontmatter.description || "",
         impression: toArray(frontmatter.impression),
+        timestamp,
+        date: formatDate(frontmatter.date, { locale: "zh-CN" }),
         tags: toArray(frontmatter.tags),
         categories: toArray(frontmatter.categories),
         external_links: frontmatter.external_links,
