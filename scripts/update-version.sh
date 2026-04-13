@@ -33,8 +33,8 @@ echo "::>------------------------"
 # Git 操作
 echo "📦 提交更改..."
 git add package.json
-git commit -m "chore(package): update to version ${NEW_VERSION}"
-echo "已提交: chore(package): update to version ${NEW_VERSION}"
+git commit -m "chore(package): 更新到 ${NEW_VERSION}"
+echo "已提交: chore(package): 更新到 ${NEW_VERSION}"
 echo "::>------------------------"
 
 echo "🏷️ 创建标签..."
