@@ -2,8 +2,8 @@
 *.code-workspace
 *.map
 node_modules
-package-lock.json
 cache/
 dist/
 .agents
+.claude
 nginx-config.conf

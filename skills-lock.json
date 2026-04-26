@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "skills": {
+    "vite": {
+      "source": "antfu/skills",
+      "ref": "main",
+      "sourceType": "github",
+      "computedHash": "867ff66238f3152e9c494339ad08dc432dd0df5bcf5cc7a00b61a72b580eb908"
+    },
+    "vitepress": {
+      "source": "antfu/skills",
+      "ref": "main",
+      "sourceType": "github",
+      "computedHash": "629d8ec4bcbf7cac86c15c3ca5f173933f01729bcb6396c0d74733755a896a41"
+    },
+    "vueuse-functions": {
+      "source": "vueuse/skills",
+      "sourceType": "github",
+      "computedHash": "51467c2364e36ee5f40d1e83c94a6f53be3c12431bd8dcc81a650b8e195ae591"
+    }
+  }
+}
