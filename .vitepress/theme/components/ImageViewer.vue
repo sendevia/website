@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{
-  close: [];
+  "close": [];
   "update:currentIndex": [index: number];
 }>();
 
@@ -116,30 +116,6 @@ const hide = () => {
 const prevImage = () => hasPrevious.value && activeIndex.value--;
 const nextImage = () => hasNext.value && activeIndex.value++;
 
-/** 导航 ButtonGroup 按钮配置 */
-const BUTTONS_NAV_CONFIG = computed(() => [
-  { id: "prev", icon: "chevron_left", ariaLabel: "上一张", type: "normal" },
-  {
-    id: "index",
-    label: `${activeIndex.value + 1} / ${props.images.length}`,
-    color: "tonal",
-    ariaLabel: "当前页码",
-  },
-  { id: "next", icon: "chevron_right", ariaLabel: "下一张", type: "normal" },
-]);
-
-/** 处理按钮组点击事件 */
-const handleButtonGroupClick = (e: Event, item: any) => {
-  switch (item.id) {
-    case "prev":
-      prevImage();
-      break;
-    case "next":
-      nextImage();
-      break;
-  }
-};
-
 /** 处理键盘快捷键 */
 const handleKeyboardShortcuts = (e: KeyboardEvent) => {
   if (!isVisible.value) return;
@@ -182,7 +158,8 @@ useEventListener("keydown", handleKeyboardShortcuts);
 const handleWheel = (e: WheelEvent) => {
   e.preventDefault();
   if (e.shiftKey) {
-    e.deltaY > 0 ? nextImage() : prevImage();
+    if (e.deltaY > 0) nextImage();
+    else prevImage();
   } else {
     const step = e.deltaY > 0 ? -ZOOM_CONFIG.STEP : ZOOM_CONFIG.STEP;
     imageScale.value = Math.min(Math.max(imageScale.value + step, ZOOM_CONFIG.MIN), ZOOM_CONFIG.MAX);
@@ -273,8 +250,7 @@ defineExpose({ show, hide });
           cursor: imageScale > 1 ? (isDragging ? 'grabbing' : 'grab') : 'zoom-in',
           maxWidth: `${winWidth * 0.85}px`,
           maxHeight: `${winHeight * 0.75}px`,
-        }"
-      />
+        }" />
     </div>
   </div>
 </template>

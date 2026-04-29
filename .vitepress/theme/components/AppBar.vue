@@ -66,12 +66,7 @@ const filteredPosts = computed<PostData[]>(() => {
   if (!q || !posts.value.length) return [];
 
   return posts.value.filter(
-    (post) =>
-      post.date.toLowerCase().includes(q) ||
-      post.title.toLowerCase().includes(q) ||
-      post.description.toLowerCase().includes(q) ||
-      post.tags.some((t) => t.toLowerCase().includes(q)) ||
-      post.categories.some((t) => t.toLowerCase().includes(q)),
+    (post) => post.date.toLowerCase().includes(q) || post.title.toLowerCase().includes(q) || post.description.toLowerCase().includes(q) || post.tags.some((t) => t.toLowerCase().includes(q)) || post.categories.some((t) => t.toLowerCase().includes(q)),
   );
 });
 
@@ -283,20 +278,9 @@ onUnmounted(() => {
       typing: searchStateStore.isSearchTyping,
       hidden: isHidden,
     }"
-    :tabindex="isTabFocusable ? 0 : -1"
-  >
+    :tabindex="isTabFocusable ? 0 : -1">
     <div class="action-area">
-      <input
-        ref="searchInput"
-        v-model="query"
-        type="text"
-        placeholder="搜索文章"
-        class="search-input"
-        :tabindex="isTabFocusable ? 0 : -1"
-        @focus="handleFocus"
-        @blur="handleBlur"
-        @input="handleInput"
-      />
+      <input ref="searchInput" v-model="query" type="text" placeholder="搜索文章" class="search-input" :tabindex="isTabFocusable ? 0 : -1" @focus="handleFocus" @blur="handleBlur" @input="handleInput" />
 
       <div class="author-avatar" tabindex="-1">
         <img src="/assets/images/avatar.webp" alt="作者头像" />
@@ -304,23 +288,16 @@ onUnmounted(() => {
     </div>
 
     <div class="result-area" v-if="searchStateStore.isSearchActive && filteredPosts.length > 0">
-      <a
-        :key="post.url"
-        :href="post.url"
-        :tabindex="isTabFocusable ? 0 : -1"
-        class="result-items"
-        v-for="post in filteredPosts"
-        @click="handleResultClick"
-      >
+      <a :key="post.url" :href="post.url" :tabindex="isTabFocusable ? 0 : -1" class="result-items" v-for="post in filteredPosts" @click="handleResultClick">
         <div class="title">
           <h3>{{ post.title }}</h3>
           <div class="chips">
             <p class="segments date item" v-if="post.date">{{ post.date }}</p>
             <div class="segments categories" v-if="post.categories.length > 0">
-              <p class="item" v-for="item in post.categories">{{ item }}</p>
+              <p :key="item" class="item" v-for="item in post.categories">{{ item }}</p>
             </div>
             <div class="segments tags" v-if="post.tags.length > 0">
-              <p class="item" v-for="item in post.tags">{{ item }}</p>
+              <p :key="item" class="item" v-for="item in post.tags">{{ item }}</p>
             </div>
           </div>
         </div>

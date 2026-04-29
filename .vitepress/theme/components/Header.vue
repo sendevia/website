@@ -222,13 +222,7 @@ onUnmounted(() => {
       <div class="carousel-container" :impression-color="frontmatter.color">
         <template v-if="hasMultiple">
           <div class="stage" :style="{ '--carousel-duration': `${animDuration}ms` }">
-            <div
-              v-for="slot in slotStates"
-              :key="slot.id"
-              class="item"
-              :class="slot.className"
-              :style="{ order: slot.order }"
-            >
+            <div v-for="slot in slotStates" :key="slot.id" class="item" :class="slot.className" :style="{ order: slot.order }">
               <img :src="slot.imgUrl" />
             </div>
           </div>
@@ -247,8 +241,7 @@ onUnmounted(() => {
                   strokeDasharray: `${2 * Math.PI * 9}`,
                   strokeDashoffset: `${2 * Math.PI * 9 * (1 - progress / 100)}`,
                   transition: isFastForwarding ? 'none' : 'stroke-dashoffset 100ms linear',
-                }"
-              />
+                }" />
             </svg>
           </div>
           <div class="controls">
@@ -256,13 +249,7 @@ onUnmounted(() => {
             <div class="next" title="下一张" @click="handleNav(1)"></div>
           </div>
           <div class="indicators">
-            <button
-              v-for="(_, idx) in rawImgList"
-              :key="idx"
-              class="dot"
-              :class="{ active: currentRealIndex === idx }"
-              @click="jumpTo(idx)"
-            ></button>
+            <button v-for="(_, idx) in rawImgList" :key="idx" class="dot" :class="{ active: currentRealIndex === idx }" @click="jumpTo(idx)"></button>
           </div>
         </template>
         <template v-else>
@@ -270,13 +257,7 @@ onUnmounted(() => {
             <svg width="0" height="0" style="display: none">
               <defs>
                 <filter id="noise-filter" x="0" y="0" width="100%" height="100%">
-                  <feTurbulence
-                    :seed="frontmatter.date ? new Date(frontmatter.date).getTime() : 0"
-                    type="turbulence"
-                    baseFrequency="0.15"
-                    numOctaves="2"
-                    stitchTiles="stitch"
-                  ></feTurbulence>
+                  <feTurbulence :seed="frontmatter.date ? new Date(frontmatter.date).getTime() : 0" type="turbulence" baseFrequency="0.15" numOctaves="2" stitchTiles="stitch"></feTurbulence>
                   <feColorMatrix type="saturate" values="1"></feColorMatrix>
                   <feComponentTransfer>
                     <feFuncA type="discrete" tableValues="0 0.1"></feFuncA>

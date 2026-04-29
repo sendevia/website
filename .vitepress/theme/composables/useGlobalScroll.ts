@@ -50,12 +50,7 @@ function calculatePercentage(scrollTop: number, scrollContainer: HTMLElement | W
     let scrollHeight: number, clientHeight: number;
 
     if (scrollContainer === window) {
-      scrollHeight = Math.max(
-        document.body.scrollHeight,
-        document.documentElement.scrollHeight,
-        document.body.clientHeight,
-        document.documentElement.clientHeight
-      );
+      scrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, document.body.clientHeight, document.documentElement.clientHeight);
       clientHeight = window.innerHeight;
     } else {
       scrollHeight = (scrollContainer as HTMLElement).scrollHeight;
@@ -67,7 +62,7 @@ function calculatePercentage(scrollTop: number, scrollContainer: HTMLElement | W
 
     const percentage = Math.min(scrollTop / maxScroll, 1) * 100;
     return Number(percentage.toFixed(precision));
-  } catch (e) {
+  } catch {
     return 0;
   }
 }
@@ -125,7 +120,7 @@ export function useGlobalScroll(options?: { threshold?: number; container?: stri
         updateGlobalState(yValue, containerRef.value, globalThreshold.value, globalPrecision.value);
       }
     },
-    { immediate: true }
+    { immediate: true },
   );
 
   // 容器检测和初始化
@@ -155,7 +150,7 @@ export function useGlobalScroll(options?: { threshold?: number; container?: stri
       if (isClient()) {
         initContainer();
       }
-    }
+    },
   );
 
   watch(
@@ -164,7 +159,7 @@ export function useGlobalScroll(options?: { threshold?: number; container?: stri
       if (newThreshold !== undefined && containerRef.value) {
         localIsScrolled.value = localScrollPosition.value > newThreshold;
       }
-    }
+    },
   );
 
   return {

@@ -380,8 +380,7 @@ const clearCategory = () => {
             variant="feed"
             size="m"
             color="outlined"
-            class="entrance"
-          />
+            class="entrance" />
         </div>
       </div>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { computed } from "vue";
 
 interface Props {
   /** 标签文本 */
@@ -18,7 +18,7 @@ interface Props {
   disabled?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   type: "text",
   variant: "filled",
   placeholder: "",
@@ -40,11 +40,10 @@ const hasValue = computed(() => {
       variant,
       {
         'has-value': hasValue,
-        error: error,
-        disabled: disabled,
+        'error': error,
+        'disabled': disabled,
       },
-    ]"
-  >
+    ]">
     <div class="input-container">
       <StateLayer />
       <input v-model="modelValue" :type="type" :placeholder="placeholder" :disabled="disabled" />

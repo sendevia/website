@@ -26,7 +26,7 @@ interface Props {
   draft?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   variant: "feed",
   size: "m",
   color: "filled",
@@ -36,35 +36,30 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <component :is="href ? 'a' : 'div'" :href="href" class="MaterialCard" :class="[props.variant, props.size, props.color]">
+  <component :is="href ? 'a' : 'div'" :href="href" class="MaterialCard" :class="[variant, size, color]">
     <div class="content">
       <StateLayer />
-      <div v-if="(props.impression && props.impression.length > 0) || props.title" class="impression-area">
+      <div v-if="(impression && impression.length > 0) || title" class="impression-area">
         <div class="tips-container">
-          <div v-if="props.draft" class="tips draft">
+          <div v-if="draft" class="tips draft">
             <h6>草稿</h6>
           </div>
-          <div v-if="props.date" class="tips date">
-            <h6>{{ props.date }}发布</h6>
+          <div v-if="date" class="tips date">
+            <h6>{{ date }}发布</h6>
           </div>
-          <div v-if="props.downloadable" class="tips download">
+          <div v-if="downloadable" class="tips download">
             <h6>可下载资源</h6>
           </div>
         </div>
 
-        <div v-if="props.impression && props.impression.length > 0" class="image-container">
-          <img
-            v-for="(imgUrl, index) in props.impression.slice(0, 2)"
-            :key="index"
-            :src="imgUrl"
-            :alt="props.title + ' cover ' + (index + 1)"
-          />
+        <div v-if="impression && impression.length > 0" class="image-container">
+          <img v-for="(imgUrl, index) in impression.slice(0, 2)" :key="index" :src="imgUrl" :alt="title + ' cover ' + (index + 1)" />
         </div>
       </div>
 
-      <div v-if="props.description || props.title || props.date" class="supporting-area">
-        <h4 v-if="props.title">{{ props.title }}</h4>
-        <p v-if="props.description">{{ props.description }}</p>
+      <div v-if="description || title || date" class="supporting-area">
+        <h4 v-if="title">{{ title }}</h4>
+        <p v-if="description">{{ description }}</p>
       </div>
     </div>
   </component>
