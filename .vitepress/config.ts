@@ -22,6 +22,7 @@ export default defineConfig({
   title: "sendevia 的小站",
   titleTemplate: ":title",
   description: "随便写写的博客",
+  srcExclude: ["AGENTS.md"],
   markdown: {
     attrs: {
       allowedAttributes: ["id", "class"],
