@@ -11,18 +11,18 @@
   },
   "dependencies": {
     "@material/material-color-utilities": "0.3.0",
-    "@vueuse/core": "14.2.1",
-    "pinia": "3.0.4"
+    "@vueuse/core": "^14.0.0",
+    "pinia": "^3.0.0"
   },
   "devDependencies": {
-    "@mdit/plugin-align": "0.24.2",
-    "@mdit/plugin-footnote": "0.23.2",
-    "@mdit/plugin-img-mark": "0.23.2",
-    "@mdit/plugin-tab": "0.24.2",
-    "@mdit/plugin-tasklist": "0.23.2",
-    "markdown-it-mathjax3": "4.3.2",
-    "sass-embedded": "1.99.0",
+    "@mdit/plugin-align": "^0.24.0",
+    "@mdit/plugin-footnote": "^0.23.0",
+    "@mdit/plugin-img-mark": "^0.23.0",
+    "@mdit/plugin-tab": "^0.24.0",
+    "@mdit/plugin-tasklist": "^0.23.0",
+    "markdown-it-mathjax3": "^4.0.0",
+    "sass-embedded": "^1.99.0",
     "vitepress": "2.0.0-alpha.17",
-    "vue": "3.5.32"
+    "vue": "^3.0.0"
   }
 }
