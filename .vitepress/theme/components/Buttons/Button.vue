@@ -29,7 +29,6 @@ withDefaults(defineProps<Props>(), {
   shape: "round",
   color: "filled",
   state: "none",
-  disabled: false,
 });
 defineEmits<{
   click: [event: MouseEvent];
@@ -37,7 +36,7 @@ defineEmits<{
 </script>
 
 <template>
-  <component :is="href ? 'a' : 'button'" :class="[pattern, variant, shape, size, color, { icon: !!icon }]" :state="state" :disabled="disabled" :href="href" :target="href ? target : undefined" @click="$emit('click', $event)">
+  <component :is="href ? 'a' : 'button'" :class="[pattern, variant, shape, size, color, { icon: !!icon }]" :state="state" :disabled="disabled ? disabled : undefined" :href="href" :target="href ? target : undefined" @click="$emit('click', $event)">
     <StateLayer :state="state" />
     <span v-if="icon">{{ icon }}</span>
     <slot />

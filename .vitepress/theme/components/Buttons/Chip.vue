@@ -17,7 +17,6 @@ withDefaults(defineProps<Props>(), {
   pattern: "chip",
   variant: "assist",
   state: "none",
-  disabled: false,
 });
 defineEmits<{
   click: [event: MouseEvent];
@@ -25,7 +24,7 @@ defineEmits<{
 </script>
 
 <template>
-  <button :class="[pattern, variant, { icon: !!icon }]" :state="state" :disabled="disabled" @click="$emit('click', $event)">
+  <button :class="[pattern, variant, { icon: !!icon }]" :state="state" :disabled="disabled ? disabled : undefined" @click="$emit('click', $event)">
     <StateLayer :state="state" />
     <span v-if="icon">{{ icon }}</span>
     <slot />
