@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y git \
 WORKDIR /app
 
 # 拉取项目代码
-RUN git clone https://github.com/sendevia/website . --unshallow
+RUN git clone https://github.com/sendevia/website .
 
 # 安装依赖并构建
 RUN npm i && npm run docs:build
