@@ -1,5 +1,6 @@
 @use "sass:meta";
 @use "mixin";
+@use "tokens";
 
 * {
   box-sizing: border-box;
@@ -12,36 +13,29 @@
   }
 }
 
-@include meta.load-css("tokens");
-
 :root {
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: transparent;
   font-size: 1px;
   font-synthesis: none;
   hyphens: auto;
   scrollbar-color: var(--md-sys-color-secondary) transparent;
   text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html,
 body {
   height: 100%;
   width: 100%;
-
   margin: 0px;
   padding: 0px;
-
   color: var(--md-sys-color-on-surface);
-
   background-color: var(--md-sys-color-surface-container-lowest);
-
   overflow: hidden;
 
   ::selection {
     color: var(--md-sys-color-surface-variant);
-
     background-color: var(--md-sys-color-on-surface-variant);
   }
 
@@ -60,10 +54,8 @@ body {
 
 #app {
   position: relative;
-
   height: 100%;
   width: 100%;
-
   touch-action: none;
   z-index: 0;
 
@@ -93,10 +85,8 @@ $typescale-map: (
 
 a {
   display: inline-block;
-
   height: max-content;
   width: max-content;
-
   color: var(--md-sys-color-primary);
   letter-spacing: 0px;
   text-decoration: underline solid;
@@ -115,14 +105,10 @@ abbr {
 
 hr {
   height: 15px;
-
   margin: 0px;
-
   border-radius: var(--md-sys-shape-corner-small);
   border: none;
-
   background: var(--md-sys-color-outline-variant);
-
   mask: var(--via-svg-wave) repeat;
   opacity: 0.3;
 }
@@ -134,15 +120,12 @@ span {
 
 table {
   display: block;
-
   max-width: max-content;
   width: 100%;
-
   border-collapse: collapse;
   border-radius: var(--md-sys-shape-corner-extra-large);
   outline-offset: -1px;
   outline: 1px solid var(--md-sys-color-outline);
-
   overflow: auto;
 
   a {
@@ -151,21 +134,16 @@ table {
 
   caption {
     @include mixin.typescale-style("title-medium", $font-variation-settings: "wght" 700);
-
     padding: 16px 0px;
   }
 
   thead {
     @include mixin.typescale-style("body-large", $font-variation-settings: "wght" 700);
-
     white-space: nowrap;
 
-    tr {
-      th {
-        text-transform: capitalize;
-
-        background-color: var(--md-sys-color-surface-variant);
-      }
+    tr th {
+      text-transform: capitalize;
+      background-color: var(--md-sys-color-surface-variant);
     }
   }
 
@@ -192,9 +170,7 @@ table {
   td,
   th {
     min-width: 14ch;
-
     padding: 16px 24px;
-
     border: 1px solid var(--md-sys-color-outline);
 
     &:empty {
