@@ -73,47 +73,22 @@ body {
   }
 }
 
-h1 {
-  @include mixin.typescale-style("headline-large");
+$typescale-map: (
+  h1: "headline-large",
+  h2: "headline-medium",
+  h3: "headline-small",
+  h4: "title-large",
+  h5: "title-medium",
+  h6: "title-small",
+  p: "body-large",
+  pre: "body-large",
+);
 
-  margin: 0px;
-}
-
-h2 {
-  @include mixin.typescale-style("headline-medium");
-
-  margin: 0px;
-}
-
-h3 {
-  @include mixin.typescale-style("headline-small");
-
-  margin: 0px;
-}
-
-h4 {
-  @include mixin.typescale-style("title-large");
-
-  margin: 0px;
-}
-
-h5 {
-  @include mixin.typescale-style("title-medium");
-
-  margin: 0px;
-}
-
-h6 {
-  @include mixin.typescale-style("title-small");
-
-  margin: 0px;
-}
-
-p,
-pre {
-  @include mixin.typescale-style("body-large");
-
-  margin: 0px;
+@each $selector, $style in $typescale-map {
+  #{$selector} {
+    @include mixin.typescale-style($style);
+    margin: 0;
+  }
 }
 
 a {
