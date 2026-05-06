@@ -69,7 +69,7 @@
     }
 
     .lang {
-      @include mixin.typescale-style("body-medium", $font-family: Cascadia Code, $font-variation-settings: "wght" 700);
+      @include mixin.typescale-style("body-medium");
 
       position: absolute;
       right: 0px;
@@ -79,6 +79,8 @@
       margin-inline-end: 9px;
 
       color: var(--md-ref-palette-neutral50);
+      font-family: Cascadia Code;
+      font-variation-settings: "wght" 700;
       text-transform: uppercase;
 
       transition: color var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
@@ -121,7 +123,7 @@
 
       &.has-diff .line {
         &.diff::before {
-          @include mixin.typescale-style("body-medium", $font-family: Cascadia Code, $line-height: 24px);
+          @include mixin.typescale-style("body-medium");
 
           display: inline-block;
           content: "";
@@ -129,6 +131,8 @@
           height: 24px;
           width: 24px;
 
+          font-family: Cascadia Code;
+          line-height: 24px;
           text-align: center;
         }
 
@@ -195,11 +199,12 @@
         z-index: 0;
 
         span {
-          @include mixin.typescale-style("body-large", $font-family: Cascadia Code, $line-height: 25px);
+          @include mixin.typescale-style("body-large");
 
           display: block;
-
           height: 25px;
+          font-family: Cascadia Code;
+          line-height: 25px;
         }
 
         br {
@@ -386,7 +391,7 @@
 
     margin-block-end: 12px;
 
-    & > * {
+    > * {
       margin-block: 12px 6px;
     }
 
@@ -421,6 +426,13 @@
         border-radius: var(--md-sys-shape-corner-small);
 
         background-color: var(--md-sys-color-inverse-on-surface);
+      }
+
+      > {
+        ul,
+        ol {
+          margin-inline: 0px;
+        }
       }
 
       blockquote {
@@ -471,22 +483,16 @@
           }
         }
       }
-
-      & > {
-        ul,
-        ol {
-          margin-inline: 0px;
-        }
-      }
     }
 
     code {
-      @include mixin.typescale-style("body-large", $font-family: Cascadia Code);
+      @include mixin.typescale-style("body-large");
 
       display: inline-block;
 
       width: max-content;
 
+      font-family: Cascadia Code;
       text-indent: initial;
       vertical-align: baseline;
       word-break: break-word;
@@ -509,7 +515,8 @@
         padding-inline: 12px;
 
         span {
-          @include mixin.typescale-style("body-large", $font-family: Cascadia Code);
+          @include mixin.typescale-style("body-large");
+          font-family: Cascadia Code;
         }
       }
     }
@@ -554,7 +561,7 @@
       }
 
       code {
-        @include mixin.typescale-style("body-large", $font-family: Cascadia Code);
+        @include mixin.typescale-style("body-large");
 
         display: inline;
 
@@ -563,6 +570,7 @@
         padding: 0px;
 
         vertical-align: baseline;
+        font-family: Cascadia Code;
       }
 
       em {

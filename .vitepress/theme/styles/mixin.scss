@@ -1,19 +1,12 @@
 @use "sass:math";
 @use "sass:string";
 
-@mixin typescale-style(
-  $type-scale,
-  $font-family: var(--md-sys-typescale-#{$type-scale}-family),
-  $font-size: var(--md-sys-typescale-#{$type-scale}-size),
-  $line-height: var(--md-sys-typescale-#{$type-scale}-line-height),
-  $letter-spacing: var(--md-sys-typescale-#{$type-scale}-letter-spacing),
-  $font-variation-settings: var(--md-sys-typescale-#{$type-scale}-font-variation-settings)
-) {
-  font-family: $font-family;
-  font-size: $font-size;
-  font-variation-settings: $font-variation-settings;
-  letter-spacing: $letter-spacing;
-  line-height: $line-height;
+@mixin typescale-style($type-scale) {
+  font-family: var(--md-sys-typescale-#{$type-scale}-family);
+  font-size: var(--md-sys-typescale-#{$type-scale}-size);
+  font-variation-settings: var(--md-sys-typescale-#{$type-scale}-font-variation-settings);
+  letter-spacing: var(--md-sys-typescale-#{$type-scale}-letter-spacing);
+  line-height: var(--md-sys-typescale-#{$type-scale}-line-height);
 }
 
 @mixin typescale($name, $family, $size, $tracking, $line-height, $vf-weight) {

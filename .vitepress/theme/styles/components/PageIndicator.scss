@@ -79,8 +79,7 @@
 
         opacity: 0.5;
         transition:
-          font-variation-settings var(--md-sys-motion-spring-fast-effect-duration)
-            var(--md-sys-motion-spring-fast-effect-duration),
+          font-variation-settings var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect-duration),
           opacity var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect-duration);
 
         &:focus-visible {
@@ -90,18 +89,16 @@
         }
       }
 
-      &.active {
-        & > a {
-          color: var(--md-sys-color-primary);
-          font-variation-settings: "wght" 700;
+      &.active > a {
+        color: var(--md-sys-color-primary);
+        font-variation-settings: "wght" 700;
 
-          opacity: 1;
+        opacity: 1;
 
-          &:focus-visible {
-            color: var(--md-sys-color-on-primary);
+        &:focus-visible {
+          color: var(--md-sys-color-on-primary);
 
-            background-color: var(--md-sys-color-primary);
-          }
+          background-color: var(--md-sys-color-primary);
         }
       }
     }
