@@ -39,14 +39,14 @@ external_links:
 
 # 主题截图
 
-![桌面端第一张亮色截图](/assets/images/26/jekylmt_1.webp#light)
-![桌面端第一张暗色截图](/assets/images/26/jekylmt_2.webp#dark)
-![桌面端第二张亮色截图](/assets/images/26/jekylmt_3.webp#light)
-![桌面端第二张暗色截图](/assets/images/26/jekylmt_4.webp#dark)
-![移动端第一张亮色截图](/assets/images/26/jekylmt_5.webp#light)
-![移动端第一张暗色截图](/assets/images/26/jekylmt_6.webp#dark)
-![移动端第二张亮色截图](/assets/images/26/jekylmt_7.webp#light)
-![移动端第二张暗色截图](/assets/images/26/jekylmt_8.webp#dark)
+![桌面端第一张亮色截图](/assets/images/26/s2mli7_1.webp#light)
+![桌面端第一张暗色截图](/assets/images/26/s2mli7_2.webp#dark)
+![桌面端第二张亮色截图](/assets/images/26/s2mli7_3.webp#light)
+![桌面端第二张暗色截图](/assets/images/26/s2mli7_4.webp#dark)
+![移动端第一张亮色截图](/assets/images/26/s2mli7_5.webp#light)
+![移动端第一张暗色截图](/assets/images/26/s2mli7_6.webp#dark)
+![移动端第二张亮色截图](/assets/images/26/s2mli7_7.webp#light)
+![移动端第二张暗色截图](/assets/images/26/s2mli7_8.webp#dark)
 
 # 主要功能
 
