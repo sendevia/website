@@ -1,230 +1,141 @@
+@use "sass:map";
 @use "../../mixin";
 
+$config: (
+  xs: (
+    icon-size: 20px,
+    height: 32px,
+    round-radius: var(--md-sys-shape-corner-full),
+    round-selected-radius: var(--md-sys-shape-corner-medium),
+    square-radius: var(--md-sys-shape-corner-medium),
+    square-selected-radius: var(--md-sys-shape-corner-full),
+    active-radius: var(--md-sys-shape-corner-small),
+    narrow-padding: 4px,
+    normal-padding: 6px,
+    wide-padding: 10px,
+    outlined-width: 1px,
+  ),
+  s: (
+    icon-size: 24px,
+    height: 40px,
+    round-radius: var(--md-sys-shape-corner-full),
+    round-selected-radius: var(--md-sys-shape-corner-medium),
+    square-radius: var(--md-sys-shape-corner-medium),
+    square-selected-radius: var(--md-sys-shape-corner-full),
+    active-radius: var(--md-sys-shape-corner-small),
+    narrow-padding: 4px,
+    normal-padding: 8px,
+    wide-padding: 14px,
+    outlined-width: 1px,
+  ),
+  m: (
+    icon-size: 24px,
+    height: 56px,
+    round-radius: var(--md-sys-shape-corner-full),
+    round-selected-radius: var(--md-sys-shape-corner-large),
+    square-radius: var(--md-sys-shape-corner-large),
+    square-selected-radius: var(--md-sys-shape-corner-full),
+    active-radius: var(--md-sys-shape-corner-medium),
+    narrow-padding: 12px,
+    normal-padding: 16px,
+    wide-padding: 24px,
+    outlined-width: 1px,
+  ),
+  l: (
+    icon-size: 32px,
+    height: 96px,
+    round-radius: var(--md-sys-shape-corner-full),
+    round-selected-radius: var(--md-sys-shape-corner-extra-large),
+    square-radius: var(--md-sys-shape-corner-extra-large),
+    square-selected-radius: var(--md-sys-shape-corner-full),
+    active-radius: var(--md-sys-shape-corner-large),
+    narrow-padding: 16px,
+    normal-padding: 32px,
+    wide-padding: 48px,
+    outlined-width: 2px,
+  ),
+  xl: (
+    icon-size: 40px,
+    height: 136px,
+    round-radius: var(--md-sys-shape-corner-full),
+    round-selected-radius: var(--md-sys-shape-corner-extra-large),
+    square-radius: var(--md-sys-shape-corner-extra-large),
+    square-selected-radius: var(--md-sys-shape-corner-full),
+    active-radius: var(--md-sys-shape-corner-large),
+    narrow-padding: 32px,
+    normal-padding: 48px,
+    wide-padding: 72px,
+    outlined-width: 3px,
+  ),
+);
+
 .icon-button {
-  &.xs {
-    @include mixin.material-symbols($size: 20px);
+  @each $size, $config in $config {
+    &.#{$size} {
+      @include mixin.material-symbols($size: map.get($config, "icon-size"));
+      height: map.get($config, "height");
 
-    height: 32px;
+      &.round {
+        border-radius: map.get($config, "round-radius");
 
-    &.round {
-      border-radius: var(--md-sys-shape-corner-full);
-
-      &.selected {
-        border-radius: var(--md-sys-shape-corner-medium);
+        &.selected {
+          border-radius: map.get($config, "round-selected-radius");
+        }
       }
-    }
 
-    &.square {
-      border-radius: var(--md-sys-shape-corner-medium);
+      &.square {
+        border-radius: map.get($config, "square-radius");
 
-      &.selected {
-        border-radius: var(--md-sys-shape-corner-full);
+        &.selected {
+          border-radius: map.get($config, "square-selected-radius");
+        }
       }
-    }
 
-    &.narrow {
-      padding-inline: 4px;
-    }
-
-    &.normal {
-      padding-inline: 6px;
-    }
-
-    &.wide {
-      padding-inline: 10px;
-    }
-
-    &:active {
-      border-radius: var(--md-sys-shape-corner-small);
-    }
-  }
-
-  &.s {
-    @include mixin.material-symbols($size: 24px);
-
-    height: 40px;
-
-    &.round {
-      border-radius: var(--md-sys-shape-corner-full);
-
-      &.selected {
-        border-radius: var(--md-sys-shape-corner-medium);
+      &.narrow {
+        padding-inline: map.get($config, "narrow-padding");
       }
-    }
 
-    &.square {
-      border-radius: var(--md-sys-shape-corner-medium);
-
-      &.selected {
-        border-radius: var(--md-sys-shape-corner-full);
+      &.normal {
+        padding-inline: map.get($config, "normal-padding");
       }
-    }
 
-    &.narrow {
-      padding-inline: 4px;
-    }
-
-    &.normal {
-      padding-inline: 8px;
-    }
-
-    &.wide {
-      padding-inline: 14px;
-    }
-
-    &:active {
-      border-radius: var(--md-sys-shape-corner-small);
-    }
-  }
-
-  &.m {
-    @include mixin.material-symbols($size: 24px);
-
-    height: 56px;
-
-    &.round {
-      border-radius: var(--md-sys-shape-corner-full);
-
-      &.selected {
-        border-radius: var(--md-sys-shape-corner-large);
+      &.wide {
+        padding-inline: map.get($config, "wide-padding");
       }
-    }
 
-    &.square {
-      border-radius: var(--md-sys-shape-corner-large);
-
-      &.selected {
-        border-radius: var(--md-sys-shape-corner-full);
+      &:active {
+        border-radius: map.get($config, "active-radius");
       }
-    }
-
-    &.narrow {
-      padding-inline: 12px;
-    }
-
-    &.normal {
-      padding-inline: 16px;
-    }
-
-    &.wide {
-      padding-inline: 24px;
-    }
-
-    &:active {
-      border-radius: var(--md-sys-shape-corner-medium);
-    }
-  }
-
-  &.l {
-    @include mixin.material-symbols($size: 32px);
-
-    height: 96px;
-
-    &.round {
-      border-radius: var(--md-sys-shape-corner-full);
-
-      &.selected {
-        border-radius: var(--md-sys-shape-corner-extra-large);
-      }
-    }
-
-    &.square {
-      border-radius: var(--md-sys-shape-corner-extra-large);
-
-      &.selected {
-        border-radius: var(--md-sys-shape-corner-full);
-      }
-    }
-
-    &.narrow {
-      padding-inline: 16px;
-    }
-
-    &.normal {
-      padding-inline: 32px;
-    }
-
-    &.wide {
-      padding-inline: 48px;
-    }
-
-    &:active {
-      border-radius: var(--md-sys-shape-corner-large);
-    }
-  }
-
-  &.xl {
-    @include mixin.material-symbols($size: 40px);
-
-    height: 136px;
-
-    &.round {
-      border-radius: var(--md-sys-shape-corner-full);
-
-      &.selected {
-        border-radius: var(--md-sys-shape-corner-extra-large);
-      }
-    }
-
-    &.square {
-      border-radius: var(--md-sys-shape-corner-extra-large);
-
-      &.selected {
-        border-radius: var(--md-sys-shape-corner-full);
-      }
-    }
-
-    &.narrow {
-      padding-inline: 32px;
-    }
-
-    &.normal {
-      padding-inline: 48px;
-    }
-
-    &.wide {
-      padding-inline: 72px;
-    }
-
-    &:active {
-      border-radius: var(--md-sys-shape-corner-large);
     }
   }
 
   &.elevated {
     color: var(--md-sys-color-primary);
-
     background-color: var(--md-sys-color-surface-container-low);
-
     box-shadow: 0px 1px 6px -3px var(--md-sys-color-shadow);
 
     &.selected {
       color: var(--md-sys-color-on-primary);
-
       background-color: var(--md-sys-color-primary);
     }
 
     &[disabled] {
       color: color-mix(in srgb, var(--md-sys-color-on-surface), transparent 62%);
-
       background-color: color-mix(in srgb, var(--md-sys-color-on-surface), transparent 90%);
     }
   }
 
   &.filled {
     color: var(--md-sys-color-on-primary);
-
     background-color: var(--md-sys-color-primary);
 
     &.selected {
       color: var(--md-sys-color-on-primary);
-
       background-color: var(--md-sys-color-primary);
     }
 
     &[disabled] {
       color: color-mix(in srgb, var(--md-sys-color-on-surface), transparent 62%);
-
       background-color: color-mix(in srgb, var(--md-sys-color-on-surface), transparent 90%);
     }
 
@@ -235,33 +146,17 @@
 
   &.tonal {
     color: var(--md-sys-color-on-secondary-container);
-
     background-color: var(--md-sys-color-secondary-container);
   }
 
   &.outlined {
     color: var(--md-sys-color-on-surface-variant);
-
     outline-color: var(--md-sys-color-outline-variant);
 
-    &.xs {
-      outline-width: 1px;
-    }
-
-    &.s {
-      outline-width: 1px;
-    }
-
-    &.m {
-      outline-width: 1px;
-    }
-
-    &.l {
-      outline-width: 2px;
-    }
-
-    &.xl {
-      outline-width: 3px;
+    @each $size, $config in $config {
+      &.#{$size} {
+        outline-width: map.get($config, "outlined-width");
+      }
     }
   }
 
