@@ -55,6 +55,7 @@
         font-size: 72rem;
         font-variation-settings: "wght" 900;
         line-height: 78rem;
+        text-autospace: normal;
         background-clip: text;
         background-position: 0% 0%;
         background-repeat: no-repeat;
@@ -109,6 +110,26 @@
 
         &:nth-of-type(2) {
           z-index: 0;
+        }
+      }
+
+      @media screen and (max-width: 1200px) {
+        grid-template-columns: 70% 30%;
+      }
+
+      @media screen and (max-width: 840px) {
+        grid-template-columns: 90% 10%;
+
+        img:nth-of-type(1) {
+          mask-image: linear-gradient(to right, black 0%, transparent 100%);
+        }
+      }
+
+      @media screen and (max-width: 600px) {
+        grid-template-columns: 100% 0%;
+
+        img:nth-of-type(1) {
+          mask-image: linear-gradient(to right, black 100%, transparent 100%);
         }
       }
     }
