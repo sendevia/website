@@ -17,28 +17,21 @@
 
   *[class^="language-"] {
     position: relative;
-
     margin-block-end: 12px;
-
     overflow: hidden;
 
     .copy {
       position: absolute;
       right: 0px;
       top: 0px;
-
       height: 42px;
       width: 42px;
-
       margin-block-start: 6px;
       margin-inline-end: 6px;
       padding: 0px;
-
       border: none;
       border-radius: var(--md-sys-shape-corner-extra-large);
-
       background-color: transparent;
-
       cursor: pointer;
       opacity: 0;
       transition:
@@ -49,7 +42,6 @@
 
       &::before {
         @include mixin.material-symbols($name: "content_copy", $size: 18rem, $line-height: 42rem);
-
         color: var(--md-ref-palette-neutral90);
       }
 
@@ -63,47 +55,38 @@
 
       &:focus-visible {
         outline-color: var(--md-ref-palette-neutral90) !important;
-
         z-index: 3;
       }
     }
 
     .lang {
       @include mixin.typescale-style("body-medium");
-
       position: absolute;
       right: 0px;
       top: 0px;
-
       margin-block-start: 6px;
       margin-inline-end: 9px;
-
       color: var(--md-ref-palette-neutral50);
       font-family: Cascadia Code;
       font-variation-settings: "wght" 700;
       text-transform: uppercase;
-
       transition: color var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
       user-select: none;
-      -moz-user-select: none;
       z-index: 1;
+      -moz-user-select: none;
     }
 
     .shiki {
       grid-column: 2/3;
       grid-row: 1;
-
       margin: 0px;
       padding-block: 15px;
-
       border-radius: var(--md-sys-shape-corner-large);
-
       overflow: overlay;
       z-index: 0;
 
       code {
         padding: 0px;
-
         width: 100%;
 
         > span:not(:has(span)) {
@@ -113,7 +96,6 @@
 
       &.has-focused-lines .line {
         filter: blur(2px);
-
         transition: filter var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
 
         &.has-focus {
@@ -124,13 +106,10 @@
       &.has-diff .line {
         &.diff::before {
           @include mixin.typescale-style("body-medium");
-
           display: inline-block;
           content: "";
-
           height: 24px;
           width: 24px;
-
           font-family: Cascadia Code;
           line-height: 24px;
           text-align: center;
@@ -179,28 +158,21 @@
       .line-numbers-wrapper {
         grid-column: 1/2;
         grid-row: 1;
-
         width: max-content;
-
         padding-block: 15px;
         padding-inline: 12px;
-
         text-align: right;
         vertical-align: middle;
-
         color: var(--md-ref-palette-neutral-variant50);
-
         border-radius: var(--md-sys-shape-corner-large-increased) 0px 0px var(--md-sys-shape-corner-large-increased);
         border-right: 1px solid var(--md-ref-palette-neutral-variant50);
         background-color: var(--md-ref-palette-neutral10);
-
         user-select: none;
-        -moz-user-select: none;
         z-index: 0;
+        -moz-user-select: none;
 
         span {
           @include mixin.typescale-style("body-large");
-
           display: block;
           height: 25px;
           font-family: Cascadia Code;
@@ -236,24 +208,18 @@
 
   .custom-block {
     @include mixin.typescale-style("body-large");
-
     display: grid;
     column-gap: 12px;
     grid-template-columns: 24px auto;
-
     position: relative;
-
     margin-block-start: 12px;
     padding-inline: 12px;
     padding-block: 12px 0px;
-
     border-radius: var(--md-sys-shape-corner-large-increased);
-
     z-index: 0;
 
     > * {
       grid-column: 2 / 3;
-
       padding-block: 0px;
 
       &:last-child {
@@ -264,19 +230,15 @@
 
     .custom-block-title {
       grid-column: 2;
-
       margin: 0px;
       padding: 0px;
-
       font-variation-settings: "wght" 700;
-
       user-select: none;
       -moz-user-select: none;
     }
 
     &::before {
       @include mixin.material-symbols();
-
       grid-column: 1;
     }
 
@@ -291,22 +253,16 @@
         display: grid;
         column-gap: 12px;
         grid-template-columns: 24px auto;
-
         padding-block-end: 12px;
-
         font-variation-settings: "wght" 700;
-
         border-radius: var(--md-sys-shape-corner-large-increased);
-
         cursor: pointer;
         user-select: none;
         -moz-user-select: none;
 
         &::before {
           @include mixin.material-symbols("expand_more");
-
           font-variation-settings: "wght" 500;
-
           transform: rotateZ(-90deg);
           transition: transform var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
         }
@@ -337,24 +293,20 @@
     &.info,
     &.note {
       color: var(--md-sys-color-on-blue-container);
-
       background-color: var(--md-sys-color-blue-container);
 
       &::before {
         content: "info";
-
         color: var(--md-sys-color-on-blue-container);
       }
     }
 
     &.tip {
       color: var(--md-sys-color-on-green-container);
-
       background-color: var(--md-sys-color-green-container);
 
       &::before {
         content: "lightbulb_2";
-
         color: var(--md-sys-color-on-green-container);
       }
     }
@@ -362,12 +314,10 @@
     &.warning,
     &.important {
       color: var(--md-sys-color-on-yellow-container);
-
       background-color: var(--md-sys-color-yellow-container);
 
       &::before {
         content: "brightness_alert";
-
         color: var(--md-sys-color-on-yellow-container);
       }
     }
@@ -375,12 +325,10 @@
     &.danger,
     &.caution {
       color: var(--md-sys-color-on-red-container);
-
       background-color: var(--md-sys-color-red-container);
 
       &::before {
         content: "dangerous";
-
         color: var(--md-sys-color-on-red-container);
       }
     }
@@ -388,7 +336,6 @@
 
   .headline-block {
     position: relative;
-
     margin-block-end: 12px;
 
     > * {
@@ -406,25 +353,18 @@
 
     blockquote {
       position: relative;
-
       margin-inline: 0px;
       padding-inline-start: 24px;
-
       color: var(--md-sys-color-on-tertiary-container);
 
       &::before {
         content: "";
-
         display: block;
-
         position: absolute;
         left: calc(24px / 2 - 3px);
-
         height: 100%;
         width: 6px;
-
         border-radius: var(--md-sys-shape-corner-small);
-
         background-color: var(--md-sys-color-inverse-on-surface);
       }
 
@@ -458,16 +398,12 @@
           input.task-list-item-checkbox[type="checkbox"] {
             &::before {
               @include mixin.material-symbols("check_box_outline_blank", $size: 20rem);
-
               font-variation-settings: "FILL" 1;
             }
 
             appearance: none;
-
             grid-column: 1 / 2;
-
             margin: 0px;
-
             height: 20px;
             width: 20px;
 
@@ -487,31 +423,23 @@
 
     code {
       @include mixin.typescale-style("body-large");
-
       display: inline-block;
-
       width: max-content;
-
       font-family: Cascadia Code;
       text-indent: initial;
       vertical-align: baseline;
       word-break: break-word;
-
       border-radius: var(--md-sys-shape-corner-small);
-
       overflow: initial;
 
       &::selection {
         color: var(--md-sys-color-on-tertiary);
-
         background-color: var(--md-sys-color-tertiary);
       }
 
       .line {
         display: inline-block;
-
         width: 100%;
-
         padding-inline: 12px;
 
         span {
@@ -528,7 +456,6 @@
     h5,
     h6 {
       display: inline-block;
-
       line-height: 54px;
       font-variation-settings: "wght" 600;
 
@@ -553,7 +480,6 @@
 
     p {
       position: relative;
-
       margin-block: 12px 6px;
 
       a {
@@ -562,22 +488,16 @@
 
       code {
         @include mixin.typescale-style("body-large");
-
         display: inline;
-
         min-width: max-content;
-
         padding: 0px;
-
         vertical-align: baseline;
         font-family: Cascadia Code;
       }
 
       em {
         display: inline-block;
-
         font-style: normal;
-
         transform: skewX(-10deg);
       }
 
@@ -591,11 +511,8 @@
 
       img {
         display: inline-block;
-
         width: 100%;
-
         border-radius: var(--md-sys-shape-corner-medium);
-
         cursor: pointer;
         transition: border-radius var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
 
@@ -607,7 +524,6 @@
 
     pre {
       padding-block-end: 12px;
-
       overflow: overlay;
 
       &.shiki {
@@ -633,16 +549,12 @@
 
       li {
         @include mixin.typescale-style("body-large");
-
         position: relative;
-
         margin-block-start: 12px;
-
         vertical-align: middle;
 
         code {
           display: inline;
-
           padding: 0px;
         }
 
@@ -667,7 +579,6 @@
 
     ul {
       padding-inline-start: 24px;
-
       list-style-type: none;
 
       li {
@@ -675,19 +586,14 @@
 
         &::before {
           content: "";
-
           display: inline-block;
           position: absolute;
           left: -20px;
           top: var(--bullet-top);
-
           height: 16px;
           width: 16px;
-
           background-color: var(--md-sys-color-on-surface);
-
           mask: var(--via-svg-list-bullet) 0 0/100% no-repeat;
-
           transform: rotate(var(--random-rotation, 0deg));
         }
       }
@@ -713,7 +619,6 @@
 
     a[href] {
       @include mixin.typescale-style("label-large");
-
       text-decoration: none;
     }
   }
@@ -724,7 +629,6 @@
   flex-direction: column;
   gap: 24px;
   grid-column: 10 / 13;
-
   position: sticky;
   top: 12px;
 
@@ -732,12 +636,10 @@
     display: flex;
     flex-direction: column;
     gap: 3px;
-
     margin-inline-start: 16px;
 
     p {
       @include mixin.typescale-style("label-small");
-
       display: inline-flex;
       align-items: center;
       flex-direction: row;
@@ -748,7 +650,6 @@
 
       &::before {
         @include mixin.material-symbols($size: 14rem);
-
         margin-block: 1px auto;
       }
 
@@ -783,7 +684,6 @@
 
     .headline-block a.title-anchor {
       gap: 0px;
-
       position: relative;
       left: inherit;
     }

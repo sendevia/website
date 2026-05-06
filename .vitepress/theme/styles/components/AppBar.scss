@@ -7,20 +7,14 @@
   flex-wrap: nowrap;
   grid-column: 2 / 3;
   justify-content: start;
-
   position: absolute;
   right: 0px;
   top: -64px;
-
   height: 64px;
   width: 100%;
-
   padding-inline: 8px;
-
   color: var(--md-sys-color-on-surface);
-
   background-color: var(--md-sys-color-surface);
-
   overflow: hidden;
   transition: var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect);
   z-index: 998;
@@ -29,32 +23,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
     position: relative;
-
     height: 64px;
     width: 100%;
 
     .search-input {
       @include mixin.typescale-style("title-medium");
-
       flex-grow: 1;
-
       height: 52px;
       min-width: 0px;
-
       margin-inline-end: 50px;
       padding-block: 0px;
       padding-inline: 24px;
-
       color: var(--md-sys-color-on-surface-variant);
       text-overflow: ellipsis;
-
       border: none;
       border-radius: var(--md-sys-shape-corner-full);
-
       background-color: var(--md-sys-color-surface-container);
-
       transition: margin var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
       z-index: 1;
 
@@ -70,20 +55,16 @@
       flex-shrink: 0;
       flex-wrap: wrap;
       justify-content: center;
-
       position: absolute;
       right: 0px;
-
       height: 42px;
       width: 42px;
-
       overflow: hidden;
       z-index: 0;
 
       img {
         height: 42px;
         width: 42px;
-
         object-fit: cover;
         mask: var(--via-svg-mask) no-repeat 0 / 100%;
       }
@@ -95,26 +76,19 @@
     flex-direction: column;
     flex-wrap: nowrap;
     gap: 24px;
-
     position: absolute;
     top: 76px;
-
     height: calc(100% - 76px);
     width: 100%;
-
     padding-block-start: 24px;
     padding-inline: 12px;
-
     overflow: scroll;
 
     .result-items {
       padding-inline: 12px;
       padding-block: 12px;
-
       width: 100%;
-
       text-decoration: none;
-
       border-radius: var(--md-sys-shape-corner-medium);
 
       .title {
@@ -144,7 +118,6 @@
             .item,
             &.item {
               padding-inline: 8px;
-
               border-radius: var(--md-sys-shape-corner-medium);
             }
 
@@ -154,7 +127,6 @@
 
             &.date {
               color: var(--md-sys-color-on-tertiary-container);
-
               background-color: var(--md-sys-color-tertiary-container);
 
               &::before {
@@ -165,7 +137,6 @@
             &.categories {
               .item {
                 color: var(--md-sys-color-on-purple-container);
-
                 background-color: var(--md-sys-color-purple-container);
               }
 
@@ -177,7 +148,6 @@
             &.tags {
               .item {
                 color: var(--md-sys-color-on-yellow-container);
-
                 background-color: var(--md-sys-color-yellow-container);
               }
 
@@ -206,7 +176,6 @@
     flex-wrap: nowrap;
     gap: 42px;
     justify-content: center;
-
     height: calc(100% - 76px);
     width: 100%;
 
@@ -217,15 +186,12 @@
 
   &.searching {
     top: 0px;
-
     height: 100%;
-
     padding: 12px;
 
     .action-area {
       .search-input {
         margin-inline-end: 0px;
-
         transition: margin var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
       }
 
@@ -254,9 +220,7 @@
 
   @media screen and (max-width: 840px) {
     top: 0;
-
     width: 100%;
-
     opacity: 1;
     visibility: visible;
 

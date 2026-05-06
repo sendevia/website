@@ -24,6 +24,28 @@
       z-index: 1;
 
       h1 {
+        @keyframes title-gradient {
+          0% {
+            background-position: 0% 0%;
+            background-size: 100%;
+          }
+          25% {
+            background-position: 100% 0%;
+          }
+          50% {
+            background-position: 100% 100%;
+            background-size: 200%;
+          }
+          75% {
+            background-position: 0% 100%;
+            background-size: 200%;
+          }
+          100% {
+            background-position: 0% 0%;
+            background-size: 200%;
+          }
+        }
+
         @include mixin.typescale-style("display-large");
         grid-column: 1 / 2;
         grid-row: 1;
@@ -47,32 +69,6 @@
           mix-blend-mode: luminosity;
           opacity: 0.9;
           z-index: 3;
-        }
-
-        @keyframes title-gradient {
-          0% {
-            background-position: 0% 0%;
-            background-size: 100%;
-          }
-
-          25% {
-            background-position: 100% 0%;
-          }
-
-          50% {
-            background-position: 100% 100%;
-            background-size: 200%;
-          }
-
-          75% {
-            background-position: 0% 100%;
-            background-size: 200%;
-          }
-
-          100% {
-            background-position: 0% 0%;
-            background-size: 200%;
-          }
         }
 
         @media screen and (max-width: 1200px) {

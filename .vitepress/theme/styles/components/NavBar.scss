@@ -4,12 +4,10 @@
   display: flex;
   gap: 12px;
   justify-content: space-between;
-
   background-color: var(--md-sys-color-surface-container-low);
-
   user-select: none;
-  -moz-user-select: none;
   z-index: 999;
+  -moz-user-select: none;
 
   a {
     cursor: pointer;
@@ -22,10 +20,8 @@
     flex-direction: column;
     gap: 12px;
     justify-content: center;
-
     margin-block: 24px;
     margin-inline: 20px;
-
     width: stretch;
 
     .MaterialButton button {
@@ -36,21 +32,14 @@
       display: grid;
       align-items: center;
       justify-content: start;
-
       position: relative;
-
       padding-inline: 0px;
-
       height: 56px;
       width: max-content;
-
       color: var(--md-sys-color-on-secondary-container);
-
       border: none;
       border-radius: var(--md-sys-shape-corner-large);
-
       background-color: var(--md-sys-color-secondary-container);
-
       cursor: pointer;
       transition:
         grid var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial),
@@ -59,31 +48,24 @@
 
       span {
         @include mixin.material-symbols();
-
         grid-column: 1 / 2;
-
         height: 24px;
         width: 56px;
-
         text-align: center;
         font-variation-settings:
           "FILL" 1,
           "wght" 300;
-
         transition: font-variation-settings var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
       }
 
       p {
         grid-column: 2 / 3;
-
         width: max-content;
-
         color: var(--md-sys-color-on-secondary-container);
-
         user-select: none;
-        -moz-user-select: none;
         pointer-events: none;
         transition: var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
+        -moz-user-select: none;
       }
 
       &:hover span {
@@ -106,12 +88,10 @@
 
   .destinations {
     display: flex;
-
     transition: gap var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
 
     .segment {
       position: relative;
-
       width: 100%;
 
       a {
@@ -119,9 +99,7 @@
         align-items: center;
         justify-content: center;
         justify-items: center;
-
         position: relative;
-
         transition:
           grid var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial),
           gap var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
@@ -133,13 +111,9 @@
         grid-column: 1 / 2;
         grid-row: 1 / 2;
         justify-content: center;
-
         position: relative;
-
         color: var(--md-sys-color-on-surface-variant);
-
         border-radius: var(--md-sys-shape-corner-full);
-
         overflow: hidden;
         transition:
           height var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect),
@@ -149,16 +123,13 @@
         .icon {
           height: 24px;
           width: 24px;
-
           pointer-events: none;
 
           span {
             @include mixin.material-symbols();
-
             font-variation-settings:
               "FILL" 1,
               "wght" 300;
-
             transition: font-variation-settings var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
           }
         }
@@ -167,38 +138,27 @@
       .label {
         display: grid;
         justify-content: center;
-
         color: var(--md-sys-color-on-surface-variant);
         text-decoration: none;
         text-wrap-mode: nowrap;
 
         &.bottom {
           @include mixin.typescale-style("label-small");
-
           grid-row: 2 / 3;
-
           top: 0px;
-
           text-align: center;
-
           z-index: -1;
         }
 
         &.right {
           @include mixin.typescale-style("label-large");
-
           grid-column: 2 / 3;
-
           left: 0px;
-
           text-align: left;
-
           z-index: 1;
         }
 
         &.animating {
-          animation: fade-out var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect) both;
-
           @keyframes fade-out {
             from {
               opacity: 0;
@@ -207,23 +167,21 @@
               opacity: 1;
             }
           }
+
+          animation: fade-out var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect) both;
         }
       }
 
       &::after {
         content: "";
         display: block;
-
         position: absolute;
         bottom: 0px;
         left: 0px;
         top: 0px;
-
         height: 32px;
         width: 56px;
-
         border-radius: var(--md-sys-shape-corner-full);
-
         pointer-events: none;
         transition:
           background-color var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect),
@@ -275,9 +233,7 @@
     align-items: center;
     flex-direction: column;
     flex-wrap: nowrap;
-
     margin-block: 24px;
-
     width: 100%;
 
     @media screen and (max-width: 840px) {
@@ -287,13 +243,10 @@
 
   &.bar {
     flex-direction: row;
-
     position: absolute;
     bottom: 0px;
-
     height: 64px;
     width: 100%;
-
     overflow-y: hidden;
 
     .fab-container {
@@ -304,7 +257,6 @@
       align-items: center;
       flex-direction: row;
       justify-content: space-between;
-
       height: 100%;
       width: 100%;
 
@@ -314,7 +266,6 @@
         a {
           align-content: center;
           row-gap: 4px;
-
           height: 100%;
           width: 100%;
         }
@@ -333,10 +284,8 @@
             grid: max-content 0px / max-content max-content;
             row-gap: 0px;
             column-gap: 4px;
-
             height: 100%;
             width: max-content;
-
             padding-block: 12px;
             padding-inline: 12px 18px;
           }
@@ -349,16 +298,13 @@
           .label {
             grid-column: 2 / 3;
             grid-row: 1 / 2;
-
             width: max-content;
-
             z-index: 1;
           }
 
           &::after {
             left: 0px;
             top: 12px;
-
             height: 40px;
             width: 100%;
           }
@@ -390,7 +336,6 @@
             left: 50%;
             right: 50%;
             top: 6px;
-
             translate: -50%;
           }
         }
@@ -401,9 +346,7 @@
   &.rail {
     align-items: flex-start;
     flex-direction: column;
-
     height: 100%;
-
     overflow-x: hidden;
     overflow-y: auto;
     transition: width var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
@@ -412,7 +355,6 @@
       flex-direction: column;
       flex-grow: 1;
       justify-content: flex-start;
-
       width: 100%;
 
       .segment {
@@ -436,7 +378,6 @@
 
           p {
             visibility: hidden;
-
             opacity: 0;
           }
         }
@@ -450,7 +391,6 @@
             column-gap: 0px;
             grid: max-content 16px / max-content 0px;
             row-gap: 8px;
-
             padding-inline: 20px;
 
             &::after {
@@ -474,7 +414,6 @@
 
           .label {
             position: relative;
-
             width: 56px;
           }
         }
@@ -489,7 +428,6 @@
         .fab {
           grid: auto / max-content var(--label-width);
           gap: 4px;
-
           padding-inline-end: 24px;
 
           p {
@@ -507,12 +445,9 @@
             column-gap: 4px;
             grid: max-content 0px / max-content var(--label-width);
             row-gap: 0px;
-
             margin-inline-start: 20px;
             padding-inline: 0px 24px;
-
             border-radius: var(--md-sys-shape-corner-full);
-
             overflow: hidden;
           }
 

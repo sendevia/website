@@ -2,7 +2,6 @@
 
 .PageIndicator {
   position: relative;
-
   user-select: none;
   -moz-user-select: none;
 
@@ -12,7 +11,6 @@
     flex-direction: row;
     flex-wrap: nowrap;
     gap: 4px;
-
     margin-inline-start: 18px;
 
     p {
@@ -24,7 +22,6 @@
 
       &.article-id {
         text-transform: uppercase;
-
         cursor: pointer;
       }
     }
@@ -33,17 +30,14 @@
   .article-title {
     margin-inline-start: 18px;
     padding-block-end: 18px;
-
     font-variation-settings: "wght" 600;
     z-index: 1;
   }
 
   .indicator {
     position: absolute;
-
     outline: 2px solid var(--md-sys-color-primary);
     border-radius: var(--md-sys-shape-corner-extra-large);
-
     pointer-events: none;
     transition: var(--md-sys-motion-spring-default-spatial-duration) var(--md-sys-motion-spring-default-spatial);
     z-index: 1;
@@ -53,30 +47,22 @@
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-
     z-index: 0;
 
     span {
       position: relative;
-
       width: 100%;
-
       border-radius: var(--md-sys-shape-corner-extra-large);
 
       a {
         @include mixin.typescale-style("label-large");
-
         width: 100%;
-
         padding-block: 9px;
         padding-inline: 18px;
-
         color: var(--md-sys-color-on-surface);
         font-variation-settings: "wght" 400;
         text-decoration: none;
-
         border-radius: var(--md-sys-shape-corner-extra-large);
-
         opacity: 0.5;
         transition:
           font-variation-settings var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect-duration),
@@ -84,7 +70,6 @@
 
         &:focus-visible {
           @include mixin.focus-ring($thickness: 3, $offset: 2);
-
           opacity: 1;
         }
       }
@@ -92,12 +77,10 @@
       &.active > a {
         color: var(--md-sys-color-primary);
         font-variation-settings: "wght" 700;
-
         opacity: 1;
 
         &:focus-visible {
           color: var(--md-sys-color-on-primary);
-
           background-color: var(--md-sys-color-primary);
         }
       }

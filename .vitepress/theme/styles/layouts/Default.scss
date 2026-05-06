@@ -3,11 +3,8 @@
 .MainLayout {
   display: grid;
   grid-template-columns: max-content auto;
-
   position: relative;
-
   height: 100%;
-
   z-index: 1;
 
   .content-flow {
@@ -18,14 +15,10 @@
     grid-column: 2;
     grid-template-columns: repeat(12, minmax(60px, 72px));
     justify-content: center;
-
     position: relative;
-
     padding-block-end: 68px;
     padding-block-start: 12px;
-
     width: 100%;
-
     overflow: overlay;
     scroll-behavior: smooth;
     scroll-padding-top: 120px;
@@ -36,89 +29,89 @@
       align-items: center;
       flex-flow: column nowrap;
       grid-column: span 12;
-
       height: 100%;
 
       .avatar-box {
         position: relative;
-
         height: 420px;
         width: 420px;
-
         text-align: center;
 
         h3 {
+          @keyframes avatar-box-h3 {
+            0% {
+              clip-path: inset(0% 100% 0% 0% round var(--md-sys-shape-corner-small) var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large));
+              opacity: 0;
+              transform: scale(0.3) translateY(42px) rotateZ(24deg);
+            }
+            25% {
+              opacity: 1;
+            }
+            100% {
+              clip-path: inset(0% calc(0% + 12px) 0% 0% round var(--md-sys-shape-corner-small) var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large));
+              transform: scale(1) translateY(0px) rotateZ(0deg);
+            }
+          }
+
           position: absolute;
           top: 280px;
           left: 50%;
-
           max-width: 420px;
           width: max-content;
-
           padding-block: 6px;
           padding-inline: 12px 24px;
-
           color: var(--md-sys-color-on-primary-container);
           text-align: justify;
-
           background-color: var(--md-sys-color-primary-container);
-
-          animation: avatar-box-h3 var(--md-sys-motion-spring-slow-spatial-duration) var(--md-sys-motion-spring-slow-spatial)
-            var(--md-sys-motion-spring-fast-spatial-duration) both;
+          animation: avatar-box-h3 var(--md-sys-motion-spring-slow-spatial-duration) var(--md-sys-motion-spring-slow-spatial) var(--md-sys-motion-spring-fast-spatial-duration) both;
           overflow: hidden;
           transition:
             color var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect),
             background-color var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect);
           transform-origin: 0px 0px;
           z-index: 2;
-
-          @keyframes avatar-box-h3 {
-            0% {
-              clip-path: inset(
-                0% 100% 0% 0% round var(--md-sys-shape-corner-small) var(--md-sys-shape-corner-large)
-                  var(--md-sys-shape-corner-large)
-              );
-              opacity: 0;
-              transform: scale(0.3) translateY(42px) rotateZ(24deg);
-            }
-
-            25% {
-              opacity: 1;
-            }
-
-            100% {
-              clip-path: inset(
-                0% calc(0% + 12px) 0% 0% round var(--md-sys-shape-corner-small) var(--md-sys-shape-corner-large)
-                  var(--md-sys-shape-corner-large)
-              );
-              transform: scale(1) translateY(0px) rotateZ(0deg);
-            }
-          }
         }
 
         img {
           position: relative;
           bottom: 50%;
           top: 50%;
-
           height: 300px;
           width: 300px;
-
           mask: var(--via-svg-mask) no-repeat 0 / 100%;
           translate: 0px -50%;
           user-select: none;
-          -moz-user-select: none;
           z-index: 1;
+          -moz-user-select: none;
         }
 
         span {
+          @keyframes avatar-box-span {
+            0% {
+              background-color: var(--md-sys-color-blue);
+
+              transform: rotate(0deg);
+            }
+            25% {
+              background-color: var(--md-sys-color-red);
+            }
+            50% {
+              background-color: var(--md-sys-color-yellow);
+            }
+            75% {
+              background-color: var(--md-sys-color-purple);
+            }
+            100% {
+              background-color: var(--md-sys-color-green);
+              transform: rotate(360deg);
+            }
+          }
+
           position: absolute;
           left: 70px;
           top: 170px;
-
           height: 200px;
           width: 200px;
-
           animation: avatar-box-span 60s linear infinite;
           mask:
             linear-gradient(45deg, black, transparent),
@@ -127,34 +120,8 @@
           mask-mode: alpha;
           opacity: 0.5;
           user-select: none;
-          -moz-user-select: none;
           z-index: 0;
-
-          @keyframes avatar-box-span {
-            0% {
-              background-color: var(--md-sys-color-blue);
-
-              transform: rotate(0deg);
-            }
-
-            25% {
-              background-color: var(--md-sys-color-red);
-            }
-
-            50% {
-              background-color: var(--md-sys-color-yellow);
-            }
-
-            75% {
-              background-color: var(--md-sys-color-purple);
-            }
-
-            100% {
-              background-color: var(--md-sys-color-green);
-
-              transform: rotate(360deg);
-            }
-          }
+          -moz-user-select: none;
         }
       }
 
@@ -164,14 +131,11 @@
         flex-direction: column;
         gap: 12px;
         justify-content: left;
-
         width: 100%;
-
         margin-block-end: 84px;
 
         h1 {
           @include mixin.typescale-style("display-large");
-
           font-variation-settings: "wght" 600;
           text-align: center;
           word-break: keep-all;
@@ -184,7 +148,6 @@
 @media screen and (max-width: 1600px) {
   .MainLayout .content-flow {
     grid-template-columns: repeat(12, minmax(60px, 72px));
-
     padding-inline: 12px;
 
     .home-content {
@@ -196,7 +159,6 @@
 @media screen and (max-width: 1200px) {
   .MainLayout .content-flow {
     grid-template-columns: repeat(8, 1fr);
-
     width: 100%;
 
     .home-content {
@@ -212,7 +174,6 @@
 
     .content-flow {
       grid-template-columns: repeat(6, 1fr);
-
       padding-block: 76px;
       padding-inline: 12px;
 
@@ -238,7 +199,6 @@
 @media screen and (max-width: 600px) {
   .MainLayout .content-flow {
     grid-template-columns: repeat(4, 1fr);
-
     padding-inline: 12px;
 
     .home-content {
@@ -262,8 +222,7 @@
 .layout-enter-active {
   transition:
     opacity var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect),
-    transform var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial)
-      var(--md-sys-motion-duration-short1);
+    transform var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial) var(--md-sys-motion-duration-short1);
 }
 
 .layout-leave-active {

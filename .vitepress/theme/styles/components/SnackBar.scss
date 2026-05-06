@@ -8,20 +8,14 @@
   align-items: center;
   gap: 12px;
   justify-content: space-between;
-
   position: fixed;
   bottom: 0px;
   right: 12px;
-
   max-width: 840px;
   min-width: 240px;
-
   padding-inline: 16px 8px;
-
   background-color: var(--md-sys-color-inverse-surface);
-
   border-radius: var(--md-sys-shape-corner-extra-small);
-
   box-shadow: var(--md-sys-elevation-level3);
   opacity: 0;
   transition: var(--md-sys-motion-duration-long4) var(--md-sys-motion-easing-emphasized);
@@ -29,17 +23,13 @@
 
   #snackbar-supporting {
     @include mixin.typescale-style("label-large");
-
     display: inline-block;
-
     padding-block: 14px;
-
     color: var(--md-sys-color-inverse-on-surface);
   }
 
   #snackbar-icon {
     min-width: 40px;
-
     color: var(--md-sys-color-inverse-on-surface);
   }
 
@@ -53,7 +43,6 @@
 
   @media screen and (max-width: 840px) {
     left: 12px;
-
     width: calc(100% - 24px);
   }
 }

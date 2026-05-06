@@ -4,28 +4,19 @@
   display: grid;
   gap: 6px;
   grid-template-columns: 1fr 1fr;
-
   margin-block-start: 24px;
 
   a {
     display: flex;
     flex-direction: column;
     gap: 9px;
-
     position: relative;
-
     width: 100%;
-
     padding-block: 18px;
     padding-inline: 24px;
-
     text-decoration: none !important;
-
-    border-radius: var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-extra-large)
-      var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-extra-large);
-
+    border-radius: var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-extra-large);
     background-color: var(--md-sys-color-surface-container-low);
-
     overflow: hidden;
     transition: border-radius var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
     user-select: none;
@@ -33,10 +24,8 @@
 
     .label {
       @include mixin.typescale-style("label-medium");
-
       display: flex;
       align-items: center;
-
       color: var(--md-sys-color-on-surface-variant);
 
       &::before {
@@ -46,14 +35,12 @@
 
     .title {
       @include mixin.typescale-style("title-large");
-
       color: var(--md-sys-color-on-surface);
       font-variation-settings: "wght" 600;
     }
 
     &.prev {
       grid-column: 1 / 2;
-
       text-align: start;
 
       .label {
@@ -67,7 +54,6 @@
 
     &.next {
       grid-column: 2 / 3;
-
       text-align: end;
 
       .label {
@@ -80,8 +66,7 @@
     }
 
     &:active {
-      border-radius: var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large)
-        var(--md-sys-shape-corner-large);
+      border-radius: var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large);
     }
 
     &:focus-visible {
@@ -92,24 +77,20 @@
   &:has(a.next):has(a.prev) {
     a {
       &.prev {
-        border-radius: var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-medium)
-          var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-extra-large);
+        border-radius: var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-extra-large);
       }
 
       &.next {
-        border-radius: var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-extra-large)
-          var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-medium);
+        border-radius: var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-medium);
       }
 
       &:active {
         &.prev {
-          border-radius: var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-medium)
-            var(--md-sys-shape-corner-large);
+          border-radius: var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-large);
         }
 
         &.next {
-          border-radius: var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large)
-            var(--md-sys-shape-corner-medium);
+          border-radius: var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-medium);
         }
       }
     }
@@ -128,24 +109,20 @@
     &:has(a.next):has(a.prev) {
       a {
         &.prev {
-          border-radius: var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-extra-large)
-            var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-medium);
+          border-radius: var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-medium);
         }
 
         &.next {
-          border-radius: var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-medium)
-            var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-extra-large);
+          border-radius: var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-extra-large);
         }
 
         &:active {
           &.prev {
-            border-radius: var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large)
-              var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-medium);
+            border-radius: var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-medium);
           }
 
           &.next {
-            border-radius: var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-medium)
-              var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large);
+            border-radius: var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large);
           }
         }
       }

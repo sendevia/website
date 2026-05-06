@@ -5,20 +5,17 @@
   align-items: center;
   grid-column: 10 / 13;
   justify-content: center;
-
   position: sticky;
   bottom: 72px;
   right: 0px;
-
   height: 100%;
   width: 100%;
-
   opacity: 0;
   transition: var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
   user-select: none;
-  -moz-user-select: none;
   visibility: hidden;
   z-index: 21;
+  -moz-user-select: none;
 
   &.visible {
     opacity: 1;

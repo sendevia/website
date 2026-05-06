@@ -5,7 +5,6 @@
   align-items: flex-start;
   flex-direction: column;
   gap: 12px;
-
   width: 100%;
 
   .toolbar {
@@ -13,7 +12,6 @@
     align-items: center;
     gap: 12px;
     justify-content: flex-end;
-
     position: relative;
 
     .filter {
@@ -23,7 +21,6 @@
         position: absolute;
         left: -12px;
         top: -12px;
-
         transform-origin: top left;
         z-index: 100;
 
@@ -31,16 +28,11 @@
           display: flex;
           flex-direction: column;
           gap: 24px;
-
           padding: 24px;
-
           max-width: 520px;
           min-width: 340px;
-
           border-radius: var(--md-sys-shape-corner-extra-large);
-
           background-color: var(--md-sys-color-surface-container-low);
-
           box-shadow: 0px 1px 6px -3px var(--md-sys-color-shadow);
           overflow-y: overlay;
           transform-origin: top left;
@@ -53,12 +45,10 @@
             flex-direction: row;
             flex-wrap: nowrap;
             gap: 4px;
-
             margin-block-end: 12px;
 
             span {
               @include mixin.material-symbols($size: 16rem);
-
               cursor: pointer;
             }
           }
@@ -87,10 +77,8 @@
           position: fixed;
           left: 0px;
           top: 0px;
-
           height: 100%;
           width: 100%;
-
           backdrop-filter: brightness(0.5);
           transform-origin: center center;
           z-index: 999;
@@ -99,10 +87,8 @@
             position: absolute;
             left: 50%;
             top: 50%;
-
             max-width: 380px;
             min-width: 330px;
-
             transform-origin: center center;
             translate: -50% -50%;
           }
@@ -114,7 +100,6 @@
   .masonry-wrapper {
     display: flex;
     gap: 12px;
-
     width: 100%;
 
     .empty-state {
@@ -124,7 +109,6 @@
       flex-wrap: nowrap;
       gap: 42px;
       justify-content: center;
-
       width: 100%;
 
       .icon {
@@ -137,7 +121,6 @@
       flex-direction: column;
       flex: 1;
       gap: 12px;
-
       min-width: 0px;
 
       .MaterialCard {
@@ -151,7 +134,6 @@
     align-items: center;
     gap: 16px;
     justify-content: center;
-
     width: 100%;
 
     .page-info-wrapper {
@@ -161,17 +143,12 @@
 
       input {
         @include mixin.typescale-style("body-large");
-
         padding: 6px;
-
         width: 48px;
-
         color: var(--md-sys-color-on-surface);
         text-align: center;
-
         border-radius: var(--md-sys-shape-corner-large);
         border: none;
-
         background-color: transparent;
       }
     }
