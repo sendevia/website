@@ -32,7 +32,6 @@
       flex-grow: 1;
       height: 52px;
       min-width: 0px;
-      margin-inline-end: 50px;
       padding-block: 0px;
       padding-inline: 24px;
       color: var(--md-sys-color-on-surface-variant);
@@ -45,28 +44,6 @@
 
       &:focus-visible {
         @include mixin.focus-ring($thickness: 3, $offset: 2);
-      }
-    }
-
-    .author-avatar {
-      display: flex;
-      align-content: center;
-      flex-direction: column;
-      flex-shrink: 0;
-      flex-wrap: wrap;
-      justify-content: center;
-      position: absolute;
-      right: 0px;
-      height: 42px;
-      width: 42px;
-      overflow: hidden;
-      z-index: 0;
-
-      img {
-        height: 42px;
-        width: 42px;
-        object-fit: cover;
-        mask: var(--via-svg-mask) no-repeat 0 / 100%;
       }
     }
   }
@@ -191,13 +168,7 @@
 
     .action-area {
       .search-input {
-        margin-inline-end: 0px;
         transition: margin var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
-      }
-
-      .author-avatar {
-        opacity: 0;
-        transition: opacity var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
       }
     }
 

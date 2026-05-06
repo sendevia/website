@@ -281,10 +281,6 @@ onUnmounted(() => {
     :tabindex="isTabFocusable ? 0 : -1">
     <div class="action-area">
       <input ref="searchInput" v-model="query" type="text" placeholder="搜索文章" class="search-input" :tabindex="isTabFocusable ? 0 : -1" @focus="handleFocus" @blur="handleBlur" @input="handleInput" />
-
-      <div class="author-avatar" tabindex="-1">
-        <img src="/assets/images/avatar.webp" alt="作者头像" />
-      </div>
     </div>
 
     <div class="result-area" v-if="searchStateStore.isSearchActive && filteredPosts.length > 0">
