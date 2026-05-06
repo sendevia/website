@@ -115,9 +115,6 @@ if (isClient()) {
   <aside id="article-aside">
     <ClientOnly>
       <div class="post-info">
-        <p v-if="frontmatter.description" class="description">
-          {{ frontmatter.description }}
-        </p>
         <p class="date-publish">发布于 {{ formattedPublishDate }}</p>
         <p v-if="formattedLastUpdated" class="date-update">
           {{ formattedLastUpdated }}
@@ -130,6 +127,5 @@ if (isClient()) {
 </template>
 
 <style lang="scss">
-@use "sass:meta";
-@include meta.load-css("../styles/layouts/Article");
+@use "../styles/layouts/Article";
 </style>

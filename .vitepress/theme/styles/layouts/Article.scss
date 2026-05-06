@@ -5,13 +5,11 @@
   flex-direction: column;
   grid-column: 1 / 10;
 
-  & {
-    > div {
-      width: 100%;
+  > div {
+    width: 100%;
 
-      > div > :first-child {
-        margin-block-start: 0px;
-      }
+    > div > :first-child {
+      margin-block-start: 0px;
     }
   }
 
@@ -651,10 +649,6 @@
       &::before {
         @include mixin.material-symbols($size: 14rem);
         margin-block: 1px auto;
-      }
-
-      &.description::before {
-        content: "message";
       }
 
       &.date-publish::before {
