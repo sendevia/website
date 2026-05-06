@@ -110,17 +110,15 @@ if (isClient()) {
   <Header />
   <main id="article-content" ref="articleContentRef">
     <Content />
-    <PrevNext />
-  </main>
-  <aside id="article-aside">
     <ClientOnly>
       <div class="post-info">
         <p class="date-publish">发布于 {{ formattedPublishDate }}</p>
-        <p v-if="formattedLastUpdated" class="date-update">
-          {{ formattedLastUpdated }}
-        </p>
+        <p v-if="formattedLastUpdated" class="date-update">{{ formattedLastUpdated }}</p>
       </div>
     </ClientOnly>
+    <PrevNext />
+  </main>
+  <aside id="article-aside">
     <PageIndicator />
   </aside>
   <ImageViewer v-if="showImageViewer" :images="articleImages" :current-index="currentImageIndex" :origin-position="imageOriginPosition" @close="showImageViewer = false" @update:current-index="currentImageIndex = $event" />
