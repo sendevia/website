@@ -58,22 +58,40 @@
     height: calc(100% - 76px);
     width: 100%;
     padding-block-start: 24px;
-    padding-inline: 12px;
-    overflow: scroll;
+    padding-inline: 2px;
+    overflow: overlay;
 
     .result-items {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
       padding-inline: 12px;
       padding-block: 12px;
       width: 100%;
       text-decoration: none;
-      border-radius: var(--md-sys-shape-corner-medium);
+
+      .result-index {
+        @include mixin.typescale-style("title-medium");
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        position: sticky;
+        top: 0px;
+        min-width: 24px;
+        min-height: 32px;
+        padding-inline: 4px;
+        color: var(--md-sys-color-on-secondary-container);
+        background-color: var(--md-sys-color-secondary-container);
+        border-radius: var(--md-sys-shape-corner-full);
+      }
 
       .title {
         display: flex;
-        align-items: center;
-        flex-direction: row;
+        align-items: flex-start;
+        flex-direction: column;
         flex-wrap: wrap;
-        gap: 8px;
+        gap: 4px;
 
         h3 {
           color: var(--md-sys-color-on-surface);
@@ -84,27 +102,30 @@
           flex-direction: row;
           flex-wrap: wrap;
           gap: 4px;
+          opacity: 0.8;
 
           .segments {
             display: flex;
             align-items: center;
             flex-direction: row;
-            flex-wrap: nowrap;
+            flex-wrap: wrap;
             gap: 4px;
 
-            .item,
-            &.item {
+            &::before {
+              @include mixin.material-symbols($size: 12px);
+            }
+
+            .item {
+              @include mixin.typescale-style("label-small");
               padding-inline: 8px;
               border-radius: var(--md-sys-shape-corner-medium);
             }
 
-            &::before {
-              @include mixin.material-symbols($size: 16rem);
-            }
-
             &.date {
-              color: var(--md-sys-color-on-tertiary-container);
-              background-color: var(--md-sys-color-tertiary-container);
+              .item {
+                color: var(--md-sys-color-on-tertiary-container);
+                background-color: var(--md-sys-color-tertiary-container);
+              }
 
               &::before {
                 content: "calendar_today";
@@ -136,12 +157,12 @@
         }
       }
 
-      .description {
-        margin-block-end: 12px;
-      }
-
       &:focus-visible {
-        @include mixin.focus-ring($thickness: 2, $offset: 4);
+        outline: none;
+
+        .result-index {
+          @include mixin.focus-ring($thickness: 3, $offset: 2);
+        }
       }
     }
   }

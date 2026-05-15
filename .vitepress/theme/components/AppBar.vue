@@ -284,18 +284,21 @@ onUnmounted(() => {
     </div>
 
     <div class="result-area" v-if="searchStateStore.isSearchActive && filteredPosts.length > 0">
-      <a :key="post.url" :href="post.url" :tabindex="isTabFocusable ? 0 : -1" class="result-items" v-for="post in filteredPosts" @click="handleResultClick">
+      <a :key="post.url" :href="post.url" :tabindex="isTabFocusable ? 0 : -1" class="result-items" v-for="(post, index) in filteredPosts" @click="handleResultClick">
+        <span class="result-index">{{ index + 1 }}</span>
         <div class="title">
-          <h3>{{ post.title }}</h3>
           <div class="chips">
-            <p class="segments date item" v-if="post.date">{{ post.date }}</p>
-            <div class="segments categories" v-if="post.categories.length > 0">
-              <p :key="item" class="item" v-for="item in post.categories">{{ item }}</p>
+            <div v-if="post.date" class="segments date">
+              <p class="item">{{ post.date }}</p>
             </div>
-            <div class="segments tags" v-if="post.tags.length > 0">
-              <p :key="item" class="item" v-for="item in post.tags">{{ item }}</p>
+            <div v-if="post.categories.length > 0" class="segments categories">
+              <p :key="item" v-for="item in post.categories" class="item">{{ item }}</p>
+            </div>
+            <div v-if="post.tags.length > 0" class="segments tags">
+              <p :key="item" v-for="item in post.tags" class="item">{{ item }}</p>
             </div>
           </div>
+          <h3>{{ post.title }}</h3>
         </div>
       </a>
     </div>
