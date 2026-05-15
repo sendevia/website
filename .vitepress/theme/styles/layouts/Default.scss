@@ -11,7 +11,7 @@
     display: grid;
     align-content: space-between;
     align-items: start;
-    gap: 24px;
+    column-gap: 24px;
     grid-column: 2;
     grid-template-columns: repeat(12, minmax(60px, 72px));
     justify-content: center;
@@ -142,37 +142,26 @@
         }
       }
     }
-  }
-}
 
-@media screen and (max-width: 1600px) {
-  .MainLayout .content-flow {
-    grid-template-columns: repeat(12, minmax(60px, 72px));
-    padding-inline: 12px;
+    @media screen and (max-width: 1600px) {
+      grid-template-columns: repeat(12, minmax(60px, 72px));
+      padding-inline: 12px;
 
-    .home-content {
-      grid-column: span 12;
+      .home-content {
+        grid-column: span 12;
+      }
     }
-  }
-}
 
-@media screen and (max-width: 1200px) {
-  .MainLayout .content-flow {
-    grid-template-columns: repeat(8, 1fr);
-    width: 100%;
+    @media screen and (max-width: 1200px) {
+      grid-template-columns: repeat(8, 1fr);
+      width: 100%;
 
-    .home-content {
-      grid-column: span 8;
+      .home-content {
+        grid-column: span 8;
+      }
     }
-  }
-}
 
-@media screen and (max-width: 840px) {
-  .MainLayout {
-    grid-template-columns: 0px auto;
-    grid-template-rows: auto 64px;
-
-    .content-flow {
+    @media screen and (max-width: 840px) {
       grid-template-columns: repeat(6, 1fr);
       padding-block: 76px;
       padding-inline: 12px;
@@ -193,29 +182,32 @@
         }
       }
     }
-  }
-}
 
-@media screen and (max-width: 600px) {
-  .MainLayout .content-flow {
-    grid-template-columns: repeat(4, 1fr);
-    padding-inline: 12px;
+    @media screen and (max-width: 600px) {
+      grid-template-columns: repeat(4, 1fr);
+      padding-inline: 12px;
 
-    .home-content {
-      grid-column: span 4;
+      .home-content {
+        grid-column: span 4;
 
-      .avatar-box {
-        zoom: 0.6;
+        .avatar-box {
+          zoom: 0.6;
 
-        h3 {
-          max-width: 80vw;
+          h3 {
+            max-width: 80vw;
+          }
+        }
+
+        .title {
+          zoom: 0.7;
         }
       }
-
-      .title {
-        zoom: 0.7;
-      }
     }
+  }
+
+  @media screen and (max-width: 840px) {
+    grid-template-columns: 0px auto;
+    grid-template-rows: auto 64px;
   }
 }
 

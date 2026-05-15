@@ -1,12 +1,12 @@
 @use "../mixin";
 
 .AnchorLink {
-  @include mixin.typescale-style("body-large");
   transition: var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
   user-select: none;
   -moz-user-select: none;
 
   &.normal {
+    @include mixin.typescale-style("body-large");
     display: flex;
     align-items: start;
     flex-direction: column;
@@ -57,9 +57,8 @@
   }
 
   &.inline {
-    @include mixin.material-symbols();
     display: none;
-    color: var(--md-sys-color-on-surface);
+    font: inherit;
     text-decoration: none !important;
     opacity: 0.2;
   }

@@ -7,10 +7,6 @@
 
   > div {
     width: 100%;
-
-    > div > :first-child {
-      margin-block-start: 0px;
-    }
   }
 
   *[class^="language-"] {
@@ -334,7 +330,8 @@
 
   .headline-block {
     position: relative;
-    margin-block-end: 12px;
+    margin-block: 12px 24px;
+    padding-inline: 3px;
 
     > * {
       margin-block: 12px 6px;
@@ -454,7 +451,6 @@
     h5,
     h6 {
       display: inline-block;
-      line-height: 54px;
       font-variation-settings: "wght" 600;
 
       a {
@@ -676,10 +672,14 @@
   #article-content {
     grid-column: 1 / 7;
 
-    .headline-block a.title-anchor {
-      gap: 0px;
-      position: relative;
-      left: inherit;
+    .headline-block {
+      padding-inline: 12px;
+
+      a.title-anchor {
+        gap: 0px;
+        position: relative;
+        left: inherit;
+      }
     }
   }
 
@@ -691,10 +691,6 @@
 @media screen and (max-width: 840px) {
   #article-content {
     grid-column: 1 / 7;
-
-    .headline-block {
-      padding-inline: 12px;
-    }
   }
 
   #article-aside {

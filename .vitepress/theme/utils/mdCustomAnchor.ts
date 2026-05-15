@@ -64,7 +64,7 @@ export function anchor(mdit: MarkdownIt, options: AnchorOptions = {}): void {
           // 添加标题行内锚点
           if (inlineToken && inlineToken.children) {
             const inlineAnchor = new state.Token("html_inline", "", 0);
-            inlineAnchor.content = `<a href="#${idAttr}" class="${className} inline">${symbol}</a>`;
+            inlineAnchor.content = `<a href="#${idAttr}" class="${className} inline">#</a>`;
             // 将行内锚点添加到标题文本的末端
             inlineToken.children.push(inlineAnchor);
           }

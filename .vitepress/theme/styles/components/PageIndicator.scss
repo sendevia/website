@@ -1,6 +1,7 @@
 @use "../mixin";
 
 .PageIndicator {
+  margin-block-start: 12px;
   position: relative;
   user-select: none;
   -moz-user-select: none;
