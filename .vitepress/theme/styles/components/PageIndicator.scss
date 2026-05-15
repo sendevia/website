@@ -6,28 +6,6 @@
   user-select: none;
   -moz-user-select: none;
 
-  .label {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: 4px;
-    margin-inline-start: 18px;
-
-    p {
-      @include mixin.typescale-style("label-small");
-
-      &.icon {
-        @include mixin.material-symbols($size: 16rem);
-      }
-
-      &.article-id {
-        text-transform: uppercase;
-        cursor: pointer;
-      }
-    }
-  }
-
   .article-title {
     margin-inline-start: 18px;
     padding-block-end: 18px;

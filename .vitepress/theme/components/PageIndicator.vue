@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, nextTick, watch } from "vue";
-import { useClipboard, useIntersectionObserver, useResizeObserver, useEventListener, useTimeoutFn } from "@vueuse/core";
+import { ref, onMounted, nextTick, watch } from "vue";
+import { useIntersectionObserver, useResizeObserver, useEventListener, useTimeoutFn } from "@vueuse/core";
 import { useGlobalData } from "../composables/useGlobalData";
-import { usePostStore } from "../stores/posts";
 import { useScreenWidthStore } from "../stores/screenWidth";
 import { isClient } from "../utils/env";
 
 /** 全局数据与状态 */
 const { page, frontmatter } = useGlobalData();
-const { copy: copyToClipboard, copied: isCopied } = useClipboard();
 const screenWidthStore = useScreenWidthStore();
-const postStore = usePostStore();
 
 /** 响应式引用 */
 const pageIndicator = ref<HTMLElement | null>(null);
@@ -27,22 +24,6 @@ const { start: lockTimer } = useTimeoutFn(
   1200,
   { immediate: false },
 );
-
-/** 计算文章 ID 与短链 */
-const articleId = computed(() => {
-  const path = page.value?.relativePath?.replace(/\.md$/, "");
-  if (!path) return "";
-  const lookupUrl = path.startsWith("/") ? path : `/${path}`;
-  return postStore.getPostByUrl(lookupUrl)?.id || "";
-});
-
-const shortLink = computed(() => (articleId.value ? `/p/${articleId.value}` : ""));
-
-/** 复制短链到剪贴板 */
-const copyShortLink = async () => {
-  if (!shortLink.value) return;
-  await copyToClipboard(`${window.location.origin}${shortLink.value}`);
-};
 
 /** 收集页面中的 h1 和 h2 标题 */
 const collectHeadings = () => {
@@ -183,16 +164,8 @@ onMounted(() => {
 
 <template>
   <div ref="pageIndicator" class="PageIndicator">
-    <div class="label">
-      <p class="text">文章短链</p>
-      <p class="icon">link</p>
-      <p class="article-id" :title="isCopied ? '已复制' : '复制短链'" v-if="articleId" @click="copyShortLink">
-        {{ isCopied ? "已复制" : articleId }}
-      </p>
-    </div>
     <h3 class="article-title">{{ frontmatter.title || page.title }}</h3>
     <div
-      class="indicator"
       :style="{
         top: indicator.top,
         left: indicator.left,
@@ -201,15 +174,11 @@ onMounted(() => {
         opacity: indicator.opacity,
       }"
       aria-hidden="true"
-    ></div>
+      class="indicator"></div>
     <div class="indicator-container">
       <span v-for="h in headings" :key="h.id" :data-id="h.id" :class="{ active: h.id === headingsActiveId }">
         <StateLayer />
-        <a
-          :href="`#${h.id}`"
-          @click.prevent="navigateTo(h.id)"
-          :aria-current="h.id === headingsActiveId ? 'true' : undefined"
-        >
+        <a :href="`#${h.id}`" @click.prevent="navigateTo(h.id)" :aria-current="h.id === headingsActiveId ? 'true' : undefined">
           {{ h.text }}
         </a>
       </span>

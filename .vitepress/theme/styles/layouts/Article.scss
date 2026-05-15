@@ -637,9 +637,9 @@
   .post-info {
     display: flex;
     flex-direction: row;
-    gap: 3px;
+    gap: 6px;
     justify-content: center;
-    margin-block-start: 12px;
+    margin-block: 12px 24px;
 
     p {
       @include mixin.typescale-style("label-small");
@@ -651,8 +651,7 @@
       color: var(--md-sys-color-outline);
 
       &::before {
-        @include mixin.material-symbols($size: 14rem);
-        margin-block: 1px auto;
+        @include mixin.material-symbols($size: 12px);
       }
 
       &.date-publish::before {
@@ -661,6 +660,15 @@
 
       &.date-update::before {
         content: "update";
+      }
+
+      &.article-id {
+        text-transform: uppercase;
+        cursor: pointer;
+
+        &::before {
+          content: "link";
+        }
       }
     }
   }

@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, nextTick } from "vue";
-import { useEventListener, useMutationObserver } from "@vueuse/core";
+import { useEventListener, useMutationObserver, useClipboard } from "@vueuse/core";
 import { useGlobalData } from "../composables/useGlobalData";
 import { isClient } from "../utils/env";
 import { formatDate, formatRelativeTime } from "../utils/date";
+import { usePostStore } from "../stores/posts";
 
 const { page, frontmatter, lang } = useGlobalData();
+const { copy: copyToClipboard, copied: isCopied } = useClipboard();
+const postStore = usePostStore();
 
 const lastUpdated = computed(() => {
   const value = page.value?.lastUpdated;
@@ -85,6 +88,22 @@ const bindImageEvents = () => {
   });
 };
 
+/** 计算文章 ID 与短链 */
+const articleId = computed(() => {
+  const path = page.value?.relativePath?.replace(/\.md$/, "");
+  if (!path) return "";
+  const lookupUrl = path.startsWith("/") ? path : `/${path}`;
+  return postStore.getPostByUrl(lookupUrl)?.id || "";
+});
+
+const shortLink = computed(() => (articleId.value ? `/p/${articleId.value}` : ""));
+
+/** 复制短链到剪贴板 */
+const copyShortLink = async () => {
+  if (!shortLink.value) return;
+  await copyToClipboard(`${window.location.origin}${shortLink.value}`);
+};
+
 if (isClient()) {
   useEventListener("resize", enhanceDomStyles);
 
@@ -114,6 +133,9 @@ if (isClient()) {
       <div class="post-info">
         <p class="date-publish">发布于 {{ formattedPublishDate }}</p>
         <p v-if="formattedLastUpdated" class="date-update">{{ formattedLastUpdated }}</p>
+        <p v-if="articleId" @click="copyShortLink" :title="isCopied ? '已复制' : '复制短链'" class="article-id">
+          {{ isCopied ? "已复制" : articleId }}
+        </p>
       </div>
     </ClientOnly>
     <PrevNext />
