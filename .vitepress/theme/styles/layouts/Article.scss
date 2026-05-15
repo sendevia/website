@@ -468,6 +468,23 @@
       }
     }
 
+    h1 ~ .AnchorLink.normal {
+      top: 6px;
+    }
+
+    h2 ~ .AnchorLink.normal {
+      top: 3px;
+    }
+
+    h3,
+    h4,
+    h5,
+    h6 {
+      ~ .AnchorLink.normal {
+        top: 0px;
+      }
+    }
+
     hr {
       margin-block: 12px;
     }
