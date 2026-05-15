@@ -1,15 +1,9 @@
 @use "../mixin";
 
 .ScrollToTop {
-  display: flex;
-  align-items: center;
-  grid-column: 10 / 13;
-  justify-content: center;
-  position: sticky;
-  bottom: 72px;
-  right: 0px;
-  height: 100%;
-  width: 100%;
+  position: fixed;
+  bottom: 48px;
+  right: 48px;
   opacity: 0;
   transition: var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
   user-select: none;
@@ -22,19 +16,7 @@
     visibility: visible;
   }
 
-  @media screen and (max-width: 1600px) {
-    grid-column: 10 / 13;
-  }
-
-  @media screen and (max-width: 1200px) {
-    grid-column: 7 / 9;
-  }
-
   @media screen and (max-width: 840px) {
-    grid-column: 6 / 7;
-  }
-
-  @media screen and (max-width: 600px) {
-    grid-column: 4 / 5;
+    bottom: 112px;
   }
 }

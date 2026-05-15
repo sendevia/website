@@ -16,6 +16,5 @@ function scrollToTop() {
 </template>
 
 <style lang="scss" scoped>
-@use "sass:meta";
-@include meta.load-css("../styles/components/ScrollToTop");
+@use "../styles/components/ScrollToTop";
 </style>

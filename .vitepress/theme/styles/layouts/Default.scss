@@ -16,7 +16,6 @@
     grid-template-columns: repeat(12, minmax(60px, 72px));
     justify-content: center;
     position: relative;
-    padding-block-end: 68px;
     padding-block-start: 12px;
     width: 100%;
     overflow: overlay;
@@ -163,7 +162,7 @@
 
     @media screen and (max-width: 840px) {
       grid-template-columns: repeat(6, 1fr);
-      padding-block: 76px;
+      padding-block: 76px 0px;
       padding-inline: 12px;
 
       .home-content {

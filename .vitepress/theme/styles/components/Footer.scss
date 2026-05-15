@@ -5,12 +5,12 @@
   align-items: flex-start;
   flex-direction: column;
   flex-wrap: wrap;
-  gap: 12px;
   grid-column: span 12;
   justify-content: space-around;
   margin-inline: 12px;
-  padding-block-end: 18px;
+  margin-block: 94px 24px;
   color: var(--md-sys-color-on-surface-variant);
+  opacity: 0.5;
 
   a {
     text-decoration: none;
@@ -21,67 +21,20 @@
     }
   }
 
-  hr {
-    width: 100%;
-  }
-
-  .description-area {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-    gap: 6px;
-
-    .topic {
-      display: flex;
-      align-items: center;
-      flex-direction: row;
-      gap: 12px;
-
-      img {
-        height: 50px;
-        width: 50px;
-        mask: var(--via-svg-mask) no-repeat 0 / 100%;
-      }
-
-      h3 {
-        letter-spacing: 0.8px;
-        text-transform: uppercase;
-      }
-    }
-
-    .theme-info {
-      @include mixin.typescale-style("body-large");
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .beian-info {
-      @include mixin.typescale-style("body-large");
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-
-      a:has(img) {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-
-        img {
-          height: 16px;
-          width: 16px;
-        }
-      }
-    }
-  }
-
-  .social-media {
+  .info {
     display: flex;
     flex-direction: row;
     flex-grow: 1;
     flex-wrap: wrap;
-    gap: 6px;
-    justify-content: flex-end;
+    column-gap: 12px;
+    row-gap: 6px;
+    justify-content: center;
+    width: 100%;
+
+    a,
+    p {
+      @include mixin.typescale-style("label-small");
+    }
   }
 
   @media screen and (max-width: 1600px) {

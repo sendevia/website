@@ -108,6 +108,5 @@ const next = computed(() => {
 </template>
 
 <style lang="scss" scoped>
-@use "sass:meta";
-@include meta.load-css("../styles/components/PrevNext");
+@use "../styles/components/PrevNext";
 </style>

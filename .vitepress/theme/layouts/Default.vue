@@ -182,6 +182,5 @@ onMounted(() => {
 </template>
 
 <style lang="scss">
-@use "sass:meta";
-@include meta.load-css("../styles/layouts/Default");
+@use "../styles/layouts/Default";
 </style>

@@ -3,7 +3,7 @@
 .PrevNext {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  margin-block-start: 24px;
+  margin-block: 12px 24px;
 
   a {
     display: flex;
