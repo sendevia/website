@@ -6,7 +6,7 @@
       "ref": "main",
       "sourceType": "github",
       "skillPath": "skills/pua/SKILL.md",
-      "computedHash": "20477e1d541f9a5596fa8660d95d2032505b927ccd1d945a8c487ab0d07ee2a3"
+      "computedHash": "5155c2c07a3cbf25f29e6cb0953650183d8f2018b7d8a49ef38fd750905e5ba6"
     },
     "vite": {
       "source": "antfu/skills",

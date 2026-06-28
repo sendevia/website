@@ -4,7 +4,7 @@
   "version": "26.5.439",
   "scripts": {
     "update-version": "bash ./scripts/update-version.sh",
-    "docs:dev": "vitepress dev",
+    "docs:dev": "vitepress dev --host",
     "docs:build": "vitepress build",
     "docs:build-cf": "git fetch --unshallow && vitepress build",
     "docs:preview": "vitepress preview",
