@@ -13,7 +13,9 @@ const siteVersion = theme.value.siteVersion;
         版本<a :href="'https://github.com/sendevia/website/releases/tag/' + siteVersion" target="_blank">{{ siteVersion }}</a>
       </p>
       <a href="https://beian.miit.gov.cn/" rel="noreferrer" target="_blank">黑ICP备2024016516号</a>
-      <a href="https://beian.mps.gov.cn/#/query/webSearch?code=23020002230215" rel="noreferrer" target="_blank">黑公网安备23020002230215号</a>
+      <a href="https://beian.mps.gov.cn/#/query/webSearch?code=23020002230215" rel="noreferrer" target="_blank"
+        >黑公网安备23020002230215号</a
+      >
     </div>
   </footer>
 </template>

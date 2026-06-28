@@ -241,11 +241,28 @@ onUnmounted(() => {
     :tabindex="isTabFocusable ? 0 : -1"
   >
     <div class="action-area">
-      <input ref="searchInput" v-model="query" type="text" placeholder="搜索文章" class="search-input" :tabindex="isTabFocusable ? 0 : -1" @focus="handleFocus" @blur="handleBlur" @input="handleInput" />
+      <input
+        ref="searchInput"
+        v-model="query"
+        type="text"
+        placeholder="搜索文章"
+        class="search-input"
+        :tabindex="isTabFocusable ? 0 : -1"
+        @focus="handleFocus"
+        @blur="handleBlur"
+        @input="handleInput"
+      />
     </div>
 
     <div class="result-area" v-if="isSearchActive && filteredPosts.length > 0">
-      <a :key="post.url" :href="post.url" :tabindex="isTabFocusable ? 0 : -1" class="result-items" v-for="(post, index) in filteredPosts" @click="handleResultClick">
+      <a
+        :key="post.url"
+        :href="post.url"
+        :tabindex="isTabFocusable ? 0 : -1"
+        class="result-items"
+        v-for="(post, index) in filteredPosts"
+        @click="handleResultClick"
+      >
         <span class="result-index">{{ index + 1 }}</span>
         <div class="title">
           <div class="chips">

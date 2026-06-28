@@ -39,7 +39,10 @@
         h3 {
           @keyframes avatar-box-h3 {
             0% {
-              clip-path: inset(0% 100% 0% 0% round var(--md-sys-shape-corner-small) var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large));
+              clip-path: inset(
+                0% 100% 0% 0% round var(--md-sys-shape-corner-small) var(--md-sys-shape-corner-large)
+                  var(--md-sys-shape-corner-large)
+              );
               opacity: 0;
               transform: scale(0.3) translateY(42px) rotateZ(24deg);
             }
@@ -47,7 +50,10 @@
               opacity: 1;
             }
             100% {
-              clip-path: inset(0% calc(0% + 12px) 0% 0% round var(--md-sys-shape-corner-small) var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large));
+              clip-path: inset(
+                0% calc(0% + 12px) 0% 0% round var(--md-sys-shape-corner-small) var(--md-sys-shape-corner-large)
+                  var(--md-sys-shape-corner-large)
+              );
               transform: scale(1) translateY(0px) rotateZ(0deg);
             }
           }
@@ -62,7 +68,8 @@
           color: var(--md-sys-color-on-primary-container);
           text-align: justify;
           background-color: var(--md-sys-color-primary-container);
-          animation: avatar-box-h3 var(--md-sys-motion-spring-slow-spatial-duration) var(--md-sys-motion-spring-slow-spatial) var(--md-sys-motion-spring-fast-spatial-duration) both;
+          animation: avatar-box-h3 var(--md-sys-motion-spring-slow-spatial-duration) var(--md-sys-motion-spring-slow-spatial)
+            var(--md-sys-motion-spring-fast-spatial-duration) both;
           overflow: hidden;
           transition:
             color var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect),
@@ -213,7 +220,8 @@
 .layout-enter-active {
   transition:
     opacity var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect),
-    transform var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial) var(--md-sys-motion-duration-short1);
+    transform var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial)
+      var(--md-sys-motion-duration-short1);
 }
 
 .layout-leave-active {

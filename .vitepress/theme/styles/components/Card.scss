@@ -36,7 +36,8 @@
       }
     }
 
-    animation: card-entrance var(--md-sys-motion-spring-slow-spatial-duration) calc(min(var(--delay), 20) * 0.08s) var(--md-sys-motion-spring-slow-spatial) forwards;
+    animation: card-entrance var(--md-sys-motion-spring-slow-spatial-duration) calc(min(var(--delay), 20) * 0.08s)
+      var(--md-sys-motion-spring-slow-spatial) forwards;
     opacity: 0;
     will-change: transform, opacity;
   }

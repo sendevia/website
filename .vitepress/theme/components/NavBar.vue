@@ -230,7 +230,9 @@ if (isClient()) {
   <ClientOnly>
     <nav class="NavBar" :class="navClass">
       <div class="fab-container">
-        <MaterialButton pattern="icon-button" color="text" @click="toggleNav">{{ isNavExpanded ? "menu_open" : "menu" }}</MaterialButton>
+        <MaterialButton pattern="icon-button" color="text" @click="toggleNav">{{
+          isNavExpanded ? "menu_open" : "menu"
+        }}</MaterialButton>
         <button class="fab" @mousedown.prevent @click.stop="toggleSearch">
           <StateLayer />
           <span>{{ appBarStore.isSearchActive ? "close" : "search" }}</span>
@@ -246,7 +248,12 @@ if (isClient()) {
                 <span>{{ item.icon }}</span>
               </div>
             </div>
-            <p class="label" :class="labelClass" :ref="(el) => setLabelRef(el, '.segment')" @animationend="onAnimationEnd($event.target)">
+            <p
+              class="label"
+              :class="labelClass"
+              :ref="(el) => setLabelRef(el, '.segment')"
+              @animationend="onAnimationEnd($event.target)"
+            >
               {{ item.text }}
             </p>
           </a>
@@ -254,7 +261,15 @@ if (isClient()) {
       </div>
 
       <div class="actions">
-        <MaterialButton pattern="icon-button" class="theme-btn" size="m" color="text" :title="currentLabel" @click="toggleTheme">{{ currentIcon }}</MaterialButton>
+        <MaterialButton
+          pattern="icon-button"
+          class="theme-btn"
+          size="m"
+          color="text"
+          :title="currentLabel"
+          @click="toggleTheme"
+          >{{ currentIcon }}</MaterialButton
+        >
       </div>
     </nav>
   </ClientOnly>

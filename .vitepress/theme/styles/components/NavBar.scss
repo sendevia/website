@@ -55,7 +55,8 @@
         font-variation-settings:
           "FILL" 1,
           "wght" 300;
-        transition: font-variation-settings var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+        transition: font-variation-settings var(--md-sys-motion-spring-fast-spatial-duration)
+          var(--md-sys-motion-spring-fast-spatial);
       }
 
       p {
@@ -130,7 +131,8 @@
             font-variation-settings:
               "FILL" 1,
               "wght" 300;
-            transition: font-variation-settings var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+            transition: font-variation-settings var(--md-sys-motion-spring-fast-spatial-duration)
+              var(--md-sys-motion-spring-fast-spatial);
           }
         }
       }

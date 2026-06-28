@@ -37,7 +37,15 @@ const isAnchor = computed(() => !!(props.pattern !== "chip" && props.href));
   <div class="MaterialButton">
     <component
       :is="isAnchor ? 'a' : 'button'"
-      :class="[pattern, variant, size, pattern === 'icon-button' ? width : '', pattern !== 'chip' ? shape : '', color, { icon: !!icon, selected }]"
+      :class="[
+        pattern,
+        variant,
+        size,
+        pattern === 'icon-button' ? width : '',
+        pattern !== 'chip' ? shape : '',
+        color,
+        { icon: !!icon, selected },
+      ]"
       :state="disabled ? 'none' : state"
       :disabled="!isAnchor && disabled ? true : undefined"
       :href="isAnchor ? href : undefined"

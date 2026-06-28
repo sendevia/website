@@ -53,7 +53,12 @@ withDefaults(defineProps<Props>(), {
         </div>
 
         <div v-if="impression && impression.length > 0" class="image-container">
-          <img v-for="(imgUrl, index) in impression.slice(0, 2)" :key="index" :src="imgUrl" :alt="title + ' cover ' + (index + 1)" />
+          <img
+            v-for="(imgUrl, index) in impression.slice(0, 2)"
+            :key="index"
+            :src="imgUrl"
+            :alt="title + ' cover ' + (index + 1)"
+          />
         </div>
       </div>
 

@@ -44,7 +44,18 @@ date: 2026-04-11T00:25:31+08:00
 组件示例
 
 ```vue
-<MaterialButton pattern="icon-button" variant="" size="" shape="" color="" width="" href="" target="" state="" :disabled="">ICON_NAME</MaterialButton>
+<MaterialButton
+  pattern="icon-button"
+  variant=""
+  size=""
+  shape=""
+  color=""
+  width=""
+  href=""
+  target=""
+  state=""
+  :disabled=""
+>ICON_NAME</MaterialButton>
 ```
 
 ## 样式全览

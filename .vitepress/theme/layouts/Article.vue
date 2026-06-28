@@ -143,7 +143,14 @@ if (isClient()) {
   <aside id="article-aside">
     <PageIndicator />
   </aside>
-  <ImageViewer v-if="showImageViewer" :images="articleImages" :current-index="currentImageIndex" :origin-position="imageOriginPosition" @close="showImageViewer = false" @update:current-index="currentImageIndex = $event" />
+  <ImageViewer
+    v-if="showImageViewer"
+    :images="articleImages"
+    :current-index="currentImageIndex"
+    :origin-position="imageOriginPosition"
+    @close="showImageViewer = false"
+    @update:current-index="currentImageIndex = $event"
+  />
 </template>
 
 <style lang="scss">

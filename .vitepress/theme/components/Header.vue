@@ -250,7 +250,13 @@ onUnmounted(() => {
             <div class="next" title="下一张" @click="handleNav(1)"></div>
           </div>
           <div class="indicators">
-            <button v-for="(_, idx) in rawImgList" :key="idx" class="dot" :class="{ active: currentRealIndex === idx }" @click="jumpTo(idx)"></button>
+            <button
+              v-for="(_, idx) in rawImgList"
+              :key="idx"
+              class="dot"
+              :class="{ active: currentRealIndex === idx }"
+              @click="jumpTo(idx)"
+            ></button>
           </div>
         </template>
         <template v-else>
@@ -258,7 +264,13 @@ onUnmounted(() => {
             <svg width="0" height="0" style="display: none">
               <defs>
                 <filter id="noise-filter" x="0" y="0" width="100%" height="100%">
-                  <feTurbulence :seed="frontmatter.date ? new Date(frontmatter.date).getTime() : 0" type="turbulence" baseFrequency="0.15" numOctaves="2" stitchTiles="stitch"></feTurbulence>
+                  <feTurbulence
+                    :seed="frontmatter.date ? new Date(frontmatter.date).getTime() : 0"
+                    type="turbulence"
+                    baseFrequency="0.15"
+                    numOctaves="2"
+                    stitchTiles="stitch"
+                  ></feTurbulence>
                   <feColorMatrix type="saturate" values="1"></feColorMatrix>
                   <feComponentTransfer>
                     <feFuncA type="discrete" tableValues="0 0.1"></feFuncA>

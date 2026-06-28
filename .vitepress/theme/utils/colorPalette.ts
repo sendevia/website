@@ -8,7 +8,12 @@ import { CorePalette, hexFromArgb, Blend, argbFromHex } from "@material/material
  * @param tones - 调色板色相列表
  * @returns 包含原始调色板和色相的对象
  */
-function createPaletteProvider(argbColor: number, name: string, append: "a1" | "a2" | "a3" | "n1" | "n2" | "error", tones: number[]): { rawPalette: Record<string, any>; tones: number[] } {
+function createPaletteProvider(
+  argbColor: number,
+  name: string,
+  append: "a1" | "a2" | "a3" | "n1" | "n2" | "error",
+  tones: number[],
+): { rawPalette: Record<string, any>; tones: number[] } {
   const palette = CorePalette.of(argbColor);
   return {
     rawPalette: {
@@ -101,7 +106,12 @@ export async function generateColorPalette(baseColor: number): Promise<void> {
 
     // 处理协调调色板
     ...harmonizedPalettes.map((palette) => {
-      const paletteObject = createPaletteProvider(Blend.harmonize(argbFromHex(palette.color), baseColor), palette.name, palette.append, palette.tones);
+      const paletteObject = createPaletteProvider(
+        Blend.harmonize(argbFromHex(palette.color), baseColor),
+        palette.name,
+        palette.append,
+        palette.tones,
+      );
       setPalette(paletteObject);
     }),
   ];

@@ -44,7 +44,8 @@
         border-radius: var(--md-sys-shape-corner-extra-large);
         opacity: 0.5;
         transition:
-          font-variation-settings var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect-duration),
+          font-variation-settings var(--md-sys-motion-spring-fast-effect-duration)
+            var(--md-sys-motion-spring-fast-effect-duration),
           opacity var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect-duration);
 
         &:focus-visible {

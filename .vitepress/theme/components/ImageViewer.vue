@@ -231,9 +231,18 @@ defineExpose({ show, hide });
 
 <template>
   <div v-if="isVisible" class="ImageViewer" :class="{ animating: isAnimating }" role="dialog" aria-modal="true" tabindex="-1">
-    <MaterialButton pattern="icon-button" size="l" class="close" color="text" aria-label="关闭" @click="hide">close</MaterialButton>
+    <MaterialButton pattern="icon-button" size="l" class="close" color="text" aria-label="关闭" @click="hide"
+      >close</MaterialButton
+    >
 
-    <div class="content" @click.self="hide" @wheel="handleWheel" @touchstart="handleTouchStart" @touchmove="handleTouchMove" @touchend="isZooming = isDragging = false">
+    <div
+      class="content"
+      @click.self="hide"
+      @wheel="handleWheel"
+      @touchstart="handleTouchStart"
+      @touchmove="handleTouchMove"
+      @touchend="isZooming = isDragging = false"
+    >
       <img
         :src="currentImage"
         :alt="`Image ${activeIndex + 1}`"
@@ -245,7 +254,9 @@ defineExpose({ show, hide });
         @mouseup="isDragging = false"
         @mouseleave="isDragging = false"
         :style="{
-          transform: isAnimating ? `scale(${imageScale}) translate(${imagePosition.x}px, ${imagePosition.y}px)` : `scale(${initialTransform.scale}) translate(${initialTransform.translateX}px, ${initialTransform.translateY}px)`,
+          transform: isAnimating
+            ? `scale(${imageScale}) translate(${imagePosition.x}px, ${imagePosition.y}px)`
+            : `scale(${initialTransform.scale}) translate(${initialTransform.translateX}px, ${initialTransform.translateY}px)`,
           opacity: isAnimating ? 1 : 0,
           cursor: imageScale > 1 ? (isDragging ? 'grabbing' : 'grab') : 'zoom-in',
           maxWidth: `${winWidth * 0.85}px`,
