@@ -72,9 +72,13 @@ const clearSearchAndBlur = () => {
 
 /**
  * 处理搜索输入框获得焦点事件。
+ * 移动端（低于断点）点击输入框直接激活搜索覆盖层。
  */
 const handleFocus = () => {
   appBarStore.setFocus(true);
+  if (!isAboveBreakpoint.value && !isSearchActive.value) {
+    appBarStore.activate();
+  }
 };
 
 /**
