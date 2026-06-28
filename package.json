@@ -9,7 +9,9 @@
     "docs:build-cf": "git fetch --unshallow && vitepress build",
     "docs:preview": "vitepress preview",
     "lint": "eslint .",
-    "typecheck": "vue-tsc --noEmit"
+    "typecheck": "vue-tsc --noEmit",
+    "check": "npm run lint && npm run typecheck",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@material/material-color-utilities": "0.3.0",
@@ -26,6 +28,7 @@
     "eslint": "^10.0.0",
     "eslint-plugin-vue": "^10.0.0",
     "markdown-it-mathjax3": "^4.0.0",
+    "prettier": "^3.9.1",
     "sass-embedded": "^1.0.0",
     "typescript": "^6.0.0",
     "typescript-eslint": "^8.0.0",
