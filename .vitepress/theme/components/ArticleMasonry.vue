@@ -2,10 +2,10 @@
 import { computed, ref, watch, nextTick } from "vue";
 import { useBreakpoints, onClickOutside, useSorted } from "@vueuse/core";
 import { usePostStore, type PostData } from "../stores/posts";
-import { useGlobalData } from "../composables/useGlobalData";
+import { useData } from "vitepress";
 
 const postsStore = usePostStore();
-const { theme } = useGlobalData();
+const { theme } = useData();
 
 interface Props {
   /** 预设分类筛选 */
@@ -380,7 +380,8 @@ const clearCategory = () => {
             variant="feed"
             size="m"
             color="outlined"
-            class="entrance" />
+            class="entrance"
+          />
         </div>
       </div>
 

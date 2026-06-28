@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref, onMounted, nextTick, watch } from "vue";
 import { useIntersectionObserver, useResizeObserver, useEventListener, useTimeoutFn } from "@vueuse/core";
-import { useGlobalData } from "../composables/useGlobalData";
-import { useScreenWidthStore } from "../stores/screenWidth";
+import { useData } from "vitepress";
+import { useScreenWidth } from "../composables/useScreenWidth";
 import { isClient } from "../utils/env";
 
 /** 全局数据与状态 */
-const { page, frontmatter } = useGlobalData();
-const screenWidthStore = useScreenWidthStore();
+const { page, frontmatter } = useData();
+const { isAboveBreakpoint } = useScreenWidth();
 
 /** 响应式引用 */
 const pageIndicator = ref<HTMLElement | null>(null);
@@ -130,13 +130,13 @@ if (isClient()) {
   /** 窗口事件监听 */
   useEventListener("resize", updateIndicator);
   useEventListener(["hashchange", "popstate"], () => {
-    if (screenWidthStore.isAboveBreakpoint) collectHeadings();
+    if (isAboveBreakpoint.value) collectHeadings();
   });
 }
 
 /** 状态同步监听 */
 watch(
-  () => screenWidthStore.isAboveBreakpoint,
+  () => isAboveBreakpoint.value,
   (val) => {
     if (val) {
       collectHeadings();
@@ -148,13 +148,12 @@ watch(
 );
 
 watch(headingsActiveId, () => {
-  if (screenWidthStore.isAboveBreakpoint) nextTick(updateIndicator);
+  if (isAboveBreakpoint.value) nextTick(updateIndicator);
 });
 
 onMounted(() => {
   if (isClient()) {
-    screenWidthStore.init();
-    if (screenWidthStore.isAboveBreakpoint) {
+    if (isAboveBreakpoint.value) {
       collectHeadings();
       nextTick(updateIndicator);
     }
@@ -174,7 +173,8 @@ onMounted(() => {
         opacity: indicator.opacity,
       }"
       aria-hidden="true"
-      class="indicator"></div>
+      class="indicator"
+    ></div>
     <div class="indicator-container">
       <span v-for="h in headings" :key="h.id" :data-id="h.id" :class="{ active: h.id === headingsActiveId }">
         <StateLayer />

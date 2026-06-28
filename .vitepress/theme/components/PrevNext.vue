@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { useGlobalData } from "../composables/useGlobalData";
+import { useData } from "vitepress";
 import { usePostStore } from "../stores/posts";
 
-const { page } = useGlobalData();
+const { page } = useData();
 const postsStore = usePostStore();
 
 /**

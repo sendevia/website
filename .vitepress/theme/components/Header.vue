@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onUnmounted, reactive } from "vue";
 import { useRafFn, useElementHover } from "@vueuse/core";
-import { useGlobalData } from "../composables/useGlobalData";
+import { useData } from "vitepress";
 import { isClient } from "../utils/env";
 
 /**
@@ -21,7 +21,7 @@ const config = reactive({
   animFast: 300,
 });
 
-const { frontmatter, theme, page } = useGlobalData();
+const { frontmatter, theme, page } = useData();
 const headerRef = ref<HTMLElement | null>(null);
 const isHovering = useElementHover(headerRef);
 
@@ -241,7 +241,8 @@ onUnmounted(() => {
                   strokeDasharray: `${2 * Math.PI * 9}`,
                   strokeDashoffset: `${2 * Math.PI * 9 * (1 - progress / 100)}`,
                   transition: isFastForwarding ? 'none' : 'stroke-dashoffset 100ms linear',
-                }" />
+                }"
+              />
             </svg>
           </div>
           <div class="controls">

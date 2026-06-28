@@ -5,7 +5,7 @@ import { useTitle, useMutationObserver } from "@vueuse/core";
 import { argbFromHex } from "@material/material-color-utilities";
 import { generateColorPalette } from "../utils/colorPalette";
 import { getFormattedRandomPhrase } from "../utils/phrases";
-import { useGlobalData } from "../composables/useGlobalData";
+import { useData } from "vitepress";
 import { usePostStore } from "../stores/posts";
 import { isClient } from "../utils/env";
 import ArticleLayout from "./Article.vue";
@@ -14,7 +14,7 @@ import NotFoundLayout from "./NotFound.vue";
 import ToolsLayout from "./Tools.vue";
 
 /** 全局数据与路由状态 */
-const { site, page, frontmatter, theme } = useGlobalData();
+const { site, page, frontmatter, theme } = useData();
 const route = useRoute();
 const postStore = usePostStore();
 const isRedirecting = ref(false);

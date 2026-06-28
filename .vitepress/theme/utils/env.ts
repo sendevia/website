@@ -5,11 +5,3 @@
 export function isClient(): boolean {
   return typeof window !== "undefined";
 }
-
-/**
- * 判断当前是否在服务器端环境
- * @returns 如果是服务器端环境返回 true，否则返回 false
- */
-export function isServer(): boolean {
-  return !isClient();
-}

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useGlobalData } from "../composables/useGlobalData";
+import { useData } from "vitepress";
 
-const { theme } = useGlobalData();
+const { theme } = useData();
 const siteVersion = theme.value.siteVersion;
 </script>
 

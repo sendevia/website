@@ -5,12 +5,7 @@
  * @param isShiftKey 是否按下了 Shift 键（用于反向导航）
  * @param isESCKey 是否按下了 Esc 键（用于取消内容焦点）
  */
-export const handleTabNavigation = (
-  container: HTMLElement | null,
-  items: NodeListOf<Element> | null,
-  isShiftKey?: boolean,
-  isESCKey?: boolean
-): void => {
+export const handleTabNavigation = (container: HTMLElement | null, items: NodeListOf<Element> | null, isShiftKey?: boolean, isESCKey?: boolean): void => {
   if (!container || !items || items.length === 0) return;
 
   const currentFocused = document.activeElement as HTMLElement;

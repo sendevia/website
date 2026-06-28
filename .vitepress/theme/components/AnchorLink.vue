@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useAchorLink } from "../composables/useAnchorLink";
+import { useClipboard } from "@vueuse/core";
 
 interface Props {
   /** 锚点链接地址 */
@@ -16,18 +16,18 @@ const props = withDefaults(defineProps<Props>(), {
   className: "",
 });
 
+const { copy: copyToClipboard } = useClipboard();
 const isCopied = ref(false);
-const { handleCopy } = useAchorLink(props.href, () => {
+
+const handleClick = async (event: MouseEvent) => {
+  event.preventDefault();
+  const anchorId = props.href.startsWith("#") ? props.href : `#${props.href}`;
+  const fullUrl = `${window.location.origin}${window.location.pathname}${anchorId}`;
+  await copyToClipboard(fullUrl);
   isCopied.value = true;
   setTimeout(() => {
     isCopied.value = false;
   }, 1000);
-});
-
-/** 处理锚点点击事件 */
-const handleClick = (event: MouseEvent) => {
-  event.preventDefault();
-  handleCopy();
 };
 </script>
 

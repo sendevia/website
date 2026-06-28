@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{
-  "close": [];
+  close: [];
   "update:currentIndex": [index: number];
 }>();
 
@@ -250,7 +250,8 @@ defineExpose({ show, hide });
           cursor: imageScale > 1 ? (isDragging ? 'grabbing' : 'grab') : 'zoom-in',
           maxWidth: `${winWidth * 0.85}px`,
           maxHeight: `${winHeight * 0.75}px`,
-        }" />
+        }"
+      />
     </div>
   </div>
 </template>

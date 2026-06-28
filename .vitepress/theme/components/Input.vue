@@ -40,10 +40,11 @@ const hasValue = computed(() => {
       variant,
       {
         'has-value': hasValue,
-        'error': error,
-        'disabled': disabled,
+        error: error,
+        disabled: disabled,
       },
-    ]">
+    ]"
+  >
     <div class="input-container">
       <StateLayer />
       <input v-model="modelValue" :type="type" :placeholder="placeholder" :disabled="disabled" />

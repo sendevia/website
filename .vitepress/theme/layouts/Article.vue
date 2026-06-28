@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, nextTick } from "vue";
 import { useEventListener, useMutationObserver, useClipboard } from "@vueuse/core";
-import { useGlobalData } from "../composables/useGlobalData";
+import { useData } from "vitepress";
 import { isClient } from "../utils/env";
 import { formatDate, formatRelativeTime } from "../utils/date";
 import { usePostStore } from "../stores/posts";
 
-const { page, frontmatter, lang } = useGlobalData();
+const { page, frontmatter, lang } = useData();
 const { copy: copyToClipboard, copied: isCopied } = useClipboard();
 const postStore = usePostStore();
 

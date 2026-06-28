@@ -1,19 +1,78 @@
 <script setup lang="ts">
 import { computed, onMounted, onBeforeUnmount, ref, watch, nextTick } from "vue";
+import { useColorMode, useCycleList } from "@vueuse/core";
 import { isClient } from "../utils/env";
 import { setupWidthObserver } from "../composables/useElementWidth";
-import { useGlobalData } from "../composables/useGlobalData";
-import { useNavStateStore } from "../stores/navState";
-import { useScreenWidthStore } from "../stores/screenWidth";
-import { useSearchStateStore } from "../stores/searchState";
-import { useThemeStateStore } from "../stores/themeState";
+import { useData } from "vitepress";
+import { useScreenWidth } from "../composables/useScreenWidth";
+import { useAppBarStore } from "../stores/appbar";
+import { getCookie, setCookie } from "../utils/cookie";
 import StateLayer from "./StateLayer.vue";
 
-const { page, theme } = useGlobalData();
-const screenWidthStore = useScreenWidthStore();
-const searchStateStore = useSearchStateStore();
-const navStateStore = useNavStateStore();
-const themeStateStore = useThemeStateStore();
+const { page, theme } = useData();
+const { screenWidth, isAboveBreakpoint } = useScreenWidth();
+const appBarStore = useAppBarStore();
+
+/** 导航栏展开/折叠状态 */
+const isNavExpanded = ref(false);
+const cookieName = "navbar_expanded";
+
+function initNavState() {
+  if (!isClient()) return;
+  const cookieValue = getCookie(cookieName);
+  if (cookieValue === "true" && isAboveBreakpoint.value) {
+    isNavExpanded.value = true;
+  } else {
+    isNavExpanded.value = false;
+    if (getCookie(cookieName) !== "false") {
+      setCookie(cookieName, isNavExpanded.value.toString());
+    }
+  }
+}
+
+watch(isNavExpanded, (val) => {
+  if (isClient()) setCookie(cookieName, val.toString());
+});
+
+watch(isAboveBreakpoint, (above) => {
+  if (!above) isNavExpanded.value = false;
+});
+
+/** 主题切换 */
+const mode = useColorMode({
+  emitAuto: true,
+  storageKey: "theme_preference",
+  storage: {
+    getItem: (key) => getCookie(key) || "auto",
+    setItem: (key, value) => setCookie(key, value),
+    removeItem: (key) => setCookie(key, "auto"),
+  },
+  onChanged: (val, defaultHandler) => {
+    defaultHandler(val);
+    if (typeof document !== "undefined") {
+      document.documentElement.classList.toggle("dark", val === "dark");
+      document.documentElement.classList.toggle("light", val === "light");
+    }
+  },
+});
+
+const { next: cycleNext } = useCycleList(["auto", "light", "dark"] as const, {
+  initialValue: mode.value as "auto" | "light" | "dark",
+});
+
+const THEME_MAP = {
+  auto: { icon: "brightness_auto", label: "跟随系统" },
+  light: { icon: "light_mode", label: "亮色模式" },
+  dark: { icon: "dark_mode", label: "深色模式" },
+} as const;
+
+const themePreference = computed(() => mode.value as "auto" | "light" | "dark");
+const currentIcon = computed(() => THEME_MAP[themePreference.value].icon);
+const currentLabel = computed(() => THEME_MAP[themePreference.value].label);
+
+function cycleTheme() {
+  mode.value = cycleNext();
+}
 
 /** 标签动画状态 */
 const isLabelAnimating = ref(false);
@@ -52,19 +111,19 @@ const navSegment = computed(() => {
 /** 计算导航栏容器类名 */
 const navClass = computed(() => {
   let baseClass = "";
-  if (screenWidthStore.screenWidth > 840) {
+  if (screenWidth.value > 840) {
     baseClass = "rail";
-  } else if (screenWidthStore.screenWidth > 600) {
+  } else if (screenWidth.value > 600) {
     baseClass = "bar horizontal";
   } else {
     baseClass = "bar vertical";
   }
-  const expansionClass = navStateStore.isNavExpanded ? "expanded" : "collapsed";
+  const expansionClass = isNavExpanded.value ? "expanded" : "collapsed";
   return `${baseClass} ${expansionClass}`;
 });
 
 /** 计算标签类名 */
-const labelClass = computed(() => [navStateStore.isNavExpanded ? "right" : "bottom", isLabelAnimating.value ? "animating" : ""]);
+const labelClass = computed(() => [isNavExpanded.value ? "right" : "bottom", isLabelAnimating.value ? "animating" : ""]);
 
 /**
  * 规范化路径，去除后缀及末尾斜杠
@@ -98,7 +157,7 @@ function isExternalLink(link: string): boolean {
  */
 function toggleSearch(event: MouseEvent) {
   event.stopPropagation();
-  searchStateStore.toggle();
+  appBarStore.toggle();
 }
 
 /**
@@ -107,8 +166,8 @@ function toggleSearch(event: MouseEvent) {
  */
 function toggleNav(event: MouseEvent) {
   event.stopPropagation();
-  if (screenWidthStore.isAboveBreakpoint) {
-    navStateStore.toggle();
+  if (isAboveBreakpoint.value) {
+    isNavExpanded.value = !isNavExpanded.value;
   }
 }
 
@@ -118,7 +177,7 @@ function toggleNav(event: MouseEvent) {
  */
 function toggleTheme(event: MouseEvent) {
   event.stopPropagation();
-  themeStateStore.cycleTheme();
+  cycleTheme();
 }
 
 /**
@@ -144,7 +203,7 @@ function onAnimationEnd(el: EventTarget | null) {
 
 /** 监听导航栏展开状态，触发重绘和动画 */
 watch(
-  () => [navStateStore.isNavExpanded],
+  () => [isNavExpanded.value],
   () => {
     isLabelAnimating.value = true;
     nextTick(() => {
@@ -155,9 +214,7 @@ watch(
 
 if (isClient()) {
   onMounted(() => {
-    screenWidthStore.init();
-    navStateStore.init();
-
+    initNavState();
     nextTick(() => {
       window.dispatchEvent(new Event("resize"));
     });
@@ -173,10 +230,10 @@ if (isClient()) {
   <ClientOnly>
     <nav class="NavBar" :class="navClass">
       <div class="fab-container">
-        <MaterialButton pattern="icon-button" color="text" @click="toggleNav">{{ navStateStore.isNavExpanded ? "menu_open" : "menu" }}</MaterialButton>
+        <MaterialButton pattern="icon-button" color="text" @click="toggleNav">{{ isNavExpanded ? "menu_open" : "menu" }}</MaterialButton>
         <button class="fab" @mousedown.prevent @click.stop="toggleSearch">
           <StateLayer />
-          <span>{{ searchStateStore.isSearchActive ? "close" : "search" }}</span>
+          <span>{{ appBarStore.isSearchActive ? "close" : "search" }}</span>
           <p :ref="(el) => setLabelRef(el, '.fab')">搜索</p>
         </button>
       </div>
@@ -197,7 +254,7 @@ if (isClient()) {
       </div>
 
       <div class="actions">
-        <MaterialButton pattern="icon-button" class="theme-btn" size="m" color="text" :title="themeStateStore.currentLabel" @click="toggleTheme">{{ themeStateStore.currentIcon }}</MaterialButton>
+        <MaterialButton pattern="icon-button" class="theme-btn" size="m" color="text" :title="currentLabel" @click="toggleTheme">{{ currentIcon }}</MaterialButton>
       </div>
     </nav>
   </ClientOnly>

@@ -3,9 +3,6 @@
  * 获取元素实际宽度，并以CSS变量的形式设置到父级元素上
  */
 
-import { onMounted, onBeforeUnmount } from "vue";
-import { isClient } from "../utils/env";
-
 /** 元素宽度观察器配置 */
 interface ElementWidthObserverConfig {
   /** CSS选择器 */
@@ -118,25 +115,4 @@ export function setupWidthObserver(config: ElementWidthObserverConfig, targetEle
   return () => {
     window.removeEventListener("resize", updateWidths);
   };
-}
-
-/**
- * 元素宽度观察器
- * 在组件挂载时设置宽度观察器，组件卸载时自动清理
- */
-export function useElementWidthObserver(configs: ElementWidthObserverConfig[]) {
-  if (!isClient()) return;
-
-  const cleanupFunctions: Array<() => void> = [];
-
-  onMounted(() => {
-    configs.forEach((config) => {
-      const cleanup = setupWidthObserver(config);
-      cleanupFunctions.push(cleanup);
-    });
-  });
-
-  onBeforeUnmount(() => {
-    cleanupFunctions.forEach((cleanup) => cleanup());
-  });
 }

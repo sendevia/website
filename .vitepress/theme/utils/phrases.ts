@@ -7,22 +7,6 @@ export interface Phrase {
   timeOfDay?: "morning" | "afternoon" | "evening" | "any";
 }
 
-/**
- * 获取当前时间段
- * @returns {'morning' | 'afternoon' | 'evening'} 当前时间段
- */
-export function getCurrentTimeOfDay(): "morning" | "afternoon" | "evening" {
-  const hour = new Date().getHours();
-
-  if (hour >= 5 && hour < 12) {
-    return "morning"; // 早上: 5:00 - 11:59
-  } else if (hour >= 12 && hour < 18) {
-    return "afternoon"; // 中午: 12:00 - 17:59
-  } else {
-    return "evening"; // 晚上: 18:00 - 4:59
-  }
-}
-
 /** 按时间段分类 */
 export const phrasesByTime: Record<"morning" | "afternoon" | "evening" | "any", Phrase[]> = {
   morning: [
@@ -61,49 +45,25 @@ export const phrasesByTime: Record<"morning" | "afternoon" | "evening" | "any", 
 };
 
 /**
- * 获取当前时间段可用的所有短语
- * @returns {Phrase[]} 当前时间段可用的短语数组
- */
-export function getPhrasesForCurrentTime(): Phrase[] {
-  const timeOfDay = getCurrentTimeOfDay();
-  const timeSpecificPhrases = phrasesByTime[timeOfDay];
-  const anyTimePhrases = phrasesByTime.any;
-
-  return [...timeSpecificPhrases, ...anyTimePhrases];
-}
-
-/**
- * 从当前时间段的短语库中随机获取一个短语
- * @returns {Phrase} 随机短语对象
- */
-export function getRandomPhrase(): Phrase {
-  const availablePhrases = getPhrasesForCurrentTime();
-  const randomIndex = Math.floor(Math.random() * availablePhrases.length);
-  return availablePhrases[randomIndex];
-}
-
-/**
  * 获取随机短语文本
- * @returns {string} 随机短语文本
  */
-export function getFormattedRandomPhrase(): string {
-  const phrase = getRandomPhrase();
-  return phrase.text;
+function getCurrentTimeOfDay(): "morning" | "afternoon" | "evening" {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 12) return "morning";
+  if (hour >= 12 && hour < 18) return "afternoon";
+  return "evening";
 }
 
-/**
- * 获取指定数量的随机短语（不重复）
- * @param count 需要获取的短语数量
- * @returns {Phrase[]} 随机短语数组
- */
-export function getRandomPhrases(count: number): Phrase[] {
+function getPhrasesForCurrentTime(): Phrase[] {
+  const timeOfDay = getCurrentTimeOfDay();
+  return [...phrasesByTime[timeOfDay], ...phrasesByTime.any];
+}
+
+function getRandomPhrase(): Phrase {
   const availablePhrases = getPhrasesForCurrentTime();
+  return availablePhrases[Math.floor(Math.random() * availablePhrases.length)];
+}
 
-  if (count >= availablePhrases.length) {
-    // 如果需要的数量大于等于总数量，直接返回打乱后的所有短语
-    return [...availablePhrases].sort(() => Math.random() - 0.5);
-  }
-
-  const shuffled = [...availablePhrases].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, count);
+export function getFormattedRandomPhrase(): string {
+  return getRandomPhrase().text;
 }

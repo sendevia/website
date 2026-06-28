@@ -113,12 +113,7 @@ const handlePress = (e: MouseEvent | TouchEvent) => {
   const y = point.clientY - rect.top;
 
   // 使用 Math.hypot 直接推导四角距离取最大值，避免无谓的数组重复分配
-  const maxRadius = Math.max(
-    Math.hypot(x, y),
-    Math.hypot(rect.width - x, y),
-    Math.hypot(x, rect.height - y),
-    Math.hypot(rect.width - x, rect.height - y),
-  );
+  const maxRadius = Math.max(Math.hypot(x, y), Math.hypot(rect.width - x, y), Math.hypot(x, rect.height - y), Math.hypot(rect.width - x, rect.height - y));
 
   const size = maxRadius * 2;
   const id = rippleIdCounter++;
