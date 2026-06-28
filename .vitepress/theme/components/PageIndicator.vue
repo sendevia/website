@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted, nextTick, watch } from "vue";
-import { useIntersectionObserver, useResizeObserver, useEventListener, useTimeoutFn } from "@vueuse/core";
+import { ref, computed, onMounted, nextTick, watch } from "vue";
+import { useIntersectionObserver, useResizeObserver, useEventListener, useScroll } from "@vueuse/core";
 import { useData } from "vitepress";
 import { useScreenWidth } from "../composables/useScreenWidth";
 import { isClient } from "../utils/env";
@@ -15,38 +15,90 @@ const headings = ref<Array<{ id: string; text: string; level: number }>>([]);
 const headingsActiveId = ref<string>("");
 const indicator = ref({ top: "0px", left: "0px", width: "100%", height: "0px", opacity: 0 });
 
-/** 点击导航时临时禁用滚动监听更新 */
+/** 导航期间锁定，阻止 observer 更新活动标题 */
 const isLocked = ref(false);
-const { start: lockTimer } = useTimeoutFn(
-  () => {
-    isLocked.value = false;
-  },
-  1200,
-  { immediate: false },
+/** 当前处于激活区域的标题 ID 集合 */
+const intersectingIds = new Set<string>();
+
+/** 滚动容器 */
+const scrollContainer = computed(() => {
+  if (!isClient()) return void 0;
+  return document.querySelector<HTMLElement>(".content-flow") ?? document.documentElement;
+});
+
+/** 标题 DOM 元素列表（计算属性，供 useIntersectionObserver 自动追踪） */
+const headingElements = computed<HTMLElement[]>(() =>
+  headings.value.map((h) => document.getElementById(h.id)).filter((el): el is HTMLElement => el !== null),
 );
+
+/**
+ * 根据 IntersectionObserver 回调确定当前激活的标题。
+ * 策略：选择 DOM 顺序中最后一个仍在激活区域内的标题。
+ * - 向下滚动时自然过渡到下一个标题
+ * - 向上滚动时回退到上一个标题
+ * - 所有标题离开激活区则保持当前不变，避免闪烁
+ */
+const onIntersect = (entries: IntersectionObserverEntry[]) => {
+  if (isLocked.value || headings.value.length === 0) return;
+
+  for (const entry of entries) {
+    if (entry.isIntersecting) {
+      intersectingIds.add(entry.target.id);
+    } else {
+      intersectingIds.delete(entry.target.id);
+    }
+  }
+
+  if (intersectingIds.size === 0) return;
+
+  let activeId = headings.value[0].id;
+  for (const h of headings.value) {
+    if (intersectingIds.has(h.id)) {
+      activeId = h.id;
+    }
+  }
+  headingsActiveId.value = activeId;
+};
+
+/**
+ * 使用 VueUse useIntersectionObserver 观察标题可见性。
+ * 激活区域：视口顶部 20%～25% 的窄带。
+ * headingElements 变化时自动重建观察。
+ */
+useIntersectionObserver(headingElements, onIntersect, { rootMargin: "-20% 0px -75% 0px", threshold: [0, 0.25] });
+
+/**
+ * 使用 VueUse useScroll 监听滚动停止事件。
+ * 导航锁定后等待滚动停止（idle=150ms），再解除锁定并同步标题状态。
+ */
+useScroll(scrollContainer, {
+  idle: 150,
+  onStop: () => {
+    if (isLocked.value) {
+      isLocked.value = false;
+      intersectingIds.clear();
+      computeActiveFromPosition();
+      nextTick(updateIndicator);
+    }
+  },
+});
 
 /** 收集页面中的 h1 和 h2 标题 */
 const collectHeadings = () => {
   if (!isClient()) return;
-  const nodes = Array.from(document.querySelectorAll("h1[id], h2[id]")) as HTMLElement[];
-
-  headings.value = nodes.map((n) => {
-    // 克隆节点并移除行内锚点、内联图标
+  const nodes = document.querySelectorAll("h1[id], h2[id]");
+  headings.value = Array.from(nodes).map((n) => {
     const clone = n.cloneNode(true) as HTMLElement;
-    const elementsToRemove = Array.from(clone.querySelectorAll(".AnchorLink.inline, .inline-symbol")) as HTMLElement[];
-    elementsToRemove.forEach((el) => el.remove());
-
-    const text = clone.textContent?.trim() || n.id;
-
+    clone.querySelectorAll(".AnchorLink.inline, .inline-symbol").forEach((el) => el.remove());
     return {
       id: n.id,
-      text,
+      text: clone.textContent?.trim() || n.id,
       level: +n.tagName.replace("H", ""),
     };
   });
 };
 
-/** 更新指示器（高亮边框）的位置和尺寸 */
+/** 更新高亮指示器的位置和尺寸 */
 const updateIndicator = () => {
   const container = pageIndicator.value;
   const id = headingsActiveId.value;
@@ -73,14 +125,36 @@ const updateIndicator = () => {
   };
 };
 
+/** 根据滚动位置计算当前应激活的标题（导航结束后兜底同步） */
+const computeActiveFromPosition = () => {
+  if (headings.value.length === 0) return;
+
+  const container = document.querySelector<HTMLElement>(".content-flow");
+  if (!container) return;
+
+  const containerRect = container.getBoundingClientRect();
+  const activeZone = containerRect.top + containerRect.height * 0.2;
+
+  let activeId = headings.value[0].id;
+  for (const h of headings.value) {
+    const el = document.getElementById(h.id);
+    if (!el) continue;
+    if (el.getBoundingClientRect().top <= activeZone) {
+      activeId = h.id;
+    }
+  }
+  headingsActiveId.value = activeId;
+};
+
 /**
- * 导航到指定标题并锁定监听
+ * 导航到指定标题。
+ * 锁定 observer 避免滚动过程中干扰，滚动结束后由 useScroll 的回调解除锁定。
  * @param id 标题 ID
  */
 const navigateTo = (id: string) => {
   isLocked.value = true;
+  intersectingIds.clear();
   headingsActiveId.value = id;
-  lockTimer(); // 启动/重置计时器
 
   const el = document.getElementById(id);
   if (el) {
@@ -89,74 +163,53 @@ const navigateTo = (id: string) => {
   }
 };
 
-/** 多标题可见性观察 */
-const visibleMap = new Map<string, number>();
+/** 客户端专用初始化 */
 if (isClient()) {
-  // 监听所有标题元素的进入/退出
-  watch(
-    headings,
-    (newHeadings) => {
-      newHeadings.forEach((h) => {
-        const el = document.getElementById(h.id);
-        if (!el) return;
-
-        useIntersectionObserver(
-          el,
-          ([entry]) => {
-            if (entry.isIntersecting) {
-              // 存储分数：交集比例 * 权重 - 距离顶部距离
-              const score = entry.intersectionRatio * 10000 - entry.boundingClientRect.top;
-              visibleMap.set(h.id, score);
-            } else {
-              visibleMap.delete(h.id);
-            }
-
-            // 非锁定状态下更新活动 ID
-            if (!isLocked.value && visibleMap.size > 0) {
-              const bestId = [...visibleMap.entries()].reduce((a, b) => (a[1] > b[1] ? a : b))[0];
-              headingsActiveId.value = bestId;
-            }
-          },
-          { rootMargin: "-20% 0px -60% 0px", threshold: [0, 0.1, 0.5, 1] },
-        );
-      });
-    },
-    { immediate: true },
-  );
-
-  /** 监听容器及其子元素尺寸变化 */
   useResizeObserver(pageIndicator, updateIndicator);
-
-  /** 窗口事件监听 */
   useEventListener("resize", updateIndicator);
   useEventListener(["hashchange", "popstate"], () => {
-    if (isAboveBreakpoint.value) collectHeadings();
+    if (isAboveBreakpoint.value) {
+      collectHeadings();
+      nextTick(() => {
+        updateIndicator();
+      });
+    }
   });
 }
 
-/** 状态同步监听 */
+/** 断点变化：大屏时初始化，小屏时隐藏 */
 watch(
   () => isAboveBreakpoint.value,
   (val) => {
     if (val) {
       collectHeadings();
-      nextTick(updateIndicator);
+      nextTick(() => {
+        if (headings.value.length > 0) {
+          headingsActiveId.value = headings.value[0].id;
+        }
+        updateIndicator();
+      });
     } else {
       indicator.value.opacity = 0;
+      intersectingIds.clear();
     }
   },
 );
 
+/** 活动标题变化时重算指示器位置 */
 watch(headingsActiveId, () => {
   if (isAboveBreakpoint.value) nextTick(updateIndicator);
 });
 
 onMounted(() => {
-  if (isClient()) {
-    if (isAboveBreakpoint.value) {
-      collectHeadings();
-      nextTick(updateIndicator);
-    }
+  if (isClient() && isAboveBreakpoint.value) {
+    collectHeadings();
+    nextTick(() => {
+      if (headings.value.length > 0) {
+        headingsActiveId.value = headings.value[0].id;
+      }
+      updateIndicator();
+    });
   }
 });
 </script>
