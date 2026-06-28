@@ -48,17 +48,28 @@ const toArray = (val: any): string[] => {
   return val ? [val] : [];
 };
 
+/**
+ * 从 markdown 源内容中提取第一个 h1 标题
+ * @param src markdown 原始内容
+ * @returns 标题文本，未找到返回空字符串
+ */
+function extractTitleFromSrc(src?: string): string {
+  if (!src) return "";
+  const match = src.match(/^#\s+(.+)$/m);
+  return match?.[1]?.trim() ?? "";
+}
+
 export default createContentLoader("./posts/**/*.md", {
-  includeSrc: false,
+  includeSrc: true,
   excerpt: true,
   transform(raw: ContentData[]): PostData[] {
-    const posts = raw.map(({ url, frontmatter }) => {
+    const posts = raw.map(({ url, frontmatter, src }) => {
       const { timestamp } = formatDateTimestamp(frontmatter.date);
 
       return {
         id: generateHashId(url),
         url,
-        title: frontmatter.title || "",
+        title: frontmatter.title || extractTitleFromSrc(src),
         description: frontmatter.description || "",
         impression: toArray(frontmatter.impression),
         timestamp,
