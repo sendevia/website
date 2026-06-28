@@ -18,11 +18,13 @@
 | `npm run docs:build`     | 生产构建 → `.vitepress/dist/`                        |
 | `npm run docs:build-cf`  | 使用 `git fetch --unshallow` 构建（用于 Cloudflare） |
 | `npm run docs:preview`   | 本地预览生产构建结果                                 |
-| `npm run update-version` | **危险操作**：更新版本、提交、打标签并推送到远程仓库 |
 | `npm run lint`           | ESLint 代码检查                                      |
 | `npm run typecheck`      | vue-tsc 类型检查（不输出文件）                       |
+| `npm run check`          | 依次执行 lint + typecheck                            |
+| `npm run format`         | Prettier 自动格式化全部源文件                        |
+| `npm run update-version` | **危险操作**：更新版本、提交、打标签并推送到远程仓库 |
 
-建议顺序：先 `lint`，再 `typecheck`。两个命令都无自动修复功能，需手动修复。
+建议运行 `npm run check`（自动先 lint 再 typecheck）。两个步骤均无自动修复功能，需手动修复。
 
 ## 草稿文章
 
@@ -42,11 +44,10 @@ Docker CI 工作流从 `package.json` 中读取版本作为镜像标签。
 
 - **Dockerfile**：两阶段构建——Node 构建阶段克隆仓库、安装依赖、运行 `docs:build`；最终镜像使用 Caddy 提供 dist 服务。
 - **docker-build.yml**：构建并推送多架构（amd64、arm64）镜像到 Docker Hub 和 GHCR。仅在 `master` 分支上推送并修改了 `package.json`、`Dockerfile` 或工作流本身时触发。
-- **opencode.yml**：响应 issues/PR 中的 `/oc` 或 `/opencode` 注释。请勿随意修改。
 
 ## 规范
 
-- 使用 Vue 3 + TypeScript + SCSS + VueUse + Pinia。优先使用 VueUse 实现功能。
+- 使用 Vue 3 + TypeScript + SCSS + VueUse + Pinia。**必须优先查 VueUse 是否存在现成模块，禁止再造轮子。** `@vueuse/core` 提供了 200+ 组合式函数，涵盖几乎所有常见场景。在手工实现任何底层功能前，先在 `node_modules/@vueuse/core` 或[官方文档](https://vueuse.org/) 中确认是否存在对应模块。
 - Vue 文件：**仅包含 TypeScript 和模板**。SCSS 放入 `.vitepress/theme/styles/`。
 - 组件使用 PascalCase；函数/常量/变量使用 camelCase；HTML class/id 使用 kebab-case。
 - 每个变量/函数都需要简短的 JSDoc 注释。
