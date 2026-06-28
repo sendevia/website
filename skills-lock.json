@@ -1,13 +1,6 @@
 {
   "version": 1,
   "skills": {
-    "pua": {
-      "source": "tanweai/pua",
-      "ref": "main",
-      "sourceType": "github",
-      "skillPath": "skills/pua/SKILL.md",
-      "computedHash": "5155c2c07a3cbf25f29e6cb0953650183d8f2018b7d8a49ef38fd750905e5ba6"
-    },
     "vite": {
       "source": "antfu/skills",
       "ref": "main",
