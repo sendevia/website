@@ -1,34 +1,70 @@
-import pluginVue from "eslint-plugin-vue";
-import tseslint from "typescript-eslint";
+import tsPlugin from "typescript-eslint";
+import vuePlugin from "eslint-plugin-vue";
+import vueParser from "vue-eslint-parser";
+import prettierPlugin from "eslint-plugin-prettier";
+import eslintConfigPrettier from "eslint-config-prettier";
 
-export default tseslint.config(
+export default tsPlugin.config(
+  // 1) 全局忽略
   {
-    ignores: ["**/dist/**", "**/cache/**", "**/node_modules/**"],
+    ignores: [
+      "**/dist/**",
+      "**/cache/**",
+      "**/node_modules/**",
+      "public/**",
+      "**/*.json",
+      ".pnpm-store/**",
+    ],
   },
-  ...tseslint.configs.recommended,
-  ...pluginVue.configs["flat/recommended"],
+
+  // 2) TS 推荐规则（TypeScript 项目禁用 no-undef，由 TS 自身处理）
+  ...tsPlugin.configs.recommended,
+
+  // 3) Vue 文件专用配置
   {
     files: ["**/*.vue"],
     languageOptions: {
+      parser: vueParser,
       parserOptions: {
-        parser: tseslint.parser,
+        parser: tsPlugin.parser,
+        sourceType: "module",
       },
     },
-  },
-  {
+    plugins: { vue: vuePlugin },
     rules: {
-      "@typescript-eslint/no-explicit-any": "off",
-      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
+      ...vuePlugin.configs["flat/recommended"].rules,
       "vue/multi-word-component-names": "off",
-      "vue/no-reserved-component-names": "off",
-      "vue/max-attributes-per-line": "off",
-      "vue/singleline-html-element-content-newline": "off",
-      "vue/html-self-closing": "off",
-      "vue/html-indent": "off",
-      "vue/multiline-html-element-content-newline": "off",
-      "vue/attributes-order": "off",
-      "vue/require-default-prop": "off",
-      "vue/html-closing-bracket-newline": "off",
+    },
+  },
+
+  // 4) 通用 JS / TS 文件
+  {
+    files: ["**/*.{js,ts,tsx}"],
+  },
+
+  // 5) Prettier 集成
+  eslintConfigPrettier,
+  {
+    plugins: { prettier: prettierPlugin },
+    rules: {
+      "prettier/prettier": "warn",
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+      "@typescript-eslint/naming-convention": [
+        "warn",
+        {
+          selector: "variable",
+          format: ["camelCase", "UPPER_CASE"],
+        },
+        {
+          selector: "function",
+          format: ["camelCase"],
+        },
+        {
+          selector: "typeLike",
+          format: ["PascalCase"],
+        },
+      ],
     },
   },
 );
