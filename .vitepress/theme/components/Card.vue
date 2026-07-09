@@ -36,7 +36,12 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <component :is="href ? 'a' : 'div'" :href="href" class="MaterialCard" :class="[variant, size, color]">
+  <component
+    :is="href ? 'a' : 'div'"
+    :href="href"
+    class="MaterialCard"
+    :class="[variant, size, color]"
+  >
     <div class="content">
       <StateLayer />
       <div v-if="(impression && impression.length > 0) || title" class="impression-area">

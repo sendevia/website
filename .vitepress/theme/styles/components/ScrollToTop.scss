@@ -5,7 +5,8 @@
   bottom: 48px;
   right: 48px;
   opacity: 0;
-  transition: var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
+  transition: var(--md-sys-motion-spring-fast-effect-duration)
+    var(--md-sys-motion-spring-fast-effect);
   user-select: none;
   visibility: hidden;
   z-index: 21;

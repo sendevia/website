@@ -18,7 +18,8 @@ const emit = defineEmits<{
 // 向外传回工具的标题、介绍和按键说明
 emit("updateToolInfo", {
   title: "Material Symbol 字体文件下载",
-  description: "你可以在这里输入需要的 Material Symbol 图标名称，获取到只包含这些图标的 woff2 字体文件。",
+  description:
+    "你可以在这里输入需要的 Material Symbol 图标名称，获取到只包含这些图标的 woff2 字体文件。",
   tips: [
     { icon: "add", desc: "添加新的图标" },
     { icon: "download", desc: "下载生成的字体文件" },
@@ -227,21 +228,33 @@ function clearQueue() {
         placeholder="输入多个名称，用逗号或空格分隔"
         @keyup.enter="addToQueue"
       ></MaterialInput>
-      <MaterialButton icon="add" color="filled" size="m" @click="addToQueue">添加图标</MaterialButton>
+      <MaterialButton icon="add" color="filled" size="m" @click="addToQueue"
+        >添加图标</MaterialButton
+      >
     </div>
 
     <div v-if="iconQueue.length > 0" class="section queue">
       <div class="header">
-        <MaterialButton :icon="isDownloading ? 'hourglass_empty' : 'download'" @click="downloadFont">{{
-          isDownloading ? "下载中..." : `下载字体 (${iconQueue.length}个)`
-        }}</MaterialButton>
-        <MaterialButton pattern="icon-button" :aria-label="urlCopied ? '已复制！' : '复制 URL'" @click="copyUrl()">{{
-          urlCopied ? "check" : "link"
-        }}</MaterialButton>
-        <MaterialButton pattern="icon-button" :aria-label="listCopied ? '已复制！' : '复制列表'" @click="copyList()">{{
-          listCopied ? "check" : "copy_all"
-        }}</MaterialButton>
-        <MaterialButton pattern="icon-button" aria-label="清空队列" @click="clearQueue">clear_all</MaterialButton>
+        <MaterialButton
+          :icon="isDownloading ? 'hourglass_empty' : 'download'"
+          @click="downloadFont"
+          >{{ isDownloading ? "下载中..." : `下载字体 (${iconQueue.length}个)` }}</MaterialButton
+        >
+        <MaterialButton
+          pattern="icon-button"
+          :aria-label="urlCopied ? '已复制！' : '复制 URL'"
+          @click="copyUrl()"
+          >{{ urlCopied ? "check" : "link" }}</MaterialButton
+        >
+        <MaterialButton
+          pattern="icon-button"
+          :aria-label="listCopied ? '已复制！' : '复制列表'"
+          @click="copyList()"
+          >{{ listCopied ? "check" : "copy_all" }}</MaterialButton
+        >
+        <MaterialButton pattern="icon-button" aria-label="清空队列" @click="clearQueue"
+          >clear_all</MaterialButton
+        >
       </div>
       <div class="grid">
         <div

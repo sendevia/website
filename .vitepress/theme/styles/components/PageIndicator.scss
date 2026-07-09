@@ -18,7 +18,8 @@
     outline: 2px solid var(--md-sys-color-primary);
     border-radius: var(--md-sys-shape-corner-extra-large);
     pointer-events: none;
-    transition: var(--md-sys-motion-spring-default-spatial-duration) var(--md-sys-motion-spring-default-spatial);
+    transition: var(--md-sys-motion-spring-default-spatial-duration)
+      var(--md-sys-motion-spring-default-spatial);
     z-index: 1;
   }
 
@@ -46,7 +47,8 @@
         transition:
           font-variation-settings var(--md-sys-motion-spring-fast-effect-duration)
             var(--md-sys-motion-spring-fast-effect-duration),
-          opacity var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect-duration);
+          opacity var(--md-sys-motion-spring-fast-effect-duration)
+            var(--md-sys-motion-spring-fast-effect-duration);
 
         &:focus-visible {
           @include mixin.focus-ring($thickness: 3, $offset: 2);

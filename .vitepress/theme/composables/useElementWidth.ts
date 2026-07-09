@@ -46,8 +46,17 @@ function formatWidth(width: number, precision: number = 2): string {
 }
 
 /** 设置元素宽度CSS变量到父级元素 */
-export function setupWidthObserver(config: ElementWidthObserverConfig, targetElements?: HTMLElement[]): () => void {
-  const { selector, variableName, parentSelector, precision = 2, ignoreParentLimit = false } = config;
+export function setupWidthObserver(
+  config: ElementWidthObserverConfig,
+  targetElements?: HTMLElement[],
+): () => void {
+  const {
+    selector,
+    variableName,
+    parentSelector,
+    precision = 2,
+    ignoreParentLimit = false,
+  } = config;
 
   // 如果提供了 targetElements，则使用它们；否则使用 selector 查询
   const elements = targetElements || Array.from(document.querySelectorAll<HTMLElement>(selector));

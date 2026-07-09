@@ -17,7 +17,13 @@ function scrollToTop() {
 
 <template>
   <div class="ScrollToTop" :class="{ visible: isScrolled }">
-    <MaterialButton pattern="icon-button" size="l" color="tonal" aria-label="滚动到顶部" @click="scrollToTop">
+    <MaterialButton
+      pattern="icon-button"
+      size="l"
+      color="tonal"
+      aria-label="滚动到顶部"
+      @click="scrollToTop"
+    >
       arrow_upward
     </MaterialButton>
   </div>

@@ -1,7 +1,8 @@
 @use "../mixin";
 
 .AnchorLink {
-  transition: var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
+  transition: var(--md-sys-motion-spring-fast-effect-duration)
+    var(--md-sys-motion-spring-fast-effect);
   user-select: none;
   -moz-user-select: none;
 

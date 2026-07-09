@@ -37,15 +37,15 @@ const generateHashId = (str: string): string => {
   return Math.abs(hash).toString(36);
 };
 
-const formatDateTimestamp = (rawDate: any): { timestamp: number } => {
+const formatDateTimestamp = (rawDate: string | number | Date): { timestamp: number } => {
   const d = new Date(rawDate || 0);
   if (isNaN(d.getTime())) return { timestamp: 0 };
   return { timestamp: d.getTime() };
 };
 
-const toArray = (val: any): string[] => {
-  if (Array.isArray(val)) return val;
-  return val ? [val] : [];
+const toArray = (val: unknown): string[] => {
+  if (Array.isArray(val)) return val.map(String);
+  return val ? [String(val)] : [];
 };
 
 /**

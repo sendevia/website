@@ -162,7 +162,10 @@ const handleWheel = (e: WheelEvent) => {
     else prevImage();
   } else {
     const step = e.deltaY > 0 ? -ZOOM_CONFIG.STEP : ZOOM_CONFIG.STEP;
-    imageScale.value = Math.min(Math.max(imageScale.value + step, ZOOM_CONFIG.MIN), ZOOM_CONFIG.MAX);
+    imageScale.value = Math.min(
+      Math.max(imageScale.value + step, ZOOM_CONFIG.MIN),
+      ZOOM_CONFIG.MAX,
+    );
   }
 };
 
@@ -207,7 +210,10 @@ const handleTouchMove = (e: TouchEvent) => {
     const dx = e.touches[0].clientX - e.touches[1].clientX;
     const dy = e.touches[0].clientY - e.touches[1].clientY;
     const dist = Math.sqrt(dx * dx + dy * dy);
-    imageScale.value = Math.min(Math.max((dist / initialTouchDist) * initialTouchScale, ZOOM_CONFIG.MIN), ZOOM_CONFIG.MAX_TOUCH);
+    imageScale.value = Math.min(
+      Math.max((dist / initialTouchDist) * initialTouchScale, ZOOM_CONFIG.MIN),
+      ZOOM_CONFIG.MAX_TOUCH,
+    );
   } else if (e.touches.length === 1) {
     const touch = e.touches[0];
     const dx = touch.clientX - lastTouchPos.x;
@@ -230,8 +236,21 @@ defineExpose({ show, hide });
 </script>
 
 <template>
-  <div v-if="isVisible" class="ImageViewer" :class="{ animating: isAnimating }" role="dialog" aria-modal="true" tabindex="-1">
-    <MaterialButton pattern="icon-button" size="l" class="close" color="text" aria-label="关闭" @click="hide"
+  <div
+    v-if="isVisible"
+    class="ImageViewer"
+    :class="{ animating: isAnimating }"
+    role="dialog"
+    aria-modal="true"
+    tabindex="-1"
+  >
+    <MaterialButton
+      pattern="icon-button"
+      size="l"
+      class="close"
+      color="text"
+      aria-label="关闭"
+      @click="hide"
       >close</MaterialButton
     >
 

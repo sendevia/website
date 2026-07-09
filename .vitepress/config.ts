@@ -57,7 +57,13 @@ export default defineConfig({
   head: [
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
     ["link", { rel: "preconnect", href: "https://fonts.gstatic.com" }],
-    ["link", { href: "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200..800&display=swap", rel: "stylesheet" }],
+    [
+      "link",
+      {
+        href: "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200..800&display=swap",
+        rel: "stylesheet",
+      },
+    ],
     [
       "link",
       {
@@ -106,7 +112,7 @@ export default defineConfig({
         link: "/tools/",
       },
     ],
-  } as any,
+  } as const,
   vite: {
     build: {
       minify: true,

@@ -42,8 +42,10 @@
       background-color: var(--md-sys-color-secondary-container);
       cursor: pointer;
       transition:
-        grid var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial),
-        gap var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+        grid var(--md-sys-motion-spring-fast-spatial-duration)
+          var(--md-sys-motion-spring-fast-spatial),
+        gap var(--md-sys-motion-spring-fast-spatial-duration)
+          var(--md-sys-motion-spring-fast-spatial);
       overflow: hidden;
 
       span {
@@ -65,7 +67,8 @@
         color: var(--md-sys-color-on-secondary-container);
         user-select: none;
         pointer-events: none;
-        transition: var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
+        transition: var(--md-sys-motion-spring-fast-effect-duration)
+          var(--md-sys-motion-spring-fast-effect);
         -moz-user-select: none;
       }
 
@@ -89,7 +92,8 @@
 
   .destinations {
     display: flex;
-    transition: gap var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
+    transition: gap var(--md-sys-motion-spring-default-effect-duration)
+      var(--md-sys-motion-spring-default-effect);
 
     .segment {
       position: relative;
@@ -102,8 +106,10 @@
         justify-items: center;
         position: relative;
         transition:
-          grid var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial),
-          gap var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
+          grid var(--md-sys-motion-spring-fast-spatial-duration)
+            var(--md-sys-motion-spring-fast-spatial),
+          gap var(--md-sys-motion-spring-default-effect-duration)
+            var(--md-sys-motion-spring-default-effect);
       }
 
       .accent {
@@ -117,8 +123,10 @@
         border-radius: var(--md-sys-shape-corner-full);
         overflow: hidden;
         transition:
-          height var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect),
-          width var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
+          height var(--md-sys-motion-spring-default-effect-duration)
+            var(--md-sys-motion-spring-default-effect),
+          width var(--md-sys-motion-spring-default-effect-duration)
+            var(--md-sys-motion-spring-default-effect);
         z-index: 1;
 
         .icon {
@@ -170,7 +178,8 @@
             }
           }
 
-          animation: fade-out var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect) both;
+          animation: fade-out var(--md-sys-motion-spring-slow-effect-duration)
+            var(--md-sys-motion-spring-slow-effect) both;
         }
       }
 
@@ -186,9 +195,12 @@
         border-radius: var(--md-sys-shape-corner-full);
         pointer-events: none;
         transition:
-          background-color var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect),
-          height var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect),
-          width var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+          background-color var(--md-sys-motion-spring-fast-effect-duration)
+            var(--md-sys-motion-spring-fast-effect),
+          height var(--md-sys-motion-spring-default-effect-duration)
+            var(--md-sys-motion-spring-default-effect),
+          width var(--md-sys-motion-spring-fast-spatial-duration)
+            var(--md-sys-motion-spring-fast-spatial);
         z-index: 0;
       }
 
@@ -352,7 +364,8 @@
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
-    transition: width var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+    transition: width var(--md-sys-motion-spring-fast-spatial-duration)
+      var(--md-sys-motion-spring-fast-spatial);
 
     .destinations {
       flex-direction: column;

@@ -7,7 +7,7 @@ import type MarkdownIt from "markdown-it";
 export function sectionWrapper(mdit: MarkdownIt): void {
   mdit.core.ruler.before("inline", "group_sections", (state) => {
     const tokens = state.tokens;
-    const newTokens: any[] = [];
+    const newTokens: MarkdownIt.Token[] = [];
     let inSection = false;
 
     for (let i = 0; i < tokens.length; i++) {

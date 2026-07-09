@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, nextTick, watch } from "vue";
-import { useIntersectionObserver, useResizeObserver, useEventListener, useScroll } from "@vueuse/core";
+import {
+  useIntersectionObserver,
+  useResizeObserver,
+  useEventListener,
+  useScroll,
+} from "@vueuse/core";
 import { useData } from "vitepress";
 import { useScreenWidth } from "../composables/useScreenWidth";
 import { isClient } from "../utils/env";
@@ -28,7 +33,9 @@ const scrollContainer = computed(() => {
 
 /** 标题 DOM 元素列表（计算属性，供 useIntersectionObserver 自动追踪） */
 const headingElements = computed<HTMLElement[]>(() =>
-  headings.value.map((h) => document.getElementById(h.id)).filter((el): el is HTMLElement => el !== null),
+  headings.value
+    .map((h) => document.getElementById(h.id))
+    .filter((el): el is HTMLElement => el !== null),
 );
 
 /**
@@ -65,7 +72,10 @@ const onIntersect = (entries: IntersectionObserverEntry[]) => {
  * 激活区域：视口顶部 20%～25% 的窄带。
  * headingElements 变化时自动重建观察。
  */
-useIntersectionObserver(headingElements, onIntersect, { rootMargin: "-20% 0px -75% 0px", threshold: [0, 0.25] });
+useIntersectionObserver(headingElements, onIntersect, {
+  rootMargin: "-20% 0px -75% 0px",
+  threshold: [0, 0.25],
+});
 
 /**
  * 使用 VueUse useScroll 监听滚动停止事件。
@@ -107,7 +117,9 @@ const updateIndicator = () => {
     return;
   }
 
-  const activeElement = container.querySelector(`span[data-id="${CSS.escape(id)}"]`) as HTMLElement | null;
+  const activeElement = container.querySelector(
+    `span[data-id="${CSS.escape(id)}"]`,
+  ) as HTMLElement | null;
   if (!activeElement || !activeElement.offsetParent) {
     indicator.value.opacity = 0;
     return;
@@ -229,9 +241,18 @@ onMounted(() => {
       class="indicator"
     ></div>
     <div class="indicator-container">
-      <span v-for="h in headings" :key="h.id" :data-id="h.id" :class="{ active: h.id === headingsActiveId }">
+      <span
+        v-for="h in headings"
+        :key="h.id"
+        :data-id="h.id"
+        :class="{ active: h.id === headingsActiveId }"
+      >
         <StateLayer />
-        <a :href="`#${h.id}`" @click.prevent="navigateTo(h.id)" :aria-current="h.id === headingsActiveId ? 'true' : undefined">
+        <a
+          :href="`#${h.id}`"
+          @click.prevent="navigateTo(h.id)"
+          :aria-current="h.id === headingsActiveId ? 'true' : undefined"
+        >
           {{ h.text }}
         </a>
       </span>

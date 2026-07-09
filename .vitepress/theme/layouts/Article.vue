@@ -17,12 +17,16 @@ const lastUpdated = computed(() => {
 
 /** 计算最终显示的编辑时间文本 */
 const formattedLastUpdated = computed(() => {
-  return lastUpdated.value ? `编辑于 ${formatRelativeTime(lastUpdated.value, lang.value || "zh-CN")}` : "";
+  return lastUpdated.value
+    ? `编辑于 ${formatRelativeTime(lastUpdated.value, lang.value || "zh-CN")}`
+    : "";
 });
 
 /** 格式化发布时间 */
 const formattedPublishDate = computed(() => {
-  return frontmatter.value?.date ? formatDate(frontmatter.value.date, { locale: lang.value || "zh-CN" }) : "";
+  return frontmatter.value?.date
+    ? formatDate(frontmatter.value.date, { locale: lang.value || "zh-CN" })
+    : "";
 });
 
 /** 图片查看器状态 */
@@ -133,11 +137,17 @@ if (isClient()) {
       <div class="post-info">
         <p class="date-publish">发布于 {{ formattedPublishDate }}</p>
         <p v-if="formattedLastUpdated" class="date-update">{{ formattedLastUpdated }}</p>
-        <p v-if="articleId" @click="copyShortLink" :title="isCopied ? '已复制' : '复制短链'" class="article-id">
+        <p
+          v-if="articleId"
+          @click="copyShortLink"
+          :title="isCopied ? '已复制' : '复制短链'"
+          class="article-id"
+        >
           {{ isCopied ? "已复制" : articleId }}
         </p>
       </div>
     </ClientOnly>
+    <!-- <RelatedArticles /> -->
     <PrevNext />
   </main>
   <aside id="article-aside">

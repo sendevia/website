@@ -229,7 +229,10 @@ const getArticleImage = (item: PostData): string[] => {
  * @param item 文章数据
  */
 const hasDownloadableContent = (item: PostData): boolean => {
-  return Array.isArray(item.external_links) && item.external_links.some((link) => link.type === "download");
+  return (
+    Array.isArray(item.external_links) &&
+    item.external_links.some((link) => link.type === "download")
+  );
 };
 
 /**
@@ -300,7 +303,12 @@ const clearCategory = () => {
       <div v-if="props.showToolbar" class="toolbar">
         <div class="filter">
           <div ref="settingsTriggerRef">
-            <MaterialButton size="s" color="text" icon="page_info" @click="isSettingsOpen = !isSettingsOpen">
+            <MaterialButton
+              size="s"
+              color="text"
+              icon="page_info"
+              @click="isSettingsOpen = !isSettingsOpen"
+            >
               列表设置
             </MaterialButton>
           </div>

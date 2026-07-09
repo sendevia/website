@@ -156,10 +156,12 @@
 
   .expand-enter-active,
   .expand-leave-active {
-    transition: opacity var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect);
+    transition: opacity var(--md-sys-motion-spring-slow-effect-duration)
+      var(--md-sys-motion-spring-slow-effect);
 
     .container {
-      transition: transform var(--md-sys-motion-spring-default-spatial-duration) var(--md-sys-motion-spring-default-spatial);
+      transition: transform var(--md-sys-motion-spring-default-spatial-duration)
+        var(--md-sys-motion-spring-default-spatial);
     }
   }
 

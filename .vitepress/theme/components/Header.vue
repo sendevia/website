@@ -132,7 +132,9 @@ const slotStates = computed(() => {
       { cls: "previous", order: 1, offset: -1 },
     ];
     const { cls, order, offset } = stateMap[relativePos];
-    const imgIndex = (((currentRealIndex.value + offset) % totalCount.value) + totalCount.value) % totalCount.value;
+    const imgIndex =
+      (((currentRealIndex.value + offset) % totalCount.value) + totalCount.value) %
+      totalCount.value;
 
     const rawUrl = rawImgList.value[imgIndex];
     const rawGradientUrl = getGradientUrl(rawUrl);
@@ -150,7 +152,8 @@ const slotStates = computed(() => {
 /** 自动轮播计时器 */
 const { pause, resume } = useRafFn(
   ({ delta }) => {
-    if (!hasMultiple.value || isAnimating.value || isFastForwarding.value || isHovering.value) return;
+    if (!hasMultiple.value || isAnimating.value || isFastForwarding.value || isHovering.value)
+      return;
     remainingTime.value -= delta;
     if (remainingTime.value <= 0) {
       step(1).then(() => (remainingTime.value = config.duration));
@@ -164,7 +167,13 @@ const { pause, resume } = useRafFn(
  * @param targetIdx 目标图片索引
  */
 const jumpTo = async (targetIdx: number) => {
-  if (!hasMultiple.value || targetIdx === currentRealIndex.value || isFastForwarding.value || isAnimating.value) return;
+  if (
+    !hasMultiple.value ||
+    targetIdx === currentRealIndex.value ||
+    isFastForwarding.value ||
+    isAnimating.value
+  )
+    return;
   isFastForwarding.value = true;
   const dir = targetIdx > currentRealIndex.value ? 1 : -1;
   const run = async () => {
@@ -222,13 +231,26 @@ onUnmounted(() => {
       <div class="carousel-container" :impression-color="frontmatter.color">
         <template v-if="hasMultiple">
           <div class="stage" :style="{ '--carousel-duration': `${animDuration}ms` }">
-            <div v-for="slot in slotStates" :key="slot.id" class="item" :class="slot.className" :style="{ order: slot.order }">
+            <div
+              v-for="slot in slotStates"
+              :key="slot.id"
+              class="item"
+              :class="slot.className"
+              :style="{ order: slot.order }"
+            >
               <img :src="slot.imgUrl" />
             </div>
           </div>
           <div class="progress-ring">
             <svg width="24" height="24" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="9" fill="none" stroke="var(--md-sys-color-tertiary-container)" stroke-width="5" />
+              <circle
+                cx="12"
+                cy="12"
+                r="9"
+                fill="none"
+                stroke="var(--md-sys-color-tertiary-container)"
+                stroke-width="5"
+              />
               <circle
                 cx="12"
                 cy="12"

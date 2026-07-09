@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { useData } from "vitepress";
+import { useData, type PageData } from "vitepress";
 import { usePostStore } from "../stores/posts";
+
+interface ExtendedPageData extends PageData {
+  url?: string;
+  path?: string;
+  regularPath?: string;
+  _file?: string;
+}
 
 const { page } = useData();
 const postsStore = usePostStore();
@@ -27,14 +34,15 @@ function normalize(u: string | undefined | null): string {
  * @returns 规范化后的候选标识符数组
  */
 const currentCandidates = computed(() => {
-  const p = page.value as any;
+  const p = page.value as ExtendedPageData;
   if (!p) return [];
 
   const cand = new Set<string>();
 
   // 基础属性收集
-  ["path", "regularPath", "url", "relativePath", "filePath", "_file"].forEach((k) => {
-    if (p[k]) cand.add(String(p[k]));
+  (["path", "regularPath", "url", "relativePath", "filePath", "_file"] as const).forEach((k) => {
+    const v = p[k];
+    if (v) cand.add(String(v));
   });
 
   // Frontmatter 标识收集
@@ -67,7 +75,7 @@ const currentCandidates = computed(() => {
 const currentIndex = computed(() => {
   const posts = postsStore.posts || [];
   const candidates = currentCandidates.value;
-  const pTitle = (page.value as any)?.title;
+  const pTitle = page.value?.title;
 
   return posts.findIndex((post) => {
     const postNorm = normalize(post.url);

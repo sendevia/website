@@ -14,10 +14,26 @@
   width: 100%;
   padding-inline: 8px;
   color: var(--md-sys-color-on-surface);
-  background-color: var(--md-sys-color-surface);
+  background-color: transparent;
   overflow: hidden;
-  transition: var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect);
+  transition: var(--md-sys-motion-spring-slow-effect-duration)
+    var(--md-sys-motion-spring-slow-effect);
   z-index: 998;
+
+  .action-btn {
+    button {
+      position: absolute;
+      right: 0px;
+      top: 0px;
+      margin: 8px;
+      transition:
+        right var(--md-sys-motion-spring-slow-effect-duration)
+          var(--md-sys-motion-spring-slow-effect),
+        top var(--md-sys-motion-spring-slow-spatial-duration)
+          var(--md-sys-motion-spring-slow-spatial);
+      z-index: 2;
+    }
+  }
 
   .action-area {
     display: flex;
@@ -26,6 +42,8 @@
     position: relative;
     height: 64px;
     width: 100%;
+    opacity: 0;
+    pointer-events: none;
 
     .search-input {
       @include mixin.typescale-style("title-medium");
@@ -39,7 +57,8 @@
       border: none;
       border-radius: var(--md-sys-shape-corner-full);
       background-color: var(--md-sys-color-surface-container);
-      transition: margin var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+      transition: margin var(--md-sys-motion-spring-fast-spatial-duration)
+        var(--md-sys-motion-spring-fast-spatial);
       z-index: 1;
 
       &:focus-visible {
@@ -186,23 +205,25 @@
     top: 0px;
     height: 100%;
     padding: 12px;
+    background-color: var(--md-sys-color-surface);
+
+    .action-btn button {
+      right: calc(100% - 48px);
+      top: 16px;
+    }
 
     .action-area {
+      opacity: 1;
+      pointer-events: all;
+
       .search-input {
-        transition: margin var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+        transition: margin var(--md-sys-motion-spring-fast-spatial-duration)
+          var(--md-sys-motion-spring-fast-spatial);
       }
     }
 
     &.hidden {
       top: 0px;
-    }
-  }
-
-  &.scroll {
-    background-color: var(--md-sys-color-surface-container);
-
-    .search-input {
-      background-color: var(--md-sys-color-surface-container-highest);
     }
   }
 

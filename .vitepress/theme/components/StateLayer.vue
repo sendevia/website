@@ -48,7 +48,9 @@ const isPointerFocus = ref(false);
 /** 是否由键盘交互触发的焦点，保留键盘导航时的 Focus 显示 */
 const isKeyboardFocus = ref(false);
 /** 只有键盘触发的焦点才会显示 Focus 状态层 */
-const isFocusVisible = computed(() => isFocused.value && !isPointerFocus.value && isKeyboardFocus.value);
+const isFocusVisible = computed(
+  () => isFocused.value && !isPointerFocus.value && isKeyboardFocus.value,
+);
 
 /** 单个水波纹数据模型 */
 interface Ripple {

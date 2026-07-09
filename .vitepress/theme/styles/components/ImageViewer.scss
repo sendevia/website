@@ -13,7 +13,8 @@
   background-color: #ffffffb9;
   backdrop-filter: blur(20px);
   opacity: 0;
-  transition: var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect);
+  transition: var(--md-sys-motion-spring-slow-effect-duration)
+    var(--md-sys-motion-spring-slow-effect);
   user-select: none;
   z-index: 9999;
   -moz-user-select: none;
@@ -41,7 +42,8 @@
       background-color: var(--md-sys-color-surface-variant);
       clip-path: circle(10%);
       object-fit: contain;
-      transition: var(--md-sys-motion-spring-slow-spatial-duration) var(--md-sys-motion-spring-slow-spatial);
+      transition: var(--md-sys-motion-spring-slow-spatial-duration)
+        var(--md-sys-motion-spring-slow-spatial);
 
       &.transitioning {
         opacity: 0.6;

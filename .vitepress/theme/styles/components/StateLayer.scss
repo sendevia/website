@@ -5,7 +5,8 @@
   inset: 0;
   overflow: hidden;
   pointer-events: none;
-  transition: background-color var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
+  transition: background-color var(--md-sys-motion-spring-fast-effect-duration)
+    var(--md-sys-motion-spring-fast-effect);
   z-index: 10;
 
   .ripple {

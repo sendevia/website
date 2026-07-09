@@ -19,9 +19,12 @@
     cursor: pointer;
     overflow: hidden;
     transition:
-      padding-inline var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial),
-      border-radius var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect),
-      background-color var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect);
+      padding-inline var(--md-sys-motion-spring-fast-spatial-duration)
+        var(--md-sys-motion-spring-fast-spatial),
+      border-radius var(--md-sys-motion-spring-fast-effect-duration)
+        var(--md-sys-motion-spring-fast-effect),
+      background-color var(--md-sys-motion-spring-fast-effect-duration)
+        var(--md-sys-motion-spring-fast-effect);
     user-select: none;
     -moz-user-select: none;
 

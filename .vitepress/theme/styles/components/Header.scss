@@ -18,7 +18,8 @@
       position: relative;
       height: 100%;
       width: 100%;
-      border-radius: var(--md-sys-shape-corner-large);
+      border-bottom-left-radius: var(--md-sys-shape-corner-extra-large);
+      border-bottom-right-radius: var(--md-sys-shape-corner-extra-large);
       border: 1px solid var(--md-sys-color-outline-variant);
       overflow: hidden;
       z-index: 1;
@@ -60,7 +61,8 @@
         background-position: 0% 0%;
         background-repeat: no-repeat;
         background-size: 100%;
-        animation: title-gradient 15s var(--md-sys-motion-spring-slow-effect) infinite alternate-reverse;
+        animation: title-gradient 15s var(--md-sys-motion-spring-slow-effect) infinite
+          alternate-reverse;
         z-index: 2;
 
         &.overlay {
@@ -265,7 +267,8 @@
         border: none;
         background-color: var(--md-sys-color-tertiary-container);
         cursor: pointer;
-        transition: width var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+        transition: width var(--md-sys-motion-spring-fast-spatial-duration)
+          var(--md-sys-motion-spring-fast-spatial);
 
         &:hover {
           width: 16px;
@@ -302,17 +305,19 @@
 .header-enter-active {
   transition:
     opacity var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect),
-    transform var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial)
-      var(--md-sys-motion-duration-short1);
+    transform var(--md-sys-motion-spring-fast-spatial-duration)
+      var(--md-sys-motion-spring-fast-spatial) var(--md-sys-motion-duration-short1);
 
   .carousel-container .single {
     h1 {
-      transition: var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect);
+      transition: var(--md-sys-motion-spring-slow-effect-duration)
+        var(--md-sys-motion-spring-slow-effect);
     }
 
     img {
       &:nth-of-type(2) {
-        transition: var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-default-effect);
+        transition: var(--md-sys-motion-spring-slow-effect-duration)
+          var(--md-sys-motion-spring-default-effect);
       }
     }
   }
@@ -320,8 +325,10 @@
 
 .header-leave-active {
   transition:
-    opacity var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect),
-    transform var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+    opacity var(--md-sys-motion-spring-default-effect-duration)
+      var(--md-sys-motion-spring-default-effect),
+    transform var(--md-sys-motion-spring-fast-spatial-duration)
+      var(--md-sys-motion-spring-fast-spatial);
 }
 
 .header-enter-from,

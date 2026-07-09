@@ -1,5 +1,4 @@
 import type MarkdownIt from "markdown-it";
-type StateBlock = any;
 
 /**
  * 一个简易的 markdown-it 表格插件
@@ -10,7 +9,8 @@ export const table = (mdit: MarkdownIt) => {
   mdit.disable("table");
 
   /** 表格块解析规则 */
-  const tableBlock = (state: StateBlock, startLine: number, endLine: number, silent: boolean): boolean => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const tableBlock = (state: any, startLine: number, endLine: number, silent: boolean): boolean => {
     let nextLine = startLine;
     let lineText = state.getLines(nextLine, nextLine + 1, 0, false).trim();
 

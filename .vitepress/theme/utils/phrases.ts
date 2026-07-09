@@ -12,12 +12,18 @@ export const phrasesByTime: Record<"morning" | "afternoon" | "evening" | "any", 
   morning: [
     { text: "早上好！新的一天开始啦", timeOfDay: "morning" },
     { text: "早安，今天也要元气满满哦", timeOfDay: "morning" },
-    { text: "早上好，我们赶快出发吧，这世上有太多的东西都是「过时不候」的呢", timeOfDay: "morning" },
+    {
+      text: "早上好，我们赶快出发吧，这世上有太多的东西都是「过时不候」的呢",
+      timeOfDay: "morning",
+    },
   ],
   afternoon: [
     { text: "中午好！休息一下吧", timeOfDay: "afternoon" },
     { text: "午后时光，适合放松一下", timeOfDay: "afternoon" },
-    { text: "午休时间到，我想喝树莓薄荷饮。用两个和太阳有关的故事和你换，好不好", timeOfDay: "afternoon" },
+    {
+      text: "午休时间到，我想喝树莓薄荷饮。用两个和太阳有关的故事和你换，好不好",
+      timeOfDay: "afternoon",
+    },
   ],
   evening: [
     { text: "晚上好！", timeOfDay: "evening" },

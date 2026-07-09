@@ -3,11 +3,13 @@
 
 * {
   box-sizing: border-box;
-  transition: background-color var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
+  transition: background-color var(--md-sys-motion-spring-default-effect-duration)
+    var(--md-sys-motion-spring-default-effect);
 
   &::after,
   &::before {
-    transition: background-color var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect);
+    transition: background-color var(--md-sys-motion-spring-default-effect-duration)
+      var(--md-sys-motion-spring-default-effect);
   }
 }
 

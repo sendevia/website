@@ -16,7 +16,6 @@
     grid-template-columns: repeat(12, minmax(60px, 72px));
     justify-content: center;
     position: relative;
-    padding-block-start: 12px;
     width: 100%;
     overflow: overlay;
     scroll-behavior: smooth;
@@ -40,8 +39,8 @@
           @keyframes avatar-box-h3 {
             0% {
               clip-path: inset(
-                0% 100% 0% 0% round var(--md-sys-shape-corner-small) var(--md-sys-shape-corner-large)
-                  var(--md-sys-shape-corner-large)
+                0% 100% 0% 0% round var(--md-sys-shape-corner-small)
+                  var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large)
               );
               opacity: 0;
               transform: scale(0.3) translateY(42px) rotateZ(24deg);
@@ -51,8 +50,8 @@
             }
             100% {
               clip-path: inset(
-                0% calc(0% + 12px) 0% 0% round var(--md-sys-shape-corner-small) var(--md-sys-shape-corner-large)
-                  var(--md-sys-shape-corner-large)
+                0% calc(0% + 12px) 0% 0% round var(--md-sys-shape-corner-small)
+                  var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large)
               );
               transform: scale(1) translateY(0px) rotateZ(0deg);
             }
@@ -68,12 +67,15 @@
           color: var(--md-sys-color-on-primary-container);
           text-align: justify;
           background-color: var(--md-sys-color-primary-container);
-          animation: avatar-box-h3 var(--md-sys-motion-spring-slow-spatial-duration) var(--md-sys-motion-spring-slow-spatial)
+          animation: avatar-box-h3 var(--md-sys-motion-spring-slow-spatial-duration)
+            var(--md-sys-motion-spring-slow-spatial)
             var(--md-sys-motion-spring-fast-spatial-duration) both;
           overflow: hidden;
           transition:
-            color var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect),
-            background-color var(--md-sys-motion-spring-slow-effect-duration) var(--md-sys-motion-spring-slow-effect);
+            color var(--md-sys-motion-spring-slow-effect-duration)
+              var(--md-sys-motion-spring-slow-effect),
+            background-color var(--md-sys-motion-spring-slow-effect-duration)
+              var(--md-sys-motion-spring-slow-effect);
           transform-origin: 0px 0px;
           z-index: 2;
         }
@@ -151,7 +153,6 @@
 
     @media screen and (max-width: 1600px) {
       grid-template-columns: repeat(12, minmax(60px, 72px));
-      padding-inline: 12px;
 
       .home-content {
         grid-column: span 12;
@@ -169,8 +170,7 @@
 
     @media screen and (max-width: 840px) {
       grid-template-columns: repeat(6, 1fr);
-      padding-block: 76px 0px;
-      padding-inline: 12px;
+      padding-block: 0px;
 
       .home-content {
         grid-column: span 6;
@@ -191,7 +191,6 @@
 
     @media screen and (max-width: 600px) {
       grid-template-columns: repeat(4, 1fr);
-      padding-inline: 12px;
 
       .home-content {
         grid-column: span 4;
@@ -220,14 +219,16 @@
 .layout-enter-active {
   transition:
     opacity var(--md-sys-motion-spring-fast-effect-duration) var(--md-sys-motion-spring-fast-effect),
-    transform var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial)
-      var(--md-sys-motion-duration-short1);
+    transform var(--md-sys-motion-spring-fast-spatial-duration)
+      var(--md-sys-motion-spring-fast-spatial) var(--md-sys-motion-duration-short1);
 }
 
 .layout-leave-active {
   transition:
-    opacity var(--md-sys-motion-spring-default-effect-duration) var(--md-sys-motion-spring-default-effect),
-    transform var(--md-sys-motion-spring-fast-spatial-duration) var(--md-sys-motion-spring-fast-spatial);
+    opacity var(--md-sys-motion-spring-default-effect-duration)
+      var(--md-sys-motion-spring-default-effect),
+    transform var(--md-sys-motion-spring-fast-spatial-duration)
+      var(--md-sys-motion-spring-fast-spatial);
 }
 
 .layout-enter-from,
