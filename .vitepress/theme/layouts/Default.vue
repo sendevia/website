@@ -2,8 +2,7 @@
 import { ref, computed, watch, onMounted, nextTick } from "vue";
 import { useRoute } from "vitepress";
 import { useTitle, useMutationObserver } from "@vueuse/core";
-import { argbFromHex } from "@material/material-color-utilities";
-import { generateColorPalette } from "../utils/colorPalette";
+import { generatePaletteTokens, injectPaletteTokens } from "../utils/colorPalette";
 import { getFormattedRandomPhrase } from "../utils/phrases";
 import { useData } from "vitepress";
 import { usePostStore } from "../stores/posts";
@@ -84,17 +83,15 @@ async function updatePalette() {
 
     // 基础色：来自主题配置
     const defaultColor = theme.value.defaultColor;
-    const defaultArgb = argbFromHex(defaultColor);
 
     // 尝试寻找文章头部的动态色彩属性
     const el = document.querySelector(".Header div.carousel-container");
     const colorAttr = el?.getAttribute("impression-color");
 
-    if (colorAttr && /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(colorAttr)) {
-      await generateColorPalette(argbFromHex(colorAttr));
-    } else {
-      await generateColorPalette(defaultArgb);
-    }
+    const hex =
+      colorAttr && /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(colorAttr) ? colorAttr : defaultColor;
+
+    injectPaletteTokens(generatePaletteTokens(hex));
   } finally {
     isProcessingPalette = false;
   }
