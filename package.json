@@ -5,8 +5,9 @@
   "scripts": {
     "update-version": "bash ./scripts/update-version.sh",
     "docs:dev": "vitepress dev --host",
-    "docs:build": "vitepress build",
-    "docs:build-cf": "git fetch --unshallow && vitepress build",
+    "docs:build": "npm run postinstall && vitepress build",
+    "docs:build-cf": "git fetch --unshallow && npm run postinstall && vitepress build",
+    "postinstall": "npx patch-package",
     "docs:preview": "vitepress preview",
     "lint": "stylelint --fix \".vitepress/theme/styles/**/*.scss\" && eslint . --fix && prettier --write --log-level=warn .",
     "lint:style": "stylelint --fix \".vitepress/theme/styles/**/*.scss\"",
@@ -39,6 +40,7 @@
     "typescript-eslint": "^8",
     "vitepress": "2.0.0-alpha.18",
     "vue-eslint-parser": "^10",
+    "patch-package": "^8",
     "vue-tsc": "^3"
   }
 }
