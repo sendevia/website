@@ -39,6 +39,11 @@ body {
     background-color: var(--md-sys-color-on-surface-variant);
   }
 
+  ::target-text {
+    color: var(--md-sys-color-on-secondary-container);
+    background-color: var(--md-sys-color-secondary-container);
+  }
+
   &.light {
     img[data-mode="darkmode-only"] {
       display: none !important;

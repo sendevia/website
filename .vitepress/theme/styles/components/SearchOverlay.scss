@@ -134,91 +134,90 @@
           overflow: hidden;
 
           .snippet-match {
-            color: var(--md-sys-color-on-surface);
+            color: var(--md-sys-color-on-secondary-container);
             background-color: var(--md-sys-color-secondary-container);
           }
         }
+      }
 
-        .chips {
+      .chips {
+        display: flex;
+        flex-flow: row wrap;
+        gap: 4px;
+
+        .segments {
           display: flex;
           flex-flow: row wrap;
+          align-items: center;
           gap: 4px;
-          opacity: 0.8;
 
-          .segments {
-            display: flex;
-            flex-flow: row wrap;
-            align-items: center;
-            gap: 4px;
+          &::before {
+            @include mixin.material-symbols($size: 12px);
+          }
+
+          .item {
+            border-radius: var(--md-sys-shape-corner-medium);
+            padding-inline: 6px;
+
+            @include mixin.typescale-style("label-small");
+          }
+
+          &.date {
+            .item {
+              color: var(--md-sys-color-on-tertiary-container);
+              background-color: var(--md-sys-color-tertiary-container);
+            }
 
             &::before {
-              @include mixin.material-symbols($size: 12px);
+              content: "calendar_today";
             }
+          }
 
+          &.categories {
             .item {
-              border-radius: var(--md-sys-shape-corner-medium);
-              padding-inline: 8px;
-
-              @include mixin.typescale-style("label-small");
+              color: var(--md-sys-color-on-purple-container);
+              background-color: var(--md-sys-color-purple-container);
             }
 
-            &.date {
-              .item {
-                color: var(--md-sys-color-on-tertiary-container);
-                background-color: var(--md-sys-color-tertiary-container);
-              }
+            &::before {
+              content: "category";
+            }
+          }
 
-              &::before {
-                content: "calendar_today";
-              }
+          &.tags {
+            .item {
+              color: var(--md-sys-color-on-yellow-container);
+              background-color: var(--md-sys-color-yellow-container);
             }
 
-            &.categories {
-              .item {
-                color: var(--md-sys-color-on-purple-container);
-                background-color: var(--md-sys-color-purple-container);
-              }
-
-              &::before {
-                content: "category";
-              }
-            }
-
-            &.tags {
-              .item {
-                color: var(--md-sys-color-on-yellow-container);
-                background-color: var(--md-sys-color-yellow-container);
-              }
-
-              &::before {
-                content: "tag";
-              }
+            &::before {
+              content: "tag";
             }
           }
         }
       }
     }
   }
+}
 
-  .no-results {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 24px;
-    margin-block: 42px;
+.no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-block: 42px;
 
-    .icon {
-      color: var(--md-sys-color-on-surface-variant);
+  .icon {
+    color: var(--md-sys-color-on-surface-variant);
 
-      @include mixin.material-symbols($size: 64rem);
-    }
+    @include mixin.material-symbols($size: 64rem);
+  }
 
-    .label {
-      @include mixin.typescale-style("body-large");
+  .label {
+    @include mixin.typescale-style("body-large");
 
-      color: var(--md-sys-color-on-surface-variant);
-    }
+    color: var(--md-sys-color-on-surface-variant);
   }
 
   @media screen and (width <= 840px) {

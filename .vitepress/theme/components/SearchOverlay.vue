@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onUnmounted, nextTick } from "vue";
+import { ref, computed, watch, nextTick } from "vue";
+import { useEventListener } from "@vueuse/core";
 import { storeToRefs } from "pinia";
 import { usePostStore, type PostData } from "../stores/posts";
 import { useSearchStore } from "../stores/search";
@@ -17,6 +18,10 @@ const { posts } = storeToRefs(postsStore);
 const router = useRouter();
 const route = useRoute();
 
+interface SearchResult extends PostData {
+  snippet: { before: string; match: string; after: string } | null;
+}
+
 /** 搜索输入框的 DOM 引用 */
 const searchInput = ref<HTMLInputElement | null>(null);
 
@@ -29,14 +34,16 @@ const activeIndex = ref(-1);
 /** 打开覆盖层前处于焦点的元素，用于关闭后回退焦点 */
 let previousActiveElement: Element | null = null;
 
-interface SearchResult extends PostData {
-  snippet: { before: string; match: string; after: string } | null;
-}
+/** 修剪后的搜索关键词 */
+const trimmedQuery = computed(() => query.value.trim());
+
+/** 小写化的搜索关键词，用于匹配 */
+const searchQuery = computed(() => trimmedQuery.value.toLowerCase());
 
 /** 搜索结果，包含匹配的上下文片段 */
 const filteredPosts = computed<SearchResult[]>(() => {
-  const q = query.value.trim().toLowerCase();
-  if (!q || !posts.value.length) return [];
+  const q = searchQuery.value;
+  if (!q) return [];
 
   return posts.value
     .filter(
@@ -57,10 +64,13 @@ const filteredPosts = computed<SearchResult[]>(() => {
 /** 结果数量描述，用于 aria-live 播报 */
 const resultCountMessage = computed(() => {
   const count = filteredPosts.value.length;
-  if (count === 0 && query.value.trim()) return "未找到相关文章";
+  if (count === 0 && trimmedQuery.value) return "未找到相关文章";
   if (count > 0) return `找到 ${count} 篇文章`;
   return "";
 });
+
+/** 判断两个路径是否指向同一页面 */
+const isSamePath = (a: string, b: string) => a === b || a === b.replace(/\/$/, "");
 
 /** 关闭搜索覆盖层并回退焦点 */
 const closeOverlay = () => {
@@ -71,22 +81,28 @@ const closeOverlay = () => {
   nextTick(() => (prev as HTMLElement)?.focus?.());
 };
 
-/** 搜索输入框输入，重置键盘高亮 */
-const handleInput = () => {
-  activeIndex.value = -1;
-};
+/** 跳转到搜索结果页面，使用 W3C Text Fragments（#:~:text=）由浏览器原生处理标记与位置跳转 */
+const navigateToResult = (post: PostData, keyword?: string) => {
+  const samePage = isSamePath(route.path, post.url);
 
-/** 跳转到搜索结果页面 */
-const navigateToResult = (post: PostData) => {
+  if (!samePage && keyword) {
+    sessionStorage.setItem("search:keyword", keyword);
+    sessionStorage.setItem("search:url", post.url);
+  }
+
   closeOverlay();
-  nextTick(() => {
+
+  if (samePage && keyword) {
+    location.hash = ":~:text=" + encodeURIComponent(keyword);
+  }
+  if (!samePage) {
     router.go(post.url);
-  });
+  }
 };
 
 /** 搜索结果点击 */
-const handleResultClick = (post: PostData) => {
-  navigateToResult(post);
+const handleResultClick = (post: SearchResult) => {
+  navigateToResult(post, post.snippet ? trimmedQuery.value || undefined : undefined);
 };
 
 /**
@@ -120,7 +136,7 @@ const handleKeydown = (event: KeyboardEvent) => {
     case " ":
       if (activeIndex.value < 0 || activeIndex.value >= results.length) break;
       event.preventDefault();
-      navigateToResult(results[activeIndex.value]);
+      navigateToResult(results[activeIndex.value], trimmedQuery.value || undefined);
       break;
 
     case "Tab": {
@@ -170,20 +186,18 @@ const activeDescendantId = computed(() => {
 /** 延迟聚焦定时器 */
 let focusTimer: ReturnType<typeof setTimeout> | null = null;
 
-/** 监听搜索激活状态，控制输入框聚焦和查询清理 */
+/** 监听搜索激活状态，控制输入框聚焦 */
 watch(
   () => isSearchActive.value,
-  async (active) => {
+  (active) => {
     if (active) {
       previousActiveElement = document.activeElement;
-      await nextTick();
-      focusTimer = setTimeout(() => searchInput.value?.focus(), 100);
-    } else {
-      if (focusTimer) {
-        clearTimeout(focusTimer);
-        focusTimer = null;
-      }
-      if (query.value !== "") query.value = "";
+      nextTick(() => {
+        focusTimer = setTimeout(() => searchInput.value?.focus(), 100);
+      });
+    } else if (focusTimer) {
+      clearTimeout(focusTimer);
+      focusTimer = null;
     }
   },
 );
@@ -191,17 +205,11 @@ watch(
 /** 页面切换时重置搜索状态 */
 watch(
   () => route.path,
-  () => searchStore.resetAll(),
+  () => searchStore.clearSearch(),
 );
 
-onMounted(() => {
-  document.addEventListener("keydown", handleKeydown);
-});
-
-onUnmounted(() => {
-  document.removeEventListener("keydown", handleKeydown);
-  searchStore.resetAll();
-});
+/** 全局键盘事件 */
+useEventListener(document, "keydown", handleKeydown);
 </script>
 
 <template>
@@ -229,7 +237,7 @@ onUnmounted(() => {
               :aria-controls="RESULTS_ID"
               :aria-activedescendant="activeDescendantId"
               :aria-label="`搜索文章，共 ${filteredPosts.length} 条结果`"
-              @input="handleInput"
+              @input="activeIndex = -1"
             />
             <MaterialButton
               pattern="icon-button"

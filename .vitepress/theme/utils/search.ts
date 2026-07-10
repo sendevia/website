@@ -7,7 +7,7 @@ export function stripMarkdown(md: string): string {
   return md
     .replace(/---[\s\S]*?---/, "") // 移除 frontmatter
     .replace(/```[\s\S]*?```/g, "") // 移除代码块
-    .replace(/^#{{1,6}\s+/gm, "") // 移除标题标记
+    .replace(/^#{1,6}\s+/gm, "") // 移除标题标记
     .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1") // 链接 [text](url) → text
     .replace(/!\[([^\]]*)\]\([^)]*\)/g, "$1") // 图片 ![alt](url) → alt
     .replace(/[*_~`]/g, "") // 移除加粗/斜体/删除线/行内代码标记

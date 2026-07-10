@@ -5,6 +5,9 @@ import { useData } from "vitepress";
 import { isClient } from "../utils/env";
 import { formatDate, formatRelativeTime } from "../utils/date";
 import { usePostStore } from "../stores/posts";
+import { useSearchHighlight } from "../composables/useSearchHighlight";
+
+useSearchHighlight();
 
 const { page, frontmatter, lang } = useData();
 const { copy: copyToClipboard, copied: isCopied } = useClipboard();
