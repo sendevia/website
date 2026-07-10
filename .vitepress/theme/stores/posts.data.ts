@@ -5,6 +5,7 @@
 
 import { createContentLoader, type ContentData } from "vitepress";
 import { formatDate } from "../utils/date";
+import { stripMarkdown } from "../utils/search";
 
 export interface PostData {
   id: string;
@@ -21,6 +22,8 @@ export interface PostData {
     label: string;
     link: string;
   }>;
+  /** 剥离 markdown 后的纯文本内容，用于全文搜索 */
+  content: string;
   draft?: boolean;
 }
 
@@ -77,6 +80,7 @@ export default createContentLoader("./posts/**/*.md", {
         tags: toArray(frontmatter.tags),
         categories: toArray(frontmatter.categories),
         external_links: frontmatter.external_links,
+        content: stripMarkdown(src || ""),
         draft: frontmatter.draft || false,
       };
     });

@@ -4,6 +4,7 @@ import { storeToRefs } from "pinia";
 import { usePostStore, type PostData } from "../stores/posts";
 import { useSearchStore } from "../stores/search";
 import { useRoute, useRouter } from "vitepress";
+import { extractSnippet } from "../utils/search";
 
 const SEARCH_INPUT_ID = "search-overlay-input";
 const RESULTS_ID = "search-overlay-results";
@@ -11,10 +12,10 @@ const STATUS_ID = "search-overlay-status";
 
 const searchStore = useSearchStore();
 const { isSearchActive, query } = storeToRefs(searchStore);
-const router = useRouter();
-const route = useRoute();
 const postsStore = usePostStore();
 const { posts } = storeToRefs(postsStore);
+const router = useRouter();
+const route = useRoute();
 
 /** 搜索输入框的 DOM 引用 */
 const searchInput = ref<HTMLInputElement | null>(null);
@@ -28,21 +29,29 @@ const activeIndex = ref(-1);
 /** 打开覆盖层前处于焦点的元素，用于关闭后回退焦点 */
 let previousActiveElement: Element | null = null;
 
-/**
- * 根据当前搜索查询过滤文章列表。
- */
-const filteredPosts = computed<PostData[]>(() => {
+interface SearchResult extends PostData {
+  snippet: { before: string; match: string; after: string } | null;
+}
+
+/** 搜索结果，包含匹配的上下文片段 */
+const filteredPosts = computed<SearchResult[]>(() => {
   const q = query.value.trim().toLowerCase();
   if (!q || !posts.value.length) return [];
 
-  return posts.value.filter(
-    (post) =>
-      post.date.toLowerCase().includes(q) ||
-      post.title.toLowerCase().includes(q) ||
-      post.description.toLowerCase().includes(q) ||
-      post.tags.some((t) => t.toLowerCase().includes(q)) ||
-      post.categories.some((t) => t.toLowerCase().includes(q)),
-  );
+  return posts.value
+    .filter(
+      (post) =>
+        post.date.toLowerCase().includes(q) ||
+        post.title.toLowerCase().includes(q) ||
+        post.description.toLowerCase().includes(q) ||
+        post.content.toLowerCase().includes(q) ||
+        post.tags.some((t) => t.toLowerCase().includes(q)) ||
+        post.categories.some((t) => t.toLowerCase().includes(q)),
+    )
+    .map((post) => ({
+      ...post,
+      snippet: extractSnippet(post.content, q, 20),
+    }));
 });
 
 /** 结果数量描述，用于 aria-live 播报 */
@@ -273,6 +282,11 @@ onUnmounted(() => {
                   </div>
                 </div>
                 <h3>{{ post.title }}</h3>
+                <p v-if="post.snippet" class="snippet">
+                  <span class="snippet-context">{{ post.snippet.before }}</span>
+                  <mark class="snippet-match">{{ post.snippet.match }}</mark>
+                  <span class="snippet-context">{{ post.snippet.after }}</span>
+                </p>
               </div>
             </a>
           </div>
