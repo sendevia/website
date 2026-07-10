@@ -197,7 +197,7 @@ onUnmounted(() => {
 
 <template>
   <Teleport to="body">
-    <Transition name="search-overlay">
+    <Transition name="search-overlay" type="transition" mode="in-out">
       <div
         v-if="isSearchActive"
         role="dialog"
@@ -283,7 +283,7 @@ onUnmounted(() => {
             class="no-results"
           >
             <span class="icon" aria-hidden="true">search_off</span>
-            <p class="label">未找到相关文章。</p>
+            <p class="label">未找到相关文章</p>
           </div>
         </div>
       </div>

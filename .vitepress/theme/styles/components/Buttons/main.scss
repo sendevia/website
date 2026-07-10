@@ -14,6 +14,7 @@
     background-color: transparent;
     overflow: hidden;
     cursor: pointer;
+    user-select: none;
     transition:
       padding-inline var(--md-sys-motion-spring-fast-spatial-duration)
         var(--md-sys-motion-spring-fast-spatial),
@@ -23,7 +24,6 @@
         var(--md-sys-motion-spring-fast-effect);
     text-wrap-mode: nowrap;
     vertical-align: middle;
-    user-select: none;
 
     &:focus-visible {
       @include mixin.focus-ring($thickness: 3, $offset: 2);

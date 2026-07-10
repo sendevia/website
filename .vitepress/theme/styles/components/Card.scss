@@ -74,9 +74,9 @@
 
           .tips {
             border-radius: var(--md-sys-shape-corner-small);
+            padding-inline: 6px;
             color: var(--md-sys-color-inverse-on-surface);
             background-color: var(--md-sys-color-inverse-surface);
-            padding-inline: 6px;
 
             &.download {
               color: var(--md-sys-color-on-tertiary-container);
@@ -117,8 +117,8 @@
       }
 
       .supporting-area {
-        padding-inline: 18px;
         padding-block-end: 16px;
+        padding-inline: 18px;
 
         h4 {
           color: var(--md-sys-color-primary);

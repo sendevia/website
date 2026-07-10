@@ -6,6 +6,5 @@
 </template>
 
 <style lang="scss">
-@use "sass:meta";
-@include meta.load-css("../styles/layouts/Components");
+@use "../styles/layouts/Components";
 </style>

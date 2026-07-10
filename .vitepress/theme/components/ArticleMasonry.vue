@@ -472,6 +472,5 @@ const clearCategory = () => {
 </template>
 
 <style lang="scss" scoped>
-@use "sass:meta";
-@include meta.load-css("../styles/components/ArticleMasonry");
+@use "../styles/components/ArticleMasonry";
 </style>

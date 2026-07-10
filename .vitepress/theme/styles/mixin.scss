@@ -35,35 +35,41 @@
   letter-spacing: normal;
   line-height: #{$line-height};
   text-transform: none;
+  white-space: nowrap;
+  text-rendering: optimizelegibility;
+  user-select: none;
   content: $name;
   direction: ltr;
   font-feature-settings: "liga";
-  text-rendering: optimizelegibility;
-  white-space: nowrap;
   overflow-wrap: normal;
-  user-select: none;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
 }
 
-@mixin focus-ring($thickness: 2, $offset: $thickness, $z-index: 1) {
-  @keyframes focus-ring {
+@mixin focus-ring(
+  $id: "default",
+  $color: "--md-sys-color-primary",
+  $thickness: 2,
+  $offset: $thickness,
+  $z-index: 1
+) {
+  @keyframes focus-ring-#{$id} {
     from {
-      outline: #{$thickness * 4}px solid var(--md-sys-color-primary);
+      outline: #{$thickness * 4}px solid var(#{$color});
     }
 
     to {
-      outline: #{$thickness}px solid var(--md-sys-color-primary);
+      outline: #{$thickness}px solid var(#{$color});
     }
   }
 
   z-index: $z-index;
+  outline-offset: #{$offset}px;
   transition:
     border-radius var(--md-sys-motion-spring-fast-spatial-duration)
       var(--md-sys-motion-spring-fast-spatial),
     outline var(--md-sys-motion-spring-fast-spatial-standard-duration)
       var(--md-sys-motion-spring-fast-spatial-standard);
-  animation: focus-ring var(--md-sys-motion-spring-slow-effect-duration)
+  animation: focus-ring-#{$id} var(--md-sys-motion-spring-slow-effect-duration)
     var(--md-sys-motion-spring-slow-effect) forwards;
-  outline-offset: #{$offset}px;
 }

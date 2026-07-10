@@ -2,14 +2,14 @@
 
 .Footer {
   display: flex;
-  flex-flow: column wrap;
+  grid-column: span 12;
   align-items: flex-start;
   justify-content: space-around;
+  margin-block: 94px 24px;
+  margin-inline: 12px;
   color: var(--md-sys-color-on-surface-variant);
   opacity: 0.5;
-  grid-column: span 12;
-  margin-inline: 12px;
-  margin-block: 94px 24px;
+  flex-flow: column wrap;
 
   a {
     border-radius: var(--md-sys-shape-corner-extra-small);

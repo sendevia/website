@@ -6,10 +6,10 @@
   bottom: 48px;
   z-index: 21;
   opacity: 0;
+  visibility: hidden;
+  user-select: none;
   transition: var(--md-sys-motion-spring-fast-effect-duration)
     var(--md-sys-motion-spring-fast-effect);
-  user-select: none;
-  visibility: hidden;
 
   &.visible {
     opacity: 1;

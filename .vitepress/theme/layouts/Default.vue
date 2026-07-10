@@ -7,10 +7,12 @@ import { getFormattedRandomPhrase } from "../utils/phrases";
 import { useData } from "vitepress";
 import { usePostStore } from "../stores/posts";
 import { isClient } from "../utils/env";
+import { useScreenWidth } from "../composables/useScreenWidth";
 import ArticleLayout from "./Article.vue";
 import ComponentsLayout from "./Components.vue";
 import NotFoundLayout from "./NotFound.vue";
 import ToolsLayout from "./Tools.vue";
+import SearchOverlay from "../components/SearchOverlay.vue";
 
 /** 全局数据与路由状态 */
 const { site, page, frontmatter, theme } = useData();
@@ -19,6 +21,7 @@ const postStore = usePostStore();
 const isRedirecting = ref(false);
 const pageTitle = useTitle();
 const randomGreeting = ref(getFormattedRandomPhrase());
+const { isAboveBreakpoint } = useScreenWidth();
 
 /** 布局映射表 */
 const layoutMap = {
@@ -150,7 +153,8 @@ onMounted(() => {
   <div class="MainLayout">
     <template v-if="!isRedirecting">
       <NavBar />
-      <AppBar />
+      <AppBar v-if="!isAboveBreakpoint" />
+      <SearchOverlay />
       <Transition name="layout" mode="out-in" @after-enter="onAfterEnter">
         <div class="content-flow" :key="route.path">
           <main v-if="frontmatter.home" class="home-content">

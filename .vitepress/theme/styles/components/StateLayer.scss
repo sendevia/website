@@ -5,9 +5,9 @@
   border-radius: inherit;
   background-color: transparent;
   overflow: hidden;
+  pointer-events: none;
   transition: background-color var(--md-sys-motion-spring-fast-effect-duration)
     var(--md-sys-motion-spring-fast-effect);
-  pointer-events: none;
 
   .ripple {
     position: absolute;

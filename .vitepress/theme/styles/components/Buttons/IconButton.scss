@@ -151,8 +151,8 @@ $config: (
   }
 
   &.outlined {
-    color: var(--md-sys-color-on-surface-variant);
     outline-color: var(--md-sys-color-outline-variant);
+    color: var(--md-sys-color-on-surface-variant);
 
     @each $size, $config in $config {
       &.#{$size} {

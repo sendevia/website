@@ -8,8 +8,8 @@
     "docs:build": "vitepress build",
     "docs:build-cf": "git fetch --unshallow && vitepress build",
     "docs:preview": "vitepress preview",
-    "lint": "stylelint --fix \".vitepress/theme/**/*.scss\" && eslint . --fix && prettier --write --log-level=warn .",
-    "lint:style": "stylelint --fix \".vitepress/theme/**/*.scss\"",
+    "lint": "stylelint --fix \".vitepress/theme/styles/**/*.scss\" && eslint . --fix && prettier --write --log-level=warn .",
+    "lint:style": "stylelint --fix \".vitepress/theme/styles/**/*.scss\"",
     "format": "prettier --write --log-level=warn ."
   },
   "dependencies": {

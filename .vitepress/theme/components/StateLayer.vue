@@ -247,6 +247,5 @@ const computedBackgroundColor = computed(() => {
 </template>
 
 <style lang="scss" scoped>
-@use "sass:meta";
-@include meta.load-css("../styles/components/StateLayer");
+@use "../styles/components/StateLayer";
 </style>

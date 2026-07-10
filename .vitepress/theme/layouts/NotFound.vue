@@ -19,6 +19,5 @@
 </template>
 
 <style lang="scss">
-@use "sass:meta";
-@include meta.load-css("../styles/layouts/NotFound");
+@use "../styles/layouts/NotFound";
 </style>

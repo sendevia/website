@@ -1,9 +1,9 @@
 @use "../mixin";
 
 .AnchorLink {
+  user-select: none;
   transition: var(--md-sys-motion-spring-fast-effect-duration)
     var(--md-sys-motion-spring-fast-effect);
-  user-select: none;
 
   &.normal {
     @include mixin.typescale-style("body-large");
@@ -15,11 +15,11 @@
     position: absolute;
     left: -60px;
     z-index: 20;
+    margin-block-start: 0 !important;
     border-radius: var(--md-sys-shape-corner-full);
     width: 60px;
     height: 100%;
     opacity: 0;
-    margin-block-start: 0 !important;
 
     .symbol {
       @include mixin.material-symbols;
@@ -46,10 +46,10 @@
 
       position: sticky;
       top: 57px;
+      border-radius: var(--md-sys-shape-corner-small);
       padding-block: 3px;
       padding-inline: 9px;
       word-break: keep-all;
-      border-radius: var(--md-sys-shape-corner-small);
       background-color: var(--md-sys-color-surface-container-low);
     }
 

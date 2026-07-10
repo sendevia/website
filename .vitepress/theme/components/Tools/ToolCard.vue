@@ -49,6 +49,5 @@ function handleUpdateToolInfo(info: typeof toolInfo.value) {
 </template>
 
 <style lang="scss" scoped>
-@use "sass:meta";
-@include meta.load-css("../../styles/components/Tools/ToolCard");
+@use "../../styles/components/Tools/ToolCard";
 </style>

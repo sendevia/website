@@ -60,9 +60,8 @@ const isAnchor = computed(() => !!(props.pattern !== "chip" && props.href));
 </template>
 
 <style lang="scss">
-@use "sass:meta";
-@include meta.load-css("../styles/components/Buttons/Button");
-@include meta.load-css("../styles/components/Buttons/Chip");
-@include meta.load-css("../styles/components/Buttons/IconButton");
-@include meta.load-css("../styles/components/Buttons/main");
+@use "../styles/components/Buttons/Button";
+@use "../styles/components/Buttons/Chip";
+@use "../styles/components/Buttons/IconButton";
+@use "../styles/components/Buttons/main";
 </style>

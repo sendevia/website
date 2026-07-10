@@ -287,6 +287,5 @@ defineExpose({ show, hide });
 </template>
 
 <style lang="scss" scoped>
-@use "sass:meta";
-@include meta.load-css("../styles/components/ImageViewer");
+@use "../styles/components/ImageViewer";
 </style>

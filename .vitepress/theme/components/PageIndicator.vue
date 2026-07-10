@@ -261,6 +261,5 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-@use "sass:meta";
-@include meta.load-css("../styles/components/PageIndicator");
+@use "../styles/components/PageIndicator";
 </style>

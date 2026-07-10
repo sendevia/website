@@ -74,8 +74,8 @@ $config: (
     @include mixin.typescale-style(map.get($config, "typescale"));
 
     gap: map.get($config, "gap");
-    height: map.get($config, "height");
     padding-inline: map.get($config, "padding-inline");
+    height: map.get($config, "height");
 
     span {
       @include mixin.material-symbols($size: map.get($config, "icon-size"));
@@ -146,8 +146,8 @@ $config: (
   }
 
   &.outlined {
-    color: var(--md-sys-color-on-surface-variant);
     outline-color: var(--md-sys-color-outline-variant);
+    color: var(--md-sys-color-on-surface-variant);
 
     @each $size, $config in $config {
       &.#{$size} {

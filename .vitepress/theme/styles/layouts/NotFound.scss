@@ -3,12 +3,12 @@
 .notfound {
   display: flex;
   flex-direction: column;
+  grid-column: span 12;
   justify-content: space-evenly;
   gap: 24px;
   padding: 5vw;
   height: 100%;
   color: var(--md-sys-color-on-error-container);
-  grid-column: span 12;
 
   #notfound-information {
     display: flex;

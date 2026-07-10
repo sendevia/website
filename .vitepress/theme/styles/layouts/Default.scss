@@ -2,31 +2,31 @@
 
 .MainLayout {
   display: grid;
+  grid-template-columns: max-content auto;
   position: relative;
   z-index: 1;
   height: 100%;
-  grid-template-columns: max-content auto;
 
   .content-flow {
     display: grid;
+    grid-template-columns: repeat(12, minmax(60px, 72px));
+    grid-column: 2;
     align-items: start;
     place-content: space-between center;
+    column-gap: 24px;
     position: relative;
     width: 100%;
     overflow: auto;
-    column-gap: 24px;
-    grid-column: 2;
-    grid-template-columns: repeat(12, minmax(60px, 72px));
+    scrollbar-width: thin;
     scroll-behavior: smooth;
     scroll-padding-top: 120px;
-    scrollbar-width: thin;
 
     .home-content {
       display: flex;
-      align-items: center;
-      flex-flow: column nowrap;
       grid-column: span 12;
+      align-items: center;
       height: 100%;
+      flex-flow: column nowrap;
 
       .avatar-box {
         position: relative;
@@ -37,11 +37,11 @@
         h3 {
           @keyframes avatar-box-h3 {
             0% {
+              opacity: 0;
               clip-path: inset(
                 0% 100% 0% 0% round var(--md-sys-shape-corner-small)
                   var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large)
               );
-              opacity: 0;
               transform: scale(0.3) translateY(42px) rotateZ(24deg);
             }
 
@@ -62,6 +62,8 @@
           top: 280px;
           left: 50%;
           z-index: 2;
+          padding-block: 6px;
+          padding-inline: 12px 24px;
           width: max-content;
           max-width: 420px;
           color: var(--md-sys-color-on-primary-container);
@@ -76,8 +78,6 @@
           animation: avatar-box-h3 var(--md-sys-motion-spring-slow-spatial-duration)
             var(--md-sys-motion-spring-slow-spatial)
             var(--md-sys-motion-spring-fast-spatial-duration) both;
-          padding-block: 6px;
-          padding-inline: 12px 24px;
           transform-origin: 0 0;
         }
 
@@ -88,9 +88,9 @@
           z-index: 1;
           width: 300px;
           height: 300px;
-          mask: var(--via-svg-mask) no-repeat 0 / 100%;
-          translate: 0 -50%;
           user-select: none;
+          translate: 0 -50%;
+          mask: var(--via-svg-mask) no-repeat 0 / 100%;
         }
 
         span {
@@ -125,13 +125,13 @@
           width: 200px;
           height: 200px;
           opacity: 0.5;
+          user-select: none;
           animation: avatar-box-span 60s linear infinite;
           mask:
             linear-gradient(45deg, black, transparent),
             var(--via-svg-mask) 0 / 100% no-repeat;
           mask-composite: intersect;
           mask-mode: alpha;
-          user-select: none;
         }
       }
 
@@ -141,8 +141,8 @@
         align-items: center;
         justify-content: left;
         gap: 12px;
-        width: 100%;
         margin-block-end: 84px;
+        width: 100%;
 
         h1 {
           @include mixin.typescale-style("display-large");

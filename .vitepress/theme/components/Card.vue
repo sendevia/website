@@ -76,6 +76,5 @@ withDefaults(defineProps<Props>(), {
 </template>
 
 <style lang="scss" scoped>
-@use "sass:meta";
-@include meta.load-css("../styles/components/Card");
+@use "../styles/components/Card";
 </style>

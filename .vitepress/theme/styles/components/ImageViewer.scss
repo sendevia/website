@@ -14,9 +14,9 @@
   background-color: #ffffffb9;
   opacity: 0;
   backdrop-filter: blur(20px);
+  user-select: none;
   transition: var(--md-sys-motion-spring-slow-effect-duration)
     var(--md-sys-motion-spring-slow-effect);
-  user-select: none;
 
   .MaterialButton {
     display: block;
@@ -24,8 +24,8 @@
     top: 0;
     right: 0;
     z-index: 3;
-    margin-inline-end: 12px;
     margin-block-start: 12px;
+    margin-inline-end: 12px;
   }
 
   .content {
@@ -34,8 +34,8 @@
     align-items: center;
     justify-content: center;
     z-index: 2;
-    width: 100%;
     padding-block-start: 5vh;
+    width: 100%;
 
     .content-image {
       background-color: var(--md-sys-color-surface-variant);

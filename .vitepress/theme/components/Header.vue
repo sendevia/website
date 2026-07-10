@@ -317,6 +317,5 @@ onUnmounted(() => {
 </template>
 
 <style lang="scss" scoped>
-@use "sass:meta";
-@include meta.load-css("../styles/components/Header");
+@use "../styles/components/Header";
 </style>

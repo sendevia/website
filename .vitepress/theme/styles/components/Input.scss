@@ -34,12 +34,12 @@
       position: absolute;
       top: 16px;
       left: 16px;
+      pointer-events: none;
+      user-select: none;
       transition: var(--md-sys-motion-spring-fast-spatial-duration)
         var(--md-sys-motion-spring-fast-spatial);
-      appearance: none;
-      pointer-events: none;
       transform-origin: left top;
-      user-select: none;
+      appearance: none;
     }
   }
 
@@ -68,8 +68,8 @@
         background-color: var(--md-sys-color-on-surface);
         transition: transform var(--md-sys-motion-spring-fast-effect-duration)
           var(--md-sys-motion-spring-fast-effect);
-        content: "";
         transform: scaleX(0);
+        content: "";
       }
     }
 
@@ -99,9 +99,9 @@
 
         &::placeholder {
           opacity: 0;
+          user-select: none;
           transition: opacity var(--md-sys-motion-spring-default-effect-duration)
             var(--md-sys-motion-spring-default-effect);
-          user-select: none;
         }
       }
 

@@ -57,6 +57,5 @@ const hasValue = computed(() => {
 </template>
 
 <style lang="scss" scoped>
-@use "sass:meta";
-@include meta.load-css("../styles/components/Input");
+@use "../styles/components/Input";
 </style>

@@ -10,6 +10,5 @@ import ToolCard from "../components/Tools/ToolCard.vue";
 </template>
 
 <style lang="scss">
-@use "sass:meta";
-@include meta.load-css("../styles/layouts/Tools");
+@use "../styles/layouts/Tools";
 </style>

@@ -5,9 +5,9 @@
 
   gap: 8px;
   border-radius: var(--md-sys-shape-corner-small);
-  height: 32px;
-  padding-inline: 16px;
   outline-width: 1px;
+  padding-inline: 16px;
+  height: 32px;
 
   span {
     @include mixin.material-symbols($size: 18px);
@@ -19,8 +19,8 @@
 
   &.assist,
   &.suggestion {
-    color: var(--md-sys-color-on-surface);
     outline-color: var(--md-sys-color-outline-variant);
+    color: var(--md-sys-color-on-surface);
     background-color: transparent;
 
     span {
@@ -30,13 +30,13 @@
 
   &.filter,
   &.input {
-    color: var(--md-sys-color-on-surface-variant);
     outline-color: var(--md-sys-color-outline-variant);
+    color: var(--md-sys-color-on-surface-variant);
     background-color: transparent;
 
     &.selected {
-      color: var(--md-sys-color-on-secondary-container);
       outline-color: transparent;
+      color: var(--md-sys-color-on-secondary-container);
       background-color: var(--md-sys-color-secondary-container);
 
       span {

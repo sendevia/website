@@ -274,6 +274,5 @@ function clearQueue() {
 </template>
 
 <style lang="scss" scoped>
-@use "sass:meta";
-@include meta.load-css("../../styles/components/Tools/MaterialSymbolDL");
+@use "../../styles/components/Tools/MaterialSymbolDL";
 </style>

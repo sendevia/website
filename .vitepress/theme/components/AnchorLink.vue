@@ -42,6 +42,5 @@ const handleClick = async (event: MouseEvent) => {
 </template>
 
 <style lang="scss">
-@use "sass:meta";
-@include meta.load-css("../styles/components/AnchorLink");
+@use "../styles/components/AnchorLink";
 </style>
