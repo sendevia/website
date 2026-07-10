@@ -2,228 +2,35 @@
 
 .AppBar {
   display: flex;
-  align-items: center;
-  flex-direction: column;
-  flex-wrap: nowrap;
   grid-column: 2 / 3;
+  align-items: center;
   justify-content: start;
   position: absolute;
-  right: 0px;
   top: -64px;
-  height: 64px;
-  width: 100%;
+  right: 0;
+  z-index: 998;
   padding-inline: 8px;
+  width: 100%;
+  height: 64px;
   color: var(--md-sys-color-on-surface);
   background-color: transparent;
   overflow: hidden;
   transition: var(--md-sys-motion-spring-slow-effect-duration)
     var(--md-sys-motion-spring-slow-effect);
-  z-index: 998;
+  flex-flow: column nowrap;
 
   .action-btn {
     button {
       position: absolute;
-      right: 0px;
-      top: 0px;
+      top: 0;
+      right: 0;
+      z-index: 2;
       margin: 8px;
       transition:
         right var(--md-sys-motion-spring-slow-effect-duration)
           var(--md-sys-motion-spring-slow-effect),
         top var(--md-sys-motion-spring-slow-spatial-duration)
           var(--md-sys-motion-spring-slow-spatial);
-      z-index: 2;
-    }
-  }
-
-  .action-area {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    height: 64px;
-    width: 100%;
-    opacity: 0;
-    pointer-events: none;
-
-    .search-input {
-      @include mixin.typescale-style("title-medium");
-      flex-grow: 1;
-      height: 52px;
-      min-width: 0px;
-      padding-block: 0px;
-      padding-inline: 24px;
-      color: var(--md-sys-color-on-surface-variant);
-      text-overflow: ellipsis;
-      border: none;
-      border-radius: var(--md-sys-shape-corner-full);
-      background-color: var(--md-sys-color-surface-container);
-      transition: margin var(--md-sys-motion-spring-fast-spatial-duration)
-        var(--md-sys-motion-spring-fast-spatial);
-      z-index: 1;
-
-      &:focus-visible {
-        @include mixin.focus-ring($thickness: 3, $offset: 2);
-      }
-    }
-  }
-
-  .result-area {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    gap: 24px;
-    position: absolute;
-    top: 76px;
-    height: calc(100% - 76px);
-    width: 100%;
-    padding-block-start: 24px;
-    padding-inline: 2px;
-    overflow: overlay;
-
-    .result-items {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding-inline: 12px;
-      padding-block: 12px;
-      width: 100%;
-      text-decoration: none;
-
-      .result-index {
-        @include mixin.typescale-style("title-medium");
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        position: sticky;
-        top: 0px;
-        min-width: 24px;
-        min-height: 32px;
-        padding-inline: 4px;
-        color: var(--md-sys-color-on-secondary-container);
-        background-color: var(--md-sys-color-secondary-container);
-        border-radius: var(--md-sys-shape-corner-full);
-      }
-
-      .title {
-        display: flex;
-        align-items: flex-start;
-        flex-direction: column;
-        flex-wrap: wrap;
-        gap: 4px;
-
-        h3 {
-          color: var(--md-sys-color-on-surface);
-        }
-
-        .chips {
-          display: flex;
-          flex-direction: row;
-          flex-wrap: wrap;
-          gap: 4px;
-          opacity: 0.8;
-
-          .segments {
-            display: flex;
-            align-items: center;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 4px;
-
-            &::before {
-              @include mixin.material-symbols($size: 12px);
-            }
-
-            .item {
-              @include mixin.typescale-style("label-small");
-              padding-inline: 8px;
-              border-radius: var(--md-sys-shape-corner-medium);
-            }
-
-            &.date {
-              .item {
-                color: var(--md-sys-color-on-tertiary-container);
-                background-color: var(--md-sys-color-tertiary-container);
-              }
-
-              &::before {
-                content: "calendar_today";
-              }
-            }
-
-            &.categories {
-              .item {
-                color: var(--md-sys-color-on-purple-container);
-                background-color: var(--md-sys-color-purple-container);
-              }
-
-              &::before {
-                content: "category";
-              }
-            }
-
-            &.tags {
-              .item {
-                color: var(--md-sys-color-on-yellow-container);
-                background-color: var(--md-sys-color-yellow-container);
-              }
-
-              &::before {
-                content: "tag";
-              }
-            }
-          }
-        }
-      }
-
-      &:focus-visible {
-        outline: none;
-
-        .result-index {
-          @include mixin.focus-ring($thickness: 3, $offset: 2);
-        }
-      }
-    }
-  }
-
-  .no-results {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    gap: 42px;
-    justify-content: center;
-    height: calc(100% - 76px);
-    width: 100%;
-
-    .icon {
-      @include mixin.material-symbols($size: 100rem);
-    }
-  }
-
-  &.searching {
-    top: 0px;
-    height: 100%;
-    padding: 12px;
-    background-color: var(--md-sys-color-surface);
-
-    .action-btn button {
-      right: calc(100% - 48px);
-      top: 16px;
-    }
-
-    .action-area {
-      opacity: 1;
-      pointer-events: all;
-
-      .search-input {
-        transition: margin var(--md-sys-motion-spring-fast-spatial-duration)
-          var(--md-sys-motion-spring-fast-spatial);
-      }
-    }
-
-    &.hidden {
-      top: 0px;
     }
   }
 
@@ -231,18 +38,10 @@
     top: -64px;
   }
 
-  @media screen and (max-width: 840px) {
+  @media screen and (width <= 840px) {
     top: 0;
     width: 100%;
     opacity: 1;
     visibility: visible;
-
-    .result-area {
-      gap: 8px;
-    }
-
-    .no-results {
-      height: calc(100% - (64px + 64px));
-    }
   }
 }

@@ -5,13 +5,13 @@ import { isClient } from "../utils/env";
 import { setupWidthObserver } from "../composables/useElementWidth";
 import { useData } from "vitepress";
 import { useScreenWidth } from "../composables/useScreenWidth";
-import { useAppBarStore } from "../stores/appbar";
+import { useSearchStore } from "../stores/search";
 import { getCookie, setCookie } from "../utils/cookie";
 import StateLayer from "./StateLayer.vue";
 
 const { page, theme } = useData();
 const { screenWidth, isAboveBreakpoint } = useScreenWidth();
-const appBarStore = useAppBarStore();
+const searchStore = useSearchStore();
 
 /** 导航栏展开/折叠状态 */
 const isNavExpanded = ref(false);
@@ -123,7 +123,10 @@ const navClass = computed(() => {
 });
 
 /** 计算标签类名 */
-const labelClass = computed(() => [isNavExpanded.value ? "right" : "bottom", isLabelAnimating.value ? "animating" : ""]);
+const labelClass = computed(() => [
+  isNavExpanded.value ? "right" : "bottom",
+  isLabelAnimating.value ? "animating" : "",
+]);
 
 /**
  * 规范化路径，去除后缀及末尾斜杠
@@ -140,7 +143,9 @@ function normalizePath(path: string): string {
 function isActive(link: string): boolean {
   const currentPath = normalizePath(page.value.relativePath);
   const targetPath = normalizePath(link);
-  return currentPath === targetPath.replace(/^\//, "") || (targetPath === "" && currentPath === "index");
+  return (
+    currentPath === targetPath.replace(/^\//, "") || (targetPath === "" && currentPath === "index")
+  );
 }
 
 /**
@@ -157,7 +162,7 @@ function isExternalLink(link: string): boolean {
  */
 function toggleSearch(event: MouseEvent) {
   event.stopPropagation();
-  appBarStore.toggle();
+  searchStore.toggle();
 }
 
 /**
@@ -185,7 +190,7 @@ function toggleTheme(event: MouseEvent) {
  * @param el DOM 元素
  * @param parentSelector 父级选择器
  */
-function setLabelRef(el: any, parentSelector: string) {
+function setLabelRef(el: unknown, parentSelector: string) {
   if (el instanceof HTMLElement) {
     observeWidth(el, parentSelector);
   }
@@ -235,13 +240,18 @@ if (isClient()) {
         }}</MaterialButton>
         <button class="fab" @mousedown.prevent @click.stop="toggleSearch">
           <StateLayer />
-          <span>{{ appBarStore.isSearchActive ? "close" : "search" }}</span>
+          <span>{{ searchStore.isSearchActive ? "close" : "search" }}</span>
           <p :ref="(el) => setLabelRef(el, '.fab')">搜索</p>
         </button>
       </div>
 
       <div class="destinations">
-        <div class="segment" v-for="item in navSegment" :key="item.link" :class="isActive(item.link) ? 'active' : 'inactive'">
+        <div
+          class="segment"
+          v-for="item in navSegment"
+          :key="item.link"
+          :class="isActive(item.link) ? 'active' : 'inactive'"
+        >
           <a :href="item.link" :target="isExternalLink(item.link) ? '_blank' : undefined">
             <div class="accent">
               <div class="icon">
@@ -276,6 +286,5 @@ if (isClient()) {
 </template>
 
 <style lang="scss">
-@use "sass:meta";
-@include meta.load-css("../styles/components/NavBar");
+@use "../styles/components/NavBar";
 </style>
