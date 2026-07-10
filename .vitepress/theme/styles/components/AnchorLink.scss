@@ -4,35 +4,36 @@
   transition: var(--md-sys-motion-spring-fast-effect-duration)
     var(--md-sys-motion-spring-fast-effect);
   user-select: none;
-  -moz-user-select: none;
 
   &.normal {
     @include mixin.typescale-style("body-large");
+
     display: flex;
-    align-items: start;
     flex-direction: column;
+    align-items: start;
     gap: 3px;
     position: absolute;
     left: -60px;
-    margin-block-start: 0px !important;
-    height: 100%;
-    width: 60px;
-    border-radius: var(--md-sys-shape-corner-full);
-    opacity: 0;
     z-index: 20;
+    border-radius: var(--md-sys-shape-corner-full);
+    width: 60px;
+    height: 100%;
+    opacity: 0;
+    margin-block-start: 0 !important;
 
     .symbol {
-      @include mixin.material-symbols();
+      @include mixin.material-symbols;
+
       display: block;
       position: sticky;
-      top: 0px;
-      height: 54px;
+      top: 0;
+      border-radius: var(--md-sys-shape-corner-full);
       width: 54px;
+      height: 54px;
       color: var(--md-sys-color-on-surface);
       line-height: 54px;
       text-align: center;
       text-decoration: none !important;
-      border-radius: var(--md-sys-shape-corner-full);
       background-color: transparent;
 
       &:focus-visible {
@@ -42,6 +43,7 @@
 
     .feedback {
       @include mixin.typescale-style("label-medium");
+
       position: sticky;
       top: 57px;
       padding-block: 3px;
@@ -63,7 +65,7 @@
     opacity: 0.2;
   }
 
-  @media screen and (max-width: 1600px) {
+  @media screen and (width <= 1600px) {
     &.normal {
       display: none;
     }

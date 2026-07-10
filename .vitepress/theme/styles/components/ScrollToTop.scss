@@ -2,22 +2,21 @@
 
 .ScrollToTop {
   position: fixed;
-  bottom: 48px;
   right: 48px;
+  bottom: 48px;
+  z-index: 21;
   opacity: 0;
   transition: var(--md-sys-motion-spring-fast-effect-duration)
     var(--md-sys-motion-spring-fast-effect);
   user-select: none;
   visibility: hidden;
-  z-index: 21;
-  -moz-user-select: none;
 
   &.visible {
     opacity: 1;
     visibility: visible;
   }
 
-  @media screen and (max-width: 840px) {
+  @media screen and (width <= 840px) {
     bottom: 112px;
   }
 }

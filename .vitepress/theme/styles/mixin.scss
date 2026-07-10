@@ -20,29 +20,28 @@
 // acute, add, alarm, arrow_back, arrow_downward, arrow_forward, arrow_outward, arrow_upward, auto_awesome_mosaic, bluetooth, borg, brightness_alert, brightness_auto, build, calendar_today, category, check, check_box, check_box_outline_blank, chevron_left, chevron_right, clear_all, close, code, code_blocks, content_copy, copy_all, dangerous, dark_mode, delete_forever, do_not_disturb_on, download, expand_more, favorite, filter_list_off, flashlight_on, home, hourglass_empty, info, light_mode, lightbulb_2, link, match_case, menu, menu_open, message, open_in_new, page_info, person, remove, rocket_launch, search, search_off, settings, sort_by_alpha, tag, update, verified, wifi
 @mixin material-symbols($name: "", $size: 24rem, $font-size: $size, $line-height: $size) {
   @font-face {
-    font-display: swap;
     font-family: "Material Symbols Outlined";
-    font-style: normal;
     font-weight: 100 700;
-    src: url(/assets/fonts/MaterialSymbolsOutlined.woff2) format("woff2");
+    font-style: normal;
+    font-display: swap;
+    src: url("/assets/fonts/MaterialSymbolsOutlined.woff2") format("woff2");
   }
 
-  content: $name;
   display: inline-block;
-  direction: ltr;
   font-family: "Material Symbols Outlined";
-  font-feature-settings: "liga";
   font-size: #{$size};
-  font-style: normal;
   font-weight: normal;
+  font-style: normal;
   letter-spacing: normal;
   line-height: #{$line-height};
-  text-rendering: optimizeLegibility;
   text-transform: none;
-  user-select: none;
+  content: $name;
+  direction: ltr;
+  font-feature-settings: "liga";
+  text-rendering: optimizelegibility;
   white-space: nowrap;
-  word-wrap: normal;
-  -moz-user-select: none;
+  overflow-wrap: normal;
+  user-select: none;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
 }
@@ -52,18 +51,19 @@
     from {
       outline: #{$thickness * 4}px solid var(--md-sys-color-primary);
     }
+
     to {
       outline: #{$thickness}px solid var(--md-sys-color-primary);
     }
   }
 
-  animation: focus-ring var(--md-sys-motion-spring-slow-effect-duration)
-    var(--md-sys-motion-spring-slow-effect) forwards;
-  outline-offset: #{$offset}px;
+  z-index: $z-index;
   transition:
     border-radius var(--md-sys-motion-spring-fast-spatial-duration)
       var(--md-sys-motion-spring-fast-spatial),
     outline var(--md-sys-motion-spring-fast-spatial-standard-duration)
       var(--md-sys-motion-spring-fast-spatial-standard);
-  z-index: $z-index;
+  animation: focus-ring var(--md-sys-motion-spring-slow-effect-duration)
+    var(--md-sys-motion-spring-slow-effect) forwards;
+  outline-offset: #{$offset}px;
 }

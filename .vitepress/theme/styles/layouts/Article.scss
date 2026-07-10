@@ -17,28 +17,29 @@
 
     .copy {
       position: absolute;
-      right: 0px;
-      top: 0px;
-      height: 42px;
-      width: 42px;
-      margin-block-start: 6px;
-      margin-inline-end: 6px;
-      padding: 0px;
+      top: 0;
+      right: 0;
+      z-index: 2;
       border: none;
       border-radius: var(--md-sys-shape-corner-extra-large);
+      padding: 0;
+      width: 42px;
+      height: 42px;
       background-color: transparent;
-      cursor: pointer;
       opacity: 0;
+      cursor: pointer;
       transition:
         border-radius var(--md-sys-motion-spring-fast-spatial-duration)
           var(--md-sys-motion-spring-fast-spatial),
         opacity var(--md-sys-motion-spring-default-effect-duration)
           var(--md-sys-motion-spring-default-effect);
+      margin-block-start: 6px;
+      margin-inline-end: 6px;
       visibility: hidden;
-      z-index: 2;
 
       &::before {
         @include mixin.material-symbols($name: "content_copy", $size: 18rem, $line-height: 42rem);
+
         color: var(--md-ref-palette-neutral90);
       }
 
@@ -58,33 +59,33 @@
 
     .lang {
       @include mixin.typescale-style("body-medium");
+
       position: absolute;
-      right: 0px;
-      top: 0px;
-      margin-block-start: 6px;
-      margin-inline-end: 9px;
+      top: 0;
+      right: 0;
+      z-index: 1;
       color: var(--md-ref-palette-neutral50);
-      font-family: Cascadia Code;
-      font-variation-settings: "wght" 700;
+      font-family: "Cascadia Code";
       text-transform: uppercase;
       transition: color var(--md-sys-motion-spring-default-effect-duration)
         var(--md-sys-motion-spring-default-effect);
+      margin-block-start: 6px;
+      margin-inline-end: 9px;
+      font-variation-settings: "wght" 700;
       user-select: none;
-      z-index: 1;
-      -moz-user-select: none;
     }
 
     .shiki {
+      z-index: 0;
+      margin: 0;
+      border-radius: var(--md-sys-shape-corner-large);
+      overflow: auto;
       grid-column: 2/3;
       grid-row: 1;
-      margin: 0px;
       padding-block: 15px;
-      border-radius: var(--md-sys-shape-corner-large);
-      overflow: overlay;
-      z-index: 0;
 
       code {
-        padding: 0px;
+        padding: 0;
         width: 100%;
 
         > span:not(:has(span)) {
@@ -98,20 +99,21 @@
           var(--md-sys-motion-spring-default-effect);
 
         &.has-focus {
-          filter: blur(0px);
+          filter: blur(0);
         }
       }
 
       &.has-diff .line {
         &.diff::before {
           @include mixin.typescale-style("body-medium");
+
           display: inline-block;
-          content: "";
-          height: 24px;
           width: 24px;
-          font-family: Cascadia Code;
+          height: 24px;
+          font-family: "Cascadia Code";
           line-height: 24px;
           text-align: center;
+          content: "";
         }
 
         &.add {
@@ -138,7 +140,7 @@
       }
 
       &:hover.has-focused-lines .line {
-        filter: blur(0px);
+        filter: blur(0);
       }
 
       &:focus-visible {
@@ -151,32 +153,32 @@
       grid-template-columns: max-content auto;
 
       .shiki {
-        border-radius: 0px var(--md-sys-shape-corner-large-increased)
-          var(--md-sys-shape-corner-large-increased) 0px;
+        border-radius: 0 var(--md-sys-shape-corner-large-increased)
+          var(--md-sys-shape-corner-large-increased) 0;
       }
 
       .line-numbers-wrapper {
+        z-index: 0;
+        border-radius: var(--md-sys-shape-corner-large-increased) 0 0
+          var(--md-sys-shape-corner-large-increased);
+        width: max-content;
+        color: var(--md-ref-palette-neutral-variant50);
+        text-align: right;
+        background-color: var(--md-ref-palette-neutral10);
         grid-column: 1/2;
         grid-row: 1;
-        width: max-content;
         padding-block: 15px;
         padding-inline: 12px;
-        text-align: right;
         vertical-align: middle;
-        color: var(--md-ref-palette-neutral-variant50);
-        border-radius: var(--md-sys-shape-corner-large-increased) 0px 0px
-          var(--md-sys-shape-corner-large-increased);
         border-right: 1px solid var(--md-ref-palette-neutral-variant50);
-        background-color: var(--md-ref-palette-neutral10);
         user-select: none;
-        z-index: 0;
-        -moz-user-select: none;
 
         span {
           @include mixin.typescale-style("body-large");
+
           display: block;
           height: 25px;
-          font-family: Cascadia Code;
+          font-family: "Cascadia Code";
           line-height: 25px;
         }
 
@@ -209,37 +211,38 @@
 
   .custom-block {
     @include mixin.typescale-style("body-large");
+
     display: grid;
+    position: relative;
+    z-index: 0;
+    border-radius: var(--md-sys-shape-corner-large-increased);
     column-gap: 12px;
     grid-template-columns: 24px auto;
-    position: relative;
     margin-block-start: 12px;
     padding-inline: 12px;
-    padding-block: 12px 0px;
-    border-radius: var(--md-sys-shape-corner-large-increased);
-    z-index: 0;
+    padding-block: 12px 0;
 
     > * {
       grid-column: 2 / 3;
-      padding-block: 0px;
+      padding-block: 0;
 
       &:last-child {
-        margin-block-end: 0px;
+        margin-block-end: 0;
         padding-block-end: 12px;
       }
     }
 
     .custom-block-title {
+      margin: 0;
+      padding: 0;
       grid-column: 2;
-      margin: 0px;
-      padding: 0px;
       font-variation-settings: "wght" 700;
       user-select: none;
-      -moz-user-select: none;
     }
 
     &::before {
-      @include mixin.material-symbols();
+      @include mixin.material-symbols;
+
       grid-column: 1;
     }
 
@@ -252,17 +255,17 @@
 
       summary {
         display: grid;
+        border-radius: var(--md-sys-shape-corner-large-increased);
+        cursor: pointer;
         column-gap: 12px;
         grid-template-columns: 24px auto;
         padding-block-end: 12px;
         font-variation-settings: "wght" 700;
-        border-radius: var(--md-sys-shape-corner-large-increased);
-        cursor: pointer;
         user-select: none;
-        -moz-user-select: none;
 
         &::before {
           @include mixin.material-symbols("expand_more");
+
           font-variation-settings: "wght" 500;
           transform: rotateZ(-90deg);
           transition: transform var(--md-sys-motion-spring-fast-spatial-duration)
@@ -283,7 +286,7 @@
         background-color: var(--md-sys-color-surface-container-high);
 
         summary {
-          padding-block-end: 0px;
+          padding-block-end: 0;
 
           &::before {
             transform: rotateZ(0deg);
@@ -360,25 +363,25 @@
 
     blockquote {
       position: relative;
-      margin-inline: 0px;
+      margin-inline: 0;
       padding-inline-start: 24px;
       color: var(--md-sys-color-on-tertiary-container);
 
       &::before {
-        content: "";
         display: block;
         position: absolute;
         left: calc(24px / 2 - 3px);
-        height: 100%;
-        width: 6px;
         border-radius: var(--md-sys-shape-corner-small);
+        width: 6px;
+        height: 100%;
         background-color: var(--md-sys-color-inverse-on-surface);
+        content: "";
       }
 
       > {
         ul,
         ol {
-          margin-inline: 0px;
+          margin-inline: 0;
         }
       }
 
@@ -388,13 +391,13 @@
 
       p {
         margin-block: 12px;
-        margin-inline: 0px;
-        padding-block-end: 0px;
+        margin-inline: 0;
+        padding-block-end: 0;
       }
 
       .task-list-container {
-        padding-block-end: 0px;
-        padding-inline: 0px;
+        padding-block-end: 0;
+        padding-inline: 0;
 
         li.task-list-item {
           display: grid;
@@ -405,14 +408,15 @@
           input.task-list-item-checkbox[type="checkbox"] {
             &::before {
               @include mixin.material-symbols("check_box_outline_blank", $size: 20rem);
+
               font-variation-settings: "FILL" 1;
             }
 
+            margin: 0;
+            width: 20px;
+            height: 20px;
             appearance: none;
             grid-column: 1 / 2;
-            margin: 0px;
-            height: 20px;
-            width: 20px;
 
             &:checked {
               &::before {
@@ -430,14 +434,15 @@
 
     code {
       @include mixin.typescale-style("body-large");
+
       display: inline-block;
+      border-radius: var(--md-sys-shape-corner-small);
       width: max-content;
-      font-family: Cascadia Code;
+      font-family: "Cascadia Code";
+      overflow: initial;
       text-indent: initial;
       vertical-align: baseline;
       word-break: break-word;
-      border-radius: var(--md-sys-shape-corner-small);
-      overflow: initial;
 
       &::selection {
         color: var(--md-sys-color-on-tertiary);
@@ -451,7 +456,8 @@
 
         span {
           @include mixin.typescale-style("body-large");
-          font-family: Cascadia Code;
+
+          font-family: "Cascadia Code";
         }
       }
     }
@@ -493,7 +499,7 @@
     h5,
     h6 {
       ~ .AnchorLink.normal {
-        top: 0px;
+        top: 0;
       }
     }
 
@@ -511,11 +517,12 @@
 
       code {
         @include mixin.typescale-style("body-large");
+
         display: inline;
+        padding: 0;
         min-width: max-content;
-        padding: 0px;
         vertical-align: baseline;
-        font-family: Cascadia Code;
+        font-family: "Cascadia Code";
       }
 
       em {
@@ -534,8 +541,8 @@
 
       img {
         display: inline-block;
-        width: 100%;
         border-radius: var(--md-sys-shape-corner-medium);
+        width: 100%;
         cursor: pointer;
         transition: border-radius var(--md-sys-motion-spring-fast-spatial-duration)
           var(--md-sys-motion-spring-fast-spatial);
@@ -548,7 +555,7 @@
 
     pre {
       padding-block-end: 12px;
-      overflow: overlay;
+      overflow: auto;
 
       &.shiki {
         position: relative;
@@ -573,17 +580,18 @@
 
       li {
         @include mixin.typescale-style("body-large");
+
         position: relative;
         margin-block-start: 12px;
         vertical-align: middle;
 
         code {
           display: inline;
-          padding: 0px;
+          padding: 0;
         }
 
         ul {
-          padding: 0px;
+          padding: 0;
         }
       }
     }
@@ -595,8 +603,8 @@
         }
 
         p {
-          margin-inline: 0px;
-          padding-block: 0px;
+          margin-inline: 0;
+          padding-block: 0;
         }
       }
     }
@@ -609,15 +617,15 @@
         position: relative;
 
         &::before {
-          content: "";
           display: inline-block;
           position: absolute;
-          left: -20px;
           top: var(--bullet-top);
-          height: 16px;
+          left: -20px;
           width: 16px;
+          height: 16px;
           background-color: var(--md-sys-color-on-surface);
-          mask: var(--via-svg-list-bullet) 0 0/100% no-repeat;
+          content: "";
+          mask: var(--via-svg-list-bullet) 0 0 / 100% no-repeat;
           transform: rotate(var(--random-rotation, 0deg));
         }
       }
@@ -647,6 +655,7 @@
 
       a[href] {
         @include mixin.typescale-style("label-large");
+
         text-decoration: none;
       }
     }
@@ -655,17 +664,17 @@
   .post-info {
     display: flex;
     flex-direction: row;
-    gap: 6px;
     justify-content: flex-end;
+    gap: 6px;
     padding-inline: 6px;
     margin-block: 12px;
 
     p {
       @include mixin.typescale-style("label-small");
+
       display: inline-flex;
+      flex-flow: row nowrap;
       align-items: center;
-      flex-direction: row;
-      flex-wrap: nowrap;
       gap: 3px;
       color: var(--md-sys-color-outline);
 
@@ -703,7 +712,7 @@
   margin-inline-end: 12px;
 }
 
-@media screen and (max-width: 1600px) {
+@media screen and (width <= 1600px) {
   #article-content {
     grid-column: 1 / 10;
   }
@@ -713,7 +722,7 @@
   }
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (width <= 1200px) {
   #article-content {
     grid-column: 1 / 7;
 
@@ -721,7 +730,7 @@
       padding-inline: 12px;
 
       a.title-anchor {
-        gap: 0px;
+        gap: 0;
         position: relative;
         left: inherit;
       }
@@ -733,7 +742,7 @@
   }
 }
 
-@media screen and (max-width: 840px) {
+@media screen and (width <= 840px) {
   #article-content {
     grid-column: 1 / 7;
   }
@@ -743,7 +752,7 @@
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (width <= 600px) {
   #article-content {
     grid-column: 1 / 5;
   }

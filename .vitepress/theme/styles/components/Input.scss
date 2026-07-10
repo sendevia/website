@@ -17,28 +17,29 @@
 
     input {
       @include mixin.typescale-style("body-large");
-      appearance: none;
-      height: 100%;
-      width: 100%;
-      padding: 27px 16px 8px;
+
       border: none;
       outline: none;
+      padding: 27px 16px 8px;
+      width: 100%;
+      height: 100%;
       color: var(--md-sys-color-on-surface-variant);
       background-color: transparent;
+      appearance: none;
     }
 
     label {
       @include mixin.typescale-style("body-large");
-      appearance: none;
+
       position: absolute;
-      left: 16px;
       top: 16px;
-      pointer-events: none;
-      transform-origin: left top;
+      left: 16px;
       transition: var(--md-sys-motion-spring-fast-spatial-duration)
         var(--md-sys-motion-spring-fast-spatial);
+      appearance: none;
+      pointer-events: none;
+      transform-origin: left top;
       user-select: none;
-      -moz-user-select: none;
     }
   }
 
@@ -59,16 +60,16 @@
       }
 
       &::after {
-        content: "";
         position: absolute;
+        right: 0;
         bottom: -1px;
         left: 0;
-        right: 0;
         height: 3px;
         background-color: var(--md-sys-color-on-surface);
-        transform: scaleX(0);
         transition: transform var(--md-sys-motion-spring-fast-effect-duration)
           var(--md-sys-motion-spring-fast-effect);
+        content: "";
+        transform: scaleX(0);
       }
     }
 
@@ -86,8 +87,8 @@
 
   &.outlined {
     .input-container {
-      outline: 1px solid var(--md-sys-color-outline);
       border-radius: var(--md-sys-shape-corner-extra-small);
+      outline: 1px solid var(--md-sys-color-outline);
       background-color: transparent;
       transition: outline var(--md-sys-motion-spring-fast-effect-duration)
         var(--md-sys-motion-spring-fast-effect);
@@ -101,13 +102,12 @@
           transition: opacity var(--md-sys-motion-spring-default-effect-duration)
             var(--md-sys-motion-spring-default-effect);
           user-select: none;
-          -moz-user-select: none;
         }
       }
 
       &:focus-within {
-        padding: -1px;
         outline: 3px solid var(--md-sys-color-primary);
+        padding: -1px;
 
         input::placeholder {
           opacity: 1;
@@ -160,6 +160,7 @@
 
   .support-text {
     @include mixin.typescale-style("label-medium");
+
     padding-inline: 16px;
     color: var(--input-on-surface-variant);
   }

@@ -10,22 +10,22 @@
     flex-direction: column;
     gap: 9px;
     position: relative;
-    height: auto;
-    width: 100%;
-    padding-block: 18px;
-    padding-inline: 24px;
-    text-decoration: none !important;
     border-radius: var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-extra-large)
       var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-extra-large);
+    width: 100%;
+    height: auto;
+    text-decoration: none !important;
     background-color: var(--md-sys-color-surface-container-low);
     overflow: hidden;
     transition: border-radius var(--md-sys-motion-spring-fast-spatial-duration)
       var(--md-sys-motion-spring-fast-spatial);
+    padding-block: 18px;
+    padding-inline: 24px;
     user-select: none;
-    -moz-user-select: none;
 
     .label {
       @include mixin.typescale-style("label-medium");
+
       display: flex;
       align-items: center;
       color: var(--md-sys-color-on-surface-variant);
@@ -37,6 +37,7 @@
 
     .title {
       @include mixin.typescale-style("title-large");
+
       color: var(--md-sys-color-on-surface);
       font-variation-settings: "wght" 600;
     }
@@ -103,7 +104,7 @@
     }
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (width <= 600px) {
     grid-template-columns: 1fr;
 
     a {

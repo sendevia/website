@@ -8,16 +8,12 @@
     align-items: center;
     justify-content: flex-start;
     position: relative;
-    text-decoration: none !important;
-    text-wrap-mode: nowrap;
-    vertical-align: middle;
     border: none;
-    outline-color: transparent;
-    outline-style: solid;
-    outline-width: 0px;
+    outline: transparent solid 0;
+    text-decoration: none !important;
     background-color: transparent;
-    cursor: pointer;
     overflow: hidden;
+    cursor: pointer;
     transition:
       padding-inline var(--md-sys-motion-spring-fast-spatial-duration)
         var(--md-sys-motion-spring-fast-spatial),
@@ -25,8 +21,9 @@
         var(--md-sys-motion-spring-fast-effect),
       background-color var(--md-sys-motion-spring-fast-effect-duration)
         var(--md-sys-motion-spring-fast-effect);
+    text-wrap-mode: nowrap;
+    vertical-align: middle;
     user-select: none;
-    -moz-user-select: none;
 
     &:focus-visible {
       @include mixin.focus-ring($thickness: 3, $offset: 2);

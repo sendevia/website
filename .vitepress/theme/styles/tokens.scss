@@ -8,7 +8,7 @@
   --md-ref-palette-primary40: #006a64;
   --md-ref-palette-primary80: #50dbd0;
   --md-ref-palette-primary90: #71f7ec;
-  --md-ref-palette-primary100: #ffffff;
+  --md-ref-palette-primary100: #fff;
   --md-ref-palette-secondary10: #051f1d;
   --md-ref-palette-secondary20: #1c3532;
   --md-ref-palette-secondary30: #324b49;
@@ -16,15 +16,15 @@
   --md-ref-palette-secondary48: #5d7774;
   --md-ref-palette-secondary80: #b0ccc8;
   --md-ref-palette-secondary90: #cce8e4;
-  --md-ref-palette-secondary100: #ffffff;
+  --md-ref-palette-secondary100: #fff;
   --md-ref-palette-tertiary10: #001d33;
   --md-ref-palette-tertiary20: #18324a;
   --md-ref-palette-tertiary30: #304962;
   --md-ref-palette-tertiary40: #48617a;
   --md-ref-palette-tertiary80: #afc9e7;
   --md-ref-palette-tertiary90: #cfe5ff;
-  --md-ref-palette-tertiary100: #ffffff;
-  --md-ref-palette-neutral0: #000000;
+  --md-ref-palette-tertiary100: #fff;
+  --md-ref-palette-neutral0: #000;
   --md-ref-palette-neutral4: #0b0f0e;
   --md-ref-palette-neutral6: #101414;
   --md-ref-palette-neutral10: #191c1c;
@@ -41,7 +41,7 @@
   --md-ref-palette-neutral95: #eff1f0;
   --md-ref-palette-neutral96: #f2f4f3;
   --md-ref-palette-neutral98: #f7faf8;
-  --md-ref-palette-neutral100: #ffffff;
+  --md-ref-palette-neutral100: #fff;
   --md-ref-palette-neutral-variant30: #3f4947;
   --md-ref-palette-neutral-variant50: #6f7977;
   --md-ref-palette-neutral-variant60: #899391;
@@ -53,7 +53,7 @@
   --md-ref-palette-error40: #ba1a1a;
   --md-ref-palette-error80: #ffb4ab;
   --md-ref-palette-error90: #ffdad6;
-  --md-ref-palette-error100: #ffffff;
+  --md-ref-palette-error100: #fff;
   --md-ref-palette-blue10: #002022;
   --md-ref-palette-blue20: #00363b;
   --md-ref-palette-blue30: #004f55;
@@ -163,6 +163,7 @@
   // Typography
   $level1-font-family: "Google Sans Flex", "Noto Sans SC", sans-serif;
   $level2-font-family: "Google Sans Flex", "Noto Sans SC", sans-serif;
+
   @include mixin.typescale("display-large", $level1-font-family, 57, -0.25, 64, 400);
   @include mixin.typescale("display-medium", $level1-font-family, 45, 0, 52, 400);
   @include mixin.typescale("display-small", $level1-font-family, 36, 0, 44, 400);
@@ -229,31 +230,26 @@ html {
     --md-sys-state-hover-state-layer: #00000014;
     --md-sys-state-focus-state-layer: #0000001a;
     --md-sys-state-pressed-state-layer: #0000001a;
-
     --md-sys-color-red: var(--md-ref-palette-red40);
     --md-sys-color-red-container: var(--md-ref-palette-red90);
     --md-sys-color-on-red: var(--md-ref-palette-red95);
     --md-sys-color-on-red-container: var(--md-ref-palette-red10);
     --md-sys-color-inverse-red: var(--md-ref-palette-red80);
-
     --md-sys-color-blue: var(--md-ref-palette-blue40);
     --md-sys-color-blue-container: var(--md-ref-palette-blue90);
     --md-sys-color-on-blue: var(--md-ref-palette-blue95);
     --md-sys-color-on-blue-container: var(--md-ref-palette-blue10);
     --md-sys-color-inverse-blue: var(--md-ref-palette-blue80);
-
     --md-sys-color-green: var(--md-ref-palette-green40);
     --md-sys-color-green-container: var(--md-ref-palette-green90);
     --md-sys-color-on-green: var(--md-ref-palette-green95);
     --md-sys-color-on-green-container: var(--md-ref-palette-green10);
     --md-sys-color-inverse-green: var(--md-ref-palette-green80);
-
     --md-sys-color-yellow: var(--md-ref-palette-yellow40);
     --md-sys-color-yellow-container: var(--md-ref-palette-yellow90);
     --md-sys-color-on-yellow: var(--md-ref-palette-yellow95);
     --md-sys-color-on-yellow-container: var(--md-ref-palette-yellow10);
     --md-sys-color-inverse-yellow: var(--md-ref-palette-yellow80);
-
     --md-sys-color-purple: var(--md-ref-palette-purple40);
     --md-sys-color-purple-container: var(--md-ref-palette-purple90);
     --md-sys-color-on-purple: var(--md-ref-palette-purple95);
@@ -302,31 +298,26 @@ html {
     --md-sys-state-hover-state-layer: #ffffff14;
     --md-sys-state-focus-state-layer: #ffffff1a;
     --md-sys-state-pressed-state-layer: #ffffff1a;
-
     --md-sys-color-red: var(--md-ref-palette-red80);
     --md-sys-color-red-container: var(--md-ref-palette-red30);
     --md-sys-color-on-red: var(--md-ref-palette-red20);
     --md-sys-color-on-red-container: var(--md-ref-palette-red90);
     --md-sys-color-inverse-red: var(--md-ref-palette-red40);
-
     --md-sys-color-blue: var(--md-ref-palette-blue80);
     --md-sys-color-blue-container: var(--md-ref-palette-blue30);
     --md-sys-color-on-blue: var(--md-ref-palette-blue20);
     --md-sys-color-on-blue-container: var(--md-ref-palette-blue90);
     --md-sys-color-inverse-blue: var(--md-ref-palette-blue40);
-
     --md-sys-color-green: var(--md-ref-palette-green80);
     --md-sys-color-green-container: var(--md-ref-palette-green30);
     --md-sys-color-on-green: var(--md-ref-palette-green20);
     --md-sys-color-on-green-container: var(--md-ref-palette-green90);
     --md-sys-color-inverse-green: var(--md-ref-palette-green40);
-
     --md-sys-color-yellow: var(--md-ref-palette-yellow80);
     --md-sys-color-yellow-container: var(--md-ref-palette-yellow30);
     --md-sys-color-on-yellow: var(--md-ref-palette-yellow20);
     --md-sys-color-on-yellow-container: var(--md-ref-palette-yellow90);
     --md-sys-color-inverse-yellow: var(--md-ref-palette-yellow40);
-
     --md-sys-color-purple: var(--md-ref-palette-purple80);
     --md-sys-color-purple-container: var(--md-ref-palette-purple30);
     --md-sys-color-on-purple: var(--md-ref-palette-purple20);

@@ -2,22 +2,21 @@
 
 .MainLayout {
   display: grid;
-  grid-template-columns: max-content auto;
   position: relative;
-  height: 100%;
   z-index: 1;
+  height: 100%;
+  grid-template-columns: max-content auto;
 
   .content-flow {
     display: grid;
-    align-content: space-between;
     align-items: start;
+    place-content: space-between center;
+    position: relative;
+    width: 100%;
+    overflow: auto;
     column-gap: 24px;
     grid-column: 2;
     grid-template-columns: repeat(12, minmax(60px, 72px));
-    justify-content: center;
-    position: relative;
-    width: 100%;
-    overflow: overlay;
     scroll-behavior: smooth;
     scroll-padding-top: 120px;
     scrollbar-width: thin;
@@ -31,8 +30,8 @@
 
       .avatar-box {
         position: relative;
-        height: 420px;
         width: 420px;
+        height: 420px;
         text-align: center;
 
         h3 {
@@ -45,70 +44,74 @@
               opacity: 0;
               transform: scale(0.3) translateY(42px) rotateZ(24deg);
             }
+
             25% {
               opacity: 1;
             }
+
             100% {
               clip-path: inset(
                 0% calc(0% + 12px) 0% 0% round var(--md-sys-shape-corner-small)
                   var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large)
               );
-              transform: scale(1) translateY(0px) rotateZ(0deg);
+              transform: scale(1) translateY(0) rotateZ(0deg);
             }
           }
 
           position: absolute;
           top: 280px;
           left: 50%;
-          max-width: 420px;
+          z-index: 2;
           width: max-content;
-          padding-block: 6px;
-          padding-inline: 12px 24px;
+          max-width: 420px;
           color: var(--md-sys-color-on-primary-container);
           text-align: justify;
           background-color: var(--md-sys-color-primary-container);
-          animation: avatar-box-h3 var(--md-sys-motion-spring-slow-spatial-duration)
-            var(--md-sys-motion-spring-slow-spatial)
-            var(--md-sys-motion-spring-fast-spatial-duration) both;
           overflow: hidden;
           transition:
             color var(--md-sys-motion-spring-slow-effect-duration)
               var(--md-sys-motion-spring-slow-effect),
             background-color var(--md-sys-motion-spring-slow-effect-duration)
               var(--md-sys-motion-spring-slow-effect);
-          transform-origin: 0px 0px;
-          z-index: 2;
+          animation: avatar-box-h3 var(--md-sys-motion-spring-slow-spatial-duration)
+            var(--md-sys-motion-spring-slow-spatial)
+            var(--md-sys-motion-spring-fast-spatial-duration) both;
+          padding-block: 6px;
+          padding-inline: 12px 24px;
+          transform-origin: 0 0;
         }
 
         img {
           position: relative;
-          bottom: 50%;
           top: 50%;
-          height: 300px;
-          width: 300px;
-          mask: var(--via-svg-mask) no-repeat 0 / 100%;
-          translate: 0px -50%;
-          user-select: none;
+          bottom: 50%;
           z-index: 1;
-          -moz-user-select: none;
+          width: 300px;
+          height: 300px;
+          mask: var(--via-svg-mask) no-repeat 0 / 100%;
+          translate: 0 -50%;
+          user-select: none;
         }
 
         span {
           @keyframes avatar-box-span {
             0% {
               background-color: var(--md-sys-color-blue);
-
               transform: rotate(0deg);
             }
+
             25% {
               background-color: var(--md-sys-color-red);
             }
+
             50% {
               background-color: var(--md-sys-color-yellow);
             }
+
             75% {
               background-color: var(--md-sys-color-purple);
             }
+
             100% {
               background-color: var(--md-sys-color-green);
               transform: rotate(360deg);
@@ -116,34 +119,34 @@
           }
 
           position: absolute;
-          left: 70px;
           top: 170px;
-          height: 200px;
+          left: 70px;
+          z-index: 0;
           width: 200px;
+          height: 200px;
+          opacity: 0.5;
           animation: avatar-box-span 60s linear infinite;
           mask:
             linear-gradient(45deg, black, transparent),
             var(--via-svg-mask) 0 / 100% no-repeat;
           mask-composite: intersect;
           mask-mode: alpha;
-          opacity: 0.5;
           user-select: none;
-          z-index: 0;
-          -moz-user-select: none;
         }
       }
 
       .title {
         display: flex;
-        align-items: center;
         flex-direction: column;
-        gap: 12px;
+        align-items: center;
         justify-content: left;
+        gap: 12px;
         width: 100%;
         margin-block-end: 84px;
 
         h1 {
           @include mixin.typescale-style("display-large");
+
           font-variation-settings: "wght" 600;
           text-align: center;
           word-break: keep-all;
@@ -151,7 +154,7 @@
       }
     }
 
-    @media screen and (max-width: 1600px) {
+    @media screen and (width <= 1600px) {
       grid-template-columns: repeat(12, minmax(60px, 72px));
 
       .home-content {
@@ -159,7 +162,7 @@
       }
     }
 
-    @media screen and (max-width: 1200px) {
+    @media screen and (width <= 1200px) {
       grid-template-columns: repeat(8, 1fr);
       width: 100%;
 
@@ -168,9 +171,9 @@
       }
     }
 
-    @media screen and (max-width: 840px) {
+    @media screen and (width <= 840px) {
       grid-template-columns: repeat(6, 1fr);
-      padding-block: 0px;
+      padding-block: 0;
 
       .home-content {
         grid-column: span 6;
@@ -189,7 +192,7 @@
       }
     }
 
-    @media screen and (max-width: 600px) {
+    @media screen and (width <= 600px) {
       grid-template-columns: repeat(4, 1fr);
 
       .home-content {
@@ -210,8 +213,8 @@
     }
   }
 
-  @media screen and (max-width: 840px) {
-    grid-template-columns: 0px auto;
+  @media screen and (width <= 840px) {
+    grid-template-columns: 0 auto;
     grid-template-rows: auto 64px;
   }
 }

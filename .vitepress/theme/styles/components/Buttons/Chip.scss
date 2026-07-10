@@ -2,10 +2,11 @@
 
 .chip {
   @include mixin.typescale-style("label-large");
+
   gap: 8px;
+  border-radius: var(--md-sys-shape-corner-small);
   height: 32px;
   padding-inline: 16px;
-  border-radius: var(--md-sys-shape-corner-small);
   outline-width: 1px;
 
   span {

@@ -2,16 +2,16 @@
 
 .ArticleMasonry {
   display: flex;
-  align-items: flex-start;
   flex-direction: column;
+  align-items: flex-start;
   gap: 12px;
   width: 100%;
 
   .toolbar {
     display: flex;
     align-items: center;
-    gap: 12px;
     justify-content: flex-end;
+    gap: 12px;
     position: relative;
 
     .filter {
@@ -19,46 +19,45 @@
 
       .panel {
         position: absolute;
-        left: -12px;
         top: -12px;
-        transform-origin: top left;
+        left: -12px;
         z-index: 100;
+        transform-origin: top left;
 
         .container {
           display: flex;
           flex-direction: column;
           gap: 24px;
-          padding: 24px;
-          max-width: 520px;
-          min-width: 340px;
           border-radius: var(--md-sys-shape-corner-extra-large);
+          box-shadow: 0 1px 6px -3px var(--md-sys-color-shadow);
+          padding: 24px;
+          min-width: 340px;
+          max-width: 520px;
           background-color: var(--md-sys-color-surface-container-low);
-          box-shadow: 0px 1px 6px -3px var(--md-sys-color-shadow);
-          overflow-y: overlay;
+          overflow-y: auto;
           transform-origin: top left;
         }
 
         .section {
           h6 {
             display: inline-flex;
+            flex-flow: row nowrap;
             align-items: center;
-            flex-direction: row;
-            flex-wrap: nowrap;
             gap: 4px;
             margin-block-end: 12px;
 
             span {
               @include mixin.material-symbols($size: 16rem);
+
               cursor: pointer;
             }
           }
 
           .page-size-options {
             display: flex;
-            flex-direction: row;
-            flex-wrap: nowrap;
-            gap: 2px;
+            flex-flow: row nowrap;
             justify-content: center;
+            gap: 2px;
           }
 
           .chip-container {
@@ -68,27 +67,27 @@
           }
         }
 
-        @media screen and (max-width: 1600px) {
-          left: 0px;
-          top: 0px;
+        @media screen and (width <= 1600px) {
+          top: 0;
+          left: 0;
         }
 
-        @media screen and (max-width: 840px) {
+        @media screen and (width <= 840px) {
           position: fixed;
-          left: 0px;
-          top: 0px;
-          height: 100%;
+          top: 0;
+          left: 0;
+          z-index: 999;
           width: 100%;
+          height: 100%;
           backdrop-filter: brightness(0.5);
           transform-origin: center center;
-          z-index: 999;
 
           .container {
             position: absolute;
-            left: 50%;
             top: 50%;
-            max-width: 380px;
+            left: 50%;
             min-width: 330px;
+            max-width: 380px;
             transform-origin: center center;
             translate: -50% -50%;
           }
@@ -104,11 +103,10 @@
 
     .empty-state {
       display: flex;
+      flex-flow: column nowrap;
       align-items: center;
-      flex-direction: column;
-      flex-wrap: nowrap;
-      gap: 42px;
       justify-content: center;
+      gap: 42px;
       width: 100%;
 
       .icon {
@@ -118,10 +116,10 @@
 
     .masonry-column {
       display: flex;
-      flex-direction: column;
       flex: 1;
+      flex-direction: column;
       gap: 12px;
-      min-width: 0px;
+      min-width: 0;
 
       .MaterialCard {
         width: 100%;
@@ -132,8 +130,8 @@
   .page-navigator {
     display: flex;
     align-items: center;
-    gap: 16px;
     justify-content: center;
+    gap: 16px;
     width: 100%;
 
     .page-info-wrapper {
@@ -143,12 +141,13 @@
 
       input {
         @include mixin.typescale-style("body-large");
+
+        border: none;
+        border-radius: var(--md-sys-shape-corner-large);
         padding: 6px;
         width: 48px;
         color: var(--md-sys-color-on-surface);
         text-align: center;
-        border-radius: var(--md-sys-shape-corner-large);
-        border: none;
         background-color: transparent;
       }
     }

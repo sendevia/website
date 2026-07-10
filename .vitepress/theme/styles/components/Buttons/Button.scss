@@ -72,6 +72,7 @@ $config: (
 @each $size, $config in $config {
   .standard.#{$size} {
     @include mixin.typescale-style(map.get($config, "typescale"));
+
     gap: map.get($config, "gap");
     height: map.get($config, "height");
     padding-inline: map.get($config, "padding-inline");
@@ -105,9 +106,9 @@ $config: (
 
 .standard {
   &.elevated {
+    box-shadow: 0 1px 6px -3px var(--md-sys-color-shadow);
     color: var(--md-sys-color-primary);
     background-color: var(--md-sys-color-surface-container-low);
-    box-shadow: 0px 1px 6px -3px var(--md-sys-color-shadow);
 
     &.selected {
       color: var(--md-sys-color-on-primary);
