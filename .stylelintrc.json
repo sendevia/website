@@ -1,0 +1,81 @@
+{
+  "extends": ["stylelint-config-standard-scss"],
+  "plugins": ["stylelint-order"],
+  "rules": {
+    "selector-class-pattern": [
+      "^([A-Z][a-zA-Z0-9]*(-[a-z][a-z0-9]*)*|[a-z][a-z0-9]*(-[a-z0-9]+)*)$",
+      {
+        "message": "预期类名使用 PascalCase（根组件）或 kebab-case（子元素）"
+      }
+    ],
+    "font-family-no-missing-generic-family-keyword": null,
+    "property-no-deprecated": [
+      true,
+      {
+        "ignoreProperties": ["clip"]
+      }
+    ],
+    "declaration-property-value-keyword-no-deprecated": null,
+    "scss/operator-no-unspaced": true,
+    "order/properties-order": [
+      "display",
+      "flex",
+      "flex-direction",
+      "flex-wrap",
+      "flex-grow",
+      "flex-shrink",
+      "align-items",
+      "align-content",
+      "justify-content",
+      "gap",
+      "position",
+      "top",
+      "right",
+      "bottom",
+      "left",
+      "z-index",
+      "inset",
+      "margin",
+      "margin-top",
+      "margin-right",
+      "margin-bottom",
+      "margin-left",
+      "border",
+      "border-radius",
+      "outline",
+      "box-shadow",
+      "padding",
+      "padding-top",
+      "padding-right",
+      "padding-bottom",
+      "padding-left",
+      "width",
+      "height",
+      "min-width",
+      "min-height",
+      "max-width",
+      "max-height",
+      "color",
+      "font",
+      "font-family",
+      "font-size",
+      "font-weight",
+      "font-style",
+      "letter-spacing",
+      "line-height",
+      "text-align",
+      "text-decoration",
+      "text-overflow",
+      "text-transform",
+      "background",
+      "background-color",
+      "opacity",
+      "filter",
+      "backdrop-filter",
+      "overflow",
+      "cursor",
+      "transition",
+      "animation"
+    ]
+  }
+}

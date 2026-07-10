@@ -8,13 +8,14 @@
     "docs:build": "vitepress build",
     "docs:build-cf": "git fetch --unshallow && vitepress build",
     "docs:preview": "vitepress preview",
-    "lint": "eslint . --fix && prettier --write .",
-    "format": "prettier --write ."
+    "lint": "stylelint --fix \".vitepress/theme/**/*.scss\" && eslint . --fix && prettier --write --log-level=warn .",
+    "lint:style": "stylelint --fix \".vitepress/theme/**/*.scss\"",
+    "format": "prettier --write --log-level=warn ."
   },
   "dependencies": {
     "@material/material-color-utilities": "0.4",
-    "vue": "^3",
-    "pinia": "^3"
+    "pinia": "^3",
+    "vue": "^3"
   },
   "devDependencies": {
     "@mdit/plugin-align": "^1",
@@ -24,15 +25,18 @@
     "@mdit/plugin-tasklist": "^1",
     "@types/node": "^24",
     "@vueuse/core": "^14",
+    "eslint": "^10",
     "eslint-config-prettier": "^10",
     "eslint-plugin-prettier": "^5",
     "eslint-plugin-vue": "^10",
-    "eslint": "^10",
     "markdown-it-mathjax3": "^4",
     "prettier": "^3",
     "sass-embedded": "^1",
-    "typescript-eslint": "^8",
+    "stylelint": "^17",
+    "stylelint-config-standard-scss": "^17",
+    "stylelint-order": "^8",
     "typescript": "^6",
+    "typescript-eslint": "^8",
     "vitepress": "2.0.0-alpha.18",
     "vue-eslint-parser": "^10",
     "vue-tsc": "^3"
