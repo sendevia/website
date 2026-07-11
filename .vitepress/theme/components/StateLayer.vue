@@ -1,26 +1,25 @@
 <script setup lang="ts">
 /**
  * 状态层组件 (StateLayer)
- * 实现 MD3E 风格的状态叠加（Hover/Focus/Active）及水波纹（Ripple）反馈效果
+ * 实现 MD3E 风格的状态叠加（Hover/Focus/Active）及水波纹（Ripple）和边缘噪点反馈效果
  */
 import { ref, computed, nextTick, type ComponentPublicInstance } from "vue";
 import { useParentElement, useElementHover, useEventListener } from "@vueuse/core";
 
-/** StateLayer 组件属性定义 */
 interface Props {
-  /** 悬停状态背景色 */
+  /** 悬停状态层颜色 */
   hoverColor?: string;
-  /** 聚焦状态背景色 */
+  /** 聚焦状态层颜色 */
   focusColor?: string;
-  /** 激活状态背景色 */
+  /** 激活/按压状态层颜色 */
   activeColor?: string;
-  /** 是否启用悬停效果响应 */
+  /** 是否启用悬停效果 */
   hoverEnabled?: boolean;
-  /** 是否启用聚焦效果响应 */
+  /** 是否启用聚焦效果 */
   focusEnabled?: boolean;
-  /** 是否启用激活效果响应 */
+  /** 是否启用按压效果 */
   activeEnabled?: boolean;
-  /** 强制指定的当前状态，优先级高于内部交互状态 */
+  /** 强制指定状态（外部控制，优先级高于自动检测） */
   state?: "hover" | "focus" | "active" | "none";
 }
 
@@ -34,76 +33,136 @@ const props = withDefaults(defineProps<Props>(), {
   state: "none",
 });
 
-/** 挂载的父容器元素引用，用于主动绑定交互事件 */
+/** 噪点密度与直径 */
+const NOISE_DENSITY = 2000;
+const NOISE_DOT_SIZE = 1.5;
+
 const parent = useParentElement();
-
-/** 追踪是否处于悬停状态 */
 const isHovered = useElementHover(parent);
-/** 追踪是否处于聚焦状态 */
 const isFocused = ref(false);
-/** 追踪是否处于按压或激活动作中 */
 const isActive = ref(false);
-/** 是否由指针交互触发的焦点，用于避免点击后仍然显示 Focus 状态层 */
 const isPointerFocus = ref(false);
-/** 是否由键盘交互触发的焦点，保留键盘导航时的 Focus 显示 */
 const isKeyboardFocus = ref(false);
-/** 只有键盘触发的焦点才会显示 Focus 状态层 */
-const isFocusVisible = computed(
-  () => isFocused.value && !isPointerFocus.value && isKeyboardFocus.value,
-);
+const isFocusVisible = computed(() => isFocused.value && isKeyboardFocus.value);
 
-/** 单个水波纹数据模型 */
-interface Ripple {
-  /** 波纹的唯一标识符 */
-  id: number;
-  /** 波纹扩散原点 X 坐标 */
-  x: number;
-  /** 波纹扩散原点 Y 坐标 */
-  y: number;
-  /** 波纹扩散的最大直径 */
-  size: number;
-  /** 波纹是否已进入退场动画状态 */
-  isClosing: boolean;
+interface NoiseDot {
+  angle: number;
+  distance: number;
+  delay: number;
+  duration: number;
 }
 
-/** 当前处于活跃状态的水波纹实例列表 */
+interface Ripple {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+  isClosing: boolean;
+  noiseDots: NoiseDot[];
+}
+
+interface CanvasAnim {
+  animFrame: number;
+  startTime: number;
+  fadeStartTime: number;
+}
+
 const ripples = ref<Ripple[]>([]);
-/** 保存水波纹 DOM 元素的哈希映射，便于 O(1) 访问 */
-const rippleElements = new Map<number, HTMLElement>();
-/** 波纹 ID 生成器 */
+const rippleEl = new Map<number, HTMLElement>();
+const canvasAnims = new Map<number, CanvasAnim>();
 let rippleIdCounter = 0;
 
-/**
- * 设置对应水波纹的真实 DOM 引用
- * @param el 捕获的 DOM 节点或组件实例
- * @param id 所属波纹的唯一标识
- */
-const setRippleRef = (el: Element | ComponentPublicInstance | null, id: number) => {
-  if (el) {
-    rippleElements.set(id, el as HTMLElement);
-  } else {
-    // 配合 Vue 生命周期当元素卸载(el为null)时释放引用，防止内存泄漏
-    rippleElements.delete(id);
+const setRippleRef = (el: Element | ComponentPublicInstance | null, id: number): void => {
+  if (el) rippleEl.set(id, el as HTMLElement);
+  else rippleEl.delete(id);
+};
+
+const removeRipple = (id: number): void => {
+  const idx = ripples.value.findIndex((r) => r.id === id);
+  if (idx >= 0) ripples.value.splice(idx, 1);
+};
+
+const stopNoiseCanvas = (id: number): void => {
+  const anim = canvasAnims.get(id);
+  if (anim) {
+    cancelAnimationFrame(anim.animFrame);
+    canvasAnims.delete(id);
   }
 };
 
 /**
- * 移除指定的波纹数据实例
- * @param id 需要被清除逻辑的波纹标识
+ * 初始化噪点 Canvas 并启动动画循环
+ * 使用 requestAnimationFrame + Canvas 2D 绘制，性能优于 DOM 元素
  */
-const removeRipple = (id: number) => {
-  const index = ripples.value.findIndex((it) => it.id === id);
-  if (index !== -1) ripples.value.splice(index, 1);
+const initNoiseCanvas = (el: HTMLCanvasElement | null, ripple: Ripple): void => {
+  if (!el || ripple.noiseDots.length === 0) return;
+
+  const dpr = window.devicePixelRatio || 1;
+  const cssSize = ripple.size;
+  const bufferSize = Math.round(cssSize * dpr);
+  const halfBuffer = bufferSize / 2;
+
+  el.style.top = "0";
+  el.style.left = "0";
+  el.style.width = cssSize + "px";
+  el.style.height = cssSize + "px";
+  el.width = bufferSize;
+  el.height = bufferSize;
+
+  const ctx = el.getContext("2d")!;
+  const dotRadius = (NOISE_DOT_SIZE * dpr) / 2;
+  const dotPositions = ripple.noiseDots.map((dot) => ({
+    x: halfBuffer + Math.cos(dot.angle) * dot.distance * dpr,
+    y: halfBuffer + Math.sin(dot.angle) * dot.distance * dpr,
+  }));
+
+  const anim: CanvasAnim = { startTime: performance.now(), animFrame: 0, fadeStartTime: 0 };
+  const FADE_DURATION = 400;
+
+  const tick = (now: number): void => {
+    const elapsed = (now - anim.startTime) / 1000;
+
+    if (ripple.isClosing && anim.fadeStartTime === 0) anim.fadeStartTime = now;
+
+    let fadeAlpha = 1;
+    if (anim.fadeStartTime > 0) {
+      fadeAlpha = 1 - Math.min(1, (now - anim.fadeStartTime) / FADE_DURATION);
+    }
+
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, bufferSize, bufferSize);
+    ctx.fillStyle = "#ffffff";
+
+    for (let i = 0; i < ripple.noiseDots.length; i++) {
+      const dot = ripple.noiseDots[i];
+      const phase = ((elapsed - dot.delay) / dot.duration) * Math.PI * 2;
+      const opacity = Math.max(0, Math.sin(phase)) * fadeAlpha;
+
+      if (opacity > 0.01) {
+        ctx.globalAlpha = opacity;
+        ctx.beginPath();
+        ctx.arc(dotPositions[i].x, dotPositions[i].y, dotRadius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    if (fadeAlpha > 0) anim.animFrame = requestAnimationFrame(tick);
+  };
+
+  anim.animFrame = requestAnimationFrame(tick);
+  canvasAnims.set(ripple.id, anim);
 };
 
 /**
- * 响应按压动作（鼠标按下/触摸开始），生成新水波纹
- * @param e 触摸或鼠标事件对象
+ * 按压处理：创建水波纹并播放展开动画
  */
-const handlePress = (e: MouseEvent | TouchEvent) => {
+const handlePress = (e: MouseEvent | TouchEvent): void => {
   if (!props.activeEnabled) return;
 
   isActive.value = true;
+  isPointerFocus.value = true;
+  isKeyboardFocus.value = false;
+
   const el = parent.value;
   if (!el) return;
 
@@ -113,136 +172,126 @@ const handlePress = (e: MouseEvent | TouchEvent) => {
 
   const x = point.clientX - rect.left;
   const y = point.clientY - rect.top;
-
-  // 使用 Math.hypot 直接推导四角距离取最大值，避免无谓的数组重复分配
-  const maxRadius = Math.max(
+  const radius = Math.max(
     Math.hypot(x, y),
     Math.hypot(rect.width - x, y),
     Math.hypot(x, rect.height - y),
     Math.hypot(rect.width - x, rect.height - y),
   );
-
-  const size = maxRadius * 2;
+  const size = radius * 2;
   const id = rippleIdCounter++;
 
-  ripples.value.push({ id, x, y, size, isClosing: false });
+  const noiseDots: NoiseDot[] =
+    NOISE_DENSITY > 0
+      ? Array.from({ length: NOISE_DENSITY }, () => ({
+          angle: Math.random() * Math.PI * 2,
+          distance: Math.pow(Math.random(), 0.15) * radius,
+          delay: Math.random() * 0.6,
+          duration: 0.5 + Math.random() * 0.8,
+        }))
+      : [];
 
-  // DOM 渲染结束后触发出场渲染与渐显组合动画
+  ripples.value.push({ id, x, y, size, isClosing: false, noiseDots });
+
   nextTick(() => {
-    const rippleEl = rippleElements.get(id);
-    if (!rippleEl) return;
+    const rippleNode = rippleEl.get(id);
+    if (!rippleNode) return;
 
-    rippleEl.animate(
+    rippleNode.animate(
       [
         { transform: "translate(-50%, -50%) scale(0)", opacity: 0 },
         { opacity: 0.12, offset: 0.2 },
-        { transform: "translate(-50%, -50%) scale(1)", opacity: 0.12 },
+        { transform: "translate(-50%, -50%) scale(1)", opacity: 0.1 },
       ],
-      // md-sys-motion-spring-slow-effect
       { duration: 300, easing: "cubic-bezier(0.34, 0.88, 0.34, 1)", fill: "forwards" },
     );
   });
 };
 
 /**
- * 响应释放按压，使未结束波纹平稳进入透明衰退动画
+ * 释放处理：播放波纹淡出动画并移除
  */
-const handleRelease = () => {
+const handleRelease = (): void => {
   isActive.value = false;
 
-  ripples.value.forEach((ripple) => {
-    if (ripple.isClosing) return;
-
+  for (const ripple of ripples.value) {
+    if (ripple.isClosing) continue;
     ripple.isClosing = true;
-    const rippleEl = rippleElements.get(ripple.id);
 
-    if (rippleEl) {
-      // 提取计算当前实时的层级透明度，达成完美的非线性中断退场衔接
-      const currentOpacity = window.getComputedStyle(rippleEl).opacity;
-
-      const fadeOutAnim = rippleEl.animate([{ opacity: currentOpacity }, { opacity: 0 }], {
-        // md-sys-motion-spring-slow-effect
-        duration: 300,
-        easing: "cubic-bezier(0.34, 0.88, 0.34, 1)",
-        fill: "forwards",
-      });
-
-      fadeOutAnim.onfinish = () => removeRipple(ripple.id);
-    } else {
+    const rippleNode = rippleEl.get(ripple.id);
+    if (!rippleNode) {
       removeRipple(ripple.id);
+      continue;
     }
-  });
+
+    const fadeOut = rippleNode.animate(
+      [{ opacity: window.getComputedStyle(rippleNode).opacity }, { opacity: 0 }],
+      { duration: 300, easing: "cubic-bezier(0.34, 0.88, 0.34, 1)", fill: "forwards" },
+    );
+    fadeOut.onfinish = () => {
+      stopNoiseCanvas(ripple.id);
+      removeRipple(ripple.id);
+    };
+  }
 };
 
 useEventListener(parent, "focus", () => {
   isFocused.value = true;
   isKeyboardFocus.value = !isPointerFocus.value;
 });
+
 useEventListener(parent, "blur", () => {
   isFocused.value = false;
   isPointerFocus.value = false;
   isKeyboardFocus.value = false;
 });
-useEventListener(parent, "mousedown", (e: MouseEvent) => {
-  isPointerFocus.value = true;
-  isKeyboardFocus.value = false;
-  handlePress(e);
-});
-// 标记 passive 对于滚动页面时的触控性能有显著提升响应效果
-useEventListener(
-  parent,
-  "touchstart",
-  (e: TouchEvent) => {
-    isPointerFocus.value = true;
-    isKeyboardFocus.value = false;
-    handlePress(e);
-  },
-  { passive: true },
-);
+
+useEventListener(parent, "mousedown", handlePress);
+useEventListener(parent, "touchstart", handlePress, { passive: true });
 useEventListener(parent, "keydown", () => {
   isPointerFocus.value = false;
   isKeyboardFocus.value = true;
 });
+
 useEventListener(parent, "mouseup", handleRelease);
 useEventListener(parent, "touchend", handleRelease);
 useEventListener(parent, "mouseleave", handleRelease);
-// 考虑设备因长按拖拽划出窗口或特殊情况产生的物理中断现象
 useEventListener(parent, "touchcancel", handleRelease);
 
-/**
- * 计算当前表现的层级底色，基于明确的层级优先级或外部传参推断
- */
-const computedBackgroundColor = computed(() => {
-  // 若外部明确强制指定了状态覆盖，优先校验该对应参数
+/** 计算当前状态层背景色 */
+const stateLayerBg = computed((): string => {
   if (props.state !== "none") {
-    if (props.state === "hover" && props.hoverEnabled) return props.hoverColor;
-    if (props.state === "focus" && props.focusEnabled) return props.focusColor;
-    if (props.state === "active" && props.activeEnabled) return props.activeColor;
-    return "transparent";
+    if (props.state === "active") return props.activeColor;
+    if (props.state === "focus") return props.focusColor;
+    return props.hoverColor;
   }
-
-  // 内部优先级由高到底依次判断：Active > Focus > Hover
   if (isActive.value && props.activeEnabled) return props.activeColor;
   if (isFocusVisible.value && props.focusEnabled) return props.focusColor;
   if (isHovered.value && props.hoverEnabled) return props.hoverColor;
-
   return "transparent";
 });
 </script>
 
 <template>
-  <div class="StateLayer" aria-hidden="true" :style="{ backgroundColor: computedBackgroundColor }">
+  <div class="StateLayer" aria-hidden="true" :style="{ backgroundColor: stateLayerBg }">
     <div
       v-for="ripple in ripples"
       :key="ripple.id"
-      :ref="(el) => setRippleRef(el, ripple.id)"
-      class="ripple"
+      class="ripple-wrapper"
       :style="{
         '--ripple-x': ripple.x + 'px',
         '--ripple-y': ripple.y + 'px',
         '--ripple-size': ripple.size + 'px',
       }"
-    ></div>
+    >
+      <div :ref="(el) => setRippleRef(el, ripple.id)" class="ripple">
+        <canvas
+          v-if="ripple.noiseDots.length > 0"
+          :ref="(el) => initNoiseCanvas(el as HTMLCanvasElement | null, ripple)"
+          class="noise-canvas"
+        />
+      </div>
+    </div>
   </div>
 </template>
 

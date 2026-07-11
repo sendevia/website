@@ -9,16 +9,31 @@
   transition: background-color var(--md-sys-motion-spring-fast-effect-duration)
     var(--md-sys-motion-spring-fast-effect);
 
-  .ripple {
+  .ripple-wrapper {
     position: absolute;
     top: var(--ripple-y);
     left: var(--ripple-x);
-    border-radius: 50%;
-    width: var(--ripple-size);
-    height: var(--ripple-size);
-    background-color: var(--md-sys-color-on-surface);
-    opacity: 0;
     pointer-events: none;
-    transform: translate(-50%, -50%) scale(0);
+
+    .ripple {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 50%;
+      width: var(--ripple-size);
+      height: var(--ripple-size);
+      background-color: var(--md-sys-color-on-surface);
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(0);
+    }
+
+    .noise-canvas {
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+      mix-blend-mode: hard-light;
+      isolation: isolate;
+    }
   }
 }
