@@ -1,6 +1,8 @@
 import { defineConfig } from "vitepress";
 import packageJson from "../package.json";
 
+import type { ThemeConfig } from "../types/types";
+
 import { align } from "@mdit/plugin-align";
 import { anchor } from "./theme/utils/mdCustomAnchor";
 import { footnote } from "@mdit/plugin-footnote";
@@ -11,7 +13,7 @@ import { tab } from "@mdit/plugin-tab";
 import { table } from "./theme/utils/mdTable";
 import { tasklist } from "@mdit/plugin-tasklist";
 
-export default defineConfig({
+export default defineConfig<ThemeConfig>({
   base: "/",
   cleanUrls: true,
   rewrites: {
@@ -112,7 +114,7 @@ export default defineConfig({
         link: "/tools/",
       },
     ],
-  } as const,
+  } satisfies ThemeConfig,
   vite: {
     build: {
       minify: true,

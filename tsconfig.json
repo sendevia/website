@@ -8,5 +8,5 @@
     "skipLibCheck": true,
     "jsx": "preserve"
   },
-  "include": [".vitepress/**/*.ts", ".vitepress/**/*.vue", "types/**/*.d.ts"]
+  "include": [".vitepress/**/*.ts", ".vitepress/**/*.vue", "types/**/*.d.ts", "types/types.ts"]
 }
