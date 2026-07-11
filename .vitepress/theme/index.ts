@@ -1,5 +1,3 @@
-/// <reference types="../../types/scss.d.ts" />
-
 import type { Theme } from "vitepress";
 import { createPinia } from "pinia";
 
@@ -20,8 +18,6 @@ import PageIndicator from "./components/PageIndicator.vue";
 import PrevNext from "./components/PrevNext.vue";
 import ScrollToTop from "./components/ScrollToTop.vue";
 import StateLayer from "./components/StateLayer.vue";
-
-import "./styles/main.scss";
 
 export default {
   Layout: Default,

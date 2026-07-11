@@ -1,4 +1,4 @@
-@use "../mixin";
+@use "../Mixin";
 
 .Footer {
   display: flex;
@@ -16,7 +16,7 @@
     text-decoration: none;
 
     &:focus-visible {
-      @include mixin.focus-ring($thickness: 3, $offset: 2);
+      @include Mixin.focus-ring($thickness: 3, $offset: 2);
     }
   }
 
@@ -30,7 +30,7 @@
 
     a,
     p {
-      @include mixin.typescale-style("label-small");
+      @include Mixin.typescale-style("label-small");
     }
   }
 

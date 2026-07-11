@@ -1,5 +1,5 @@
-@use "mixin";
-@use "tokens";
+@use "Mixin";
+@use "Tokens";
 
 * {
   box-sizing: border-box;
@@ -88,7 +88,7 @@ $typescale-map: (
 
 @each $selector, $style in $typescale-map {
   #{$selector} {
-    @include mixin.typescale-style($style);
+    @include Mixin.typescale-style($style);
 
     margin: 0;
   }

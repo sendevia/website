@@ -1,4 +1,4 @@
-@use "../mixin";
+@use "../Mixin";
 
 .AnchorLink {
   user-select: none;
@@ -6,7 +6,7 @@
     var(--md-sys-motion-spring-fast-effect);
 
   &.normal {
-    @include mixin.typescale-style("body-large");
+    @include Mixin.typescale-style("body-large");
 
     display: flex;
     flex-direction: column;
@@ -22,7 +22,7 @@
     opacity: 0;
 
     .symbol {
-      @include mixin.material-symbols;
+      @include Mixin.material-symbols;
 
       display: block;
       position: sticky;
@@ -37,12 +37,12 @@
       background-color: transparent;
 
       &:focus-visible {
-        @include mixin.focus-ring($thickness: 3, $offset: 2);
+        @include Mixin.focus-ring($thickness: 3, $offset: 2);
       }
     }
 
     .feedback {
-      @include mixin.typescale-style("label-medium");
+      @include Mixin.typescale-style("label-medium");
 
       position: sticky;
       top: 57px;

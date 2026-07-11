@@ -1,4 +1,4 @@
-@use "mixin";
+@use "Mixin";
 
 :root {
   // Base colors
@@ -164,21 +164,21 @@
   $level1-font-family: "Google Sans Flex", "Noto Sans SC", sans-serif;
   $level2-font-family: "Google Sans Flex", "Noto Sans SC", sans-serif;
 
-  @include mixin.typescale("display-large", $level1-font-family, 57, -0.25, 64, 400);
-  @include mixin.typescale("display-medium", $level1-font-family, 45, 0, 52, 400);
-  @include mixin.typescale("display-small", $level1-font-family, 36, 0, 44, 400);
-  @include mixin.typescale("headline-large", $level1-font-family, 32, 0, 40, 400);
-  @include mixin.typescale("headline-medium", $level1-font-family, 28, 0, 36, 400);
-  @include mixin.typescale("headline-small", $level1-font-family, 24, 0, 32, 400);
-  @include mixin.typescale("title-large", $level1-font-family, 22, 0, 28, 400);
-  @include mixin.typescale("title-medium", $level2-font-family, 16, 0.15, 24, 500);
-  @include mixin.typescale("title-small", $level2-font-family, 14, 0.1, 20, 500);
-  @include mixin.typescale("body-large", $level2-font-family, 16, 0.5, 24, 400);
-  @include mixin.typescale("body-medium", $level2-font-family, 14, 0.25, 20, 400);
-  @include mixin.typescale("body-small", $level2-font-family, 12, 0.4, 16, 400);
-  @include mixin.typescale("label-large", $level2-font-family, 14, 0.1, 20, 500);
-  @include mixin.typescale("label-medium", $level2-font-family, 12, 0.5, 16, 500);
-  @include mixin.typescale("label-small", $level2-font-family, 11, 0.5, 16, 500);
+  @include Mixin.typescale("display-large", $level1-font-family, 57, -0.25, 64, 400);
+  @include Mixin.typescale("display-medium", $level1-font-family, 45, 0, 52, 400);
+  @include Mixin.typescale("display-small", $level1-font-family, 36, 0, 44, 400);
+  @include Mixin.typescale("headline-large", $level1-font-family, 32, 0, 40, 400);
+  @include Mixin.typescale("headline-medium", $level1-font-family, 28, 0, 36, 400);
+  @include Mixin.typescale("headline-small", $level1-font-family, 24, 0, 32, 400);
+  @include Mixin.typescale("title-large", $level1-font-family, 22, 0, 28, 400);
+  @include Mixin.typescale("title-medium", $level2-font-family, 16, 0.15, 24, 500);
+  @include Mixin.typescale("title-small", $level2-font-family, 14, 0.1, 20, 500);
+  @include Mixin.typescale("body-large", $level2-font-family, 16, 0.5, 24, 400);
+  @include Mixin.typescale("body-medium", $level2-font-family, 14, 0.25, 20, 400);
+  @include Mixin.typescale("body-small", $level2-font-family, 12, 0.4, 16, 400);
+  @include Mixin.typescale("label-large", $level2-font-family, 14, 0.1, 20, 500);
+  @include Mixin.typescale("label-medium", $level2-font-family, 12, 0.5, 16, 500);
+  @include Mixin.typescale("label-small", $level2-font-family, 11, 0.5, 16, 500);
 
   // Svg
   --via-svg-mask: url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTQyNy44NjQgNDI3Ljg2NGMtMTMuNTc4IDEzLjU3Ny0yNy42MTggOS40NTQtNDMuNTgzIDIwLjEyMi0xNS45NjYgMTAuNjY4LTE3LjUzIDI1LjIxNy0zNS4yNjkgMzIuNTY1LTE3Ljc0IDcuMzQ4LTI5LjEzMy0xLjgzNC00Ny45NjYgMS45MTItMTguODMyIDMuNzQ2LTI1Ljg0NCAxNi41OS00NS4wNDYgMTYuNTktMTkuMjAyIDAtMjYuMjE0LTEyLjg0NC00NS4wNDYtMTYuNTktMTguODMzLTMuNzQ2LTMwLjIyNiA1LjQzNi00Ny45NjYtMS45MTItMTcuNzQtNy4zNDgtMTkuMzAzLTIxLjg5Ny0zNS4yNjktMzIuNTY1LTE1Ljk2NS0xMC42NjgtMzAuMDA1LTYuNTQ1LTQzLjU4My0yMC4xMjItMTMuNTc3LTEzLjU3OC05LjQ1NC0yNy42MTgtMjAuMTIyLTQzLjU4My0xMC42NjgtMTUuOTY2LTI1LjIxNy0xNy41My0zMi41NjUtMzUuMjY5LTcuMzQ4LTE3Ljc0IDEuODM0LTI5LjEzMy0xLjkxMi00Ny45NjYtMy43NDYtMTguODMyLTE2LjU5LTI1Ljg0NC0xNi41OS00NS4wNDYgMC0xOS4yMDIgMTIuODQ0LTI2LjIxNCAxNi41OS00NS4wNDYgMy43NDYtMTguODMzLTUuNDM2LTMwLjIyNiAxLjkxMi00Ny45NjYgNy4zNDgtMTcuNzQgMjEuODk3LTE5LjMwMyAzMi41NjUtMzUuMjY5IDEwLjY2OC0xNS45NjUgNi41NDUtMzAuMDA1IDIwLjEyMi00My41ODMgMTMuNTc4LTEzLjU3NyAyNy42MTgtOS40NTQgNDMuNTgzLTIwLjEyMiAxNS45NjYtMTAuNjY4IDE3LjUzLTI1LjIxNyAzNS4yNjktMzIuNTY1IDE3Ljc0LTcuMzQ4IDI5LjEzMyAxLjgzNCA0Ny45NjYtMS45MTIgMTguODMyLTMuNzQ2IDI1Ljg0NC0xNi41OSA0NS4wNDYtMTYuNTkgMTkuMjAyIDAgMjYuMjE0IDEyLjg0NCA0NS4wNDYgMTYuNTkgMTguODMzIDMuNzQ2IDMwLjIyNi01LjQzNiA0Ny45NjYgMS45MTIgMTcuNzQgNy4zNDggMTkuMzAzIDIxLjg5NyAzNS4yNjkgMzIuNTY1IDE1Ljk2NSAxMC42NjggMzAuMDA1IDYuNTQ1IDQzLjU4MyAyMC4xMjIgMTMuNTc3IDEzLjU3OCA5LjQ1NCAyNy42MTggMjAuMTIyIDQzLjU4MyAxMC42NjggMTUuOTY2IDI1LjIxNyAxNy41MyAzMi41NjUgMzUuMjY5IDcuMzQ4IDE3Ljc0LTEuODM0IDI5LjEzMyAxLjkxMiA0Ny45NjYgMy43NDYgMTguODMyIDE2LjU5IDI1Ljg0NCAxNi41OSA0NS4wNDYgMCAxOS4yMDItMTIuODQ0IDI2LjIxNC0xNi41OSA0NS4wNDYtMy43NDYgMTguODMzIDUuNDM2IDMwLjIyNi0xLjkxMiA0Ny45NjYtNy4zNDggMTcuNzQtMjEuODk3IDE5LjMwMy0zMi41NjUgMzUuMjY5LTEwLjY2OCAxNS45NjUtNi41NDUgMzAuMDA1LTIwLjEyMiA0My41ODN6IiBmaWxsPSIjZmZmIi8+PC9zdmc+");

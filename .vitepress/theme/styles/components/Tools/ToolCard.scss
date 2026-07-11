@@ -1,4 +1,4 @@
-@use "../../mixin";
+@use "../../Mixin";
 
 .ToolCard {
   border-radius: var(--md-sys-shape-corner-large);
@@ -28,13 +28,13 @@
 
       .desc {
         span {
-          @include mixin.material-symbols($size: 24px);
+          @include Mixin.material-symbols($size: 24px);
 
           margin-bottom: 12px;
         }
 
         p {
-          @include mixin.typescale-style("title-medium");
+          @include Mixin.typescale-style("title-medium");
         }
       }
 
@@ -46,14 +46,14 @@
         gap: 12px;
 
         p {
-          @include mixin.typescale-style("title-small");
+          @include Mixin.typescale-style("title-small");
 
           display: inline-flex;
           align-items: center;
           gap: 6px;
 
           span {
-            @include mixin.material-symbols($size: 20px);
+            @include Mixin.material-symbols($size: 20px);
 
             border-radius: var(--md-sys-shape-corner-medium);
             padding: 3px 6px;

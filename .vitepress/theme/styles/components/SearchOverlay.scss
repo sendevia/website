@@ -1,4 +1,4 @@
-@use "../mixin";
+@use "../Mixin";
 
 .search-overlay-enter-active,
 .search-overlay-leave-active {
@@ -56,7 +56,7 @@
     gap: 8px;
 
     .search-input {
-      @include mixin.typescale-style("title-large");
+      @include Mixin.typescale-style("title-large");
 
       flex-grow: 1;
       border: none;
@@ -101,7 +101,7 @@
         outline: none;
 
         .result-index {
-          @include mixin.focus-ring;
+          @include Mixin.focus-ring;
         }
       }
 
@@ -117,7 +117,7 @@
         color: var(--md-sys-color-on-secondary-container);
         background-color: var(--md-sys-color-secondary-container);
 
-        @include mixin.typescale-style("title-medium");
+        @include Mixin.typescale-style("title-medium");
       }
 
       .title {
@@ -153,14 +153,14 @@
           gap: 4px;
 
           &::before {
-            @include mixin.material-symbols($size: 12px);
+            @include Mixin.material-symbols($size: 12px);
           }
 
           .item {
             border-radius: var(--md-sys-shape-corner-medium);
             padding-inline: 6px;
 
-            @include mixin.typescale-style("label-small");
+            @include Mixin.typescale-style("label-small");
           }
 
           &.date {
@@ -212,11 +212,11 @@
   .icon {
     color: var(--md-sys-color-on-surface-variant);
 
-    @include mixin.material-symbols($size: 64rem);
+    @include Mixin.material-symbols($size: 64rem);
   }
 
   .label {
-    @include mixin.typescale-style("body-large");
+    @include Mixin.typescale-style("body-large");
 
     color: var(--md-sys-color-on-surface-variant);
   }

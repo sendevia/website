@@ -1,4 +1,4 @@
-@use "../mixin";
+@use "../Mixin";
 
 .PrevNext {
   display: grid;
@@ -24,19 +24,19 @@
       var(--md-sys-motion-spring-fast-spatial);
 
     .label {
-      @include mixin.typescale-style("label-medium");
+      @include Mixin.typescale-style("label-medium");
 
       display: flex;
       align-items: center;
       color: var(--md-sys-color-on-surface-variant);
 
       &::before {
-        @include mixin.material-symbols($size: 18rem);
+        @include Mixin.material-symbols($size: 18rem);
       }
     }
 
     .title {
-      @include mixin.typescale-style("title-large");
+      @include Mixin.typescale-style("title-large");
 
       color: var(--md-sys-color-on-surface);
       font-variation-settings: "wght" 600;
@@ -74,7 +74,7 @@
     }
 
     &:focus-visible {
-      @include mixin.focus-ring($thickness: 3, $offset: 2);
+      @include Mixin.focus-ring($thickness: 3, $offset: 2);
     }
   }
 

@@ -1,4 +1,4 @@
-@use "../mixin";
+@use "../Mixin";
 
 .ArticleMasonry {
   display: flex;
@@ -47,7 +47,7 @@
             margin-block-end: 12px;
 
             span {
-              @include mixin.material-symbols($size: 16rem);
+              @include Mixin.material-symbols($size: 16rem);
 
               cursor: pointer;
             }
@@ -110,7 +110,7 @@
       width: 100%;
 
       .icon {
-        @include mixin.material-symbols($size: 100rem);
+        @include Mixin.material-symbols($size: 100rem);
       }
     }
 
@@ -140,7 +140,7 @@
       }
 
       input {
-        @include mixin.typescale-style("body-large");
+        @include Mixin.typescale-style("body-large");
 
         border: none;
         border-radius: var(--md-sys-shape-corner-large);

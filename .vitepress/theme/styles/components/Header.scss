@@ -1,4 +1,4 @@
-@use "../mixin";
+@use "../Mixin";
 
 .Header {
   grid-column: span 12;
@@ -51,7 +51,7 @@
           }
         }
 
-        @include mixin.typescale-style("display-large");
+        @include Mixin.typescale-style("display-large");
 
         grid-column: 1 / 2;
         grid-row: 1;

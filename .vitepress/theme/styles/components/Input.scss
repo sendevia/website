@@ -1,4 +1,4 @@
-@use "../mixin";
+@use "../Mixin";
 
 .MaterialInput {
   display: flex;
@@ -16,7 +16,7 @@
       var(--md-sys-motion-spring-default-effect);
 
     input {
-      @include mixin.typescale-style("body-large");
+      @include Mixin.typescale-style("body-large");
 
       border: none;
       outline: none;
@@ -29,7 +29,7 @@
     }
 
     label {
-      @include mixin.typescale-style("body-large");
+      @include Mixin.typescale-style("body-large");
 
       position: absolute;
       top: 16px;
@@ -159,7 +159,7 @@
   }
 
   .support-text {
-    @include mixin.typescale-style("label-medium");
+    @include Mixin.typescale-style("label-medium");
 
     padding-inline: 16px;
     color: var(--input-on-surface-variant);

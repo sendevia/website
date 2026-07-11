@@ -1,4 +1,4 @@
-@use "../mixin";
+@use "../Mixin";
 
 .NavBar {
   display: flex;
@@ -48,7 +48,7 @@
           var(--md-sys-motion-spring-fast-spatial);
 
       span {
-        @include mixin.material-symbols;
+        @include Mixin.material-symbols;
 
         grid-column: 1 / 2;
         width: 56px;
@@ -84,7 +84,7 @@
       }
 
       &:focus-visible {
-        @include mixin.focus-ring($thickness: 3, $offset: 2);
+        @include Mixin.focus-ring($thickness: 3, $offset: 2);
       }
     }
   }
@@ -133,7 +133,7 @@
           pointer-events: none;
 
           span {
-            @include mixin.material-symbols;
+            @include Mixin.material-symbols;
 
             font-variation-settings:
               "FILL" 1,
@@ -152,7 +152,7 @@
         text-wrap-mode: nowrap;
 
         &.bottom {
-          @include mixin.typescale-style("label-small");
+          @include Mixin.typescale-style("label-small");
 
           grid-row: 2 / 3;
           top: 0;
@@ -161,7 +161,7 @@
         }
 
         &.right {
-          @include mixin.typescale-style("label-large");
+          @include Mixin.typescale-style("label-large");
 
           grid-column: 2 / 3;
           left: 0;
@@ -326,7 +326,7 @@
 
           @media screen and (width <= 840px) {
             .label {
-              @include mixin.typescale-style("label-large");
+              @include Mixin.typescale-style("label-large");
             }
           }
         }
@@ -416,7 +416,7 @@
               outline: none !important;
 
               .accent {
-                @include mixin.focus-ring($thickness: 3, $offset: 2);
+                @include Mixin.focus-ring($thickness: 3, $offset: 2);
               }
             }
           }

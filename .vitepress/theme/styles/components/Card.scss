@@ -1,4 +1,4 @@
-@use "../mixin";
+@use "../Mixin";
 
 .MaterialCard {
   display: flex;
@@ -192,7 +192,7 @@
 
   &:focus-visible {
     .content {
-      @include mixin.focus-ring($thickness: 4);
+      @include Mixin.focus-ring($thickness: 4);
     }
   }
 

@@ -183,5 +183,6 @@ onMounted(() => {
 </template>
 
 <style lang="scss">
+@use "../styles/Main";
 @use "../styles/layouts/Default";
 </style>

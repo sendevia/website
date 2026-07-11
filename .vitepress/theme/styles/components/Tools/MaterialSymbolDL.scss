@@ -1,4 +1,4 @@
-@use "../../mixin";
+@use "../../Mixin";
 
 .MaterialSymbolDL {
   display: flex;
@@ -53,14 +53,14 @@
         }
 
         .icon-name {
-          @include mixin.typescale-style("body-small");
+          @include Mixin.typescale-style("body-small");
 
           text-align: center;
           word-break: break-all;
         }
 
         &::before {
-          @include mixin.material-symbols("delete_forever", $size: 42rem);
+          @include Mixin.material-symbols("delete_forever", $size: 42rem);
 
           display: flex;
           align-items: center;

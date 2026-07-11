@@ -1,4 +1,4 @@
-@use "../mixin";
+@use "../Mixin";
 
 #article-content {
   display: flex;
@@ -38,7 +38,7 @@
           var(--md-sys-motion-spring-default-effect);
 
       &::before {
-        @include mixin.material-symbols($name: "content_copy", $size: 18rem, $line-height: 42rem);
+        @include Mixin.material-symbols($name: "content_copy", $size: 18rem, $line-height: 42rem);
 
         color: var(--md-ref-palette-neutral90);
       }
@@ -58,7 +58,7 @@
     }
 
     .lang {
-      @include mixin.typescale-style("body-medium");
+      @include Mixin.typescale-style("body-medium");
 
       position: absolute;
       top: 0;
@@ -105,7 +105,7 @@
 
       &.has-diff .line {
         &.diff::before {
-          @include mixin.typescale-style("body-medium");
+          @include Mixin.typescale-style("body-medium");
 
           display: inline-block;
           width: 24px;
@@ -174,7 +174,7 @@
         vertical-align: middle;
 
         span {
-          @include mixin.typescale-style("body-large");
+          @include Mixin.typescale-style("body-large");
 
           display: block;
           height: 25px;
@@ -210,7 +210,7 @@
   }
 
   .custom-block {
-    @include mixin.typescale-style("body-large");
+    @include Mixin.typescale-style("body-large");
 
     display: grid;
     grid-template-columns: 24px auto;
@@ -241,7 +241,7 @@
     }
 
     &::before {
-      @include mixin.material-symbols;
+      @include Mixin.material-symbols;
 
       grid-column: 1;
     }
@@ -264,7 +264,7 @@
         font-variation-settings: "wght" 700;
 
         &::before {
-          @include mixin.material-symbols("expand_more");
+          @include Mixin.material-symbols("expand_more");
 
           transition: transform var(--md-sys-motion-spring-fast-spatial-duration)
             var(--md-sys-motion-spring-fast-spatial);
@@ -407,7 +407,7 @@
 
           input.task-list-item-checkbox[type="checkbox"] {
             &::before {
-              @include mixin.material-symbols("check_box_outline_blank", $size: 20rem);
+              @include Mixin.material-symbols("check_box_outline_blank", $size: 20rem);
 
               font-variation-settings: "FILL" 1;
             }
@@ -420,7 +420,7 @@
 
             &:checked {
               &::before {
-                @include mixin.material-symbols("check_box", $size: 20rem);
+                @include Mixin.material-symbols("check_box", $size: 20rem);
               }
             }
           }
@@ -433,7 +433,7 @@
     }
 
     code {
-      @include mixin.typescale-style("body-large");
+      @include Mixin.typescale-style("body-large");
 
       display: inline-block;
       border-radius: var(--md-sys-shape-corner-small);
@@ -455,7 +455,7 @@
         width: 100%;
 
         span {
-          @include mixin.typescale-style("body-large");
+          @include Mixin.typescale-style("body-large");
 
           font-family: "Cascadia Code";
         }
@@ -516,7 +516,7 @@
       }
 
       code {
-        @include mixin.typescale-style("body-large");
+        @include Mixin.typescale-style("body-large");
 
         display: inline;
         padding: 0;
@@ -579,7 +579,7 @@
       }
 
       li {
-        @include mixin.typescale-style("body-large");
+        @include Mixin.typescale-style("body-large");
 
         position: relative;
         margin-block-start: 12px;
@@ -638,7 +638,7 @@
     vertical-align: text-bottom;
 
     span {
-      @include mixin.material-symbols($size: inherit, $line-height: 100%);
+      @include Mixin.material-symbols($size: inherit, $line-height: 100%);
     }
   }
 
@@ -654,7 +654,7 @@
       vertical-align: bottom;
 
       a[href] {
-        @include mixin.typescale-style("label-large");
+        @include Mixin.typescale-style("label-large");
 
         text-decoration: none;
       }
@@ -670,7 +670,7 @@
     padding-inline: 6px;
 
     p {
-      @include mixin.typescale-style("label-small");
+      @include Mixin.typescale-style("label-small");
 
       display: inline-flex;
       flex-flow: row nowrap;
@@ -679,7 +679,7 @@
       color: var(--md-sys-color-outline);
 
       &::before {
-        @include mixin.material-symbols($size: 12px);
+        @include Mixin.material-symbols($size: 12px);
       }
 
       &.date-publish::before {

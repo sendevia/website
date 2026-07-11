@@ -67,13 +67,13 @@
 
 ## SCSS 设计令牌规范
 
-编写样式时**必须优先使用 `.vitepress/theme/styles/tokens.scss` 设计令牌与 `.vitepress/theme/styles/mixin.scss` Mixin**，禁止硬编码等价数值：
+编写样式时**必须优先使用 `.vitepress/theme/styles/Tokens.scss` 设计令牌与 `.vitepress/theme/styles/Mixin.scss` Mixin**，禁止硬编码等价数值：
 
 - **圆角** — 使用 `var(--md-sys-shape-corner-*)` 令牌
 - **颜色** — 使用 `var(--md-sys-color-*)` 语义色令牌
 - **排版** — 引用 `mixin` 并使用 `@include Mixin.typescale-style("body-large")`，设置 `font-*`、`letter-spacing`、`line-height`；禁止手动写字号行高
 - **动效** — 使用 `var(--md-sys-motion-*)` 令牌
-- **文件头部** — 若使用了 `Mixin`，在文件顶部加 `@use "../mixin";`（路径根据文件位置调整）
+- **文件头部** — 若使用了 `Mixin`，在文件顶部加 `@use "../Mixin";`（路径根据文件位置调整）
 - **属性排序自动化** — 项目使用 Stylelint + stylelint-order 自动排序 CSS 属性，规则见 `.stylelintrc.json`。运行 `npm run lint` 或 `npm run lint:style` 即可自动修复。
 
 ## 草稿文章
