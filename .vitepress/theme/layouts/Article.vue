@@ -136,21 +136,18 @@ if (isClient()) {
   <Header />
   <main id="article-content" ref="articleContentRef">
     <Content />
-    <ClientOnly>
-      <div class="post-info">
-        <p class="date-publish">发布于 {{ formattedPublishDate }}</p>
-        <p v-if="formattedLastUpdated" class="date-update">{{ formattedLastUpdated }}</p>
-        <p
-          v-if="articleId"
-          @click="copyShortLink"
-          :title="isCopied ? '已复制' : '复制短链'"
-          class="article-id"
-        >
-          {{ isCopied ? "已复制" : articleId }}
-        </p>
-      </div>
-    </ClientOnly>
-    <!-- <RelatedArticles /> -->
+    <div class="post-info">
+      <p class="date-publish">发布于 {{ formattedPublishDate }}</p>
+      <p v-if="formattedLastUpdated" class="date-update">{{ formattedLastUpdated }}</p>
+      <p
+        v-if="articleId"
+        @click="copyShortLink"
+        :title="isCopied ? '已复制' : '复制短链'"
+        class="article-id"
+      >
+        {{ isCopied ? "已复制" : articleId }}
+      </p>
+    </div>
     <PrevNext />
   </main>
   <aside id="article-aside">
