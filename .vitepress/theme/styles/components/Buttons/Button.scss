@@ -1,5 +1,5 @@
 @use "sass:map";
-@use "../../mixin";
+@use "../../Mixin";
 
 $config: (
   xs: (
@@ -71,17 +71,16 @@ $config: (
 
 @each $size, $config in $config {
   .standard.#{$size} {
-    @include mixin.typescale-style(map.get($config, "typescale"));
+    @include Mixin.typescale-style(map.get($config, "typescale"));
 
     gap: map.get($config, "gap");
     padding-inline: map.get($config, "padding-inline");
     height: map.get($config, "height");
 
-    span {
-      @include mixin.material-symbols($size: map.get($config, "icon-size"));
+    .icon {
+      @include Mixin.material-symbols($size: map.get($config, "icon-size"));
     }
 
-    // 圆角变体
     &.round {
       border-radius: map.get($config, "round-radius");
 

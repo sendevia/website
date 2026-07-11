@@ -1,5 +1,5 @@
 @use "sass:map";
-@use "../../mixin";
+@use "../../Mixin";
 
 $config: (
   xs: (
@@ -72,7 +72,7 @@ $config: (
 .icon-button {
   @each $size, $config in $config {
     &.#{$size} {
-      @include mixin.material-symbols($size: map.get($config, "icon-size"));
+      @include Mixin.material-symbols($size: map.get($config, "icon-size"));
 
       height: map.get($config, "height");
 

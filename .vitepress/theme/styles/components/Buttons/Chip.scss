@@ -1,7 +1,7 @@
-@use "../../mixin";
+@use "../../Mixin";
 
 .chip {
-  @include mixin.typescale-style("label-large");
+  @include Mixin.typescale-style("label-large");
 
   gap: 8px;
   border-radius: var(--md-sys-shape-corner-small);
@@ -9,8 +9,8 @@
   padding-inline: 16px;
   height: 32px;
 
-  span {
-    @include mixin.material-symbols($size: 18px);
+  .icon {
+    @include Mixin.material-symbols($size: 18px);
   }
 
   &.icon {
@@ -23,7 +23,7 @@
     color: var(--md-sys-color-on-surface);
     background-color: transparent;
 
-    span {
+    .icon {
       color: var(--md-sys-color-primary);
     }
   }
@@ -39,7 +39,7 @@
       color: var(--md-sys-color-on-secondary-container);
       background-color: var(--md-sys-color-secondary-container);
 
-      span {
+      .icon {
         color: var(--md-sys-color-on-secondary-container);
       }
     }

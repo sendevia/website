@@ -1,9 +1,9 @@
-@use "../../mixin";
+@use "../../Mixin";
 
 .MaterialButton {
   display: contents;
 
-  > * {
+  button {
     display: inline-flex;
     align-items: center;
     justify-content: flex-start;
@@ -22,11 +22,11 @@
         var(--md-sys-motion-spring-fast-effect),
       background-color var(--md-sys-motion-spring-fast-effect-duration)
         var(--md-sys-motion-spring-fast-effect);
-    text-wrap-mode: nowrap;
     vertical-align: middle;
+    text-wrap-mode: nowrap;
 
     &:focus-visible {
-      @include mixin.focus-ring($thickness: 3, $offset: 2);
+      @include Mixin.focus-ring;
     }
   }
 }
