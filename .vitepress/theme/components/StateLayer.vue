@@ -33,9 +33,12 @@ const props = withDefaults(defineProps<Props>(), {
   state: "none",
 });
 
-/** 噪点密度与直径 */
-const NOISE_DENSITY = 2000;
-const NOISE_DOT_SIZE = 1.5;
+/** 噪点粒子密度 */
+const NOISE_DENSITY = 800;
+/** 噪点粒子直径 */
+const NOISE_DOT_SIZE = 1;
+/** 噪点距中心分布指数（越大越往边缘聚集） */
+const NOISE_RADIUS_EXP = 0.17;
 
 const parent = useParentElement();
 const isHovered = useElementHover(parent);
@@ -185,7 +188,7 @@ const handlePress = (e: MouseEvent | TouchEvent): void => {
     NOISE_DENSITY > 0
       ? Array.from({ length: NOISE_DENSITY }, () => ({
           angle: Math.random() * Math.PI * 2,
-          distance: Math.pow(Math.random(), 0.15) * radius,
+          distance: Math.pow(Math.random(), NOISE_RADIUS_EXP) * radius,
           delay: Math.random() * 0.6,
           duration: 0.5 + Math.random() * 0.8,
         }))
@@ -199,9 +202,9 @@ const handlePress = (e: MouseEvent | TouchEvent): void => {
 
     rippleNode.animate(
       [
-        { transform: "translate(-50%, -50%) scale(0)", opacity: 0 },
-        { opacity: 0.12, offset: 0.2 },
-        { transform: "translate(-50%, -50%) scale(1)", opacity: 0.1 },
+        { transform: "translate(-50%, -50%) scale(0)", "--ripple-alpha": 0 },
+        { "--ripple-alpha": 0.12, offset: 0.2 },
+        { transform: "translate(-50%, -50%) scale(1)", "--ripple-alpha": 0.05 },
       ],
       { duration: 300, easing: "cubic-bezier(0.34, 0.88, 0.34, 1)", fill: "forwards" },
     );
@@ -224,8 +227,10 @@ const handleRelease = (): void => {
       continue;
     }
 
+    const currentAlpha =
+      parseFloat(window.getComputedStyle(rippleNode).getPropertyValue("--ripple-alpha")) || 0;
     const fadeOut = rippleNode.animate(
-      [{ opacity: window.getComputedStyle(rippleNode).opacity }, { opacity: 0 }],
+      [{ "--ripple-alpha": currentAlpha }, { "--ripple-alpha": 0 }],
       { duration: 300, easing: "cubic-bezier(0.34, 0.88, 0.34, 1)", fill: "forwards" },
     );
     fadeOut.onfinish = () => {

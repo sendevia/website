@@ -1,3 +1,9 @@
+@property --ripple-alpha {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
 .StateLayer {
   position: absolute;
   z-index: 10;
@@ -22,8 +28,11 @@
       border-radius: 50%;
       width: var(--ripple-size);
       height: var(--ripple-size);
-      background-color: var(--md-sys-color-on-surface);
-      opacity: 0;
+      background-color: color-mix(
+        in srgb,
+        var(--md-sys-color-on-surface) calc(var(--ripple-alpha) * 100%),
+        transparent
+      );
       pointer-events: none;
       transform: translate(-50%, -50%) scale(0);
     }
@@ -31,9 +40,12 @@
     .noise-canvas {
       position: absolute;
       z-index: 1;
+      opacity: 1;
       pointer-events: none;
-      mix-blend-mode: hard-light;
-      isolation: isolate;
+
+      @media (prefers-color-scheme: dark) {
+        opacity: 0.4;
+      }
     }
   }
 }
