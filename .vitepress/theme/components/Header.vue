@@ -4,21 +4,29 @@ import { useRafFn, useElementHover } from "@vueuse/core";
 import { useData } from "vitepress";
 import { isClient } from "../utils/env";
 
+/** 4 槽位轮播的状态映射：当前、下一张、等待中、上一张 */
+const SLOT_STATES: { cls: string; offset: number }[] = [
+  { cls: "current", offset: 0 },
+  { cls: "next", offset: 1 },
+  { cls: "standby", offset: 2 },
+  { cls: "previous", offset: -1 },
+];
+
 /**
  * 配置与状态管理
  * CSS_TOKENS: 对应样式表中的时间变量名
  */
 const CSS_TOKENS = {
   DURATION: "--carousel-duration", // 自动轮播间隔
-  ANIM_NORMAL: "--md-sys-motion-spring-slow-spatial-duration", // 正常切换速度
-  ANIM_FAST: "--md-sys-motion-spring-fast-spatial-duration", // 快速追赶速度
+  ANIMATION_NORMAL: "--md-sys-motion-spring-slow-spatial-duration", // 正常切换速度
+  ANIMATION_FAST: "--md-sys-motion-spring-fast-spatial-duration", // 快速追赶速度
 };
 
-/** 默认配置 */
-const config = reactive({
+/** 轮播时序配置 */
+const carouselTiming = reactive({
   duration: 5000,
-  animNormal: 600,
-  animFast: 300,
+  animationNormal: 600,
+  animationFast: 300,
 });
 
 const { frontmatter, theme, page } = useData();
@@ -28,26 +36,28 @@ const isHovering = useElementHover(headerRef);
 /** 图片数据与缓存 */
 const blobCache = reactive(new Map<string, string>());
 const virtualIndex = ref(0);
-const remainingTime = ref(config.duration);
+const remainingTime = ref(carouselTiming.duration);
 const isFastForwarding = ref(false);
 const isAnimating = ref(false);
 
 /** 计算当前应该显示的文章印象图列表 */
-const rawImgList = computed<string[]>(() => {
+const impressionList = computed<string[]>(() => {
   const imp = frontmatter.value.impression;
   const list = Array.isArray(imp) ? imp : imp ? [imp] : [theme.value.defaultImpression];
   return list.filter(Boolean);
 });
 
-const totalCount = computed(() => rawImgList.value.length);
+const totalCount = computed(() => impressionList.value.length);
 const hasMultiple = computed(() => totalCount.value > 1);
-const animDuration = computed(() => (isFastForwarding.value ? config.animFast : config.animNormal));
+const animationDuration = computed(() =>
+  isFastForwarding.value ? carouselTiming.animationFast : carouselTiming.animationNormal,
+);
 
 /** 计算环形进度条百分比 */
 const progress = computed(() => {
   if (!hasMultiple.value) return 0;
   if (isFastForwarding.value) return 100;
-  return ((config.duration - remainingTime.value) / config.duration) * 100;
+  return ((carouselTiming.duration - remainingTime.value) / carouselTiming.duration) * 100;
 });
 
 /** 获取真实的索引（对总数取模） */
@@ -113,7 +123,7 @@ const step = async (dir: 1 | -1) => {
   if (isAnimating.value) return;
   isAnimating.value = true;
   virtualIndex.value += dir;
-  await new Promise((resolve) => setTimeout(resolve, animDuration.value));
+  await new Promise((resolve) => setTimeout(resolve, animationDuration.value));
   isAnimating.value = false;
 };
 
@@ -125,26 +135,17 @@ const slotStates = computed(() => {
   if (!hasMultiple.value) return [];
   return [0, 1, 2, 3].map((slotId) => {
     const relativePos = (slotId - (virtualIndex.value % 4) + 4) % 4;
-    const stateMap = [
-      { cls: "current", order: 2, offset: 0 },
-      { cls: "next", order: 3, offset: 1 },
-      { cls: "standby", order: 4, offset: 2 },
-      { cls: "previous", order: 1, offset: -1 },
-    ];
-    const { cls, order, offset } = stateMap[relativePos];
+    const { cls, offset } = SLOT_STATES[relativePos];
     const imgIndex =
       (((currentRealIndex.value + offset) % totalCount.value) + totalCount.value) %
       totalCount.value;
 
-    const rawUrl = rawImgList.value[imgIndex];
-    const rawGradientUrl = getGradientUrl(rawUrl);
+    const rawUrl = impressionList.value[imgIndex];
 
     return {
       id: slotId,
       className: cls,
       imgUrl: blobCache.get(rawUrl) || rawUrl,
-      gradientUrl: blobCache.get(rawGradientUrl) || rawGradientUrl,
-      order,
     };
   });
 });
@@ -156,7 +157,7 @@ const { pause, resume } = useRafFn(
       return;
     remainingTime.value -= delta;
     if (remainingTime.value <= 0) {
-      step(1).then(() => (remainingTime.value = config.duration));
+      step(1).then(() => (remainingTime.value = carouselTiming.duration));
     }
   },
   { immediate: false },
@@ -181,7 +182,7 @@ const jumpTo = async (targetIdx: number) => {
     if (currentRealIndex.value !== targetIdx) await run();
     else {
       isFastForwarding.value = false;
-      remainingTime.value = config.duration;
+      remainingTime.value = carouselTiming.duration;
     }
   };
   await run();
@@ -194,13 +195,13 @@ const jumpTo = async (targetIdx: number) => {
 const handleNav = async (dir: 1 | -1) => {
   if (isFastForwarding.value || !hasMultiple.value || isAnimating.value) return;
   await step(dir);
-  remainingTime.value = config.duration;
+  remainingTime.value = carouselTiming.duration;
 };
 
 watch(
-  rawImgList,
+  impressionList,
   async (newList) => {
-    remainingTime.value = config.duration;
+    remainingTime.value = carouselTiming.duration;
     virtualIndex.value = 0;
     pause();
     await cacheImages(newList);
@@ -211,10 +212,16 @@ watch(
 
 onMounted(() => {
   if (isClient()) {
-    config.duration = parseTimeToken(CSS_TOKENS.DURATION, config.duration);
-    config.animNormal = parseTimeToken(CSS_TOKENS.ANIM_NORMAL, config.animNormal);
-    config.animFast = parseTimeToken(CSS_TOKENS.ANIM_FAST, config.animFast);
-    remainingTime.value = config.duration;
+    carouselTiming.duration = parseTimeToken(CSS_TOKENS.DURATION, carouselTiming.duration);
+    carouselTiming.animationNormal = parseTimeToken(
+      CSS_TOKENS.ANIMATION_NORMAL,
+      carouselTiming.animationNormal,
+    );
+    carouselTiming.animationFast = parseTimeToken(
+      CSS_TOKENS.ANIMATION_FAST,
+      carouselTiming.animationFast,
+    );
+    remainingTime.value = carouselTiming.duration;
     if (hasMultiple.value) resume();
   }
 });
@@ -226,89 +233,39 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <Transition name="header" mode="in-out" :duration="10000" appear>
+  <Transition name="header" mode="in-out" appear>
     <header ref="headerRef" class="Header">
       <div class="carousel-container" :impression-color="frontmatter.color">
         <template v-if="hasMultiple">
-          <div class="stage" :style="{ '--carousel-duration': `${animDuration}ms` }">
-            <div
-              v-for="slot in slotStates"
-              :key="slot.id"
-              class="item"
-              :class="slot.className"
-              :style="{ order: slot.order }"
-            >
-              <img :src="slot.imgUrl" />
+          <div class="stage" :style="{ '--carousel-duration': `${animationDuration}ms` }">
+            <div v-for="slot in slotStates" :key="slot.id" class="item" :class="slot.className">
+              <img :src="slot.imgUrl" alt="" />
             </div>
           </div>
-          <div class="progress-ring">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <circle
-                cx="12"
-                cy="12"
-                r="9"
-                fill="none"
-                stroke="var(--md-sys-color-tertiary-container)"
-                stroke-width="5"
-              />
-              <circle
-                cx="12"
-                cy="12"
-                r="9"
-                fill="none"
-                stroke="var(--md-sys-color-tertiary)"
-                stroke-width="5"
-                stroke-linecap="round"
-                :style="{
-                  strokeDasharray: `${2 * Math.PI * 9}`,
-                  strokeDashoffset: `${2 * Math.PI * 9 * (1 - progress / 100)}`,
-                  transition: isFastForwarding ? 'none' : 'stroke-dashoffset 100ms linear',
-                }"
-              />
-            </svg>
+          <div class="controls" aria-hidden="true">
+            <button type="button" class="prev" title="上一张" @click="handleNav(-1)"></button>
+            <button type="button" class="next" title="下一张" @click="handleNav(1)"></button>
           </div>
-          <div class="controls">
-            <div class="prev" title="上一张" @click="handleNav(-1)"></div>
-            <div class="next" title="下一张" @click="handleNav(1)"></div>
-          </div>
-          <div class="indicators">
+          <div class="indicators" :style="{ '--dot-progress': `${progress}%` }">
             <button
-              v-for="(_, idx) in rawImgList"
+              v-for="(_, idx) in impressionList"
               :key="idx"
               class="dot"
               :class="{ active: currentRealIndex === idx }"
+              :aria-label="`第 ${idx + 1} 张`"
+              type="button"
               @click="jumpTo(idx)"
             ></button>
           </div>
         </template>
         <template v-else>
-          <ClientOnly>
-            <svg width="0" height="0" style="display: none">
-              <defs>
-                <filter id="noise-filter" x="0" y="0" width="100%" height="100%">
-                  <feTurbulence
-                    :seed="frontmatter.date ? new Date(frontmatter.date).getTime() : 0"
-                    type="turbulence"
-                    baseFrequency="0.15"
-                    numOctaves="2"
-                    stitchTiles="stitch"
-                  ></feTurbulence>
-                  <feColorMatrix type="saturate" values="1"></feColorMatrix>
-                  <feComponentTransfer>
-                    <feFuncA type="discrete" tableValues="0 0.1"></feFuncA>
-                  </feComponentTransfer>
-                  <feBlend mode="multiply" in2="SourceGraphic"></feBlend>
-                </filter>
-              </defs>
-            </svg>
-          </ClientOnly>
           <div class="single">
-            <h1 class="overlay">{{ frontmatter.title || page.title }}</h1>
-            <h1 :style="`background-image: url(${getGradientUrl(rawImgList[0])})`">
+            <h1 class="overlay" aria-hidden="true">{{ frontmatter.title || page.title }}</h1>
+            <h1 :style="`background-image: url(${getGradientUrl(impressionList[0])})`">
               {{ frontmatter.title || page.title }}
             </h1>
-            <img :src="getGradientUrl(rawImgList[0])" />
-            <img :src="rawImgList[0]" />
+            <img :src="getGradientUrl(impressionList[0])" />
+            <img :src="impressionList[0]" />
           </div>
         </template>
       </div>
