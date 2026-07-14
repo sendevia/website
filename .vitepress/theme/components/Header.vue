@@ -242,7 +242,7 @@ onUnmounted(() => {
               <img :src="slot.imgUrl" alt="" />
             </div>
           </div>
-          <div class="controls" aria-hidden="true">
+          <div class="controls">
             <button type="button" class="prev" title="上一张" @click="handleNav(-1)"></button>
             <button type="button" class="next" title="下一张" @click="handleNav(1)"></button>
           </div>
