@@ -84,7 +84,7 @@
       }
 
       &:focus-visible {
-        @include Mixin.focus-ring($thickness: 3, $offset: 2);
+        @include Mixin.focus-ring;
       }
     }
   }
@@ -416,7 +416,7 @@
               outline: none !important;
 
               .accent {
-                @include Mixin.focus-ring($thickness: 3, $offset: 2);
+                @include Mixin.focus-ring;
               }
             }
           }
@@ -462,6 +462,10 @@
             border-radius: var(--md-sys-shape-corner-full);
             padding-inline: 0 24px;
             overflow: hidden;
+
+            &:focus-visible {
+              @include Mixin.focus-ring;
+            }
           }
 
           .accent {

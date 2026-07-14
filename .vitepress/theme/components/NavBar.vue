@@ -66,13 +66,8 @@ const THEME_MAP = {
   dark: { icon: "dark_mode", label: "深色模式" },
 } as const;
 
-const themePreference = computed(() => mode.value as "auto" | "light" | "dark");
-const currentIcon = computed(() => THEME_MAP[themePreference.value].icon);
-const currentLabel = computed(() => THEME_MAP[themePreference.value].label);
-
-function cycleTheme() {
-  mode.value = cycleNext();
-}
+const currentIcon = computed(() => THEME_MAP[mode.value as keyof typeof THEME_MAP].icon);
+const currentLabel = computed(() => THEME_MAP[mode.value as keyof typeof THEME_MAP].label);
 
 /** 标签动画状态 */
 const isLabelAnimating = ref(false);
@@ -157,11 +152,17 @@ function isExternalLink(link: string): boolean {
 }
 
 /**
- * 切换搜索栏状态
- * @param event 鼠标事件
+ * 键盘导航：空格键触发链接跳转
+ * @param event 键盘事件
  */
-function toggleSearch(event: MouseEvent) {
-  event.stopPropagation();
+function handleNavKeydown(event: KeyboardEvent) {
+  if (event.key === " ") {
+    event.preventDefault();
+    (event.currentTarget as HTMLAnchorElement).click();
+  }
+}
+
+function toggleSearch() {
   searchStore.toggle();
 }
 
@@ -176,13 +177,9 @@ function toggleNav(event: MouseEvent) {
   }
 }
 
-/**
- * 切换颜色偏好 (自动/亮/暗)
- * @param event 鼠标事件
- */
 function toggleTheme(event: MouseEvent) {
   event.stopPropagation();
-  cycleTheme();
+  mode.value = cycleNext();
 }
 
 /**
@@ -196,26 +193,17 @@ function setLabelRef(el: unknown, parentSelector: string) {
   }
 }
 
-/**
- * 处理动画结束事件
- * @param el 事件目标
- */
-function onAnimationEnd(el: EventTarget | null) {
-  if (el) {
-    isLabelAnimating.value = false;
-  }
+function onAnimationEnd() {
+  isLabelAnimating.value = false;
 }
 
 /** 监听导航栏展开状态，触发重绘和动画 */
-watch(
-  () => [isNavExpanded.value],
-  () => {
-    isLabelAnimating.value = true;
-    nextTick(() => {
-      window.dispatchEvent(new Event("resize"));
-    });
-  },
-);
+watch(isNavExpanded, () => {
+  isLabelAnimating.value = true;
+  nextTick(() => {
+    window.dispatchEvent(new Event("resize"));
+  });
+});
 
 if (isClient()) {
   onMounted(() => {
@@ -234,10 +222,14 @@ if (isClient()) {
 <template>
   <nav class="NavBar" :class="navClass">
     <div class="fab-container">
-      <MaterialButton pattern="icon-button" color="text" @click="toggleNav">{{
-        isNavExpanded ? "menu_open" : "menu"
-      }}</MaterialButton>
-      <button class="fab" @mousedown.prevent @click.stop="toggleSearch">
+      <MaterialButton
+        pattern="icon-button"
+        color="text"
+        aria-label="切换导航栏宽度"
+        @click="toggleNav"
+        >{{ isNavExpanded ? "menu_open" : "menu" }}</MaterialButton
+      >
+      <button class="fab" aria-label="搜索" @mousedown.prevent @click.stop="toggleSearch">
         <StateLayer />
         <span>{{ searchStore.isSearchActive ? "close" : "search" }}</span>
         <p :ref="(el) => setLabelRef(el, '.fab')">搜索</p>
@@ -251,7 +243,12 @@ if (isClient()) {
         :key="item.link"
         :class="isActive(item.link) ? 'active' : 'inactive'"
       >
-        <a :href="item.link" :target="isExternalLink(item.link) ? '_blank' : undefined">
+        <a
+          :href="item.link"
+          :target="isExternalLink(item.link) ? '_blank' : undefined"
+          :aria-current="isActive(item.link) ? 'page' : undefined"
+          @keydown="handleNavKeydown"
+        >
           <div class="accent">
             <div class="icon">
               <span>{{ item.icon }}</span>
@@ -261,7 +258,7 @@ if (isClient()) {
             class="label"
             :class="labelClass"
             :ref="(el) => setLabelRef(el, '.segment')"
-            @animationend="onAnimationEnd($event.target)"
+            @animationend="onAnimationEnd"
           >
             {{ item.text }}
           </p>
@@ -275,6 +272,7 @@ if (isClient()) {
         class="theme-btn"
         size="m"
         color="text"
+        :aria-label="currentLabel"
         :title="currentLabel"
         @click="toggleTheme"
         >{{ currentIcon }}</MaterialButton
